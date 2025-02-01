@@ -206,6 +206,67 @@
             z-index: -1;
             opacity: 0.3;
         }
+        
+        
+        
+        /* Nuevos estilos para la descripción */
+        .descripcion-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .descripcion-titulo {
+            color: #4CAF50;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+        }
+
+        .descripcion-titulo:after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: #4CAF50;
+            margin: 10px auto;
+        }
+
+        .descripcion-texto {
+            color: #e0e0e0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: justify;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .descripcion-container {
+                margin: 25px 15px;
+                padding: 20px;
+            }
+            
+            .descripcion-titulo {
+                font-size: 1.2rem;
+            }
+            
+            .descripcion-texto {
+                font-size: 0.9rem;
+                text-align: left;
+            }
+        }
+          
+        
     </style>
 </head>
 <body>
@@ -224,7 +285,7 @@
     <h1>TITULO</h1>
 
     <div class="video-container">
-        <iframe src="https://drive.google.com/file/d/1-16M4yZuIWqf95K03sLFzjWXmOTxhD-o/preview" 
+        <iframe src="https://drive.google.com/file/d/1-6XLdbVTb3BIRU0W916B-TtR0ORwl1RZ/preview?rm=minimal" 
             width="340" height="250" allow="autoplay" allowfullscreen>
         </iframe>
     </div>
@@ -239,12 +300,26 @@
         <a href="#" class="share-button whatsapp-btn" title="Compartir en WhatsApp" target="_blank">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="https://drive.google.com/uc?export=download&id=1-16M4yZuIWqf95K03sLFzjWXmOTxhD-o" 
+        <a href="https://drive.google.com/uc?export=download&id=1-6XLdbVTb3BIRU0W916B-TtR0ORwl1RZ" 
            class="download-button download-btn" target="_blank" title="Descargar video" download>
             <i class="fas fa-download"></i>
         </a>
     </div>
-
+    
+    <div class="descripcion-container">
+        <h2 class="descripcion-titulo">Sinopsis</h2>
+        <p class="descripcion-texto">
+            Juantxo, miembro de la alta sociedad, posee todo lo que muchos desearían: fortuna, 
+            educación privilegiada, un prestigioso trabajo y una novia de la élite social. 
+            Sin embargo, su perfecta vida da un giro inesperado durante su despedida de soltero 
+            cuando pierde su valioso anillo de compromiso en el peor lugar posible. 
+            Junto a sus amigos Pako y Lonradín, emprenderán una caótica búsqueda a través de un 
+            mundo de excesos, corrupción y situaciones absurdas, donde descubrirán que el verdadero 
+            valor no está en las posesiones materiales.
+        </p>
+    </div>
+    
+    
     <script>
         // Función para compartir
         function current_url() {
