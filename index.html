@@ -27,6 +27,7 @@
         }
 
         body {
+            display: none;
             font-family: 'Poppins', sans-serif;
             background: #0a0a0a;
             color: #ffffff;
@@ -644,6 +645,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             
         
     </script>   
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    let video = document.querySelector(".header-video");
+
+    // Espera a que el video pueda reproducirse
+    video.oncanplaythrough = function() {
+        document.body.style.display = "block"; // Muestra la página
+    };
+});
+</script>
     
 </body>
 </html>
