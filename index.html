@@ -292,15 +292,11 @@
 
 
 
-        .scroll-buttons {
-    position: fixed;
-    bottom: 50%;
-    width: 100%;
+       .scroll-buttons {
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
-    z-index: 999;
-    pointer-events: none;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .scroll-buttons button {
@@ -312,7 +308,6 @@
     color: white;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.3s;
-    pointer-events: auto;
 }
 
 .scroll-buttons button:hover {
@@ -326,6 +321,7 @@
         display: none;
     }
 }
+
 
         
         
@@ -393,16 +389,15 @@
 </div>
 
 
-    <div class="scroll-buttons">
-    <button id="scroll-left"><i class="fas fa-chevron-left"></i></button>
-    <button id="scroll-right"><i class="fas fa-chevron-right"></i></button>
-</div>
-
 
 
     <!-- Secciones -->
     <section class="content-section" id="novedades">
     <h2 class="section-title">Últimas Novedades</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="apocalypto.html" class="movie-card">
@@ -516,6 +511,10 @@
 
     <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="mongol.html" class="movie-card">
@@ -570,6 +569,10 @@
 
     <section class="content-section" id="comedia">
     <h2 class="section-title">Comedia</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="airbag.html" class="movie-card">
@@ -587,6 +590,10 @@
 
     <section class="content-section" id="drama">
     <h2 class="section-title">Drama</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="apocalypto.html" class="movie-card">
@@ -615,6 +622,10 @@
     </section>
     <section class="content-section" id="thriller">
     <h2 class="section-title">Thriller</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="laprueba.html" class="movie-card">
@@ -639,6 +650,10 @@
     </section>
     <section class="content-section" id="terror">
     <h2 class="section-title">Terror</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="losotros.html" class="movie-card">
@@ -659,6 +674,10 @@
     </section>
     <section class="content-section" id="infantiles">
     <h2 class="section-title">Infantiles</h2>
+         <div class="scroll-buttons">
+        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
+        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
+    </div>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="3ninjas.html" class="movie-card">
@@ -746,24 +765,26 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     </script>   
 
 
-    <script>
+   <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const container = document.querySelector(".movies-container");
-    const scrollLeft = document.getElementById("scroll-left");
-    const scrollRight = document.getElementById("scroll-right");
+    document.querySelectorAll(".content-section").forEach(section => {
+        const container = section.querySelector(".movies-container");
+        const scrollLeft = section.querySelector(".scroll-left");
+        const scrollRight = section.querySelector(".scroll-right");
 
-    const scrollAmount = 500; // Ajusta la velocidad del desplazamiento
+        const scrollAmount = 500; // Ajusta la velocidad del desplazamiento
 
-    scrollLeft.addEventListener("click", () => {
-        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-    });
+        scrollLeft.addEventListener("click", () => {
+            container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+        });
 
-    scrollRight.addEventListener("click", () => {
-        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        scrollRight.addEventListener("click", () => {
+            container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        });
     });
 });
-        
-    </script>
+</script>
+
 
 
     
