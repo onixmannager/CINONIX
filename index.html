@@ -178,8 +178,6 @@
         }
 
 
-
-
             /* Estilo para el video de cabecera */
         .header-video {
     max-width: 100%;
@@ -188,14 +186,7 @@
     display: block;
     margin: 0 auto;
 }
-
-
-
-
-
-
-
-        
+     
 
         /* Scroll infinito */
         @keyframes scroll {
@@ -274,10 +265,11 @@
                 left: 10px;
             }
 
-            .infinite-scroll {
-                animation-duration: 50s;
-            }
+           .infinite-scroll {
+            display: flex;
+            width: auto; /* Cambiado de 200% */
         }
+       }      
 
         @media (max-width: 480px) {
             .section-title {
@@ -762,28 +754,48 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });            
         
-    </script>   
+    
 
 
-   <script>
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".content-section").forEach(section => {
-        const container = section.querySelector(".movies-container");
-        const scrollLeft = section.querySelector(".scroll-left");
-        const scrollRight = section.querySelector(".scroll-right");
+      // Nuevo script para control de carruseles
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".content-section").forEach(section => {
+                const container = section.querySelector(".movies-container");
+                const prevButton = section.querySelector(".scroll-left");
+                const nextButton = section.querySelector(".scroll-right");
+                
+                if (!container || !prevButton || !nextButton) return;
 
-        const scrollAmount = 500; // Ajusta la velocidad del desplazamiento
+                const getScrollAmount = () => {
+                    const firstCard = container.querySelector('.movie-card');
+                    return firstCard ? firstCard.offsetWidth + 20 : 300;
+                };
 
-        scrollLeft.addEventListener("click", () => {
-            container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+                prevButton.addEventListener('click', () => {
+                    container.scrollBy({
+                        left: -getScrollAmount(),
+                        behavior: 'smooth'
+                    });
+                });
+
+                nextButton.addEventListener('click', () => {
+                    container.scrollBy({
+                        left: getScrollAmount(),
+                        behavior: 'smooth'
+                    });
+                });
+
+                // Deshabilitar botones al llegar a los extremos
+                const checkScroll = () => {
+                    prevButton.disabled = container.scrollLeft <= 10;
+                    nextButton.disabled = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10;
+                };
+
+                container.addEventListener('scroll', checkScroll);
+                checkScroll();
+            });
         });
-
-        scrollRight.addEventListener("click", () => {
-            container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-    });
-});
-</script>
+    
 
 
 
