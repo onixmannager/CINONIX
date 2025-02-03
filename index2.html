@@ -7,10 +7,15 @@
     <!-- Metadatos -->
     <meta property="og:title" content="Cinonix - Streaming Premium">
     <meta property="og:description" content="Disfruta de películas y series en HD">
-    <meta property="og:image" content="https://ejemplo.com/thumb.jpg">
-    <meta property="og:url" content="https://ejemplo.com">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#1a1a1a">
+    <meta property="og:image" content="20250202_154657_0000.png">
+    <meta property="og:url" content="https://www.ejemplo.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Metadatos para la pantalla de inicio (iconos) -->
+    <link rel="icon" href="movistar-plus-supercopa-futbol-partidos.jpg">
+    <link rel="apple-touch-icon" href="https://www.ejemplo.com/icono.png">
+    <link rel="icon" sizes="192x192" href="https://www.ejemplo.com/icono192.png">
+    <link rel="manifest" href="https://www.ejemplo.com/manifest.json">
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
@@ -27,6 +32,7 @@
         }
 
         body {
+            display: none;
             font-family: 'Poppins', sans-serif;
             background: #0a0a0a;
             color: #ffffff;
@@ -322,13 +328,15 @@
     </button>
   <nav class="dropdown-menu">
     <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
-     <a href="#novedades"><i class="fas fa-volume-up"></i> Novedades</a>
+    <a href="#novedades"><i class="fas fa-volume-up"></i> Novedades</a>
     <a href="#accion"><i class="fas fa-fist-raised"></i> Acción</a>
     <a href="#comedia"><i class="fas fa-theater-masks"></i> Comedia</a>
     <a href="#drama"><i class="fas fa-mask"></i> Drama</a>
     <a href="#thriller"><i class="fas fa-user-secret"></i> Thriller</a>
     <a href="#terror"><i class="fas fa-ghost"></i> Terror</a>
-</nav>
+    <!-- Nueva sección 'Infantiles' -->
+    <a href="#infantiles"><i class="fas fa-baby"></i> Infantiles</a>
+  </nav>
 </div>
 
 
@@ -337,6 +345,14 @@
     <h2 class="section-title">Últimas Novedades</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
+                <a href="apocalypto.html" class="movie-card">
+    <img src="apocalypto.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Apocalypto</span>
+                </a>
+                <a href="3ninjas.html" class="movie-card">
+    <img src="3ninjas.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">3 Pequeños Ninjas</span>
+                </a>
                 <a href="granapuesta.html" class="movie-card">
     <img src="granapuesta.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">La Gran Apuesta</span>
@@ -433,6 +449,10 @@
     <img src="terminator4.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">Terminator 4 Destino Oscuro</span>
                 </a>
+                <a href="terminatorgenesis.html" class="movie-card">
+    <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Terminator Genesis</span>
+                </a>
                 <!-- Duplicar tarjetas -->
             </div>
         </div>
@@ -481,6 +501,11 @@
     <img src="terminator4.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">Terminator 4 Destino Oscuro</span>
                     </a>
+                    <a href="terminatorgenesis.html" class="movie-card">
+    <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Terminator Genesis</span>
+                    </a>
+                    
                     
                 <!-- Duplicar tarjetas -->
             </div>
@@ -508,6 +533,10 @@
     <h2 class="section-title">Drama</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
+                <a href="apocalypto.html" class="movie-card">
+    <img src="apocalypto.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Apocalypto</span>
+                </a>
                 <a href="granapuesta.html" class="movie-card">
     <img src="granapuesta.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">La Gran Apuesta</span>
@@ -572,6 +601,27 @@
     <img src="hostel3.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">Hostel 3</span>
                 </a>
+                <!-- Duplicar tarjetas -->
+            </div>
+        </div>
+    </section>
+    <section class="content-section" id="infantiles">
+    <h2 class="section-title">Infantiles</h2>
+        <div class="movies-container">
+            <div class="infinite-scroll">
+                <a href="3ninjas.html" class="movie-card">
+    <img src="3ninjas.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">3 Pequeños Ninjas</span>
+                </a>
+                <a href="lluviadealbondigas.html" class="movie-card">
+    <img src="lluviadealbondigas.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Lluvia de albondigas</span>
+                </a>
+                <a href="lluviadealbondigas2.html" class="movie-card">
+    <img src="lluviadealbondigas2.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">lluvia de albondigas 2</span>
+                </a>
+                
                 <!-- Duplicar tarjetas -->
             </div>
         </div>
@@ -644,6 +694,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             
         
     </script>   
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    let video = document.querySelector(".header-video");
+
+    // Espera a que el video pueda reproducirse
+    video.oncanplaythrough = function() {
+        document.body.style.display = "block"; // Muestra la página
+    };
+});
+</script>
     
 </body>
-</html>
+                    </html>
