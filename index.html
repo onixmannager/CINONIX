@@ -741,25 +741,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-});
-
-            
+});            
         
     </script>   
 
+
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    let video = document.querySelector(".header-video");
-
-    // Espera a que el video pueda reproducirse
-    video.oncanplaythrough = function() {
-        document.body.style.display = "block"; // Muestra la página
-    };
-});
-
-
-        
-<script>
 document.addEventListener("DOMContentLoaded", function () {
     const container = document.querySelector(".movies-container");
     const scrollLeft = document.getElementById("scroll-left");
@@ -774,6 +761,21 @@ document.addEventListener("DOMContentLoaded", function () {
     scrollRight.addEventListener("click", () => {
         container.scrollBy({ left: scrollAmount, behavior: "smooth" });
     });
+});
+        
+    </script>
+
+
+    
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    let video = document.querySelector(".header-video");
+
+    // Espera a que el video pueda reproducirse
+    video.oncanplaythrough = function() {
+        document.body.style.display = "block"; // Muestra la página
+    };
 });
 
 
