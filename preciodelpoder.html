@@ -126,16 +126,26 @@
         }
 
         .video-container {
-            width: 840px;
-            height: 550px;
-            margin: auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transform: translateZ(0);
-            background: #000000;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
+    position: relative;
+    width: 100%;
+    max-width: 840px; /* Tamaño máximo en escritorio */
+    height: auto;
+    aspect-ratio: 16 / 9; /* Mantiene la proporción del video */
+    margin: auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transform: translateZ(0);
+    background: #000000;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 
         .video-container:hover {
             transform: translateZ(0) scale(1.02);
@@ -282,15 +292,6 @@
                  
             }
 
-             .inframe {
-               width: 100%;
-               max-width: 340px; /* Tamaño máximo en móviles */
-               height: auto;
-               aspect-ratio: 16 / 9; /* Mantiene la proporción del video */
-               display: block;
-               margin: 0 auto; /* Centra el video */
-            }
-
             
         }
           
@@ -311,10 +312,9 @@
    <h1>EL PRECIO DEL PODER </br>SCARFACE</h1>
 
     <div class="video-container">
-   <iframe src="https://drive.google.com/file/d/1L_6uCHmIRduOPX26cgwk3tpxM14Jmtjs/preview?rm=minimal" 
-            width="840" height="550" allow="autoplay" allowfullscreen>
-        </iframe>
-    </div>
+    <iframe class="inframe" src="https://drive.google.com/file/d/TU_ID_DE_DRIVE/preview" allowfullscreen></iframe>
+</div>
+
 
     <div class="button-container">
     <a href="#" class="share-button facebook-btn" title="Compartir en Facebook" target="_blank">
