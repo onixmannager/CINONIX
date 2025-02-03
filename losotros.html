@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Metadatos para redes sociales -->
-    <meta property="og:title" content="Reproductor de Video Premium">
-    <meta property="og:description" content="Disfruta de este video exclusivo en alta calidad">
-    <meta property="og:image" content="https://example.com/thumbnail.jpg"> <!-- CAMBIAR POR TU IMAGEN -->
-    <meta property="og:url" content="https://example.com/tu-pagina">
+    <meta property="og:title" content="CinOnix - El Buen Cine ">
+    <meta property="og:description" content="Disfruta de esta pelicula">
+    <meta property="og:image" content="https://i.imgur.com/fZYrIbx.jpeg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#1a1a1a">
     
     <!-- Icono del sitio -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
     
-    <title>Reproductor</title>
+    <title>Pelicula de CinOnix</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -126,16 +125,26 @@
         }
 
         .video-container {
-            width: 340px;
-            height: 250px;
-            margin: auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transform: translateZ(0);
-            background: #000000;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
+    position: relative;
+    width: 100%;
+    max-width: 840px; /* Tamaño máximo en escritorio */
+    height: auto;
+    aspect-ratio: 16 / 9; /* Mantiene la proporción del video */
+    margin: auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transform: translateZ(0);
+    background: #000000;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 
         .video-container:hover {
             transform: translateZ(0) scale(1.02);
@@ -275,6 +284,13 @@
                 height: 35px;
                 font-size: 1rem;
             }
+
+             .video-container {
+                 width: 340px;
+                 height: 250px;
+                 
+            }
+
             
         }
           
