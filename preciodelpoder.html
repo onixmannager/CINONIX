@@ -283,10 +283,14 @@
             }
 
              .inframe {
-                 width: 340px;
-                 height: 250px;
-                 
+               width: 100%;
+               max-width: 340px; /* Tamaño máximo en móviles */
+               height: auto;
+               aspect-ratio: 16 / 9; /* Mantiene la proporción del video */
+               display: block;
+               margin: 0 auto; /* Centra el video */
             }
+
             
         }
           
