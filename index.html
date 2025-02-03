@@ -116,6 +116,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
+        
 
         /* Carrusel */
         .movies-container {
@@ -288,6 +289,44 @@
                 min-width: 160px;
             }
         }
+
+
+
+        .scroll-buttons {
+    position: fixed;
+    bottom: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.scroll-buttons button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s;
+    pointer-events: auto;
+}
+
+.scroll-buttons button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+/* Ocultar en móviles */
+@media (max-width: 768px) {
+    .scroll-buttons {
+        display: none;
+    }
+}
+
         
         
         
@@ -352,6 +391,13 @@
     <a href="#infantiles"><i class="fas fa-baby"></i> Infantiles</a>
   </nav>
 </div>
+
+
+    <div class="scroll-buttons">
+    <button id="scroll-left"><i class="fas fa-chevron-left"></i></button>
+    <button id="scroll-right"><i class="fas fa-chevron-right"></i></button>
+</div>
+
 
 
     <!-- Secciones -->
@@ -710,6 +756,30 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.style.display = "block"; // Muestra la página
     };
 });
+
+
+        
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.querySelector(".movies-container");
+    const scrollLeft = document.getElementById("scroll-left");
+    const scrollRight = document.getElementById("scroll-right");
+
+    const scrollAmount = 500; // Ajusta la velocidad del desplazamiento
+
+    scrollLeft.addEventListener("click", () => {
+        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    });
+
+    scrollRight.addEventListener("click", () => {
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    });
+});
+
+
+
+
+        
 </script>
     
 </body>
