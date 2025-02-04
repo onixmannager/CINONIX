@@ -298,6 +298,12 @@
     </style>
 </head>
 <body>
+
+    <video id="miVideo" onclick="window.AndroidFunction('video_clicado');">
+  <source src="mi_video.mp4" type="video/mp4">
+    </video>
+
+    
     <!-- Menú -->
 <div class="menu-container">
     <button class="menu-btn" aria-label="Abrir menú">
@@ -311,7 +317,7 @@
    <h1>3 PEQUEÑOS NINJAS</h1>
 
     <div class="video-container">
-     <iframe src="https://archive.org/embed/3-pequenos-ninjas" width="340" height="250" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+    <iframe id="video1" src="https://archive.org/embed/3-pequenos-ninjas" width="340" height="250" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen onclick="window.AndroidFunction('video_clicado'); fullscreenVideo();"></iframe>
 </div>
 
 <!-- Mover la sección de botones fuera  div de video -->
@@ -343,6 +349,18 @@ Cuando un criminal intenta secuestrarlos para usar a su padre (un agente del FBI
 
         </p>
     </div>
+
+    <script>
+  function fullscreenVideo(videoId) {
+    var iframe = document.getElementById(videoId);
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100vw';
+    iframe.style.height = '100vh';
+    iframe.style.zIndex = '9999';  // Asegura que el iframe esté sobre otros elementos.
+  }
+    </script>
     
     
     <script>
