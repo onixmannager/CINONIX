@@ -116,7 +116,6 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        
 
         /* Carrusel */
         .movies-container {
@@ -178,6 +177,8 @@
         }
 
 
+
+
             /* Estilo para el video de cabecera */
         .header-video {
     max-width: 100%;
@@ -186,7 +187,14 @@
     display: block;
     margin: 0 auto;
 }
-     
+
+
+
+
+
+
+
+        
 
         /* Scroll infinito */
         @keyframes scroll {
@@ -265,11 +273,10 @@
                 left: 10px;
             }
 
-           .infinite-scroll {
-            display: flex;
-            width: auto; /* Cambiado de 200% */
+            .infinite-scroll {
+                animation-duration: 50s;
+            }
         }
-       }      
 
         @media (max-width: 480px) {
             .section-title {
@@ -281,40 +288,6 @@
                 min-width: 160px;
             }
         }
-
-
-
-       .scroll-buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.scroll-buttons button {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.3s;
-}
-
-.scroll-buttons button:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
-}
-
-/* Ocultar en móviles */
-@media (max-width: 768px) {
-    .scroll-buttons {
-        display: none;
-    }
-}
-
-
         
         
         
@@ -369,7 +342,7 @@
     </button>
   <nav class="dropdown-menu">
     <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
-    <a href="#cartelera"><i class="fas fa-volume-up"></i> Cartelera</a>
+    <a href="#novedades"><i class="fas fa-volume-up"></i> Novedades</a>
     <a href="#accion"><i class="fas fa-fist-raised"></i> Acción</a>
     <a href="#comedia"><i class="fas fa-theater-masks"></i> Comedia</a>
     <a href="#drama"><i class="fas fa-mask"></i> Drama</a>
@@ -381,15 +354,9 @@
 </div>
 
 
-
-
     <!-- Secciones -->
     <section class="content-section" id="novedades">
-    <h2 class="section-title">CARTELERA COMPLETA </h2>
-         <div class="scroll-buttons">
-        <button class="scroll-left"><i class="fas fa-chevron-left"></i></button>
-        <button class="scroll-right"><i class="fas fa-chevron-right"></i></button>
-    </div>
+    <h2 class="section-title">Últimas Novedades</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="apocalypto.html" class="movie-card">
@@ -502,7 +469,7 @@
     </section>
 
     <section class="content-section" id="accion">
-    <h2 class="section-title">ACCIÓN</h2>
+    <h2 class="section-title">Acción</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="mongol.html" class="movie-card">
@@ -556,7 +523,7 @@
     </section>
 
     <section class="content-section" id="comedia">
-    <h2 class="section-title">COMEDIA</h2>
+    <h2 class="section-title">Comedia</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="airbag.html" class="movie-card">
@@ -573,7 +540,7 @@
     </section>
 
     <section class="content-section" id="drama">
-    <h2 class="section-title">DRAMA</h2>
+    <h2 class="section-title">Drama</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="apocalypto.html" class="movie-card">
@@ -601,7 +568,7 @@
         </div>
     </section>
     <section class="content-section" id="thriller">
-    <h2 class="section-title">THRILLER</h2>
+    <h2 class="section-title">Thriller</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="laprueba.html" class="movie-card">
@@ -625,7 +592,7 @@
         </div>
     </section>
     <section class="content-section" id="terror">
-    <h2 class="section-title">TERROR</h2>
+    <h2 class="section-title">Terror</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="losotros.html" class="movie-card">
@@ -645,7 +612,7 @@
         </div>
     </section>
     <section class="content-section" id="infantiles">
-    <h2 class="section-title">INFANTILES</h2>
+    <h2 class="section-title">Infantiles</h2>
         <div class="movies-container">
             <div class="infinite-scroll">
                 <a href="3ninjas.html" class="movie-card">
@@ -728,54 +695,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
-});            
+});
+
+            
         
-    
-
-
-      // Nuevo script para control de carruseles
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".content-section").forEach(section => {
-                const container = section.querySelector(".movies-container");
-                const prevButton = section.querySelector(".scroll-left");
-                const nextButton = section.querySelector(".scroll-right");
-                
-                if (!container || !prevButton || !nextButton) return;
-
-                const getScrollAmount = () => {
-                    const firstCard = container.querySelector('.movie-card');
-                    return firstCard ? firstCard.offsetWidth + 20 : 300;
-                };
-
-                prevButton.addEventListener('click', () => {
-                    container.scrollBy({
-                        left: -getScrollAmount(),
-                        behavior: 'smooth'
-                    });
-                });
-
-                nextButton.addEventListener('click', () => {
-                    container.scrollBy({
-                        left: getScrollAmount(),
-                        behavior: 'smooth'
-                    });
-                });
-
-                // Deshabilitar botones al llegar a los extremos
-                const checkScroll = () => {
-                    prevButton.disabled = container.scrollLeft <= 10;
-                    nextButton.disabled = container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10;
-                };
-
-                container.addEventListener('scroll', checkScroll);
-                checkScroll();
-            });
-        });
-    
-
-
-
-    
+    </script>   
 
     <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -786,11 +710,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.style.display = "block"; // Muestra la página
     };
 });
-
-
-
-
-        
 </script>
     
 </body>
