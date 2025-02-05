@@ -190,7 +190,7 @@
       background: rgba(0, 0, 0, 0.8);
     }
     
-    /* Dots para navegación – solo en escritorio */
+    /* Dots para navegación – solo se muestran en escritorio */
     .carousel-dots {
       position: absolute;
       bottom: 20px;
@@ -468,9 +468,7 @@
       <div class="carousel-arrow right">
         <i class="fas fa-chevron-right"></i>
       </div>
-
-      
-      <!-- En esta sección sólo incluimos el carrusel sin flechas ni dots (se mostrarán solo en escritorio si se agregan) -->
+      <!-- Contenedor desplazable – se le añade la clase infinite-scroll -->
       <div class="carousel-content infinite-scroll" id="carouselContentAction">
         <a href="mongol.html" class="movie-card">
           <img src="mongol.jpg" class="movie-poster" alt="Película">
@@ -556,50 +554,53 @@
         document.body.style.display = "block";
       };
 
-      /* Para cada carrusel que tenga la clase infinite-scroll, duplicamos el contenido para lograr el efecto continuo */
+      /* Duplicar el contenido de cada carrusel con clase infinite-scroll para lograr el efecto continuo */
       document.querySelectorAll('.carousel-content.infinite-scroll').forEach(function(container) {
-        // Duplicamos el contenido una vez (puedes ajustar el número de repeticiones si lo consideras necesario)
         container.innerHTML += container.innerHTML;
       });
       
-      /* En escritorio (≥769px) se activan también los controles manuales */
+      /* En escritorio (≥769px) se activan los controles manuales para cada carrusel */
       if (window.innerWidth >= 769) {
-        // Ejemplo para la sección "Cartelera Completa" (con flechas y dots)
-        const carouselContent = document.getElementById('carouselContent');
-        const arrowLeft = document.querySelector('.carousel-arrow.left');
-        const arrowRight = document.querySelector('.carousel-arrow.right');
-        const dots = document.querySelectorAll('.carousel-dots .dot');
-        const scrollAmount = 300;
-        
-        // Al hacer clic en una flecha se desactiva temporalmente la animación para permitir el scroll manual.
-        arrowLeft.addEventListener('click', function() {
-          carouselContent.style.animation = 'none';
-          carouselContent.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-          setTimeout(() => {
-            carouselContent.style.animation = '';
-          }, 3000);
-        });
-        arrowRight.addEventListener('click', function() {
-          carouselContent.style.animation = 'none';
-          carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-          setTimeout(() => {
-            carouselContent.style.animation = '';
-          }, 3000);
-        });
-        
-        dots.forEach((dot, index) => {
-          dot.addEventListener('click', () => {
-            carouselContent.style.animation = 'none';
-            const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
-            const sectionScroll = totalScroll / dots.length;
-            const scrollPosition = index * sectionScroll;
-            carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-            dots.forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-            setTimeout(() => {
-              carouselContent.style.animation = '';
-            }, 3000);
-          });
+        document.querySelectorAll('.movies-container').forEach(function(container) {
+          const carouselContent = container.querySelector('.carousel-content');
+          const arrowLeft = container.querySelector('.carousel-arrow.left');
+          const arrowRight = container.querySelector('.carousel-arrow.right');
+          const dots = container.querySelectorAll('.carousel-dots .dot');
+          const scrollAmount = 300;
+          
+          if(arrowLeft && arrowRight) {
+            arrowLeft.addEventListener('click', function() {
+              carouselContent.style.animation = 'none';
+              carouselContent.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+              setTimeout(() => {
+                carouselContent.style.animation = '';
+              }, 3000);
+            });
+            arrowRight.addEventListener('click', function() {
+              carouselContent.style.animation = 'none';
+              carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+              setTimeout(() => {
+                carouselContent.style.animation = '';
+              }, 3000);
+            });
+          }
+          
+          if(dots.length) {
+            dots.forEach((dot, index) => {
+              dot.addEventListener('click', () => {
+                carouselContent.style.animation = 'none';
+                const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
+                const sectionScroll = totalScroll / dots.length;
+                const scrollPosition = index * sectionScroll;
+                carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+                dots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                setTimeout(() => {
+                  carouselContent.style.animation = '';
+                }, 3000);
+              });
+            });
+          }
         });
       }
     });
