@@ -485,7 +485,7 @@
    <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
         <div class="movies-container">
-          <div class="carousel-content" id="carouselContent">
+          <div class="carousel-content" id="carouselContentAction">
 
 
           
@@ -603,20 +603,13 @@
         });
       });
     } else {
-      /* En móviles (≤768px) se activa el scroll infinito */
-      // Definir las secciones que deseas duplicar
-const secciones = ['cartelera', 'accion', 'comedia', 'drama', 'thriller', 'terror', 'infantiles'];
+      
+    /* En móviles (≤768px) se activa el scroll infinito */ 
+      const carouselContent = document.getElementById('carouselContent'); carouselContent.classList.add('infinite-scroll'); 
+      // Duplica el contenido para un efecto continuo 
+      carouselContent.innerHTML = carouselContent.innerHTML.repeat(10); }
 
-// Itera sobre cada sección y duplica su contenido
-secciones.forEach(seccion => {
-    const carouselContent = document.getElementById(`${seccion}CarouselContent`);
-    
-    if (carouselContent) {
-        carouselContent.classList.add('infinite-scroll');
-        // Duplica el contenido de la sección para un efecto continuo
-        carouselContent.innerHTML = carouselContent.innerHTML.repeat(10);
-    }
-});
+
 
     /* Mostrar la página cuando el video de cabecera esté listo */
     document.addEventListener("DOMContentLoaded", function() {
