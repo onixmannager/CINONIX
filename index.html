@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Metadatos -->
-  <meta property="og:title" content="Cinonix - Streaming ">
-  <meta property="og:description" content="Disfruta del buen cine ">
+  <meta property="og:title" content="Cinonix - Streaming">
+  <meta property="og:description" content="Disfruta del buen cine">
   <meta property="og:image" content="https://i.imgur.com/fZYrIbx.jpeg">
   <meta property="og:type" content="website">
   
-  <!-- Metadatos para la pantalla de inicio (iconos) -->
+  <!-- Iconos y manifest -->
   <link rel="icon" href="https://i.imgur.com/fZYrIbx.jpeg">
   <link rel="apple-touch-icon" href="https://i.imgur.com/fZYrIbx.jpeg">
   <link rel="icon" sizes="192x192" href="https://i.imgur.com/fZYrIbx.jpeg">
   <link rel="manifest" href="https://www.ejemplo.com/manifest.json">
   
-  <!-- Favicon -->
+  <!-- Favicon SVG -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
   
   <title>Cinonix - Streaming Premium</title>
@@ -32,13 +32,13 @@
       box-sizing: border-box;
     }
     body {
-      display: none;
+      display: none; /* Se mostrará al estar listo el video */
       font-family: 'Poppins', sans-serif;
       background: #0a0a0a;
       color: #ffffff;
       overflow-x: hidden;
     }
-
+    
     /* Menú */
     .menu-container {
       position: fixed;
@@ -93,7 +93,7 @@
       background: rgba(255, 255, 255, 0.05);
       transform: translateX(5px);
     }
-
+    
     /* Secciones */
     .content-section {
       margin: 3rem 0;
@@ -107,20 +107,21 @@
       text-transform: uppercase;
       letter-spacing: 2px;
     }
-
+    
     /* Carrusel */
     .movies-container {
       position: relative; /* Para posicionar flechas y dots */
       overflow: hidden;
     }
-    /* Contenedor desplazable: En escritorio se usará scroll manual */
+    /* Contenedor desplazable – se usa para el scroll manual y la animación infinita */
     .carousel-content {
       display: flex;
       gap: 15px;
       padding: 20px 0;
       scroll-behavior: smooth;
-      overflow-x: auto; /* IMPORTANTE para scroll manual en escritorio */
+      overflow-x: auto;
     }
+    /* Ocultamos la barra de scroll */
     .carousel-content::-webkit-scrollbar {
       display: none;
     }
@@ -162,8 +163,8 @@
       font-weight: 600;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
-
-    /* Flechas de navegación (solo en escritorio) */
+    
+    /* Flechas de navegación – solo se muestran en escritorio */
     .carousel-arrow {
       position: absolute;
       top: 50%;
@@ -188,8 +189,8 @@
     .carousel-arrow:hover {
       background: rgba(0, 0, 0, 0.8);
     }
-
-    /* Dots (botines) para navegación (solo en escritorio) */
+    
+    /* Dots para navegación – solo en escritorio */
     .carousel-dots {
       position: absolute;
       bottom: 20px;
@@ -210,25 +211,25 @@
     .dot.active {
       background: rgba(255, 255, 255, 1);
     }
-
-    /* Animación de scroll infinito (solo en móviles) */
+    
+    /* Animación de scroll infinito (aplicada siempre, tanto en móvil como en escritorio) */
+    .carousel-content.infinite-scroll {
+      animation: scroll 40s linear infinite;
+      width: 200%;
+    }
     @keyframes scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+    
+    /* Ocultar flechas y dots en móviles */
     @media (max-width: 768px) {
-      /* En móviles se ocultan flechas y dots */
       .carousel-arrow,
       .carousel-dots {
         display: none;
       }
-      /* Se activa la animación infinita: se añade la clase "infinite-scroll" y se duplica el contenido */
-      .carousel-content.infinite-scroll {
-        animation: scroll 40s linear infinite;
-        width: 200%;
-      }
     }
-
+    
     /* Video de cabecera */
     .header-video {
       max-width: 100%;
@@ -237,7 +238,7 @@
       display: block;
       margin: 0 auto;
     }
-
+    
     /* Fondo */
     body:before {
       content: '';
@@ -251,8 +252,8 @@
       z-index: -1;
       opacity: 0.3;
     }
-
-    /* Responsive Mobile (ajustes varios) */
+    
+    /* Responsive Mobile – ajustes varios */
     @media (max-width: 768px) {
       .menu-btn {
         width: 35px;
@@ -295,24 +296,6 @@
         min-width: 160px;
       }
     }
-    /* Ajuste para video e imagen */
-    @media (max-width: 768px) {
-      .header-video,
-      .header-img {
-        width: 100%;
-        height: auto;
-      }
-    }
-    @media (max-width: 480px) {
-      .header-img {
-        width: 100%;
-        height: auto;
-      }
-    }
-
-
-      /* Scroll infinito */
-      
   </style>
 </head>
 <body>
@@ -323,7 +306,7 @@
       Tu navegador no soporta videos.
     </video>
   </header>
-
+  
   <!-- Menú -->
   <div class="menu-container">
     <button class="menu-btn" aria-label="Abrir menú">
@@ -340,7 +323,7 @@
       <a href="#infantiles"><i class="fas fa-baby"></i> Infantiles</a>
     </nav>
   </div>
-
+  
   <!-- Sección: Carrusel de Cartelera Completa -->
   <section class="content-section" id="cartelera">
     <h2 class="section-title">Cartelera Completa</h2>
@@ -351,204 +334,177 @@
         <span class="dot"></span>
         <span class="dot"></span>
       </div>
-
-      <!-- Flecha izquierda (solo en escritorio) -->
+      <!-- Flechas (solo en escritorio) -->
       <div class="carousel-arrow left">
         <i class="fas fa-chevron-left"></i>
       </div>
-
-  <!-- Flecha derecha (solo en escritorio) -->
       <div class="carousel-arrow right">
         <i class="fas fa-chevron-right"></i>
-      </div>      
-
-      <!-- Contenedor desplazable -->
-      <div class="carousel-content" id="carouselContent">
-
-        
-        <a href="apocalypto.html" class="movie-card">
-    <img src="apocalypto.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Apocalypto</span>
-                </a>
-                <a href="3ninjas.html" class="movie-card">
-    <img src="3ninjas.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">3 Pequeños Ninjas</span>
-                </a>
-                <a href="granapuesta.html" class="movie-card">
-    <img src="granapuesta.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">La Gran Apuesta</span>
-                </a>
-                <a href="laprueba.html" class="movie-card">
-    <img src="laprueba.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">La Prueba</span>
-                </a>
-                <a href="heman.html" class="movie-card">
-    <img src="heman.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">He-Man,Masters Del Universo</span>
-                </a>
-                <a href="perrosdeguerra.html" class="movie-card">
-    <img src="perrosdeguerra.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Perros De Guerra</span>
-                </a>
-                <a href="ciudaddedios.html" class="movie-card">
-    <img src="ciudaddedios.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Ciudad De Dios</span>
-                </a>
-                <a href="asesinatojusto.html" class="movie-card">
-    <img src="asesinatojusto.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Asesinato Justo</span>
-                </a>
-                <a href="airbag.html" class="movie-card">
-    <img src="airbag.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Airbag</span>
-                </a>
-                <a href="distrito13ultimatum.html" class="movie-card">
-    <img src="distrito13.jpg" class="movie-poster" alt="Película Airbag">
-    <span class="movie-title">Distrito 13 Ultimatum</span>
-                </a>
-                <a href="armaduradedios.html" class="movie-card">
-    <img src="armaduradedios.jpg" class="movie-poster" alt="Película Airbag">
-    <span class="movie-title">La Armadura De Dios</span>
-                </a>
-                <a href="efectomariposa.html" class="movie-card">
-    <img src="efectomariposa.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">El Efecto Mariposa</span>
-                </a>
-                <a href="destinodecaballero.html" class="movie-card">
-    <img src="destinodecaballero.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Destino De Caballero</span>
-                </a>
-                <a href="losotros.html" class="movie-card">
-    <img src="losotros.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Los Otros</span>
-                </a>
-                <a href="contactosangriento.html" class="movie-card">
-    <img src="contactosangriento.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Contacto Sangriento</span>
-                </a>
-                <a href="donniebrasco.html" class="movie-card">
-    <img src="donniebrasco.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Donnie Brasco</span>
-                </a>
-                <a href="mongol.html" class="movie-card">
-    <img src="mongol.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Mongol</span>
-                </a>
-                <a href="hostel2.html" class="movie-card">
-    <img src="hostel2.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Hostel 2</span>
-                </a>
-                <a href="hostel3.html" class="movie-card">
-    <img src="hostel3.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Hostel 3</span>
-                </a>
-                <a href="instintobasico.html" class="movie-card">
-    <img src="instintobasico.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Instinto Básico</span>
-                </a>
-                <a href="preciodelpoder.html" class="movie-card">
-    <img src="preciodelpoder.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">El Precio Del Poder (Scarface)</span>
-                </a>
-                <a href="terminator.html" class="movie-card">
-    <img src="terminator.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator</span>
-                </a>
-                <a href="terminator2.html" class="movie-card">
-    <img src="terminator2.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 2</span>
-                </a>
-                <a href="terminator3.html" class="movie-card">
-    <img src="terminator3.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 3</span>
-                </a>
-                <a href="terminator4.html" class="movie-card">
-    <img src="terminator4.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 4 Destino Oscuro</span>
-                </a>
-                <a href="terminatorgenesis.html" class="movie-card">
-    <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator Genesis</span>
-                </a>
-        <!-- Agrega más tarjetas según necesites -->
       </div>
-
-      
-    
+      <!-- Contenedor desplazable – se le añade la clase infinite-scroll -->
+      <div class="carousel-content infinite-scroll" id="carouselContent">
+        <a href="apocalypto.html" class="movie-card">
+          <img src="apocalypto.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Apocalypto</span>
+        </a>
+        <a href="3ninjas.html" class="movie-card">
+          <img src="3ninjas.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">3 Pequeños Ninjas</span>
+        </a>
+        <a href="granapuesta.html" class="movie-card">
+          <img src="granapuesta.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Gran Apuesta</span>
+        </a>
+        <a href="laprueba.html" class="movie-card">
+          <img src="laprueba.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Prueba</span>
+        </a>
+        <a href="heman.html" class="movie-card">
+          <img src="heman.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">He-Man, Masters Del Universo</span>
+        </a>
+        <a href="perrosdeguerra.html" class="movie-card">
+          <img src="perrosdeguerra.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Perros De Guerra</span>
+        </a>
+        <a href="ciudaddedios.html" class="movie-card">
+          <img src="ciudaddedios.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Ciudad De Dios</span>
+        </a>
+        <a href="asesinatojusto.html" class="movie-card">
+          <img src="asesinatojusto.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Asesinato Justo</span>
+        </a>
+        <a href="airbag.html" class="movie-card">
+          <img src="airbag.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Airbag</span>
+        </a>
+        <a href="distrito13ultimatum.html" class="movie-card">
+          <img src="distrito13.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Distrito 13 Ultimatum</span>
+        </a>
+        <a href="armaduradedios.html" class="movie-card">
+          <img src="armaduradedios.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Armadura De Dios</span>
+        </a>
+        <a href="efectomariposa.html" class="movie-card">
+          <img src="efectomariposa.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">El Efecto Mariposa</span>
+        </a>
+        <a href="destinodecaballero.html" class="movie-card">
+          <img src="destinodecaballero.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Destino De Caballero</span>
+        </a>
+        <a href="losotros.html" class="movie-card">
+          <img src="losotros.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Los Otros</span>
+        </a>
+        <a href="contactosangriento.html" class="movie-card">
+          <img src="contactosangriento.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Contacto Sangriento</span>
+        </a>
+        <a href="donniebrasco.html" class="movie-card">
+          <img src="donniebrasco.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Donnie Brasco</span>
+        </a>
+        <a href="mongol.html" class="movie-card">
+          <img src="mongol.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Mongol</span>
+        </a>
+        <a href="hostel2.html" class="movie-card">
+          <img src="hostel2.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Hostel 2</span>
+        </a>
+        <a href="hostel3.html" class="movie-card">
+          <img src="hostel3.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Hostel 3</span>
+        </a>
+        <a href="instintobasico.html" class="movie-card">
+          <img src="instintobasico.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Instinto Básico</span>
+        </a>
+        <a href="preciodelpoder.html" class="movie-card">
+          <img src="preciodelpoder.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">El Precio Del Poder (Scarface)</span>
+        </a>
+        <a href="terminator.html" class="movie-card">
+          <img src="terminator.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator</span>
+        </a>
+        <a href="terminator2.html" class="movie-card">
+          <img src="terminator2.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 2</span>
+        </a>
+        <a href="terminator3.html" class="movie-card">
+          <img src="terminator3.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 3</span>
+        </a>
+        <a href="terminator4.html" class="movie-card">
+          <img src="terminator4.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 4 Destino Oscuro</span>
+        </a>
+        <a href="terminatorgenesis.html" class="movie-card">
+          <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator Genesis</span>
+        </a>
+      </div>
     </div>
   </section>
-
   
-
-  
-
-   <section class="content-section" id="accion">
+  <!-- Sección: Carrusel de Acción -->
+  <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
-        <div class="movies-container">
-          <div class="carousel-content" id="carouselContentAction">
-            <div class="carousel-content infinite-scroll">
-  <!-- Contenido de películas u otros elementos -->
-
-
-          
-          
-                <a href="mongol.html" class="movie-card">
-    <img src="mongol.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Mongol</span>
-                </a>
-                <a href="perrosdeguerra.html" class="movie-card">
-    <img src="perrosdeguerra.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Perros De Guerra</span>
-                </a>
-                <a href="distrito13ultimatum.html" class="movie-card">
-    <img src="distrito13.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Distrito 13 Ultimatum</span>
-                </a>
-                <a href="contactosangriento.html" class="movie-card">
-    <img src="contactosangriento.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Contacto Sangriento</span>
-                </a>
-                <a href="armaduradedios.html" class="movie-card">
-    <img src="armaduradedios.jpg" class="movie-poster" alt="Película Airbag">
-    <span class="movie-title">La Armadura De Dios</span>
-                </a>
-                <a href="heman.html" class="movie-card">
-    <img src="heman.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">He-Man,Masters Del Universo</span>
-                </a>
-                <a href="terminator.html" class="movie-card">
-    <img src="terminator.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator</span>
-                </a>
-                <a href="terminator2.html" class="movie-card">
-    <img src="terminator2.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 2</span>
-                </a>
-                    <a href="terminator3.html" class="movie-card">
-    <img src="terminator3.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 3</span>
-                    </a>
-                    <a href="terminator4.html" class="movie-card">
-    <img src="terminator4.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator 4 Destino Oscuro</span>
-                    </a>
-                    <a href="terminatorgenesis.html" class="movie-card">
-    <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
-    <span class="movie-title">Terminator Genesis</span>
-                    </a>
-                    
-                    
-                <!-- Duplicar tarjetas -->
-            </div>
-        </div>
-    </section>
-
-
-
+    <div class="movies-container">
+      <!-- En esta sección sólo incluimos el carrusel sin flechas ni dots (se mostrarán solo en escritorio si se agregan) -->
+      <div class="carousel-content infinite-scroll" id="carouselContentAction">
+        <a href="mongol.html" class="movie-card">
+          <img src="mongol.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Mongol</span>
+        </a>
+        <a href="perrosdeguerra.html" class="movie-card">
+          <img src="perrosdeguerra.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Perros De Guerra</span>
+        </a>
+        <a href="distrito13ultimatum.html" class="movie-card">
+          <img src="distrito13.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Distrito 13 Ultimatum</span>
+        </a>
+        <a href="contactosangriento.html" class="movie-card">
+          <img src="contactosangriento.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Contacto Sangriento</span>
+        </a>
+        <a href="armaduradedios.html" class="movie-card">
+          <img src="armaduradedios.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Armadura De Dios</span>
+        </a>
+        <a href="heman.html" class="movie-card">
+          <img src="heman.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">He-Man, Masters Del Universo</span>
+        </a>
+        <a href="terminator.html" class="movie-card">
+          <img src="terminator.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator</span>
+        </a>
+        <a href="terminator2.html" class="movie-card">
+          <img src="terminator2.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 2</span>
+        </a>
+        <a href="terminator3.html" class="movie-card">
+          <img src="terminator3.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 3</span>
+        </a>
+        <a href="terminator4.html" class="movie-card">
+          <img src="terminator4.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 4 Destino Oscuro</span>
+        </a>
+        <a href="terminatorgenesis.html" class="movie-card">
+          <img src="terminatorgenesis.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator Genesis</span>
+        </a>
+      </div>
+    </div>
+  </section>
   
-  
-  <!-- Puedes agregar las demás secciones (comedia, drama, etc.) de forma similar -->
-
   <script>
     /* Control del menú */
     const menuBtn = document.querySelector('.menu-btn');
@@ -566,10 +522,10 @@
         dropdownMenu.classList.remove('show');
       }
     });
-
+    
     /* Smooth scroll para enlaces internos */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
@@ -577,49 +533,60 @@
         }
       });
     });
-
-    /* En escritorio (≥769px) se activa la navegación manual */
-    if (window.innerWidth >= 769) {
-      const carouselContent = document.querySelector('.carousel-content');
-      const arrowLeft = document.querySelector('.carousel-arrow.left');
-      const arrowRight = document.querySelector('.carousel-arrow.right');
-      const scrollAmount = 300; // Ajusta el desplazamiento según prefieras
-
-      arrowLeft.addEventListener('click', () => {
-        carouselContent.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      });
-      arrowRight.addEventListener('click', () => {
-        carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      });
-
-      // Funcionalidad básica para los dots
-      const dots = document.querySelectorAll('.carousel-dots .dot');
-      dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-          const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
-          const sectionScroll = totalScroll / dots.length;
-          const scrollPosition = index * sectionScroll;
-          carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-          dots.forEach(d => d.classList.remove('active'));
-          dot.classList.add('active');
-        });
-      });
-    } else {
-      
-    /* En móviles (≤768px) se activa el scroll infinito */ 
-      const carouselContent = document.getElementById('carouselContent, carousellContentAction'); 
-      carouselContent.classList.add('infinite-scroll'); 
-      // Duplica el contenido para un efecto continuo 
-      carouselContent.innerHTML = carouselContent.innerHTML.repeat(10); }
-
-
-
-    /* Mostrar la página cuando el video de cabecera esté listo */
+    
     document.addEventListener("DOMContentLoaded", function() {
+      /* Mostrar la página cuando el video de cabecera esté listo */
       const video = document.querySelector(".header-video");
       video.oncanplaythrough = function() {
         document.body.style.display = "block";
       };
+
+      /* Para cada carrusel que tenga la clase infinite-scroll, duplicamos el contenido para lograr el efecto continuo */
+      document.querySelectorAll('.carousel-content.infinite-scroll').forEach(function(container) {
+        // Duplicamos el contenido una vez (puedes ajustar el número de repeticiones si lo consideras necesario)
+        container.innerHTML += container.innerHTML;
+      });
+      
+      /* En escritorio (≥769px) se activan también los controles manuales */
+      if (window.innerWidth >= 769) {
+        // Ejemplo para la sección "Cartelera Completa" (con flechas y dots)
+        const carouselContent = document.getElementById('carouselContent');
+        const arrowLeft = document.querySelector('.carousel-arrow.left');
+        const arrowRight = document.querySelector('.carousel-arrow.right');
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        const scrollAmount = 300;
+        
+        // Al hacer clic en una flecha se desactiva temporalmente la animación para permitir el scroll manual.
+        arrowLeft.addEventListener('click', function() {
+          carouselContent.style.animation = 'none';
+          carouselContent.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+          setTimeout(() => {
+            carouselContent.style.animation = '';
+          }, 3000);
+        });
+        arrowRight.addEventListener('click', function() {
+          carouselContent.style.animation = 'none';
+          carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+          setTimeout(() => {
+            carouselContent.style.animation = '';
+          }, 3000);
+        });
+        
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            carouselContent.style.animation = 'none';
+            const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
+            const sectionScroll = totalScroll / dots.length;
+            const scrollPosition = index * sectionScroll;
+            carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+            dots.forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+            setTimeout(() => {
+              carouselContent.style.animation = '';
+            }, 3000);
+          });
+        });
+      }
     });
   </script>
 </body>
