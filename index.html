@@ -312,34 +312,7 @@
 
 
       /* Scroll infinito */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        .infinite-scroll {
-            display: flex;
-            width: 200%;
-            animation: scroll 40s linear infinite;
-        }
-
-        .infinite-scroll:hover {
-            animation-play-state: paused;
-        }
-
-        /* Fondo */
-        body:before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            z-index: -1;
-            opacity: 0.3;
-        }
+      
   </style>
 </head>
 <body>
@@ -392,7 +365,6 @@
       <!-- Contenedor desplazable -->
       <div class="carousel-content" id="carouselContent">
 
-        <div class="infinite-scroll">
         
         <a href="apocalypto.html" class="movie-card">
     <img src="apocalypto.jpg" class="movie-poster" alt="Película">
@@ -510,18 +482,14 @@
 
   
 
-
-
-  
-
    <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
         <div class="movies-container">
+          <div class="carousel-content" id="carouselContent">
 
 
           
-            
-            <div class="infinite-scroll">
+          
                 <a href="mongol.html" class="movie-card">
     <img src="mongol.jpg" class="movie-poster" alt="Película">
     <span class="movie-title">Mongol</span>
