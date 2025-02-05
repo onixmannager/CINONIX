@@ -477,7 +477,7 @@
         <i class="fas fa-chevron-left"></i>
       </div>
       <!-- Contenedor desplazable -->
-      <div class="carousel-content" id="carouselContent">
+      <div class="carousel-content" id="carouselContentaction">
              
             
                 <a href="mongol.html" class="movie-card">
@@ -588,25 +588,51 @@
         carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       });
 
-      // Funcionalidad básica para los dots
-      const dots = document.querySelectorAll('.carousel-dots .dot');
-      dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-          const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
-          const sectionScroll = totalScroll / dots.length;
-          const scrollPosition = index * sectionScroll;
-          carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-          dots.forEach(d => d.classList.remove('active'));
-          dot.classList.add('active');
-        });
+      document.querySelectorAll('.content-section').forEach(section => {
+  // Obtenemos el contenedor del carrusel y los dots para cada sección
+  const carouselContent = section.querySelector('.carousel-content');
+  const dots = section.querySelectorAll('.carousel-dots .dot');
+  
+  // Si existen dots, agregar el evento de clic
+  if (dots.length > 0) {
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        const totalScroll = carouselContent.scrollWidth - carouselContent.clientWidth;
+        const sectionScroll = totalScroll / dots.length;
+        const scrollPosition = index * sectionScroll;
+        carouselContent.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+        dots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
       });
-    } else {
-      /* En móviles (≤768px) se activa el scroll infinito */
-      const carouselContent = document.getElementById('carouselContent');
-      carouselContent.classList.add('infinite-scroll');
-      // Duplica el contenido para un efecto continuo
-      carouselContent.innerHTML = carouselContent.innerHTML.repeat(2);
-    }
+    });
+  }
+
+  // Flechas (izquierda/derecha)
+  const leftArrow = section.querySelector('.carousel-arrow.left');
+  const rightArrow = section.querySelector('.carousel-arrow.right');
+  
+  if (leftArrow && rightArrow) {
+    leftArrow.addEventListener('click', () => {
+      carouselContent.scrollBy({ left: -carouselContent.clientWidth, behavior: 'smooth' });
+    });
+
+    rightArrow.addEventListener('click', () => {
+      carouselContent.scrollBy({ left: carouselContent.clientWidth, behavior: 'smooth' });
+    });
+  }
+
+  // Para dispositivos móviles (≤768px), activamos el scroll infinito
+  if (window.innerWidth <= 768) {
+    // Añadimos la clase de scroll infinito
+    carouselContent.classList.add('infinite-scroll');
+    
+    // Duplica el contenido para crear un efecto de scroll continuo
+    carouselContent.innerHTML = carouselContent.innerHTML.repeat(2);
+  } else {
+    // En pantallas grandes, aseguramos que no haya scroll infinito
+    carouselContent.classList.remove('infinite-scroll');
+  }
+});
 
     /* Mostrar la página cuando el video de cabecera esté listo */
     document.addEventListener("DOMContentLoaded", function() {
