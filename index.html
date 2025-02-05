@@ -113,15 +113,14 @@
       position: relative; /* Para posicionar flechas y dots */
       overflow: hidden;
     }
-    /* Contenedor desplazable; se le agregará la clase "infinite-scroll" en móviles */
+    /* Contenedor desplazable: En escritorio se usará scroll manual */
     .carousel-content {
       display: flex;
       gap: 15px;
       padding: 20px 0;
       scroll-behavior: smooth;
-      /* Por defecto, en escritorio no tiene animación */
+      overflow-x: auto; /* IMPORTANTE para scroll manual en escritorio */
     }
-    /* Ocultar scrollbar */
     .carousel-content::-webkit-scrollbar {
       display: none;
     }
@@ -217,15 +216,15 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-    /* En móviles (≤768px) se activa el infinite scroll y se ocultan flechas/dots */
     @media (max-width: 768px) {
+      /* En móviles se ocultan flechas y dots */
       .carousel-arrow,
       .carousel-dots {
         display: none;
       }
+      /* Se activa la animación infinita: se añade la clase "infinite-scroll" y se duplica el contenido */
       .carousel-content.infinite-scroll {
         animation: scroll 40s linear infinite;
-        /* Se recomienda duplicar el contenido para un efecto continuo */
         width: 200%;
       }
     }
@@ -398,7 +397,7 @@
     </div>
   </section>
 
-  <!-- Otras secciones (ejemplo: Acción) -->
+  <!-- Ejemplo de otra sección (Acción) -->
   <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
     <div class="movies-container">
@@ -423,7 +422,7 @@
     </div>
   </section>
   
-  <!-- Puedes agregar las demás secciones (comedia, drama, thriller, terror, infantiles) de forma similar -->
+  <!-- Puedes agregar las demás secciones (comedia, drama, etc.) de forma similar -->
 
   <script>
     /* Control del menú */
@@ -454,12 +453,12 @@
       });
     });
 
-    /* Navegación manual en escritorio: Solo se activa si el ancho es mayor o igual a 769px */
+    /* En escritorio (≥769px) se activa la navegación manual */
     if (window.innerWidth >= 769) {
       const carouselContent = document.querySelector('.carousel-content');
       const arrowLeft = document.querySelector('.carousel-arrow.left');
       const arrowRight = document.querySelector('.carousel-arrow.right');
-      const scrollAmount = 300; // Ajusta el valor de desplazamiento según prefieras
+      const scrollAmount = 300; // Ajusta el desplazamiento según prefieras
 
       arrowLeft.addEventListener('click', () => {
         carouselContent.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -468,7 +467,7 @@
         carouselContent.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       });
 
-      // Funcionalidad básica para los dots (calculado según el total de scroll disponible)
+      // Funcionalidad básica para los dots
       const dots = document.querySelectorAll('.carousel-dots .dot');
       dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
@@ -481,12 +480,10 @@
         });
       });
     } else {
-      /* En móviles se activa el infinite scroll:
-         - Se añade la clase "infinite-scroll" al contenedor desplazable.
-         - Se duplica el contenido para lograr un efecto continuo.
-      */
+      /* En móviles (≤768px) se activa el scroll infinito */
       const carouselContent = document.getElementById('carouselContent');
       carouselContent.classList.add('infinite-scroll');
+      // Duplica el contenido para un efecto continuo
       carouselContent.innerHTML = carouselContent.innerHTML.repeat(2);
     }
 
