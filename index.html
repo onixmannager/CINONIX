@@ -741,6 +741,29 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+
+
+        // Selecciona todos los dots y el contenedor del carrusel
+const dots = document.querySelectorAll('.carousel-dots .dot');
+const carousel = document.querySelector('.movies-container .infinite-scroll');
+
+// Suponiendo que cada dot representa una posición (por ejemplo, 0%, 50%, 100% del scroll)
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    // Calcula la posición a desplazar (ajusta la lógica según el ancho de tu carrusel)
+    const scrollPosition = index * (carousel.scrollWidth / dots.length);
+    carousel.scrollTo({
+      left: scrollPosition,
+      behavior: 'smooth'
+    });
+
+    // Actualiza la clase 'active'
+    dots.forEach(d => d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+});
+
+
             
         
     </script>   
