@@ -117,16 +117,17 @@
             letter-spacing: 2px;
         }
 
-        /* Carrusel */
         .movies-container {
-            position: relative; /* Para posicionar flechas y dots */
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 20px 0;
-            gap: 15px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+    display: flex;
+    flex-direction: row; /* Asegura que los elementos se dispongan en fila */
+    overflow-x: auto;
+    overflow-y: hidden; /* Evita que crezca verticalmente */
+    white-space: nowrap; /* Evita que los elementos se apilen */
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    gap: 15px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
         }
 
         .movies-container::-webkit-scrollbar {
