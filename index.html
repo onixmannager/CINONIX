@@ -212,22 +212,7 @@
     }
 
     /* Animación de scroll infinito (solo en móviles) */
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @media (max-width: 768px) {
-      /* En móviles se ocultan flechas y dots */
-      .carousel-arrow,
-      .carousel-dots {
-        display: none;
-      }
-      /* Se activa la animación infinita: se añade la clase "infinite-scroll" y se duplica el contenido */
-      .carousel-content.infinite-scroll {
-        animation: scroll 40s linear infinite;
-        width: 200%;
-      }
-    }
+    
 
     /* Video de cabecera */
     .header-video {
@@ -387,13 +372,7 @@
   <!-- Flecha derecha (solo en escritorio) -->
       <div class="carousel-arrow right">
         <i class="fas fa-chevron-right"></i>
-      </div>
-
-      <div class="infinite-scroll">
-
-
-      
-      
+      </div>      
 
       <!-- Contenedor desplazable -->
       <div class="carousel-content" id="carouselContent">
@@ -521,7 +500,7 @@
    <section class="content-section" id="accion">
     <h2 class="section-title">Acción</h2>
         <div class="movies-container">
-            <div class="infinite-scroll">
+            
             
                 <a href="mongol.html" class="movie-card">
     <img src="mongol.jpg" class="movie-poster" alt="Película">
