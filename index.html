@@ -722,11 +722,18 @@
     });
     
     document.addEventListener("DOMContentLoaded", function() {
-      /* Mostrar la página cuando el video de cabecera esté listo */
-      const video = document.querySelector(".header-video");
-      video.oncanplaythrough = function() {
-        document.body.style.display = "block";
-      };
+  const loader = document.getElementById("loader");
+  const video = document.querySelector(".header-video");
+  video.oncanplaythrough = function() {
+    // Ocultar el preloader
+    if (loader) {
+      loader.style.display = "none";
+    }
+    // Mostrar el contenido de la página
+    document.body.style.display = "block";
+  };
+});
+
 
       /* Duplicar el contenido de cada carrusel con clase infinite-scroll para lograr el efecto continuo */
       document.querySelectorAll('.carousel-content.infinite-scroll').forEach(function(container) {
