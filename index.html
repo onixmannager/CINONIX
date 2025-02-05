@@ -316,6 +316,43 @@
         height: auto;
     }
 }
+
+
+
+
+/* Estilos para el contenedor de botines */
+.carousel-dots {
+  position: absolute;       /* O usa relative en el contenedor padre y absolute para ubicarlo */
+  bottom: 20px;             /* Ajusta la posición según convenga */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 5;               /* Asegura que se muestre sobre el carrusel */
+}
+
+/* Estilos para cada dot */
+.dot {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Dot activo */
+.dot.active {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Ocultar los botines en móviles */
+@media (max-width: 768px) {
+  .carousel-dots {
+    display: none;
+  }
+}
+
         
         
         
@@ -466,6 +503,13 @@
                 <!-- Duplicar tarjetas -->
             </div>
         </div>
+          <!-- Contenedor de botines para navegación en el carrusel -->
+  <div class="carousel-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <!-- Agrega la cantidad de puntos que necesites -->
+  </div>
     </section>
 
     <section class="content-section" id="accion">
