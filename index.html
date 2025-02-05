@@ -607,7 +607,8 @@
     } else {
       
     /* En móviles (≤768px) se activa el scroll infinito */ 
-      const carouselContent = document.getElementById('carouselContent'); carouselContent.classList.add('infinite-scroll'); 
+      const carouselContent = document.getElementById('carouselContent, carousellContentAction'); 
+      carouselContent.classList.add('infinite-scroll'); 
       // Duplica el contenido para un efecto continuo 
       carouselContent.innerHTML = carouselContent.innerHTML.repeat(10); }
 
