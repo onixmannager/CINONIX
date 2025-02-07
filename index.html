@@ -262,6 +262,41 @@
       z-index: -1;
       opacity: 0.3;
     }
+
+    /* Footer */
+    .footer {
+      padding: 50px 100px;
+      background-color: #000;
+      color: #757575;
+    }
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-column h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    .footer-column a {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 15px;
+      transition: color 0.3s ease;
+    }
+    .footer-column a:hover {
+      color: #E50914;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+    }
     
     /* Responsive Mobile – ajustes varios */
     @media (max-width: 768px) {
@@ -296,6 +331,9 @@
         bottom: 10px;
         left: 10px;
       }
+      .footer {
+        padding: 30px 20px;
+      }
     }
     @media (max-width: 480px) {
       .section-title {
@@ -320,8 +358,6 @@
 }
       
 
-
-
     @media (max-width: 768px) {
   .content-section {
     margin-top: 1rem; /* Reduce el espacio superior */
@@ -329,50 +365,8 @@
   .section-title {
      margin-top: 0.0rem !important;
   }
-   .footer {
-     padding: 30px 20px;
-   }
+   
 }
-
-
-
-
-      /* Footer */
-    .footer {
-      padding: 50px 100px;
-      background-color: #000;
-      color: #757575;
-    }
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .footer-column h3 {
-      color: #fff;
-      margin-bottom: 20px;
-      font-size: 1.1rem;
-    }
-    .footer-column a {
-      color: inherit;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 15px;
-      transition: color 0.3s ease;
-    }
-    .footer-column a:hover {
-      color: #E50914;
-    }
-    .footer-bottom {
-      text-align: center;
-      margin-top: 50px;
-      padding-top: 30px;
-      border-top: 1px solid #333;
-    }
-
-
 
     
   </style>
