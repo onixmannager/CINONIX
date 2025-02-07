@@ -299,6 +299,40 @@
 
             
         }
+
+        
+
+/* Media query específica para TV */
+@media 
+  (min-width: 1920px) and (min-height: 1080px),  /* Full HD */
+  (min-width: 3840px) and (min-height: 2160px),  /* 4K */
+  (aspect-ratio: 16/9) {                         /* Relación de aspecto TV */
+    
+    .video-container {
+        max-width: 90vw !important;
+        height: 90vh !important;
+        aspect-ratio: 16/9;
+        margin: 2vh auto;
+    }
+    
+    .video-container iframe {
+        width: 100% !important;
+        height: 100% !important;
+        transform: scale(1.05); /* Ajuste fino de escala */
+    }
+    
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    
+    h1 {
+        font-size: 2.5rem !important;
+        margin: 2rem 0;
+    }
+  }
           
         
     </style>
