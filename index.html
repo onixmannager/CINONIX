@@ -769,6 +769,9 @@
         }
       });
     });
+
+
+    
     
     document.addEventListener("DOMContentLoaded", function() {
       /* Mostrar la página cuando el video de cabecera esté listo */
@@ -777,10 +780,14 @@
         document.body.style.display = "block";
       };
 
-      /* Duplicar el contenido de cada carrusel con clase infinite-scroll para lograr el efecto continuo */
       document.querySelectorAll('.carousel-content.infinite-scroll').forEach(function(container) {
-        container.innerHTML += container.innerHTML;
-      });
+  let originalContent = container.innerHTML; // Guardamos el contenido original
+  for (let i = 0; i < 9; i++) { // Se repite 9 veces para lograr 10 copias en total
+    container.innerHTML += originalContent;
+  }
+});
+
+      
       
       /* En escritorio (≥769px) se activan los controles manuales para cada carrusel */
       if (window.innerWidth >= 769) {
