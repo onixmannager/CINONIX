@@ -646,34 +646,32 @@
 
 
 
-        /* Estilo del loader de pantalla completa */
-.fullscreen-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeOut 3s forwards;
-}
+        /* Añade estos estilos al CSS existente */
+        .fullscreen-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeOut 3s forwards;
+        }
 
-/* Asegura que la imagen se ajuste correctamente al contenedor */
-.fullscreen-loader img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Mantiene la imagen cubriendo el contenedor */
-}
+        .fullscreen-loader img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-/* Animación de desvanecimiento */
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
-}
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
 
 
 
