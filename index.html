@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+
+    <script type="module">
+  import { redirigirSiPagado } from './app.js'; // 👈 Importa la función
+
+  document.addEventListener("DOMContentLoaded", () => {
+    redirigirSiPagado(); // Ejecuta la función
+  });
+    </script>
+    
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Metadatos Open Graph -->
@@ -933,15 +942,6 @@
     © 2025 Cinonix - Todos los derechos reservados
   </div>
 </footer>
-
-
-    <script type="module">
-  import { redirigirSiPagado } from './app.js'; // 👈 Importa la función
-
-  document.addEventListener("DOMContentLoaded", () => {
-    redirigirSiPagado(); // Ejecuta la función
-  });
-    </script>
 
 
     
