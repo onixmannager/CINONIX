@@ -646,7 +646,6 @@
 
 
 
-        /* Añade estos estilos al CSS existente */
         /* Estilo del loader de pantalla completa */
 .fullscreen-loader {
     position: fixed;
@@ -662,11 +661,11 @@
     animation: fadeOut 3s forwards;
 }
 
-/* Estilo de la imagen dentro del loader */
+/* Asegura que la imagen se ajuste correctamente al contenedor */
 .fullscreen-loader img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Asegura que la imagen se ajusta sin recortarse */
+    object-fit: cover; /* Mantiene la imagen cubriendo el contenedor */
 }
 
 /* Animación de desvanecimiento */
