@@ -935,12 +935,13 @@
 </footer>
 
 
-    <script src="app.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    window.redirigirSiPagado();
+    <script type="module">
+  import { redirigirSiPagado } from './app.js'; // 👈 Importa la función
+
+  document.addEventListener("DOMContentLoaded", () => {
+    redirigirSiPagado(); // Ejecuta la función
   });
-</script>
+    </script>
 
 
     
