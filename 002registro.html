@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Metadatos Open Graph -->
+<meta property="og:title" content="Cinonix - Streaming">
+<meta property="og:description" content="Disfruta del buen cine">
+<meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
+<meta property="og:type" content="website">
+
+<!-- Configuración básica para pantalla de inicio -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cinonix">
+<meta name="theme-color" content="#000000"> <!-- Solo afecta Android -->
+
+<!-- Iconos -->
+<link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.imgur.com/Zj3Hq9h.png">
+  
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+  
+  
+  <title>Cinonix - Streaming Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* Reset y estilos globales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #141414;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: red;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    /* Contenedor del formulario */
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    .auth-form {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .auth-form h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      background-color: #222;
+      color: white;
+      font-size: 1rem;
+    }
+    .auth-button {
+      width: 100%;
+      padding: 12px;
+      background-color: #E50914;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .auth-button:hover {
+      background-color: #ff2a2a;
+    }
+    .auth-links {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    .auth-links a {
+      color: #E50914;
+      text-decoration: none;
+    }
+    .auth-links a:hover {
+      text-decoration: underline;
+    }
+    .password-info {
+      color: #8c8c8c;
+      font-size: 0.875rem;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 50px 100px;
+      background-color: #000;
+      color: #757575;
+    }
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-column h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    .footer-column a {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 15px;
+      transition: color 0.3s ease;
+    }
+    .footer-column a:hover {
+      color: #E50914;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+    }
+
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .auth-container {
+        height: auto;
+        padding: 50px 20px;
+      }
+      .auth-form {
+        width: 90%;
+        padding: 30px;
+      }
+      .header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .logo {
+        font-size: 2rem;
+      }
+      .footer {
+        padding: 30px 20px;
+      }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      .footer-column {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a href="index.html" class="logo">Cinonix</a>
+  </header>
+
+  <!-- Contenedor del formulario de Registro -->
+  <div class="auth-container">
+    <!-- Se agregó id="registerForm" -->
+    <form id="registerForm" class="auth-form">
+      <h2>Crear Cuenta</h2>
+      <div class="form-group">
+        <input type="text" class="form-input" placeholder="Nombre" required>
+      </div>
+      <div class="form-group">
+        <!-- Se agregó id="email" -->
+        <input type="email" id="email" class="form-input" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <!-- Se agregó id="password" -->
+        <input type="password" id="password" class="form-input" placeholder="Contraseña" required>
+      </div>
+      <div class="form-group">
+        <!-- Se agregó id="password2" para repetir la contraseña -->
+        <input type="password" id="password2" class="form-input" placeholder="Repetir Contraseña" required>
+      </div>
+      <p class="password-info">La contraseña debe tener al menos 6 caracteres</p>
+      <button type="submit" class="auth-button">Registrarse</button>
+      <div class="auth-links">
+        <p>¿Ya tienes cuenta? <a href="001login.html">Inicia sesión</a></p>
+      </div>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Contenido</h3>
+        <a href="index.html#peliculas">Películas</a>
+        <a href="index.html#series">Series</a>
+        <a href="index.html#documentales">Documentales</a>
+      </div>
+      <div class="footer-column">
+        <h3>Nosotros</h3>
+        <a href="index.html#sobre-cinonix">Sobre Cinonix</a>
+      </div>
+      <div class="footer-column">
+        <h3>Soporte</h3>
+        <a href="https://t.me/Cinonix_bot" target="_blank">Centro de ayuda</a>
+      </div>
+      <div class="footer-column">
+        <h3>Síguenos</h3>
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Cinonix - Todos los derechos reservados
+    </div>
+  </footer>
+
+  <!-- Se incluye el archivo app.js -->
+  <script type="module" src="app.js"></script>
+  <script type="module">
+    // Se añade el listener al formulario de registro
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Obtenemos los valores del email y las contraseñas
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+      
+      // Validamos que ambas contraseñas sean iguales
+      if(password !== password2) {
+        alert("Las contraseñas no coinciden.");
+        return;
+      }
+      
+      // Llama a la función de registro definida en app.js
+      window.registrarUsuario(email, password);
+    });
+  </script>
+</body>
+</html>

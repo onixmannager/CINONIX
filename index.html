@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Metadatos Open Graph -->
+<meta property="og:title" content="Cinonix - Streaming">
+<meta property="og:description" content="Disfruta del buen cine">
+<meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
+<meta property="og:type" content="website">
+
+<!-- Configuración básica para pantalla de inicio -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cinonix">
+<meta name="theme-color" content="#000000"> <!-- Solo afecta Android -->
+
+<!-- Iconos -->
+<link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.imgur.com/Zj3Hq9h.png">
+  
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+  
+  
+  <title>Cinonix - Streaming Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #141414;
+            color: white;
+            overflow-x: hidden;
+        }
+
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+    color: white;
+    position: relative; /* Asegúrate de que la cabecera esté en el contexto adecuado */
+    z-index: ; /* Asegura que el encabezado esté por encima */
+}
+
+.logo {
+    font-size: 3rem; /* Tamaño de la fuente aumentado */
+    font-weight: 800; /* Fuente más gruesa */
+    color: red; /* Color rojo */
+    text-transform: uppercase;
+    text-decoration: none; /* Asegurarse de que no está subrayado */
+    transition: transform 0.3s ease-in-out;
+    animation: netflixEffect 4s ease-in-out infinite; /* Animación más suave */
+}
+
+/* Efecto de animación similar a Netflix */
+@keyframes netflixEffect {
+    0% {
+        transform: scale(1); /* Tamaño original */
+    }
+    25% {
+        transform: scale(1.2); /* Se agranda un poco */
+    }
+    50% {
+        transform: scale(1.1); /* Se encoge ligeramente */
+    }
+    75% {
+        transform: scale(1.2); /* Vuelve a agrandarse */
+    }
+    100% {
+        transform: scale(1); /* Tamaño original */
+    }
+}
+
+/* Estilo del botón de llamada a la acción */
+.cta-button {
+    padding: 10px 20px;
+    background-color: #ff4747;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #ff2a2a;
+}
+
+/* Estilo del botón de llamada a la acción */
+.cta-button {
+    padding: 10px 20px;
+    background-color: #ff4747;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #ff2a2a;
+}
+
+        .cta-button {
+            background-color: #E50914;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-button:hover {
+            background-color: #f40612;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('https://source.unsplash.com/random/1920x1080/?movie');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            margin-top: -80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Carrusel */
+        .carousel-section {
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .carousel-title {
+            padding: 0 50px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .movies-wrapper {
+            display: flex;
+            width: 200%;
+            animation: scroll 40s linear infinite;
+        }
+
+        .movie-card {
+            flex: 0 0 16.666%;
+            height: 300px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 0 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            z-index: 1;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-title {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card:hover .movie-title {
+            opacity: 1;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 50px 100px;
+            background-color: #000;
+            color: #757575;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-column a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: #E50914;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .hero {
+                height: 70vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .carousel-title {
+                padding: 0 20px;
+                font-size: 1.2rem;
+            }
+
+            .movie-card {
+                height: 200px;
+            }
+
+            .footer {
+                padding: 30px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .movie-card {
+                height: 150px;
+                margin: 0 5px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-column {
+                text-align: center;
+            }
+        }
+        
+        
+        
+        .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+    color: white;
+    position: relative; /* Necesario para que el z-index funcione */
+    z-index: 2; /* Asegura que el contenido de la cabecera esté por encima de la imagen */
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinonix - Películas y series ilimitadas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Reset y estilos generales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #141414;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Cabecera con imagen de fondo y capa oscura */
+    .header {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      z-index: 2;
+    }
+    /* La imagen de fondo se coloca en el pseudo-elemento ::before */
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fondolanding.webp');
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+    }
+    /* La capa oscura transparente se coloca en ::after */
+    .header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .logo {
+      font-size: 3rem; /* Tamaño de la fuente aumentado */
+      font-weight: 800; /* Fuente más gruesa */
+      color: red; /* Color rojo */
+      text-transform: uppercase;
+      text-decoration: none; /* Sin subrayado */
+      transition: transform 0.3s ease-in-out;
+      animation: netflixEffect 4s ease-in-out infinite; /* Animación similar a Netflix */
+    }
+
+    /* Animación similar a Netflix */
+    @keyframes netflixEffect {
+      0% {
+        transform: scale(1);
+      }
+      25% {
+        transform: scale(1.2);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      75% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Botón de llamada a la acción */
+    .cta-button {
+      background-color: #E50914;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .cta-button:hover {
+      background-color: #f40612;
+      transform: scale(1.05);
+    }
+
+    /* Sección Hero */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                  url('https://source.unsplash.com/random/1920x1080/?movie');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      margin-top: -80px;
+    }
+    .hero-content {
+      max-width: 800px;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Carrusel */
+    .carousel-section {
+      padding: 20px 0;
+      position: relative;
+    }
+    .carousel-title {
+      padding: 0 50px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+    .carousel-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    .movies-wrapper {
+      display: flex;
+      width: 200%;
+      animation: scroll 40s linear infinite;
+    }
+    .movie-card {
+      flex: 0 0 16.666%;
+      height: 300px;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin: 0 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .movie-card:hover {
+      transform: scale(1.05) translateY(-10px);
+      z-index: 1;
+    }
+    .movie-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .movie-title {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .movie-card:hover .movie-title {
+      opacity: 1;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Footer */
+    .footer {
+      padding: 50px 100px;
+      background-color: #000;
+      color: #757575;
+    }
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-column h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+    .footer-column a {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 15px;
+      transition: color 0.3s ease;
+    }
+    .footer-column a:hover {
+      color: #E50914;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .hero p {
+        font-size: 1.2rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+      .logo {
+        font-size: 2rem;
+      }
+      .cta-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+      .hero {
+        height: 70vh;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .carousel-title {
+        padding: 0 20px;
+        font-size: 1.2rem;
+      }
+      .movie-card {
+        height: 200px;
+      }
+      .footer {
+        padding: 30px 20px;
+      }
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .movie-card {
+        height: 150px;
+        margin: 0 5px;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      .footer-column {
+        text-align: center;
+      }
+    }
+  </style>
+
+
+</head>
+<body>
+    <header class="header">
+    <a href="#" class="logo">CInonIX</a>
+    <button class="cta-button" onclick="location.href='001login.html';">Iniciar sesión</button>
+</header>
+    
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Películas y series sin límites y mucho más</h1>
+            <h3><font color="red">OFERTA DE LANZAMIENTO VÁLIDA HASTA FIN DE MES.</font></h3>
+            <p>Un solo pago de 19,99 € , <strong>Suscripción vitalicia</strong><br>&nbsp;<br>
+            
+
+¿Quieres ver algo ya? Pulsa en comenzar para crear una suscripción en Cinonix y disfrutar.</p>
+            <button class="cta-button" onclick="location.href='002registro.html';">Comenzar</button>
+        </div>
+    </section>
+
+    <section class="carousel-section"
+     id="peliculas" >
+    <h2 class="carousel-title">Peliculas</h2>
+        <div class="carousel-container">
+            <div class="movies-wrapper">
+                <!-- Películas duplicadas para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+                <!-- Duplicado para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    <section class="carousel-section" id="series" >
+        <h2 class="carousel-title">Series</h2>
+        <div class="carousel-container">
+            <div class="movies-wrapper">
+                <!-- Películas duplicadas para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+                <!-- Duplicado para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="carousel-section" id="documentales" >
+        <h2 class="carousel-title">Documentales</h2>
+        <div class="carousel-container">
+            <div class="movies-wrapper">
+                <!-- Películas duplicadas para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+                <!-- Duplicado para efecto infinito -->
+                <div class="movie-card">
+                    <img src="granapuesta.jpg" alt="La Gran Apuesta">
+                    <span class="movie-title">La Gran Apuesta</span>
+                </div>
+                <div class="movie-card">
+                    <img src="laprueba.jpg" alt="La Prueba">
+                    <span class="movie-title">La Prueba</span>
+                </div>
+                <div class="movie-card">
+                    <img src="heman.jpg" alt="He-Man">
+                    <span class="movie-title">He-Man</span>
+                </div>
+                <div class="movie-card">
+                    <img src="perrosdeguerra.jpg" alt="Perros de Guerra">
+                    <span class="movie-title">Perros de Guerra</span>
+                </div>
+                <div class="movie-card">
+                    <img src="ciudaddedios.jpg" alt="Ciudad de Dios">
+                    <span class="movie-title">Ciudad de Dios</span>
+                </div>
+                <div class="movie-card">
+                    <img src="asesinatojusto.jpg" alt="Asesinato Justo">
+                    <span class="movie-title">Asesinato Justo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+     
+    
+    
+    
+    <section class="hero" style="height:auto; background:none; padding:60px 20px; margin-top:0;">
+    <div class="hero-content" id="sobrecinonix" >
+   
+        <h2><br>Todo el entretenimiento que quieres, en un solo pago</h2><br>&nbsp;<br>
+        <p>Aprovecha nuestra oferta de lanzamiento para poder ver todo el entretenimiento cuando quieras para toda la vida. <br> 
+            ¿Por qué pagar mes a mes cuando puedes disfrutarlo para siempre? Con nuestra suscripción de pago único, tendrás acceso ilimitado a películas, series y mucho más, sin cargos recurrentes ni sorpresas.</p>
+        <ul class="check-list">
+            <li><span class="check-icon">✅</span> <strong>Un solo pago, acceso de por vida</strong></li>
+            <li><span class="check-icon">✅</span> <strong>Sin suscripciones mensuales</strong></li>
+            <li><span class="check-icon">✅</span> <strong>Contenido sin restricciones</strong></li>
+            <li><span class="check-icon">✅</span> <strong>Acceso A Descargas</strong></li>
+            <li><span class="check-icon">✅</span> <strong>Siempre Disponible</strong></li>
+                      
+        </ul>
+        <p>No esperes más. Únete hoy y empieza a disfrutar sin límites.</p>
+        <button class="cta-button" onclick="location.href='002registro.html';">Acceder Ahora</button>
+    </div>
+           
+</section>
+    
+    
+
+<style>
+    .check-list {
+        list-style: none;
+        padding: 0;
+    }
+    .check-list li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .check-icon {
+        margin-right: 10px;
+        font-size: 1.2em;
+        color: green;
+    }
+</style>
+
+
+
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyD2dZO307P3B_YmH8dZI5-ll_ZO6uzy0SU",
+    authDomain: "inframe2.firebaseapp.com",
+    databaseURL: "https://inframe2-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "inframe2",
+    storageBucket: "inframe2.firebasestorage.app",
+    messagingSenderId: "68415435303",
+    appId: "1:68415435303:web:b26db7799d71dee6119402"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+    
+      
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Contenido</h3>
+                <a href="#peliculas">Películas</a>
+                <a href="#series">Series</a>
+                <a href="#documentales">Documentales</a>
+            </div>
+            <div class="footer-column">
+                <h3>Nosotros</h3>
+                <a href="#sobrecinonix">Sobre Cinonix</a>
+            </div>
+            
+      <div class="footer-column">
+            <h3>Soporte</h3>
+      <a href="https://t.me/Cinonix_bot" target="_blank">Centro de ayuda</a> <!-- Link externo para el centro de ayuda -->
+        </div>
+                
+         <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a> <!-- Redirige a Facebook -->
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a> <!-- Redirige a Twitter -->
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a> <!-- Redirige a Instagram -->
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Cinonix - Todos los derechos reservados
+  </div>
+</footer>
+</body>
+</html>

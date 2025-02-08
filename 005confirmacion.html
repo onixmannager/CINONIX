@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Metadatos Open Graph -->
+<meta property="og:title" content="Cinonix - Streaming">
+<meta property="og:description" content="Disfruta del buen cine">
+<meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
+<meta property="og:type" content="website">
+
+<!-- Configuración básica para pantalla de inicio -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cinonix">
+<meta name="theme-color" content="#000000"> <!-- Solo afecta Android -->
+
+<!-- Iconos -->
+<link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/Zj3Hq9h.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.imgur.com/Zj3Hq9h.png">
+  
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+  
+  
+  <title>Cinonix - Streaming Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* Estilos principales idénticos al inicio */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }body {
+  background-color: #141414;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header centrado */
+.header {
+  padding: 25px 20px;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0));
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #E50914;
+  text-decoration: none;
+  letter-spacing: -1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Contenedor de confirmación */
+.payment-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.payment-card {
+  background: rgba(0,0,0,0.75);
+  width: 100%;
+  max-width: 450px;
+  padding: 60px 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+.checkmark-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.checkmark {
+  font-size: 4.5rem;
+  color: #00c853;
+  animation: checkmarkPop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.payment-title {
+  color: #fff;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.payment-text {
+  color: #b3b3b3;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  font-size: 1.05rem;
+}
+
+.verify-button {
+  width: 100%;
+  padding: 16px;
+  background: #E50914;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.verify-button:hover {
+  background: #ff2a2a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229,9,20,0.3);
+}
+
+/* Footer idéntico al inicio */
+.footer {
+  background: #000;
+  color: #757575;
+  padding: 50px 20px 30px;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-column h3 {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.footer-column a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #E50914;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #333;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .payment-card {
+    padding: 40px 25px;
+  }
+  
+  .logo {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-column {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Header idéntico al inicio -->
+  <header class="header">
+    <a href="index.html" class="logo">CINONIX</a>
+  </header>  <!-- Contenido principal -->  <div class="payment-container">
+    <div class="payment-card">
+      <div class="checkmark-container">
+        <i class="fas fa-check-circle checkmark"></i>
+      </div>
+      <h1 class="payment-title">Pago Confirmado</h1>
+      <p class="payment-text">
+        ¡Gracias por tu compra! Para activar tu acceso vitalicio, 
+        es <strong>imprescindible</strong> que pulses el siguiente botón 
+        para completar la verificación final de tu suscripción.
+      </p>
+
+      <button class="verify-button" onclick="validarPagoEnConfirmacion()">Confirmar Pago</button>
+     
+    
+    
+    </div>
+  </div> <!-- Footer --><footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contenido</h3>
+      <a href="index.html#peliculas">Películas</a> <!-- Redirige a la sección de películas en index.html -->
+      <a href="index.html#series">Series</a> <!-- Redirige a la sección de series en index.html -->
+      <a href="index.html#documentales">Documentales</a> <!-- Redirige a la sección de documentales en index.html -->
+    </div>
+    <div class="footer-column">
+      <h3>Nosotros</h3>
+      <a href="index.html#sobre-cinonix">Sobre Cinonix</a> <!-- Redirige a la sección sobre Cinonix en index.html -->
+    </div>
+    <div class="footer-column">
+      <h3>Soporte</h3>
+      <a href="https://t.me/Cinonix_bot" target="_blank">Centro de ayuda</a> <!-- Link externo para el centro de ayuda -->
+    </div>
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a> <!-- Redirige a Facebook -->
+      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a> <!-- Redirige a Twitter -->
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a> <!-- Redirige a Instagram -->
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Cinonix - Todos los derechos reservados
+  </div>
+</footer> 
+
+  <script type="module" src="app.js"></script>
+
+  
+</body>
+</html>
