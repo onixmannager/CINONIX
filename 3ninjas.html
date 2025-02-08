@@ -441,5 +441,15 @@ Cuando un criminal intenta secuestrarlos para usar a su padre (un agente del FBI
             }
         });
     </script>
+
+    <script type="module" src="app.js"></script>
+
+    <script type="module">
+  // Asegúrate de que el contenido se restrinja al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    window.restringirContenido(); // Llamamos a la función para verificar el acceso
+  });
+        
+</script>  
 </body>
 </html>
