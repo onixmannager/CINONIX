@@ -136,7 +136,7 @@ window.restringirContenido = function() {
 };
 
 /** 🔹 REDIRIGIR DESDE INDEX SI YA PAGÓ */
-window.redirigirSiPagado = function() {
+export const redirigirSiPagado = function() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
@@ -144,11 +144,17 @@ window.redirigirSiPagado = function() {
         const userDocSnap = await getDoc(userDocRef);
         
         if (userDocSnap.exists() && userDocSnap.data().subscriptionActive) {
+          console.log("Redirigiendo a cinonix.html");
           window.location.href = "cinonix.html";
+        } else {
+          console.log("Usuario no tiene suscripción activa");
         }
       } catch (error) {
         console.error("Error al verificar estado de pago:", error.message);
+        console.error("Código de error:", error.code);
       }
+    } else {
+      console.log("Usuario no autenticado");
     }
   });
 };
