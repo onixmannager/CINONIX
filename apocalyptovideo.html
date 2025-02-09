@@ -92,5 +92,14 @@
       requestFullscreen();
     }, { once: true });
   </script>
+
+
+  <script type="module" src="app.js"></script>
+
+  <script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+      window.restringirContenido(); // Llamamos a la función para verificar el acceso
+    });
+  </script>
 </body>
 </html>
