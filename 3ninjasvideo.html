@@ -1,60 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3 Pequeños Ninjas</title>
-    <style>
-        /* Estilos generales */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background-color: black;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <!-- viewport con viewport-fit=cover para dispositivos con notch -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Habilitar modo web app en iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Habilitar modo web app en Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <!-- Color del tema para algunos navegadores -->
+  <meta name="theme-color" content="#000000">
+  <title>3 Pequeños Ninjas</title>
+  <style>
+    /* Estilos generales */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      overflow: hidden;
+    }
 
-        /* Contenedor del iframe */
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    /* Contenedor del iframe */
+    .video-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        /* Estilos del iframe */
-        iframe {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            border: none;
-        }
+    /* Estilos del iframe */
+    iframe {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      border: none;
+    }
 
-        /* Ajustes para dispositivos móviles en orientación vertical */
-        @media (orientation: portrait) {
-            iframe {
-                width: 100%;
-                height: 56.25vw; /* Relación de aspecto 16:9 (height = width * 9/16) */
-            }
-        }
+    /* Ajustes para dispositivos móviles en orientación vertical */
+    @media (orientation: portrait) {
+      iframe {
+        width: 100%;
+        height: 56.25vw; /* Relación de aspecto 16:9 (height = width * 9/16) */
+      }
+    }
 
-        /* Ajustes para dispositivos móviles en orientación horizontal */
-        @media (orientation: landscape) {
-            iframe {
-                width: 177.78vh; /* Relación de aspecto 16:9 (width = height * 16/9) */
-                height: 100%;
-            }
-        }
-    </style>
+    /* Ajustes para dispositivos móviles en orientación horizontal */
+    @media (orientation: landscape) {
+      iframe {
+        width: 177.78vh; /* Relación de aspecto 16:9 (width = height * 16/9) */
+        height: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="video-container">
-        <iframe src="https://archive.org/embed/3-pequenos-ninjas" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
-    </div>
+  <div class="video-container">
+    <iframe src="https://archive.org/embed/3-pequenos-ninjas" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    // Función para solicitar pantalla completa utilizando la Fullscreen API
+    function requestFullscreen() {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+        document.documentElement.webkitRequestFullscreen();
+      } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
+        document.documentElement.msRequestFullscreen();
+      }
+    }
+
+    // Al detectar el primer toque o clic se solicita pantalla completa
+    document.addEventListener('touchstart', function() {
+      requestFullscreen();
+    }, { once: true });
+
+    document.addEventListener('click', function() {
+      requestFullscreen();
+    }, { once: true });
+  </script>
 </body>
 </html>
