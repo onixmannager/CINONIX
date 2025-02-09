@@ -440,6 +440,32 @@ Cuando un criminal intenta secuestrarlos para usar a su padre (un agente del FBI
                 dropdownMenu.classList.remove('show');
             }
         });
+
+
+        document.getElementById('myVideo').addEventListener('click', function() {
+  // Si el video está dentro de un iframe, puede que necesites hacerlo dentro del iframe mismo
+  let iframe = document.getElementById('videoIframe');
+  let iframeDocument = iframe.contentWindow.document;
+  let video = iframeDocument.getElementById('myVideo');
+
+  // Poner el video en pantalla completa
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.mozRequestFullScreen) { // Firefox
+    video.mozRequestFullScreen();
+  } else if (video.webkitRequestFullscreen) { // Chrome, Safari, Opera
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) { // IE/Edge
+    video.msRequestFullscreen();
+  }
+
+  // Enviar el mensaje al WebView
+  console.log("video_clicado");
+});
+
+
+
+        
     </script>
 
     <script type="module" src="app.js"></script>
