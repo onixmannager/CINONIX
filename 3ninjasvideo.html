@@ -2,16 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- viewport con viewport-fit=cover para dispositivos con notch -->
+  <!-- Configuración del viewport (incluye viewport-fit=cover para dispositivos con notch) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <!-- Habilitar modo web app en iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Habilitar modo web app en Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <!-- Color del tema para algunos navegadores -->
+  <!-- Incrustar el manifest vía data URI (sin archivo adicional) -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22display%22%3A%22fullscreen%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%7D">
+  <!-- Color del tema -->
   <meta name="theme-color" content="#000000">
+  
   <title>3 Pequeños Ninjas</title>
+  
   <style>
     /* Estilos generales */
     body, html {
@@ -43,18 +47,18 @@
       border: none;
     }
 
-    /* Ajustes para dispositivos móviles en orientación vertical */
+    /* Ajustes para dispositivos móviles en orientación vertical (reloj 16:9) */
     @media (orientation: portrait) {
       iframe {
         width: 100%;
-        height: 56.25vw; /* Relación de aspecto 16:9 (height = width * 9/16) */
+        height: 56.25vw;
       }
     }
 
-    /* Ajustes para dispositivos móviles en orientación horizontal */
+    /* Ajustes para dispositivos móviles en orientación horizontal (reloj 16:9) */
     @media (orientation: landscape) {
       iframe {
-        width: 177.78vh; /* Relación de aspecto 16:9 (width = height * 16/9) */
+        width: 177.78vh;
         height: 100%;
       }
     }
@@ -68,16 +72,18 @@
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
     function requestFullscreen() {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
-        document.documentElement.webkitRequestFullscreen();
-      } else if (document.documentElement.msRequestFullscreen) { /* IE11 */
-        document.documentElement.msRequestFullscreen();
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) { // Safari, Chrome y otros navegadores basados en Webkit
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) { // IE/Edge
+        docEl.msRequestFullscreen();
       }
     }
 
-    // Al detectar el primer toque o clic se solicita pantalla completa
+    // Al detectar la primera interacción (tocado o clic) se solicita pantalla completa.
+    // Nota: Muchos navegadores requieren que esta acción sea el resultado de una interacción directa.
     document.addEventListener('touchstart', function() {
       requestFullscreen();
     }, { once: true });
@@ -86,22 +92,5 @@
       requestFullscreen();
     }, { once: true });
   </script>
-
-
-  </script>
-
-    <script type="module" src="app.js"></script>
-
-    <script type="module">
-  // Asegúrate de que el contenido se restrinja al cargar la página
-  document.addEventListener('DOMContentLoaded', function() {
-    window.restringirContenido(); // Llamamos a la función para verificar el acceso
-  });
-        
-</script>  
-
-
-
-  
 </body>
 </html>
