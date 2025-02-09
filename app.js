@@ -158,3 +158,17 @@ export const redirigirSiPagado = function() {
     }
   });
 };
+
+
+
+/** 🔹 CERRAR SESIÓN */
+window.cerrarSesion = async function() {
+  try {
+    await signOut(auth);  // Cierra la sesión del usuario actual
+    alert("Has cerrado sesión correctamente.");
+    window.location.href = "001login.html";  // Redirige al usuario a la página de inicio de sesión
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error.message);
+    alert("Error al cerrar sesión: " + error.message);
+  }
+};
