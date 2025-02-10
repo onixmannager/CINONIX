@@ -38,6 +38,8 @@
       min-height: 100vh;
       padding: 20px;
       color: #ffffff;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Menú desplegable */
@@ -109,6 +111,7 @@
       color: #ffffff;
       font-weight: 600;
       margin: 30px 0;
+      padding: 0 20px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -121,26 +124,32 @@
       display: block;
       width: 60px;
       height: 3px;
-      background: red;  /* Rojo brillante */
+      background: red;
       margin: 10px auto;
       border-radius: 2px;
     }
 
-    /* Sección dividida */
+    /* Sección dividida mejorada */
     .split-section {
       display: flex;
       gap: 30px;
-      max-width: 1000px;
-      margin: 40px auto;
+      max-width: 1200px;
+      margin: auto;
       padding: 20px;
+      align-items: center;
+      flex-grow: 1;
+      min-height: calc(100vh - 120px);
     }
 
     .image-container {
-      flex: 1;
+      flex: 1 1 50%;
       min-width: 300px;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      aspect-ratio: 2/3;
+      max-width: 450px;
+      background: #000;
     }
 
     .image-container img {
@@ -150,22 +159,22 @@
     }
 
     .descripcion-container {
-      flex: 1;
+      flex: 1 1 50%;
       padding: 25px;
       background: rgba(0, 0, 0, 0.3);
       border-radius: 15px;
       border: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(5px);
+      height: fit-content;
     }
 
     .descripcion-titulo {
-      color: red;  /* Rojo brillante */
+      color: red;
       font-size: 1.4rem;
       margin-bottom: 15px;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 600;
-      text-align: left;
       position: relative;
     }
 
@@ -174,7 +183,7 @@
       display: block;
       width: 40px;
       height: 2px;
-      background: red;  /* Rojo brillante */
+      background: red;
       margin: 10px 0;
     }
 
@@ -190,48 +199,62 @@
       margin-top: 15px;
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .btn-sinopsis {
       background: #CC0000;
       border: none;
       border-radius: 5px;
-      padding: 5px 10px;
+      padding: 10px 15px;
       color: #fff;
       font-size: 0.9rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      transition: background 0.3s ease;
+      gap: 8px;
+      transition: all 0.3s ease;
     }
 
     .btn-sinopsis:hover {
-      background: #CC0000;
+      background: #b30000;
+      transform: translateY(-2px);
     }
 
-    /* Sección de capítulos */
+    /* Sección de capítulos mejorada */
     .capitulos-section {
-      max-width: 800px;
-      margin: 50px auto;
+      max-width: 1200px;
+      margin: 40px auto;
       padding: 0 20px;
+      width: 100%;
     }
 
     .capitulos-section h2 {
       text-align: center;
       margin-bottom: 30px;
       font-size: 1.8rem;
-      color: red;  /* Rojo brillante */
+      color: red;
+      position: relative;
+    }
+
+    .capitulos-section h2:after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: red;
+      margin: 15px auto 0;
     }
 
     .capitulos-list {
       list-style: none;
       padding: 0;
       margin: 0;
+      display: grid;
+      gap: 15px;
     }
 
     .capitulos-list li {
-      margin: 20px 0;
       padding: 18px 25px;
       background: rgba(255,255,255,0.05);
       border-radius: 12px;
@@ -246,13 +269,13 @@
       background: rgba(255,255,255,0.08);
     }
 
-    /* Botones de capítulos */
+    /* Botones de capítulos mejorados */
     .ver-btn {
-      background: #E60000; /* Rojo ligeramente más oscuro */
+      background: #E60000;
       color: white;
       border: none;
       border-radius: 25px;
-      padding: 8px 25px;
+      padding: 10px 25px;
       cursor: pointer;
       text-decoration: none;
       font-family: 'Poppins', sans-serif;
@@ -268,48 +291,59 @@
     }
 
     .ver-btn:hover {
-      background: #CC0000; /* Un toque más oscuro en hover */
+      background: #CC0000;
       transform: scale(1.05);
       box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
     }
     
-    /* Selector de temporadas */
+    /* Selector de temporadas mejorado */
     .temporadas-select {
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 10px;
-      padding: 8px 12px;
+      padding: 12px 20px;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       outline: none;
-      margin-bottom: 10px;
+      margin: 20px auto;
+      display: block;
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
       background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
       background-repeat: no-repeat;
-      background-position: right 4px center;
+      background-position: right 15px center;
+      width: 200px;
     }
 
-    /* Responsive */
+    /* Responsive mejorado */
     @media (max-width: 768px) {
+      .menu-btn {
+        display: none;
+      }
+      
       .split-section {
         flex-direction: column;
+        min-height: auto;
         margin: 20px auto;
         padding: 0 15px;
+        gap: 25px;
       }
 
       .image-container {
-        min-width: auto;
-        max-height: 400px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
       }
 
       .descripcion-container {
+        width: 100%;
         padding: 20px;
       }
 
       .capitulos-section {
         margin: 30px auto;
+        padding: 0 15px;
       }
 
       .capitulos-list li {
@@ -322,6 +356,11 @@
       .ver-btn {
         width: 100%;
         justify-content: center;
+      }
+      
+      .temporadas-select {
+        width: 100%;
+        max-width: 280px;
       }
     }
 
@@ -337,13 +376,6 @@
       background-size: 20px 20px;
       z-index: -1;
       opacity: 0.3;
-    }
-
-    @media (max-width: 768px) {
-  .menu-btn {
-    display: none;
-  }
-  /* ... resto del responsive original ... */
     }
   </style>
 </head>
@@ -361,43 +393,37 @@
 
   <div class="split-section">
     <div class="image-container">
-      <!-- Al pulsar la imagen se redirige a la sección del selector de temporadas -->
       <a href="#temporadas">
         <img src="combateatraco.jpg" alt="Poster de la película">
       </a>
     </div>
+    
     <div class="descripcion-container">
       <h2 class="descripcion-titulo">Sinopsis</h2>
       <p class="descripcion-texto">
         Tras su regreso al boxeo después de eludir la conscripción, Ali vence a Jerry Quarry. Esa misma noche, cientos de personas son asaltadas a mano armada en su fiesta posterior.
       </p>
-      <!-- Botones para Descargar y Compartir -->
+      
       <div class="botones-sinopsis">
         <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
-         <!-- Botón de compartir -->
-<button id="btnCompartir" class="btn-sinopsis compartir-btn">
-  <i class="fas fa-share-alt"></i> Compartir</button>
+        <button id="btnCompartir" class="btn-sinopsis compartir-btn">
+          <i class="fas fa-share-alt"></i> Compartir
+        </button>
       </div>
     </div>
   </div>
 
-  <center>
-    <!-- Sección de temporadas y capítulos (con id "temporadas" para la redirección) -->
-    <div class="capitulos-section" id="temporadas">
-      <!-- Desplegable para seleccionar la temporada -->
-      <select id="temporadas-select" class="temporadas-select">
-        <option value="1">Temporada 1 &nbsp;</option>
-        <option value="2">Temporada 2 &nbsp;</option>
-        <!-- Agrega más opciones según necesites -->
-      </select>
-      <!-- Lista de capítulos que se actualizará dinámicamente -->
-      <ul class="capitulos-list" id="capitulos-list"></ul>
-    </div>
-  </center>
+  <div class="capitulos-section" id="temporadas">
+    <select id="temporadas-select" class="temporadas-select">
+      <option value="1">Temporada 1</option>
+      <option value="2">Temporada 2</option>
+    </select>
+    
+    <h2>Capítulos</h2>
+    <ul class="capitulos-list" id="capitulos-list"></ul>
+  </div>
 
-  <!-- JavaScript para actualizar la lista de capítulos según la temporada seleccionada -->
   <script>
-    // Datos de los capítulos para cada temporada
     const capitulosData = {
       '1': [
         { title: "Capítulo 1", link: "capitulo1.html" },
@@ -409,13 +435,11 @@
         { title: "Capítulo 2", link: "capitulo2_T2.html" },
         { title: "Capítulo 3", link: "capitulo3_T2.html" }
       ]
-      // Agrega más temporadas si lo necesitas
     };
 
-    // Función para renderizar los capítulos de la temporada seleccionada
     function renderCapitulos(temporada) {
       const capitulosList = document.getElementById('capitulos-list');
-      capitulosList.innerHTML = ""; // Limpiar la lista anterior
+      capitulosList.innerHTML = "";
 
       (capitulosData[temporada] || []).forEach(capitulo => {
         const li = document.createElement('li');
@@ -429,18 +453,15 @@
       });
     }
 
-    // Actualizar la lista al cambiar la selección de temporada
     const selectTemporadas = document.getElementById('temporadas-select');
     selectTemporadas.addEventListener('change', function() {
       renderCapitulos(this.value);
     });
 
-    // Renderizar la temporada inicial al cargar la página
     renderCapitulos(selectTemporadas.value);
   </script>
 
   <script>
-    // Control del menú
     const menuBtn = document.querySelector('.menu-btn');
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
@@ -458,28 +479,15 @@
         dropdownMenu.classList.remove('show');
       }
     });
-  
-  
 
-
-
-  document.getElementById('btnCompartir').addEventListener('click', function() {
-    // Obtener la URL actual
-    var enlace = window.location.href;
-
-    // Copiar al portapapeles
-    navigator.clipboard.writeText(enlace).then(function() {
-      // Mostrar mensaje de éxito
-      alert('Enlace copiado al portapapeles.');
-    }).catch(function(err) {
-      console.error('Error al copiar el enlace:', err);
-      alert('No se pudo copiar el enlace.');
+    document.getElementById('btnCompartir').addEventListener('click', function() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Enlace copiado al portapapeles.');
+      }).catch(err => {
+        console.error('Error al copiar el enlace:', err);
+        alert('No se pudo copiar el enlace.');
+      });
     });
-  });
-
-</script>
-  
-  
-  
+  </script>
 </body>
 </html>
