@@ -449,6 +449,26 @@
         dropdownMenu.classList.remove('show');
       }
     });
+
+
+      // Asigna la funcionalidad de compartir al botón de compartir
+  document.querySelector('.compartir-btn').addEventListener('click', async function() {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          text: '¡Mira esta increíble película en CinOnix!',
+          url: window.location.href
+        });
+        console.log('Contenido compartido exitosamente');
+      } catch (error) {
+        console.error('Error al compartir:', error);
+      }
+    } else {
+      // Fallback para dispositivos que no soportan el Web Share API
+      alert('La funcionalidad de compartir no está disponible en tu dispositivo.');
+    }
+  });
   </script>
 </body>
 </html>
