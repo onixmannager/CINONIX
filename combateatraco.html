@@ -121,7 +121,7 @@
       display: block;
       width: 60px;
       height: 3px;
-      background: #4CAF50;
+      background: red;  /* Rojo brillante */
       margin: 10px auto;
       border-radius: 2px;
     }
@@ -159,7 +159,7 @@
     }
 
     .descripcion-titulo {
-      color: #4CAF50;
+      color: red;  /* Rojo brillante */
       font-size: 1.4rem;
       margin-bottom: 15px;
       text-transform: uppercase;
@@ -174,7 +174,7 @@
       display: block;
       width: 40px;
       height: 2px;
-      background: #4CAF50;
+      background: red;  /* Rojo brillante */
       margin: 10px 0;
     }
 
@@ -196,7 +196,7 @@
       text-align: center;
       margin-bottom: 30px;
       font-size: 1.8rem;
-      color: #4CAF50;
+      color: red;  /* Rojo brillante */
     }
 
     .capitulos-list {
@@ -222,7 +222,7 @@
     }
 
     .ver-btn {
-      background: #4CAF50;
+      background: red;  /* Rojo brillante */
       color: white;
       border: none;
       border-radius: 25px;
@@ -242,9 +242,27 @@
     }
 
     .ver-btn:hover {
-      background: #45a049;
+      background: red;  /* Mantiene el rojo brillante al hacer hover */
       transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    }
+    
+    /* Selector de temporadas */
+    .temporadas-select {
+      background: red;  /* Rojo brillante */
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #ffffff;
+      font-size: 1.2rem;
+      outline: none;
+      margin-bottom: 10px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 0px center;
     }
 
     /* Responsive */
@@ -310,10 +328,11 @@
 
   <div class="split-section">
     <div class="image-container">
-  <a href="#temporadas">
-    <img src="combateatraco.jpg" alt="Poster de la película">
-  </a>
-</div>
+      <!-- Al pulsar la imagen se redirige a la sección del selector de temporadas -->
+      <a href="#temporadas">
+        <img src="combateatraco.jpg" alt="Poster de la película">
+      </a>
+    </div>
     <div class="descripcion-container">
       <h2 class="descripcion-titulo">Sinopsis</h2>
       <p class="descripcion-texto">
@@ -322,29 +341,63 @@
     </div>
   </div>
 
-  <div class="capitulos-section" id="temporadas">
-  <h2>Temporada 1</h2>
-  <ul class="capitulos-list">
-    <li>
-      <span>Capítulo 1</span>
-      <a href="capitulo1.html" class="ver-btn">
-        <i class="fas fa-play"></i>Ver
-      </a>
-    </li>
-    <li>
-      <span>Capítulo 2</span>
-      <a href="capitulo2.html" class="ver-btn">
-        <i class="fas fa-play"></i>Ver
-      </a>
-    </li>
-    <li>
-      <span>Capítulo 3</span>
-      <a href="capitulo3.html" class="ver-btn">
-        <i class="fas fa-play"></i>Ver
-      </a>
-    </li>
-  </ul>
-</div>
+  <center>
+    <!-- Sección de temporadas y capítulos (con id "temporadas" para la redirección) -->
+    <div class="capitulos-section" id="temporadas">
+      <!-- Desplegable para seleccionar la temporada -->
+      <select id="temporadas-select" class="temporadas-select">
+        <option value="1">Temporada 1</option>
+        <option value="2">Temporada 2</option>
+        <!-- Agrega más opciones según necesites -->
+      </select>
+      <!-- Lista de capítulos que se actualizará dinámicamente -->
+      <ul class="capitulos-list" id="capitulos-list"></ul>
+    </div>
+  </center>
+
+  <!-- JavaScript para actualizar la lista de capítulos según la temporada seleccionada -->
+  <script>
+    // Datos de los capítulos para cada temporada
+    const capitulosData = {
+      '1': [
+        { title: "Capítulo 1", link: "capitulo1.html" },
+        { title: "Capítulo 2", link: "capitulo2.html" },
+        { title: "Capítulo 3", link: "capitulo3.html" }
+      ],
+      '2': [
+        { title: "Capítulo 1", link: "capitulo1_T2.html" },
+        { title: "Capítulo 2", link: "capitulo2_T2.html" },
+        { title: "Capítulo 3", link: "capitulo3_T2.html" }
+      ]
+      // Agrega más temporadas si lo necesitas
+    };
+
+    // Función para renderizar los capítulos de la temporada seleccionada
+    function renderCapitulos(temporada) {
+      const capitulosList = document.getElementById('capitulos-list');
+      capitulosList.innerHTML = ""; // Limpiar la lista anterior
+
+      (capitulosData[temporada] || []).forEach(capitulo => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${capitulo.title}</span>
+          <a href="${capitulo.link}" class="ver-btn">
+            <i class="fas fa-play"></i> Ver
+          </a>
+        `;
+        capitulosList.appendChild(li);
+      });
+    }
+
+    // Actualizar la lista al cambiar la selección de temporada
+    const selectTemporadas = document.getElementById('temporadas-select');
+    selectTemporadas.addEventListener('change', function() {
+      renderCapitulos(this.value);
+    });
+
+    // Renderizar la temporada inicial al cargar la página
+    renderCapitulos(selectTemporadas.value);
+  </script>
 
   <script>
     // Control del menú
