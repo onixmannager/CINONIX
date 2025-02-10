@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Metadatos Open Graph -->
-  <meta property="og:title" content="Cinonix - Streaming">
-  <meta property="og:description" content="Disfruta del buen cine">
+  <meta property="og:title" content="Cinonix - Series">
+  <meta property="og:description" content="Noche De Combate">
   <meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
   <meta property="og:type" content="website">
 
@@ -14,7 +14,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Cinonix">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#999999">
 
   <!-- Iconos -->
   <link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
@@ -367,7 +367,9 @@
       <!-- Botones para Descargar y Compartir -->
       <div class="botones-sinopsis">
         <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
-        <button class="btn-sinopsis compartir-btn"><i class="fas fa-share-alt"></i> Compartir</button>
+         <!-- Botón de compartir -->
+<button id="btnCompartir" class="btn-sinopsis compartir-btn">
+  <i class="fas fa-share-alt"></i> Compartir</button>
       </div>
     </div>
   </div>
@@ -449,26 +451,28 @@
         dropdownMenu.classList.remove('show');
       }
     });
+  
+  
 
 
-      // Asigna la funcionalidad de compartir al botón de compartir
-  document.querySelector('.compartir-btn').addEventListener('click', async function() {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: document.title,
-          text: '¡Mira esta increíble película en CinOnix!',
-          url: window.location.href
-        });
-        console.log('Contenido compartido exitosamente');
-      } catch (error) {
-        console.error('Error al compartir:', error);
-      }
-    } else {
-      // Fallback para dispositivos que no soportan el Web Share API
-      alert('La funcionalidad de compartir no está disponible en tu dispositivo.');
-    }
+
+  document.getElementById('btnCompartir').addEventListener('click', function() {
+    // Obtener la URL actual
+    var enlace = window.location.href;
+
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(enlace).then(function() {
+      // Mostrar mensaje de éxito
+      alert('Enlace copiado al portapapeles.');
+    }).catch(function(err) {
+      console.error('Error al copiar el enlace:', err);
+      alert('No se pudo copiar el enlace.');
+    });
   });
-  </script>
+
+</script>
+  
+  
+  
 </body>
 </html>
