@@ -221,49 +221,54 @@
       background: rgba(255,255,255,0.08);
     }
 
-    .ver-btn {
-      background: red;  /* Rojo brillante */
-      color: white;
-      border: none;
-      border-radius: 25px;
-      padding: 8px 25px;
-      cursor: pointer;
-      text-decoration: none;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
+   /* Botones de capítulos */
+.ver-btn {
+  background: #E60000; /* Rojo ligeramente más oscuro */
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 25px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    .ver-btn i {
+ .ver-btn i {
       font-size: 0.9rem;
     }
 
-    .ver-btn:hover {
-      background: red;  /* Mantiene el rojo brillante al hacer hover */
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-    }
+.ver-btn:hover {
+  background: #CC0000; /* Un toque más oscuro en hover */
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+}
+
+   
+
+    
     
     /* Selector de temporadas */
-    .temporadas-select {
-      background: red;  /* Rojo brillante */
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 10px;
-      padding: 8px 12px;
-      color: #ffffff;
-      font-size: 1.2rem;
-      outline: none;
-      margin-bottom: 10px;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 0px center;
-    }
+.temporadas-select {
+  background: #E60000; /* Rojo ligeramente más oscuro que "red" (#FF0000) */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-size: 1.2rem;
+  outline: none;
+  margin-bottom: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right -1px center;
+}
 
     /* Responsive */
     @media (max-width: 768px) {
