@@ -185,6 +185,31 @@
       text-align: justify;
     }
 
+    /* Botones dentro de la sinopsis */
+    .botones-sinopsis {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-sinopsis {
+      background: #CC0000;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-sinopsis:hover {
+      background: #CC0000;
+    }
+
     /* Sección de capítulos */
     .capitulos-section {
       max-width: 800px;
@@ -221,55 +246,50 @@
       background: rgba(255,255,255,0.08);
     }
 
-   /* Botones de capítulos */
-.ver-btn {
-  background: #E60000; /* Rojo ligeramente más oscuro */
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 8px 25px;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
+    /* Botones de capítulos */
+    .ver-btn {
+      background: #E60000; /* Rojo ligeramente más oscuro */
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 25px;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
- .ver-btn i {
+    .ver-btn i {
       font-size: 0.9rem;
     }
 
-.ver-btn:hover {
-  background: #CC0000; /* Un toque más oscuro en hover */
-  transform: scale(1.05);
-  box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
-}
-
-   
-
-    
+    .ver-btn:hover {
+      background: #CC0000; /* Un toque más oscuro en hover */
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+    }
     
     /* Selector de temporadas */
-.temporadas-select {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 10px;
-  padding: 8px 12px;
-  color: #E60000; /* Rojo ligeramente más oscuro */
-  font-size: 1.2rem;
-  outline: none;
-  margin-bottom: 10px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 4px center;
-  
-}
+    .temporadas-select {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #E60000; /* Rojo ligeramente más oscuro */
+      font-size: 1.2rem;
+      outline: none;
+      margin-bottom: 10px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+    }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -344,6 +364,11 @@
       <p class="descripcion-texto">
         Tras su regreso al boxeo después de eludir la conscripción, Ali vence a Jerry Quarry. Esa misma noche, cientos de personas son asaltadas a mano armada en su fiesta posterior.
       </p>
+      <!-- Botones para Descargar y Compartir -->
+      <div class="botones-sinopsis">
+        <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
+        <button class="btn-sinopsis compartir-btn"><i class="fas fa-share-alt"></i> Compartir</button>
+      </div>
     </div>
   </div>
 
