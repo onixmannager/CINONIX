@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+ <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Metadatos Open Graph -->
-  <meta property="og:title" content="Cinonix - Cine y Series Online - 3 Pequeños Ninjas">
+  <meta property="og:title" content="Cinonix - Cine - 3 Pequeños Ninjas">
   <meta property="og:description" content="Noche De Combate">
   <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
   <meta property="og:type" content="website">
@@ -20,6 +20,7 @@
   <link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
   <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
+  
   
   <title>Pelicula de CinOnix</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -41,14 +42,17 @@
       display: flex;
       flex-direction: column;
     }
-
-    /* Menú desplegable */
+    
+    
+     /* Menú desplegable */
     .menu-container {
       position: absolute;
       top: 20px;
       left: 20px;
       z-index: 1000;
     }
+
+    
 
     .menu-btn {
       background: rgba(255, 255, 255, 0.1);
@@ -63,48 +67,24 @@
       transition: all 0.3s ease;
     }
 
-    .menu-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.1);
-    }
+    .menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
 
-    .dropdown-menu {
-      position: absolute;
-      top: 50px;
-      left: 0;
-      background: rgba(40, 40, 40, 0.95);
-      border-radius: 10px;
-      padding: 10px 0;
-      min-width: 200px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-      display: none;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    .dropdown-menu.show {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .dropdown-menu a {
-      color: white;
-      text-decoration: none;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-    }
-
-    .dropdown-menu a:hover {
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateX(5px);
-    }
+/* Eliminar todos los estilos relacionados con .dropdown-menu */
 
     h1 {
       text-align: center;
@@ -223,9 +203,12 @@
 
     /* Responsive mejorado */
     @media (max-width: 768px) {
-      .menu-btn {
-        display: none;
-      }
+  /* Eliminar display: none del .menu-btn */
+  .menu-btn {
+    display: flex !important; /* Asegurar que siempre sea visible */
+  }
+  
+ 
       
       .split-section {
         flex-direction: column;
@@ -251,31 +234,66 @@
         margin: 20px 0;
       }
     }
+    
+    
+    
+    .popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
-    /* Efecto de fondo */
-    body:before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-      z-index: -1;
-      opacity: 0.3;
-    }
+.popup {
+  background: #1a1a1a;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.popup button:hover {
+  background: darkred;
+}
+
+/* Mostrar el popup */
+.popup-container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+   
   </style>
 </head>
 <body>
   <div class="menu-container">
-    <button class="menu-btn" aria-label="Abrir menú">
-      <i class="fas fa-bars"></i>
-    </button>
-    <nav class="dropdown-menu">
-      <a href="cinonix.html"><i class="fas fa-home"></i> Inicio</a>
-    </nav>
-  </div>
+  <a href="cinonix.html" class="menu-btn" aria-label="Volver atrás">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>
+
+
+
+<!-- Eliminar todo el elemento <nav class="dropdown-menu"> -->
 
   <h1>3 Pequeños Ninjas</h1>
 
@@ -301,7 +319,7 @@
     
       <div class="botones-sinopsis"> 
         
-    <a href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg" vervideo>
+    <a href="3ninjasvideo.html" vervideo>
     <button class="btn-sinopsis descargar-btn">
     <i class="fas fa-tv"></i>Ver Online</button>           
         <a href="https://archive.org/download/3-pequenos-ninjas/3%20Peque%C3%B1os%20Ninjas.mp4" download>
@@ -315,36 +333,36 @@
       </div>
     </div>
   </div>
+  
+  <div id="customPopup" class="popup-container">
+  <div class="popup">
+    <p id="popupMessage">Enlace copiado al portapapeles.</p>
+    <button onclick="closePopup()">Cerrar</button>
+  </div>
+</div>
 
   <script>
-    // Control del menú
-    const menuBtn = document.querySelector('.menu-btn');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
+  
 
-    menuBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle('show');
-    });
+ 
+function showPopup(message) {
+  document.getElementById('popupMessage').innerText = message;
+  document.getElementById('customPopup').classList.add('show');
+}
 
-    document.addEventListener('click', () => {
-      dropdownMenu.classList.remove('show');
-    });
+function closePopup() {
+  document.getElementById('customPopup').classList.remove('show');
+}
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        dropdownMenu.classList.remove('show');
-      }
-    });
-
-    document.getElementById('btnCompartir').addEventListener('click', function() {
-      var enlace = window.location.href;
-      navigator.clipboard.writeText(enlace).then(function() {
-        alert('Enlace copiado al portapapeles.');
-      }).catch(function(err) {
-        console.error('Error al copiar el enlace:', err);
-        alert('No se pudo copiar el enlace.');
-      });
-    });
+document.getElementById('btnCompartir').addEventListener('click', function() {
+  var enlace = window.location.href;
+  navigator.clipboard.writeText(enlace).then(function() {
+    showPopup('Enlace copiado al portapapeles.');
+  }).catch(function(err) {
+    console.error('Error al copiar el enlace:', err);
+    showPopup('No se pudo copiar el enlace.');
+  });
+});
   </script>
 </body>
 </html>
