@@ -26,399 +26,370 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    * { 
-      transition: all 0.3s ease;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  * { 
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      min-height: 100vh;
-      padding: 20px;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Menú desplegable */
-    .menu-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-    }
-
-    .menu-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      color: white;
-      font-size: 1.2rem;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
-
-    .menu-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  color: white;
-  font-size: 1rem;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-/* Eliminar todos los estilos relacionados con .dropdown-menu */
-
-    h1 {
-      text-align: center;
-      color: #ffffff;
-      font-weight: 600;
-      margin: 30px 0;
-      padding: 0 20px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      position: relative;
-      font-size: 20px;
-    }
-
-    h1:after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: red;
-      margin: 10px auto;
-      border-radius: 2px;
-    }
-
-    /* Sección dividida mejorada */
-    .split-section {
-  display: flex;
-  gap: 30px;
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  align-items: center;
-  flex-grow: 1;
-  min-height: calc(100vh - 120px);
-  width: 100%; /* Asegura que ocupe el ancho completo */
-}
-
-.image-container {
-  flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
-  min-width: 300px;
-  max-width: 450px; /* Máximo permitido */
-}
-
-.descripcion-container {
-  flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
-  min-width: 300px; /* Mínimo igual que la imagen */
-  max-width: 600px; /* Máximo para mantener proporción */
-}
-
-@media (max-width: 1024px) { /* Ajusta el breakpoint a 1024px */
-  .split-section {
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #ffffff;
+    display: flex;
     flex-direction: column;
   }
-  
-  .image-container,
-  .descripcion-container {
-    max-width: 100%;
-    flex-basis: auto;
+
+  /* Menú desplegable */
+  .menu-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
   }
-}
 
-    .image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  .menu-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+    font-size: 1rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
 
-    .descripcion-container {
-      flex: 1 1 50%;
-      padding: 25px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(5px);
-      height: fit-content;
-    }
+  h1 {
+    text-align: center;
+    color: #ffffff;
+    font-weight: 600;
+    margin: 30px 0;
+    padding: 0 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+    font-size: 20px;
+  }
 
-    .descripcion-titulo {
-      color: red;
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-      position: relative;
-    }
+  h1:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: red;
+    margin: 10px auto;
+    border-radius: 2px;
+  }
 
-    .descripcion-titulo:after {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 2px;
-      background: red;
-      margin: 10px 0;
-    }
+  /* Sección dividida (imagen y sinopsis) */
+  .split-section {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    align-items: center;
+    flex-grow: 1;
+    min-height: calc(100vh - 120px);
+    width: 100%; /* Ocupa el ancho completo */
+    flex-wrap: wrap; /* Permite ajustar si el espacio es reducido */
+  }
 
-     .descripcion-texto {
-    text-align: left; /* Cambiado de justify a left */
+  .image-container {
+    flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
+    min-width: 300px;
+    max-width: 450px; /* Máximo permitido */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    aspect-ratio: 2/3;
+    background: #000;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .descripcion-container {
+    flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
+    min-width: 300px; /* Mínimo igual que la imagen */
+    max-width: 600px; /* Máximo para mantener proporción */
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    height: fit-content;
+  }
+
+  .descripcion-titulo {
+    color: red;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .descripcion-titulo:after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: red;
+    margin: 10px 0;
+  }
+
+  .descripcion-texto {
+    text-align: left;
     word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
 
-    /* Botones dentro de la sinopsis */
-    .botones-sinopsis {
-      margin-top: 15px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-sinopsis {
-      background: #CC0000;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
-      color: #fff;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-sinopsis:hover {
-      background: #b30000;
-      transform: translateY(-2px);
-    }
-
-    /* Sección de capítulos mejorada */
-    .capitulos-section {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      width: 100%;
-    }
-
-    .capitulos-section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.8rem;
-      color: red;
-      position: relative;
-    }
-
-    .capitulos-section h2:after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 2px;
-      background: red;
-      margin: 15px auto 0;
-    }
-
-    .capitulos-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 15px;
-    }
-
-    .capitulos-list li {
-      padding: 18px 25px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: transform 0.3s ease;
-    }
-
-    .capitulos-list li:hover {
-      transform: translateX(10px);
-      background: rgba(255,255,255,0.08);
-    }
-
-    /* Botones de capítulos mejorados */
-    .ver-btn {
-      background: #E60000;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 25px;
-      cursor: pointer;
-      text-decoration: none;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .ver-btn i {
-      font-size: 0.9rem;
-    }
-
-    .ver-btn:hover {
-      background: #CC0000;
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
-    }
-    
-    /* Selector de temporadas mejorado */
-    .temporadas-select {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 10px;
-      padding: 12px 20px;
-      color: white;
-      font-size: 1.1rem;
-      outline: none;
-      margin: 20px auto;
-      display: block;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      width: 200px;
-    }
-    
-    
-    .popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1003; 
-}
-
-.popup {
-  background: #1a1a1a;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.popup button {
-  background: red;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.popup button:hover {
-  background: darkred;
-}
-
-/* Mostrar el popup */
-.popup-container.show {
-  opacity: 5;
-  visibility: visible;
-}
-
-    /* Responsive mejorado */
-    @media (max-width: 768px) {
-  /* Eliminar display: none del .menu-btn */
-  .menu-btn {
-    display: flex !important; /* Asegurar que siempre sea visible */
+  /* Botones dentro de la sinopsis */
+  .botones-sinopsis {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  
-  /* Resto de estilos mobile... */
-}
-      
-      .split-section {
-        flex-direction: column;
-        min-height: auto;
-        margin: 20px auto;
-        padding: 0 15px;
-        gap: 25px;
-      }
 
-      .image-container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-      }
+  .btn-sinopsis {
+    background: #CC0000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
 
-      .descripcion-container {
-        width: 100%;
-        padding: 20px;
-      }
+  .btn-sinopsis:hover {
+    background: #b30000;
+    transform: translateY(-2px);
+  }
 
-      .capitulos-section {
-        margin: 30px auto;
-        padding: 0 15px;
-      }
+  /* Sección de capítulos */
+  .capitulos-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    width: 100%;
+  }
 
-      .capitulos-list li {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-        padding: 15px;
-      }
+  .capitulos-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    color: red;
+    position: relative;
+  }
 
-      .ver-btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .temporadas-select {
-        width: 100%;
-        max-width: 280px;
-      }
+  .capitulos-section h2:after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: red;
+    margin: 15px auto 0;
+  }
+
+  .capitulos-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 15px;
+  }
+
+  .capitulos-list li {
+    padding: 18px 25px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+
+  .capitulos-list li:hover {
+    transform: translateX(10px);
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Botones de capítulos */
+  .ver-btn {
+    background: #E60000;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ver-btn i {
+    font-size: 0.9rem;
+  }
+
+  .ver-btn:hover {
+    background: #CC0000;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+  }
+
+  /* Selector de temporadas */
+  .temporadas-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 12px 20px;
+    color: white;
+    font-size: 1.1rem;
+    outline: none;
+    margin: 20px auto;
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><polygon points="0,0 16,0 8,8" fill="%23fff"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    width: 200px;
+  }
+
+  /* Popup */
+  .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1003;
+  }
+
+  .popup {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .popup button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .popup button:hover {
+    background: darkred;
+  }
+
+  /* Mostrar el popup */
+  .popup-container.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Responsive: para pantallas medianas y pequeñas */
+  @media (max-width: 1024px) { 
+    .split-section {
+      flex-direction: column;
     }
+    
+    .image-container,
+    .descripcion-container {
+      max-width: 100%;
+      flex-basis: auto;
+    }
+  }
 
-    /* Efecto de fondo */
-    body:before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
+  /* Para pantallas muy grandes se refuerza el layout en fila */
+  @media (min-width: 1200px) {
+    .split-section {
+      flex-direction: row;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .menu-btn {
+      display: flex !important;
+    }
+    
+    .capitulos-section {
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+    
+    .capitulos-list li {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    .ver-btn {
       width: 100%;
-      height: 100%;
-      background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-      z-index: -1;
-      opacity: 0.3;
+      justify-content: center;
     }
-  </style>
+    
+    .temporadas-select {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  /* Efecto de fondo */
+  body:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    opacity: 0.3;
+  }
+</style>
 </head>
 <body>
   <div class="menu-container">
