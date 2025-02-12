@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
- <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Metadatos Open Graph -->
-  <meta property="og:title" content="Cinonix - Cine - Contacto Sangriento">
-  <meta property="og:description" content="Contacto Sangriento">
-  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/contactosangriento.jpg">
+  <meta property="og:title" content="Cinonix - Cine - Noche De Combate">
+  <meta property="og:description" content="Noche De Combate">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg">
   <meta property="og:type" content="website">
 
   <!-- Configuración básica -->
@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
   
   
-  <title>Pelicula de CinOnix</title>
+  <title>Serie de CinOnix</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -42,17 +42,14 @@
       display: flex;
       flex-direction: column;
     }
-    
-    
-     /* Menú desplegable */
+
+    /* Menú desplegable */
     .menu-container {
       position: absolute;
       top: 20px;
       left: 20px;
       z-index: 1000;
     }
-
-    
 
     .menu-btn {
       background: rgba(255, 255, 255, 0.1);
@@ -167,14 +164,12 @@
       margin: 10px 0;
     }
 
-   
-  .descripcion-texto {
+     .descripcion-texto {
     text-align: left; /* Cambiado de justify a left */
     word-wrap: normal;
     overflow-wrap: normal;
     word-break: normal;
   }
-
 
     /* Botones dentro de la sinopsis */
     .botones-sinopsis {
@@ -203,40 +198,6 @@
       transform: translateY(-2px);
     }
 
-    /* Responsive mejorado */
-    @media (max-width: 768px) {
-  /* Eliminar display: none del .menu-btn */
-  .menu-btn {
-    display: flex !important; /* Asegurar que siempre sea visible */
-  }
-  
- 
-      
-      .split-section {
-        flex-direction: column;
-        min-height: auto;
-        margin: 20px auto;
-        padding: 0 15px;
-        gap: 25px;
-      }
-
-      .image-container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-      }
-
-      .descripcion-container {
-        width: 100%;
-        padding: 20px;
-      }
-      
-      h1 {
-        font-size: 18px;
-        margin: 20px 0;
-      }
-    }
-    
     /* Sección de capítulos mejorada */
     .capitulos-section {
       max-width: 1200px;
@@ -333,7 +294,6 @@
     }
     
     
-    
     .popup-container {
   position: fixed;
   top: 0;
@@ -347,6 +307,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1003; 
 }
 
 .popup {
@@ -374,11 +335,11 @@
 
 /* Mostrar el popup */
 .popup-container.show {
-  opacity: 1;
+  opacity: 5;
   visibility: visible;
 }
 
-   /* Responsive mejorado */
+    /* Responsive mejorado */
     @media (max-width: 768px) {
   /* Eliminar display: none del .menu-btn */
   .menu-btn {
@@ -443,8 +404,6 @@
       z-index: -1;
       opacity: 0.3;
     }
-
-   
   </style>
 </head>
 <body>
@@ -454,34 +413,31 @@
   </a>
 </div>
 
+<div id="customPopup" class="popup-container">
+  <div class="popup">
+    <p id="popupMessage">Enlace copiado al portapapeles.</p>
+    <button onclick="closePopup()">Cerrar</button>
+  </div>
+</div>
 
 
-<!-- Eliminar todo el elemento <nav class="dropdown-menu"> -->
 
-  <h1>CONTACTO SANGRIENTO</h1>
+  <h1>Noche De Combate ,<br> El Atraco Del Millon</h1>
 
   <div class="split-section">
     <div class="image-container">
-      <a href="contactosangrientovideo.html">
-        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/contactosangriento.jpg" alt="Poster de la película">
+      <a href="#temporadas">
+        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Poster de la película">
       </a>
     </div>
     
-    
-    
-    
-    <div class="descripcion-container">   
-      <h2 class="descripcion-titulo">Sinopsis
-      </h2>
-      
+    <div class="descripcion-container">
+      <h2 class="descripcion-titulo">Sinopsis</h2>
       <p class="descripcion-texto">
-        Cada cinco años se celebra el "Kumite", un torneo secreto de artes marciales en el que se enfrentan, a vida o muerte, los mejores luchadores del mundo. Frank Dux, que trabaja eventualmente para la CIA, se convertirá en el primer occidental que participa en este torneo. Pero, para ganar, deberá derrotar al despiadado Chong Li, el vigente campeón.
-
-        </p>
+        Tras su regreso al boxeo después de eludir la conscripción, Ali vence a Jerry Quarry. Esa misma noche, cientos de personas son asaltadas a mano armada en su fiesta posterior.
+      </p>
       
-      
-    
-       <div class="botones-sinopsis">
+      <div class="botones-sinopsis">
         <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
         <button id="btnCompartir" class="btn-sinopsis compartir-btn">
           <i class="fas fa-share-alt"></i> Compartir
@@ -489,7 +445,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="capitulos-section" id="temporadas">
     <select id="temporadas-select" class="temporadas-select">
       <option value="1">Temporada 1</option>
@@ -537,13 +493,7 @@
 
     renderCapitulos(selectTemporadas.value);
   </script>
-  
- 
-
-  <script>
-  
-
- 
+ <script>
 function showPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('customPopup').classList.add('show');
