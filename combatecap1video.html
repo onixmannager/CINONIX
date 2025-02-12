@@ -73,18 +73,40 @@
 </head>
 <body>
     <div class="video-container">
-        <iframe src="https://drive.google.com/file/d/14Qyed2X5d63o4bFRAbqS9vD-Q4e6_367/preview" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+        <iframe src = "https://drive.google.com/file/d/14Qyed2X5d63o4bFRAbqS9vD-Q4e6_367/preview?rm=minimal/" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
     </div>
     
-    <script type="module" src="app.js"></script>
+    <script>
+    // Función para solicitar pantalla completa utilizando la Fullscreen API
+    function requestFullscreen() {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) { // Safari, Chrome y otros navegadores basados en Webkit
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) { // IE/Edge
+        docEl.msRequestFullscreen();
+      }
+    }
 
-    <script type="module">
-  // Asegúrate de que el contenido se restrinja al cargar la página
-  document.addEventListener('DOMContentLoaded', function() {
-    window.restringirContenido(); // Llamamos a la función para verificar el acceso
-  });
-        
-</script>
+    // Al detectar la primera interacción (tocado o clic) se solicita pantalla completa.
+    // Nota: Muchos navegadores requieren que esta acción sea el resultado de una interacción directa.
+    document.addEventListener('touchstart', function() {
+      requestFullscreen();
+    }, { once: true });
+
+    document.addEventListener('click', function() {
+      requestFullscreen();
+    }, { once: true });
+  </script>
+
+  <script type="module" src="app.js"></script>
+
+  <script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+      window.restringirContenido(); // Llamamos a la función para verificar el acceso
+    });
+  </script>
     
 </body>
 </html>
