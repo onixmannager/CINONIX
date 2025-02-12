@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Metadatos Open Graph -->
+  <meta property="og:title" content="Cinonix - Cine - Terminator Genesis">
+  <meta property="og:description" content="Terminator Genesis">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+  <meta property="og:type" content="website">
+
+  <!-- Configuración básica -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinonix">
+  <meta name="theme-color" content="#999999">
+
+  <!-- Iconos -->
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+    
+    
+    <title>Reproductor Cinonix</title>
+    <style>
+        /* Estilos generales */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        /* Contenedor del iframe */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Estilos del iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            border: none;
+        }
+
+        /* Ajustes para dispositivos móviles en orientación vertical */
+        @media (orientation: portrait) {
+            iframe {
+                width: 100%;
+                height: 56.25vw; /* Relación de aspecto 16:9 (height = width * 9/16) */
+            }
+        }
+
+        /* Ajustes para dispositivos móviles en orientación horizontal */
+        @media (orientation: landscape) {
+            iframe {
+                width: 177.78vh; /* Relación de aspecto 16:9 (width = height * 16/9) */
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe src="https://drive.google.com/file/d/14Qyed2X5d63o4bFRAbqS9vD-Q4e6_367/view?usp=drivesdk" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+    </div>
+    
+    <script type="module" src="app.js"></script>
+
+    <script type="module">
+  // Asegúrate de que el contenido se restrinja al cargar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    window.restringirContenido(); // Llamamos a la función para verificar el acceso
+  });
+        
+</script>
+    
+</body>
+</html>
