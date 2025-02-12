@@ -197,6 +197,38 @@
       background: #b30000;
       transform: translateY(-2px);
     }
+    
+     /* Responsive mejorado */
+    @media (max-width: 768px) {
+  /* Eliminar display: none del .menu-btn */
+  .menu-btn {
+    display: flex !important; /* Asegurar que siempre sea visible */
+  }
+  
+   .split-section {
+        flex-direction: column;
+        min-height: auto;
+        margin: 20px auto;
+        padding: 0 15px;
+        gap: 25px;
+      }
+
+      .image-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .descripcion-container {
+        width: 100%;
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 18px;
+        margin: 20px 0;
+      }
+    }
 
     /* Sección de capítulos mejorada */
     .capitulos-section {
