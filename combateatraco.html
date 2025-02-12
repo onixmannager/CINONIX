@@ -320,52 +320,50 @@
     }
 
     @media (max-width: 768px) {
-      .menu-btn {
-        display: flex !important;
-      }
-      
-      .split-section {
-        flex-direction: column;
-        min-height: auto;
-        margin: 20px auto;
-        padding: 0 15px;
-        gap: 25px;
-      }
+  .split-section {
+    flex-direction: column;
+    min-height: auto;
+    margin: 20px auto;
+    padding: 0 15px;
+    gap: 25px;
+  }
 
-      .image-container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-        position: static;
-      }
+  .image-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    position: static;
+  }
 
-      .descripcion-container {
-        width: 100%;
-        padding: 20px;
-        min-height: auto;
-      }
+  .descripcion-container {
+    /* Evita que se expanda forzadamente */
+    flex: none;        /* O también: flex: 0 1 auto; */
+    min-height: 0;     /* Quita el min-height de 600px */
+    width: 100%;
+    padding: 20px;
+  }
 
-      .capitulos-section {
-        margin: 30px auto;
-        padding: 0 15px;
-      }
+  .capitulos-section {
+    margin: 30px auto;
+    padding: 0 15px;
+  }
 
-      .capitulos-list li {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-        padding: 15px;
-      }
+  .capitulos-list li {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    padding: 15px;
+  }
 
-      .ver-btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .temporadas-select {
-        width: 100%;
-        max-width: 280px;
-      }
+  .ver-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .temporadas-select {
+    width: 100%;
+    max-width: 280px;
+  }
     }
 
     body:before {
