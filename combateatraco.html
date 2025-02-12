@@ -91,7 +91,7 @@
     }
 
     .split-section {
-      display: flex;
+      display: block;
       gap: 30px;
       max-width: 1200px;
       margin: auto;
@@ -102,39 +102,35 @@
     }
 
     .image-container {
-  flex: 1;
-  min-width: 300px;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  aspect-ratio: 2/3;
-  background: #000;
-  position: sticky;
-  top: 20px;
-}
+      flex: 1;
+      min-width: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      aspect-ratio: 2/3;
+      background: #000;
+      position: sticky;
+      top: 20px;
+    }
 
-.image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-.descripcion-container {
-  flex: 1;
-  padding: 25px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: sticky; /* Agregado para fijar la descripción */
-  top: 20px; /* Ajusta esta distancia para fijar su posición */
-  z-index: 10; /* Asegura que la descripción esté por encima de otros elementos */
-  overflow: hidden; /* Evita el scroll en la descripción */
-}
+    .descripcion-container {
+      flex: 1;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
     .descripcion-titulo {
       color: red;
