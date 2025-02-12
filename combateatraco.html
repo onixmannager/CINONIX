@@ -26,7 +26,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <style>
-   
+    * { 
+      transition: all 0.3s ease;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Poppins', sans-serif;
@@ -315,50 +320,52 @@
     }
 
     @media (max-width: 768px) {
-  .split-section {
-    flex-direction: column;
-    min-height: auto;
-    margin: 20px auto;
-    padding: 0 15px;
-    gap: 25px;
-  }
+      .menu-btn {
+        display: flex !important;
+      }
+      
+      .split-section {
+        flex-direction: column;
+        min-height: auto;
+        margin: 20px auto;
+        padding: 0 15px;
+        gap: 25px;
+      }
 
-  .image-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    position: static;
-  }
+      .image-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        position: static;
+      }
 
-  .descripcion-container {
-    /* Evita que se expanda forzadamente */
-    flex: none;        /* O también: flex: 0 1 auto; */
-    min-height: 0;     /* Quita el min-height de 600px */
-    width: 100%;
-    padding: 20px;
-  }
+      .descripcion-container {
+        width: 100%;
+        padding: 20px;
+        min-height: auto;
+      }
 
-  .capitulos-section {
-    margin: 30px auto;
-    padding: 0 15px;
-  }
+      .capitulos-section {
+        margin: 30px auto;
+        padding: 0 15px;
+      }
 
-  .capitulos-list li {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-    padding: 15px;
-  }
+      .capitulos-list li {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px;
+      }
 
-  .ver-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .temporadas-select {
-    width: 100%;
-    max-width: 280px;
-  }
+      .ver-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .temporadas-select {
+        width: 100%;
+        max-width: 280px;
+      }
     }
 
     body:before {
