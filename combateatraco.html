@@ -269,3 +269,113 @@
       background: #1a1a1a;
       color: white;
       padding: 20
+</head>
+<body>
+  <div class="menu-container">
+  <a href="cinonix.html" class="menu-btn" aria-label="Volver atrás">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>
+
+<div id="customPopup" class="popup-container">
+  <div class="popup">
+    <p id="popupMessage">Enlace copiado al portapapeles.</p>
+    <button onclick="closePopup()">Cerrar</button>
+  </div>
+</div>
+
+
+
+  <h1>Noche De Combate ,<br> El Atraco Del Millon</h1>
+
+  <div class="split-section">
+    <div class="image-container">
+      <a href="#temporadas">
+        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Poster de la película">
+      </a>
+    </div>
+    
+    <div class="descripcion-container">
+      <h2 class="descripcion-titulo">Sinopsis</h2>
+      <p class="descripcion-texto">
+        Tras su regreso al boxeo después de eludir la conscripción, Ali vence a Jerry Quarry. Esa misma noche, cientos de personas son asaltadas a mano armada en su fiesta posterior.
+      </p>
+      
+      <div class="botones-sinopsis">
+        <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
+        <button id="btnCompartir" class="btn-sinopsis compartir-btn">
+          <i class="fas fa-share-alt"></i> Compartir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="capitulos-section" id="temporadas">
+    <select id="temporadas-select" class="temporadas-select">
+      <option value="1">Temporada 1</option>
+      <option value="2">Temporada 2</option>
+    </select>
+    
+    <h2>Capítulos</h2>
+    <ul class="capitulos-list" id="capitulos-list"></ul>
+  </div>
+
+  <script>
+    const capitulosData = {
+      '1': [
+        { title: "Capítulo 1", link: "capitulo1.html" },
+        { title: "Capítulo 2", link: "capitulo2.html" },
+        { title: "Capítulo 3", link: "capitulo3.html" }
+      ],
+      '2': [
+        { title: "Capítulo 1", link: "capitulo1_T2.html" },
+        { title: "Capítulo 2", link: "capitulo2_T2.html" },
+        { title: "Capítulo 3", link: "capitulo3_T2.html" }
+      ]
+    };
+
+    function renderCapitulos(temporada) {
+      const capitulosList = document.getElementById('capitulos-list');
+      capitulosList.innerHTML = "";
+
+      (capitulosData[temporada] || []).forEach(capitulo => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${capitulo.title}</span>
+          <a href="${capitulo.link}" class="ver-btn">
+            <i class="fas fa-play"></i> Ver
+          </a>
+        `;
+        capitulosList.appendChild(li);
+      });
+    }
+
+    const selectTemporadas = document.getElementById('temporadas-select');
+    selectTemporadas.addEventListener('change', function() {
+      renderCapitulos(this.value);
+    });
+
+    renderCapitulos(selectTemporadas.value);
+  </script>
+ <script>
+function showPopup(message) {
+  document.getElementById('popupMessage').innerText = message;
+  document.getElementById('customPopup').classList.add('show');
+}
+
+function closePopup() {
+  document.getElementById('customPopup').classList.remove('show');
+}
+
+document.getElementById('btnCompartir').addEventListener('click', function() {
+  var enlace = window.location.href;
+  navigator.clipboard.writeText(enlace).then(function() {
+    showPopup('Enlace copiado al portapapeles.');
+  }).catch(function(err) {
+    console.error('Error al copiar el enlace:', err);
+    showPopup('No se pudo copiar el enlace.');
+  });
+});
+  </script>
+</body>
+</html>
