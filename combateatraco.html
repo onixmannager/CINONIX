@@ -108,26 +108,40 @@
 
     /* Sección dividida mejorada */
     .split-section {
-      display: flex;
-      gap: 30px;
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-      align-items: center;
-      flex-grow: 1;
-      min-height: calc(100vh - 120px);
-    }
+  display: flex;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  align-items: center;
+  flex-grow: 1;
+  min-height: calc(100vh - 120px);
+  width: 100%; /* Asegura que ocupe el ancho completo */
+}
 
-    .image-container {
-      flex: 1 1 50%;
-      min-width: 300px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      aspect-ratio: 2/3;
-      max-width: 450px;
-      background: #000;
-    }
+.image-container {
+  flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
+  min-width: 300px;
+  max-width: 450px; /* Máximo permitido */
+}
+
+.descripcion-container {
+  flex: 1 1 calc(50% - 15px); /* Ajuste para considerar el gap */
+  min-width: 300px; /* Mínimo igual que la imagen */
+  max-width: 600px; /* Máximo para mantener proporción */
+}
+
+@media (max-width: 1024px) { /* Ajusta el breakpoint a 1024px */
+  .split-section {
+    flex-direction: column;
+  }
+  
+  .image-container,
+  .descripcion-container {
+    max-width: 100%;
+    flex-basis: auto;
+  }
+}
 
     .image-container img {
       width: 100%;
