@@ -21,7 +21,6 @@
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
   <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
   
-  
   <title>Serie de CinOnix</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -42,41 +41,6 @@
       display: flex;
       flex-direction: column;
     }
-
-    /* Menú desplegable */
-    
-
-    .menu-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      color: white;
-      font-size: 1.2rem;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
-
-    .menu-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  color: white;
-  font-size: 1rem;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-/* Eliminar todos los estilos relacionados con .dropdown-menu */
 
     h1 {
       text-align: center;
@@ -101,7 +65,7 @@
       border-radius: 2px;
     }
 
-    /* Sección dividida mejorada */
+    /* Sección dividida */
     .split-section {
       display: flex;
       gap: 30px;
@@ -159,14 +123,13 @@
       margin: 10px 0;
     }
 
-     .descripcion-texto {
-    text-align: left; /* Cambiado de justify a left */
-    word-wrap: normal;
-    overflow-wrap: normal;
-    word-break: normal;
-  }
+    .descripcion-texto {
+      text-align: left;
+      word-wrap: normal;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
 
-    /* Botones dentro de la sinopsis */
     .botones-sinopsis {
       margin-top: 15px;
       display: flex;
@@ -193,7 +156,7 @@
       transform: translateY(-2px);
     }
 
-    /* Sección de capítulos mejorada */
+    /* Sección de capítulos */
     .capitulos-section {
       max-width: 1200px;
       margin: 40px auto;
@@ -241,7 +204,6 @@
       background: rgba(255,255,255,0.08);
     }
 
-    /* Botones de capítulos mejorados */
     .ver-btn {
       background: #E60000;
       color: white;
@@ -267,8 +229,7 @@
       transform: scale(1.05);
       box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
     }
-    
-    /* Selector de temporadas mejorado */
+
     .temporadas-select {
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255,255,255,0.2);
@@ -287,227 +248,24 @@
       background-position: right 15px center;
       width: 200px;
     }
-    
-    
+
     .popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1003; 
-}
-
-.popup {
-  background: #1a1a1a;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.popup button {
-  background: red;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.popup button:hover {
-  background: darkred;
-}
-
-/* Mostrar el popup */
-.popup-container.show {
-  opacity: 5;
-  visibility: visible;
-}
-
-    /* Responsive mejorado */
-    @media (max-width: 768px) {
-  /* Eliminar display: none del .menu-btn */
-  .menu-btn {
-    display: flex !important; /* Asegurar que siempre sea visible */
-  }
-  
-  /* Resto de estilos mobile... */
-}
-      
-      .split-section {
-        flex-direction: column;
-        min-height: auto;
-        margin: 20px auto;
-        padding: 0 15px;
-        gap: 25px;
-      }
-
-      .image-container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-      }
-
-      .descripcion-container {
-        width: 100%;
-        padding: 20px;
-      }
-
-      .capitulos-section {
-        margin: 30px auto;
-        padding: 0 15px;
-      }
-
-      .capitulos-list li {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-        padding: 15px;
-      }
-
-      .ver-btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .temporadas-select {
-        width: 100%;
-        max-width: 280px;
-      }
-    }
-
-    /* Efecto de fondo */
-    body:before {
-      content: '';
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-      z-index: -1;
-      opacity: 0.3;
-    }
-  </style>
-</head>
-<body>
-  <div class="menu-container">
-  <a href="cinonix.html" class="menu-btn" aria-label="Volver atrás">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-</div>
-
-<div id="customPopup" class="popup-container">
-  <div class="popup">
-    <p id="popupMessage">Enlace copiado al portapapeles.</p>
-    <button onclick="closePopup()">Cerrar</button>
-  </div>
-</div>
-
-
-
-  <h1>Noche De Combate ,<br> El Atraco Del Millon</h1>
-
-  <div class="split-section">
-    <div class="image-container">
-      <a href="#temporadas">
-        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Poster de la película">
-      </a>
-    </div>
-    
-    <div class="descripcion-container">
-      <h2 class="descripcion-titulo">Sinopsis</h2>
-      <p class="descripcion-texto">
-        Noche de combate: El atraco del millón es una serie de acción y suspenso que sigue a un grupo de criminales expertos en el robo de alta gama. En su último golpe, planean atracar un millonario casino, pero la situación se complica cuando enfrentan traiciones, imprevistos y una vigilancia implacable. La trama explora el peligro, la lealtad y la tensión en cada paso del atraco.
-
-      </p>
-      
-      <div class="botones-sinopsis">
-        <button class="btn-sinopsis descargar-btn"><i class="fas fa-download"></i> Descargar</button>
-        <button id="btnCompartir" class="btn-sinopsis compartir-btn">
-          <i class="fas fa-share-alt"></i> Compartir
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="capitulos-section" id="temporadas">
-    <select id="temporadas-select" class="temporadas-select">
-      <option value="1">Temporada 1</option>
-      <option value="2">Temporada 2</option>
-    </select>
-    
-    <h2>Capítulos</h2>
-    <ul class="capitulos-list" id="capitulos-list"></ul>
-  </div>
-
-  <script>
-    const capitulosData = {
-      '1': [
-        { title: "Capítulo 1", link: "capitulo1.html" },
-        { title: "Capítulo 2", link: "capitulo2.html" },
-        { title: "Capítulo 3", link: "capitulo3.html" }
-      ],
-      '2': [
-        { title: "Capítulo 1", link: "capitulo1_T2.html" },
-        { title: "Capítulo 2", link: "capitulo2_T2.html" },
-        { title: "Capítulo 3", link: "capitulo3_T2.html" }
-      ]
-    };
-
-    function renderCapitulos(temporada) {
-      const capitulosList = document.getElementById('capitulos-list');
-      capitulosList.innerHTML = "";
-
-      (capitulosData[temporada] || []).forEach(capitulo => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <span>${capitulo.title}</span>
-          <a href="${capitulo.link}" class="ver-btn">
-            <i class="fas fa-play"></i> Ver
-          </a>
-        `;
-        capitulosList.appendChild(li);
-      });
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 1003; 
     }
 
-    const selectTemporadas = document.getElementById('temporadas-select');
-    selectTemporadas.addEventListener('change', function() {
-      renderCapitulos(this.value);
-    });
-
-    renderCapitulos(selectTemporadas.value);
-  </script>
- <script>
-function showPopup(message) {
-  document.getElementById('popupMessage').innerText = message;
-  document.getElementById('customPopup').classList.add('show');
-}
-
-function closePopup() {
-  document.getElementById('customPopup').classList.remove('show');
-}
-
-document.getElementById('btnCompartir').addEventListener('click', function() {
-  var enlace = window.location.href;
-  navigator.clipboard.writeText(enlace).then(function() {
-    showPopup('Enlace copiado al portapapeles.');
-  }).catch(function(err) {
-    console.error('Error al copiar el enlace:', err);
-    showPopup('No se pudo copiar el enlace.');
-  });
-});
-  </script>
-</body>
-</html>
+    .popup {
+      background: #1a1a1a;
+      color: white;
+      padding: 20
