@@ -1,3 +1,6 @@
+// app.js
+// Usa <script type="module" src="app.js"></script> en tus páginas
+
 // 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
@@ -47,8 +50,7 @@ window.registrarUsuario = async function(email, password) {
     });
 
     alert("Usuario registrado correctamente.");
-    // Usar pushState para manejar el historial sin recargar la página
-    history.pushState(null, null, "001login.html");
+    window.location.href = "001login.html";
   } catch (error) {
     console.error("Error en el registro:", error.message);
     alert("Error en el registro: " + error.message);
@@ -66,8 +68,7 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      const redirectPage = data.subscriptionActive ? "cinonix.html" : "004pago.html";
-      history.pushState(null, null, redirectPage);  // Redirigir sin recargar
+      window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
     }
@@ -90,7 +91,7 @@ window.restablecerContrasena = async function(email) {
 
 /** 🔹 CONFIRMAR PAGO Y ACTIVAR CUENTA */
 window.validarPagoEnConfirmacion = async function() {
-  const user = auth.currentUser;
+  const user = auth.currentUser; // Usa auth.currentUser en lugar de firebase.auth().currentUser
   
   if (user) {
     try {
@@ -102,13 +103,14 @@ window.validarPagoEnConfirmacion = async function() {
       console.log("Pago confirmado. Suscripción activada.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
 
-      history.pushState(null, null, "cinonix.html"); // Redirigir sin recargar
+      // Redirige a la plataforma
+      window.location.href = "cinonix.html";
     } catch (error) {
       console.error("Error al confirmar el pago:", error.message);
       alert("Error al confirmar el pago: " + error.message);
     }
   } else {
-    history.pushState(null, null, "index.html");
+    window.location.href = "index.html";
   }
 };
 
@@ -122,13 +124,13 @@ window.restringirContenido = function() {
         
         if (userDocSnap.exists() && !userDocSnap.data().subscriptionActive) {
           alert("Debes activar tu suscripción.");
-          history.pushState(null, null, "004pago.html"); // Redirigir sin recargar
+          window.location.href = "004pago.html";
         }
       } catch (error) {
         console.error("Error al verificar suscripción:", error.message);
       }
     } else {
-      history.pushState(null, null, "001login.html"); // Redirigir sin recargar
+      window.location.href = "001login.html";
     }
   });
 };
@@ -143,12 +145,13 @@ export const redirigirSiPagado = function() {
         
         if (userDocSnap.exists() && userDocSnap.data().subscriptionActive) {
           console.log("Redirigiendo a cinonix.html");
-          history.pushState(null, null, "cinonix.html"); // Redirigir sin recargar
+          window.location.href = "cinonix.html";
         } else {
           console.log("Usuario no tiene suscripción activa");
         }
       } catch (error) {
         console.error("Error al verificar estado de pago:", error.message);
+        console.error("Código de error:", error.code);
       }
     } else {
       console.log("Usuario no autenticado");
@@ -156,20 +159,16 @@ export const redirigirSiPagado = function() {
   });
 };
 
+
+
 /** 🔹 CERRAR SESIÓN */
 window.cerrarSesion = async function() {
   try {
     await signOut(auth);  // Cierra la sesión del usuario actual
     alert("Has cerrado sesión correctamente.");
-    history.pushState(null, null, "001login.html");  // Redirige al usuario sin recargar
+    window.location.href = "001login.html";  // Redirige al usuario a la página de inicio de sesión
   } catch (error) {
     console.error("Error al cerrar sesión:", error.message);
     alert("Error al cerrar sesión: " + error.message);
   }
-};
-
-// Asegúrate de manejar el evento de popstate para controlar las navegaciones hacia atrás
-window.onpopstate = function(event) {
-  console.log("Popstate event: ", event);
-  // Aquí puedes manejar el comportamiento de la navegación hacia atrás si es necesario
 };
