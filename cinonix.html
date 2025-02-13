@@ -34,7 +34,8 @@
       box-sizing: border-box;
     }
     body {
-      display: none; /* Se mostrará al estar listo el video */
+    display: none !important;
+ /* Se mostrará al estar listo el video */
       font-family: 'Poppins', sans-serif;
       background: #0a0a0a;
       color: #ffffff;
@@ -809,7 +810,7 @@
       /* Mostrar la página cuando el video de cabecera esté listo */
       const video = document.querySelector(".header-video");
       video.oncanplaythrough = function() {
-        document.body.style.display = "none";
+        document.body.style.display = "block";
       };
     
     
