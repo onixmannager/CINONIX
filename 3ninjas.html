@@ -286,7 +286,7 @@
 </head>
 <body>
   <div class="menu-container">
-  <a href="cinonix.html" class="menu-btn" aria-label="Volver atrás">
+  <a href="javascript:history.back()" class="menu-btn" aria-label="Volver atrás">
     <i class="fas fa-arrow-left"></i>
   </a>
 </div>
@@ -343,6 +343,19 @@
     <button onclick="closePopup()">Cerrar</button>
   </div>
 </div>
+
+ <script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("backbutton", function() {
+        if (window.history.length > 1) {
+            history.back(); // Volver a la página anterior si hay historial
+        } else {
+            // Opcional: cerrar la app si no hay historial
+            navigator.app.exitApp();
+        }
+    }, false);
+});
+ </script>
 
   <script>
   
