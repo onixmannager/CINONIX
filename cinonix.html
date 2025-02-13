@@ -23,6 +23,15 @@
   <title>Cinonix - Streaming Premium</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+   <!-- Agregar el SDK de Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js"></script>
+  
+  
+
   
   <style>
         
@@ -1093,19 +1102,36 @@
 
 
 
-<script type="module">
-  async function cerrarSesion() {
-    try {
-      await signOut(auth);  // Cierra la sesión del usuario actual
-      alert("Has cerrado sesión correctamente.");
-      window.location.href = "001login.html";  // Redirige a la página de inicio de sesión
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error.message);
-      alert("Error al cerrar sesión: " + error.message);
-    }
-  }
+<script>
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+      authDomain: "cinonix-3a65d.firebaseapp.com",
+      projectId: "cinonix-3a65d",
+      storageBucket: "cinonix-3a65d.appspot.com",
+      messagingSenderId: "298364890273",
+      appId: "1:298364890273:web:f8d61cd538f228648f54e0",
+      measurementId: "G-9L2E23K72W"
+    };
 
-  document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
+    // Inicializar Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.getAuth(app);
+
+    // Función para cerrar sesión
+    async function cerrarSesion() {
+      try {
+        await firebase.signOut(auth);  // Cierra la sesión del usuario actual
+        alert("Has cerrado sesión correctamente.");
+        window.location.href = "001login.html";  // Redirige a la página de inicio de sesión
+      } catch (error) {
+        console.error("Error al cerrar sesión:", error.message);
+        alert("Error al cerrar sesión: " + error.message);
+      }
+    }
+
+    // Asignar el evento de clic al botón
+    document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
 </script>
 
   
