@@ -340,7 +340,12 @@
     <i class="fas fa-bars"></i>
   </button>
   <nav class="dropdown-menu">
-  <a href="buscador.html">Buscar Películas</a>
+  <a href="buscador.html">
+    <form action="buscador.html" method="get" style="display: inline;">
+        <input type="text" name="search" placeholder="Buscar película..." required>
+        <button type="submit">🔍</button> <!-- Icono de lupa -->
+    </form>
+</a>
   <a href="#cartelera"><i class="fas fa-volume-up"></i> Cartelera</a>
   <a href="#series"><i class="fas fa-tv"></i> Series</a>
   <a href="#accion"><i class="fas fa-fist-raised"></i> Acción</a>
