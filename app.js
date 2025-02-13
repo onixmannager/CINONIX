@@ -130,7 +130,7 @@ window.restringirContenido = function() {
         console.error("Error al verificar suscripción:", error.message);
       }
     } else {
-      window.location.href = "001login.html";
+      window.location.href = "index.html";
     }
   });
 };
