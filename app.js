@@ -19,12 +19,12 @@ import {
   updateDoc 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// 2. Configuración de Firebase (CORREGIDO)
+// 2. Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
   projectId: "cinonix-3a65d",
-  storageBucket: "cinonix-3a65d.appspot.com",  // 🔥 CORREGIDO 🔥
+  storageBucket: "cinonix-3a65d.appspot.com",
   messagingSenderId: "298364890273",
   appId: "1:298364890273:web:f8d61cd538f228648f54e0",
   measurementId: "G-9L2E23K72W"
@@ -35,7 +35,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 4. Funciones de autenticación
+// 4. Función para generar un código único de afiliado
+function generateAffiliateCode() {
+  // Genera un código alfanumérico de 8 caracteres en mayúsculas
+  return Math.random().toString(36).substr(2, 8).toUpperCase();
+}
 
 /** 🔹 REGISTRO DE USUARIO */
 window.registrarUsuario = async function(email, password) {
@@ -43,10 +47,16 @@ window.registrarUsuario = async function(email, password) {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Guardar en Firestore
+    // Guarda datos iniciales en Firestore. Puedes agregar otros campos que requieras.
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
-      subscriptionActive: false
+      subscriptionActive: false,
+      // Campos para afiliados: se asignarán al confirmar el pago.
+      afiliado: false,
+      codigoAfiliado: null,
+      dineroAcumulado: 0,  // Inicialmente en 0, se irá actualizando con las comisiones.
+      // Si el usuario fue referido, se guardará en 'referidoPor'
+      referidoPor: null
     });
 
     alert("Usuario registrado correctamente.");
@@ -68,6 +78,7 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
+      // Redirige a la plataforma si la suscripción está activa, de lo contrario a la página de pago.
       window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
@@ -89,21 +100,29 @@ window.restablecerContrasena = async function(email) {
   }
 };
 
-/** 🔹 CONFIRMAR PAGO Y ACTIVAR CUENTA */
+/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO */
 window.validarPagoEnConfirmacion = async function() {
-  const user = auth.currentUser; // Usa auth.currentUser en lugar de firebase.auth().currentUser
-  
+  const user = auth.currentUser;
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
-      
-      // Actualiza el campo 'subscriptionActive' de false a true
-      await updateDoc(userDocRef, { subscriptionActive: true });
 
-      console.log("Pago confirmado. Suscripción activada.");
+      // Prepara el objeto de actualización
+      const updateData = {
+        subscriptionActive: true,          // Activa la suscripción
+        afiliado: true,                    // Marca al usuario como afiliado
+        codigoAfiliado: generateAffiliateCode()  // Genera y asigna un código único
+      };
+
+      // Si se almacenó en sessionStorage el código del afiliado que refirió al usuario, lo agregamos
+      if (sessionStorage.getItem("afiliadoReferrer")) {
+        updateData.referidoPor = sessionStorage.getItem("afiliadoReferrer");
+      }
+
+      await updateDoc(userDocRef, updateData);
+
+      console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
-
-      // Redirige a la plataforma
       window.location.href = "cinonix.html";
     } catch (error) {
       console.error("Error al confirmar el pago:", error.message);
@@ -159,14 +178,12 @@ export const redirigirSiPagado = function() {
   });
 };
 
-
-
 /** 🔹 CERRAR SESIÓN */
 window.cerrarSesion = async function() {
   try {
-    await signOut(auth);  // Cierra la sesión del usuario actual
+    await signOut(auth);
     alert("Has cerrado sesión correctamente.");
-    window.location.href = "001login.html";  // Redirige al usuario a la página de inicio de sesión
+    window.location.href = "001login.html";
   } catch (error) {
     console.error("Error al cerrar sesión:", error.message);
     alert("Error al cerrar sesión: " + error.message);
