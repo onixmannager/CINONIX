@@ -807,16 +807,11 @@
 
     
     
-    document.addEventListener("DOMContentLoaded", function() {
-      /* Mostrar la página cuando el video de cabecera esté listo */
-      const video = document.querySelector(".header-video");
-      video.oncanplaythrough = function() {
-        document.body.style.display = "block";
-      };
+    
 
       document.querySelectorAll('.carousel-content.infinite-scroll').forEach(function(container) {
   let originalContent = container.innerHTML; // Guardamos el contenido original
-  for (let i = 0; i < 9; i++) { // Se repite 9 veces para lograr 10 copias en total
+  for (let i = 0; i < 3; i++) { // Se repite 9 veces para lograr 10 copias en total
     container.innerHTML += originalContent;
   }
 });
