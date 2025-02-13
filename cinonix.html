@@ -1091,12 +1091,21 @@
     
   </script>
 
-  <button id="btnCerrarSesion">Cerrar sesión</button>
 
-<script>
-  document.getElementById("btnCerrarSesion").addEventListener("click", function() {
-    cerrarSesion();
-  });
+
+<script type="module">
+  async function cerrarSesion() {
+    try {
+      await signOut(auth);  // Cierra la sesión del usuario actual
+      alert("Has cerrado sesión correctamente.");
+      window.location.href = "001login.html";  // Redirige a la página de inicio de sesión
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error.message);
+      alert("Error al cerrar sesión: " + error.message);
+    }
+  }
+
+  document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
 </script>
 
   
