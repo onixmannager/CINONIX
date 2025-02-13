@@ -805,7 +805,12 @@
     });
 
 
-    
+    document.addEventListener("DOMContentLoaded", function() {
+      /* Mostrar la página cuando el video de cabecera esté listo */
+      const video = document.querySelector(".header-video");
+      video.oncanplaythrough = function() {
+        document.body.style.display = "none";
+      };
     
     
 
