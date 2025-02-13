@@ -217,29 +217,195 @@
     }
   </style>
 </head>
-
 <body>
+  <!-- Video de cabecera -->
   <header>
     <video class="header-video" autoplay loop muted playsinline>
       <source src="videoCinoniX.mp4" type="video/mp4">
       Tu navegador no soporta videos.
     </video>
   </header>
+  
+  <!-- Menú -->
+<div class="menu-container">
+  <button class="menu-btn" aria-label="Abrir menú">
+    <i class="fas fa-bars"></i>
+  </button>
+  <nav class="dropdown-menu">
+  <a href="#"><i class="fas fa-home"></i> Inicio</a>
+  <a href="#cartelera"><i class="fas fa-volume-up"></i> Cartelera</a>
+  <a href="#series"><i class="fas fa-tv"></i> Series</a>
+  <a href="#accion"><i class="fas fa-fist-raised"></i> Acción</a>
+  <a href="#comedia"><i class="fas fa-theater-masks"></i> Comedia</a>
+  <a href="#drama"><i class="fas fa-mask"></i> Drama</a>
+  <a href="#thriller"><i class="fas fa-user-secret"></i> Thriller</a>
+  <a href="#terror"><i class="fas fa-ghost"></i> Terror</a>
+  <a href="#infantiles"><i class="fas fa-baby"></i> Infantiles</a>
+    <!-- Nuevo apartado Descargar App -->
+    <br>&nbsp;</br>
+    <!-- Nuevo enlace para Cerrar sesión -->
+    <a href="javascript:void(0);" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+  </nav>
+</div>
+  
+  <!-- Sección: Carrusel de Cartelera Completa -->
+  <section class="content-section" id="cartelera">
+    <h2 class="section-title">Cartelera Completa</h2>
+    <div class="movies-container">
+      <!-- Dots (solo en escritorio) -->
+      <div class="carousel-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <!-- Flechas (solo en escritorio) -->
+      <div class="carousel-arrow left">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <div class="carousel-arrow right">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <!-- Contenedor desplazable – se le añade la clase infinite-scroll -->
+      <div class="carousel-content infinite-scroll" id="carouselContent">
+        <a href="apocalypto.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/apocalypto.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Apocalypto</span>
+        </a>
+        <a href="3ninjas.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">3 Pequeños Ninjas</span>
+        </a>
+        <a href="granapuesta.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/granapuesta.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Gran Apuesta</span>
+        </a>
+        <a href="laprueba.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/laprueba.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Prueba</span>
+        </a>
+        <a href="heman.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/heman.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">He-Man, Masters Del Universo</span>
+        </a>
+        <a href="perrosdeguerra.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/perrosdeguerra.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Perros De Guerra</span>
+        </a>
+        <a href="ciudaddedios.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ciudaddedios.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Ciudad De Dios</span>
+        </a>
+        <a href="asesinatojusto.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/asesinatojusto.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Asesinato Justo</span>
+        </a>
+        <a href="airbag.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/airbag.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Airbag</span>
+        </a>
+        <a href="distrito13ultimatum.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/distrito13.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Distrito 13 Ultimatum</span>
+        </a>
+        <a href="armaduradedios.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/armaduradedios.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">La Armadura De Dios</span>
+        </a>
+        <a href="efectomariposa.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/efectomariposa.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">El Efecto Mariposa</span>
+        </a>
+        <a href="destinodecaballero.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/destinodecaballero.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Destino De Caballero</span>
+        </a>
+        <a href="losotros.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/losotros.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Los Otros</span>
+        </a>
+        <a href="contactosangriento.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/contactosangriento.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Contacto Sangriento</span>
+        </a>
+        <a href="donniebrasco.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/donniebrasco.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Donnie Brasco</span>
+        </a>
+        <a href="mongol.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/mongol.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Mongol</span>
+        </a>
+        <a href="hostel2.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/hostel2.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Hostel 2</span>
+        </a>
+        <a href="hostel3.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/hostel3.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Hostel 3</span>
+        </a>
+        <a href="instintobasico.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/instintobasico.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Instinto Básico</span>
+        </a>
+        <a href="preciodelpoder.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/preciodelpoder.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">El Precio Del Poder (Scarface)</span>
+        </a>
+        <a href="terminator.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator</span>
+        </a>
+        <a href="terminator2.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator2.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 2</span>
+        </a>
+        <a href="terminator3.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator3.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 3</span>
+        </a>
+        <a href="terminator4.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator4.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator 4 Destino Oscuro</span>
+        </a>
+        <a href="terminatorgenesis.html" class="movie-card">
+          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminatorgenesis.jpg" class="movie-poster" alt="Película">
+          <span class="movie-title">Terminator Genesis</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-  <!-- Menú principal -->
-  <div class="menu-container">
-    <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false">
-      <i class="fas fa-bars"></i>
-    </button>
-    <nav class="dropdown-menu">
-      <!-- Elementos del menú -->
-    </nav>
-  </div>
 
-  <!-- Secciones de contenido -->
-  <main>
-    <!-- Carruseles repetidos -->
-  </main>
+
+  <!-- Sección: SERIES -->
+  <section class="content-section" id="series">
+    <h2 class="section-title">Series</h2>
+    <div class="movies-container">
+      <!-- Dots (solo en escritorio) -->
+      <div class="carousel-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <!-- Flechas (solo en escritorio) -->
+      <div class="carousel-arrow left">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <div class="carousel-arrow right">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <!-- Contenedor desplazable – se le añade la clase infinite-scroll -->
+      <div class="carousel-content infinite-scroll" id="carouselContentInfantiles">
+        <a href="combateatraco.html" class="movie-card">
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" class="movie-poster" alt="Película">
+    <span class="movie-title">Noche De Combate</span>
+                </a>
+                
+                
+        <!-- Agrega más tarjetas según necesites -->
+      </div>
+    </div>
+  </section>
 
   <script>
     // JavaScript optimizado
