@@ -567,6 +567,9 @@
   <a href="#infantiles"><i class="fas fa-baby"></i> Infantiles</a>
     <!-- Nuevo apartado Descargar App -->
     <br>&nbsp;</br>
+
+    <a href = <button id="btnCerrarSesion">Cerrar sesión</button>
+    </a>
     <!-- Nuevo enlace para Cerrar sesión -->
     <a href="javascript:void(0);" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
   </nav>
@@ -1087,6 +1090,14 @@
     });
     
   </script>
+
+  <button id="btnCerrarSesion">Cerrar sesión</button>
+
+<script>
+  document.getElementById("btnCerrarSesion").addEventListener("click", function() {
+    cerrarSesion();
+  });
+</script>
 
   
   
