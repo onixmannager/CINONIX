@@ -5,9 +5,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
+  apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+  authDomain: "cinonix-3a65d.firebaseapp.com",
+  projectId: "cinonix-3a65d",
   // ... otros parámetros de configuración
 };
 
