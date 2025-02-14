@@ -126,7 +126,7 @@ onAuthStateChanged(auth, async (user) => {
           `${(datosActualizados.dineroAcumulado || 0).toFixed(2)} €`;
         
         if (datosActualizados.codigoAfiliado) {
-          const link = `https://cinonix.vercel.app/?afiliado=${datosActualizados.codigoAfiliado}`;
+          const link = `https://cinonix.vercel.app/002registro.html?afiliado=${datosActualizados.codigoAfiliado}`;
           document.getElementById("linkAfiliado").href = link;
           document.getElementById("linkAfiliado").textContent = link;
         }
