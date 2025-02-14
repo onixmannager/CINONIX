@@ -1,327 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Metadatos Open Graph -->
-  <meta property="og:title" content="Cinonix - Streaming">
-  <meta property="og:description" content="Disfruta del buen cine">
-  <meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
-  <meta property="og:type" content="website">
-
-  <!-- Configuración básica para pantalla de inicio -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Cinonix">
-  <meta name="theme-color" content="#000000">
-
-  <!-- Iconos -->
-  <link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/Zj3Hq9h.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://i.imgur.com/Zj3Hq9h.png">
-  
-  <title>Cinonix - Streaming Premium</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
-  <style>
-    /* Reset y estilos globales */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      background-color: #141414;
-      color: white;
-      overflow-x: hidden;
-    }
-    
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-    .logo {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: red;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-
-
-
-    /* Menú desplegable */
-    .menu-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-    }
-
-    
-
-    .menu-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      color: white;
-      font-size: 1.2rem;
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
-
-    .menu-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  color: white;
-  font-size: 1rem;
-  backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-    }
-
-
-
-    
-    
-    /* Panel de Afiliados */
-    .auth-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 50px 20px;
-    }
-    .dashboard-container {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
-    }
-    .dashboard-container h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-    .affiliate-link {
-      margin-bottom: 20px;
-    }
-    .affiliate-link p {
-      font-size: 1.1rem;
-    }
-    .stat-number {
-      font-weight: bold;
-      color: #E50914;
-    }
-
-    /* Estadísticas */
-    .stats-container {
-      display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-    }
-    .stat-card {
-      background-color: #222;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
-      flex: 1;
-      margin: 0 10px;
-    }
-    .stat-card p {
-      font-size: 1rem;
-      color: #aaa;
-    }
-    .stat-card span {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    /* Botón */
-    .cta-button {
-      width: 100%;
-      padding: 12px;
-      background-color: #E50914;
-      border: none;
-      color: white;
-      font-size: 1.2rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .cta-button:hover {
-      background-color: #ff2a2a;
-    }
-
-    /* Información del programa */
-    .info-text {
-      text-align: center;
-      padding: 40px 20px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .info-text h2 {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-    }
-    .info-text ul {
-      list-style: none;
-      padding: 0;
-    }
-    .info-text ul li {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    /* Footer */
-    .footer {
-      padding: 50px 20px;
-      background-color: #000;
-      color: #757575;
-      text-align: center;
-    }
-    .footer a {
-      color: inherit;
-      text-decoration: none;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .footer a:hover {
-      color: #E50914;
-    }
-
-    /* Responsividad */
-    @media (max-width: 768px) {
-      .stats-container {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .stat-card {
-        margin: 0;
-      }
-      .header {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Panel de Afiliados</title>
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .referrals-list {
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
-  
-
-  <!-- Header -->
-  <header class="header">
-    <a href="index.html" class="logo">Cinonix</a>
-  </header>
-
-  
-
-
-  <div class="menu-container">
-  <a href="javascript:history.back()" class="menu-btn" aria-label="Volver atrás">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-  </div>
-
-  
-
-  <!-- Panel de Afiliados -->
-  <div class="auth-container">
     <div class="dashboard-container">
-      <h1>Panel de Afiliados</h1>
-      
-      
-      <div class="affiliate-link">
-  <p>Tu enlace de afiliado:</p>
-  <a id="linkAfiliado" href="#" class="stat-number">Cargando...</a> <br>
-  <button id="btnCopiar" class="cta-button" style="padding: 3px 6px; font-size: 0.8rem; width: 100px;">Copiar</button>
-      </div>
-
-      <div class="stats-container">
-        <div class="stat-card">
-          <p>Afiliados conseguidos</p>
-          <span id="numeroAfiliados" class="stat-number">0</span>
+        <h1>Panel de Afiliados</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Tu Código</h3>
+                <div id="affiliate-code" class="stat-value">Cargando...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Ganancias Totales</h3>
+                <div id="balance" class="stat-value">€0.00</div>
+            </div>
         </div>
-        <div class="stat-card">
-          <p>Dinero acumulado</p>
-          <span id="dineroAcumulado" class="stat-number">0.00 €</span>
-        </div>
-      </div>
 
-      <button class="cta-button" onclick="procesarRetiro()">Procesar Retiro</button>
+        <div class="referrals-list">
+            <h2>Tus Referidos</h2>
+            <ul id="referrals-list">
+                <li>Cargando referidos...</li>
+            </ul>
+        </div>
+
+        <button onclick="location.href='cinonix.html'">Volver a la Plataforma</button>
     </div>
-  </div>
 
-  <!-- Información -->
-  <div class="info-text">
-    <h2>¿Cómo funciona nuestro programa de afiliados?</h2>
-    <ul>
-     <li>• Invita a tus amigos a formar parte de Cinonix a través de tu enlace de afiliado</li>
-      <li>• Obtendrás un 50% de comisión por la cada suscripcion vitalicia de tu afiliado en la plataforma.</li>
-      
-      <li>• Los retiros son a partir de 10€ mediante una solicitud previa que será verificada antes del pago.</li>
-      
-    </ul>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    © 2025 Cinonix - Todos los derechos reservados
-  </footer>
-
-
-   <script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.addEventListener("backbutton", function() {
-        if (window.history.length > 1) {
-            history.back(); // Volver a la página anterior si hay historial
-        } else {
-            // Opcional: cerrar la app si no hay historial
-            navigator.app.exitApp();
-        }
-    }, false);
-});
-   </script>
-
-
-  
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const linkAfiliado = document.getElementById("linkAfiliado");
-    const btnCopiar = document.getElementById("btnCopiar");
-
-    btnCopiar.addEventListener("click", function() {
-      const enlace = linkAfiliado.href;
-
-      navigator.clipboard.writeText(enlace).then(() => {
-        btnCopiar.textContent = "¡Copiado!";
-        setTimeout(() => btnCopiar.textContent = "Copiar", 2000);
-      }).catch(err => {
-        console.error("Error al copiar:", err);
-      });
-    });
-  });
-  </script>
-
-  <script type="module" src="dashboard.js"></script>
+    <script type="module">
+        import { app, auth, db, restringirContenido, cargarDashboard } from "./app.js";
+        
+        // Verificar autenticación y suscripción
+        restringirContenido();
+        
+        // Cargar datos del dashboard
+        document.addEventListener('DOMContentLoaded', cargarDashboard);
+    </script>
 </body>
 </html>
