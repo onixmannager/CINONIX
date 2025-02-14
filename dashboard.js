@@ -40,7 +40,7 @@ onAuthStateChanged(auth, async (user) => {
         
         // Generar link de afiliado
         if (data.codigoAfiliado) {
-          const linkAfiliado = `https://tuweb.com/?afiliado=${data.codigoAfiliado}`;
+          const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
           const linkElement = document.getElementById("linkAfiliado");
           linkElement.textContent = linkAfiliado;
           linkElement.href = linkAfiliado;
