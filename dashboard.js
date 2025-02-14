@@ -13,6 +13,7 @@ import {
   where, 
   getDocs, 
   updateDoc, 
+  setDoc, 
   arrayUnion, 
   increment 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
@@ -37,9 +38,14 @@ onAuthStateChanged(auth, async (user) => {
         const data = userDocSnap.data();
         console.log("Datos del usuario:", data);
 
-        // Asegurar que dineroAcumulado y referidosTotales tengan un valor numérico
+        // Si el campo `referidosTotales` no existe en Firebase, lo inicializamos en 0
+        if (!data.referidosTotales) {
+          await updateDoc(userDocRef, { referidosTotales: 0 });
+        }
+
+        // Asegurar que `dineroAcumulado` tenga un valor numérico
         const dineroAcumuladoActual = data.dineroAcumulado || 0;
-        const referidosTotales = data.referidosTotales || 0; // Nuevo campo en Firebase
+        const referidosTotalesActuales = data.referidosTotales || 0;
 
         // Generar link de afiliado
         if (data.codigoAfiliado) {
@@ -61,14 +67,12 @@ onAuthStateChanged(auth, async (user) => {
         
         const nuevosReferidosTotales = afiliadosSnap.size; // Contar referidos validados
 
-        // Mostrar el número de referidos en la web
+        // Mostrar en la web
         document.getElementById("numeroAfiliados").textContent = nuevosReferidosTotales;
 
         // Guardar en Firebase si hay nuevos referidos
-        if (nuevosReferidosTotales !== referidosTotales) {
-          await updateDoc(userDocRef, {
-            referidosTotales: nuevosReferidosTotales
-          });
+        if (nuevosReferidosTotales !== referidosTotalesActuales) {
+          await updateDoc(userDocRef, { referidosTotales: nuevosReferidosTotales });
         }
 
         // Lista de referidos contados previamente
@@ -97,6 +101,10 @@ onAuthStateChanged(auth, async (user) => {
         // Mostrar el dinero acumulado actualizado en la web
         document.getElementById("dineroAcumulado").textContent = 
           `${(dineroAcumuladoActual + dineroAcumuladoTotal).toFixed(2)} €`;
+
+      } else {
+        // Si el usuario aún no tiene datos en Firestore, inicializarlo con `referidosTotales = 0`
+        await setDoc(userDocRef, { referidosTotales: 0 }, { merge: true });
       }
     } catch (error) {
       console.error("Error cargando dashboard:", error);
