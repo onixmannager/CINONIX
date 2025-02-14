@@ -36,6 +36,7 @@ function setCookie(name, value, days) {
         expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + value + "; path=/" + expires;
+    console.log("Cookie set:", name, value);
 }
 
 // Función para obtener una cookie
@@ -44,15 +45,14 @@ function getCookie(name) {
     let ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i].trim();
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
 
-// Guardar el referidor si existe en la URL
+// Guardar el referidor si existe en la URL (por ejemplo, ?afiliado=UID_REFERIDOR)
 const urlParams = new URLSearchParams(window.location.search);
 const referidor = urlParams.get("afiliado");
-
 if (referidor) {
     setCookie("referidor", referidor, 30); // Guarda la cookie por 30 días
 }
@@ -62,28 +62,50 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
+      let userDocSnap = await getDoc(userDocRef);
       
+      // Si el documento no existe, lo creamos con valores iniciales.  
+      // Si hay cookie, se asigna el referidor desde ella.
       if (!userDocSnap.exists()) {
-        await setDoc(userDocRef, { referidosTotales: 0, referidosContados: [] }, { merge: true });
+        const cookieReferidor = getCookie("referidor");
+        const initialData = { 
+          referidosTotales: 0, 
+          referidosContados: [] 
+        };
+        if (cookieReferidor) {
+          initialData.referidor = cookieReferidor;
+          console.log("Documento creado con referidor (cookie):", cookieReferidor);
+        }
+        await setDoc(userDocRef, initialData, { merge: true });
+        userDocSnap = await getDoc(userDocRef);
       }
 
-      const data = userDocSnap.data();
+      // Si el documento existe pero no tiene el campo "referidor", lo actualizamos con la cookie
+      let data = userDocSnap.data();
+      if (!data.referidor) {
+        const cookieReferidor = getCookie("referidor");
+        if (cookieReferidor) {
+          await updateDoc(userDocRef, { referidor: cookieReferidor });
+          console.log("Se actualizó el campo referidor desde la cookie:", cookieReferidor);
+          data = (await getDoc(userDocRef)).data();
+        }
+      }
+      
       const dineroAcumuladoActual = data.dineroAcumulado || 0;
       const referidosTotalesActuales = data.referidosTotales || 0;
       const referidosContados = data.referidosContados || [];
 
-      // Mostrar el link de afiliado
+      // Mostrar el link de afiliado si el usuario tiene códigoAfiliado
       if (data.codigoAfiliado) {
         const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
         document.getElementById("linkAfiliado").textContent = linkAfiliado;
         document.getElementById("linkAfiliado").href = linkAfiliado;
       }
 
-      // Buscar referidos en Firestore
+      // Buscar referidos en Firestore: usuarios cuyo campo "referidor" sea igual al UID actual
       const afiliadosQuery = query(
         collection(db, "usuarios"),
-        where("referidor", "==", user.uid) 
+        where("referidor", "==", user.uid)
       );
       const afiliadosSnap = await getDocs(afiliadosQuery);
 
@@ -91,31 +113,28 @@ onAuthStateChanged(auth, async (user) => {
       let dineroAcumuladoTotal = 0;
       let nuevosReferidosContados = [...referidosContados];
 
-      afiliadosSnap.forEach((referido) => {
-        const referidoId = referido.id;
-
+      afiliadosSnap.forEach((referidoDoc) => {
+        const referidoId = referidoDoc.id;
         if (referidoId !== user.uid && !referidosContados.includes(referidoId)) {
           nuevosReferidosTotales++;
-          dineroAcumuladoTotal += 9.99;
+          dineroAcumuladoTotal += 9.99; // Suma la comisión fija
           nuevosReferidosContados.push(referidoId);
         }
       });
 
+      // Evitar que referidosTotales disminuya
       if (nuevosReferidosTotales < referidosTotalesActuales) {
         nuevosReferidosTotales = referidosTotalesActuales;
       }
 
       const updates = {};
-
       if (nuevosReferidosTotales !== referidosTotalesActuales) {
         updates.referidosTotales = nuevosReferidosTotales;
       }
-
       if (dineroAcumuladoTotal > 0) {
         updates.dineroAcumulado = increment(dineroAcumuladoTotal);
         updates.referidosContados = arrayUnion(...nuevosReferidosContados);
       }
-
       if (Object.keys(updates).length > 0) {
         await updateDoc(userDocRef, updates);
       }
@@ -133,7 +152,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// 💳 Función para sumar comisión cuando el usuario paga
+// Función para sumar comisión al referidor cuando el usuario paga
 async function procesarPago(userId, monto) {
     const userDocRef = doc(db, "usuarios", userId);
     const userDocSnap = await getDoc(userDocRef);
@@ -143,23 +162,23 @@ async function procesarPago(userId, monto) {
         const referidorId = userData.referidor;
 
         if (referidorId) {
-            const comision = monto * 0.10; 
-
+            const comision = monto * 0.10; // 10% de comisión
             const referidorDocRef = doc(db, "usuarios", referidorId);
             await updateDoc(referidorDocRef, {
                 dineroAcumulado: increment(comision)
             });
-
             console.log("Comisión asignada al referidor:", referidorId);
+        } else {
+            console.log("No se encontró referidor en el documento del usuario.");
         }
     }
 }
 
-// Simular pago de usuario (llamar esta función cuando el usuario pague)
+// Simular pago de usuario (llamar esta función cuando se procese el pago)
 document.getElementById("botonPago").addEventListener("click", async () => {
     const user = auth.currentUser;
     if (user) {
-        await procesarPago(user.uid, 100); 
+        await procesarPago(user.uid, 100); // Ejemplo: pago de 100€
         alert("Pago procesado y comisión asignada.");
     } else {
         alert("Debes iniciar sesión para pagar.");
