@@ -65,31 +65,32 @@ onAuthStateChanged(auth, async (user) => {
         );
         const afiliadosSnap = await getDocs(afiliadosQuery);
         
-        const nuevosReferidosTotales = afiliadosSnap.size; // Contar referidos validados
-
-        // Mostrar en la web
-        document.getElementById("numeroAfiliados").textContent = nuevosReferidosTotales;
-
-        // Guardar en Firebase si hay nuevos referidos
-        if (nuevosReferidosTotales !== referidosTotalesActuales) {
-          await updateDoc(userDocRef, { referidosTotales: nuevosReferidosTotales });
-        }
-
-        // Lista de referidos contados previamente
-        const referidosContados = data.referidosContados || [];
-
+        let nuevosReferidosTotales = 0;
         let dineroAcumuladoTotal = 0;
         let nuevosReferidosContados = [];
 
+        const referidosContados = data.referidosContados || [];
+
         afiliadosSnap.forEach((referido) => {
           const referidoData = referido.data();
+          const referidoId = referido.id;
 
-          // Verificar que este referido no se haya contado antes
-          if (!referidosContados.includes(referido.id)) {
-            dineroAcumuladoTotal += 9.99;
-            nuevosReferidosContados.push(referido.id);
+          // **Evitar contar al usuario actual como su propio referido**
+          if (referidoId !== user.uid) {
+            nuevosReferidosTotales++; 
+
+            // Evitar contar referidos ya contados
+            if (!referidosContados.includes(referidoId)) {
+              dineroAcumuladoTotal += 9.99;
+              nuevosReferidosContados.push(referidoId);
+            }
           }
         });
+
+        // **Actualizar solo si hay cambios en Firebase**
+        if (nuevosReferidosTotales !== referidosTotalesActuales) {
+          await updateDoc(userDocRef, { referidosTotales: nuevosReferidosTotales });
+        }
 
         if (dineroAcumuladoTotal > 0) {
           await updateDoc(userDocRef, {
@@ -98,7 +99,8 @@ onAuthStateChanged(auth, async (user) => {
           });
         }
 
-        // Mostrar el dinero acumulado actualizado en la web
+        // Mostrar valores actualizados en la web
+        document.getElementById("numeroAfiliados").textContent = nuevosReferidosTotales;
         document.getElementById("dineroAcumulado").textContent = 
           `${(dineroAcumuladoActual + dineroAcumuladoTotal).toFixed(2)} €`;
 
