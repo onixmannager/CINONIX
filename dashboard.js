@@ -49,7 +49,7 @@ onAuthStateChanged(auth, async (user) => {
         const referidosContados = data.referidosContados || [];
 
         if (data.codigoAfiliado) {
-          const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
+          const linkAfiliado = `https://cinonix.vercel.app/005confirmacion.html/?afiliado=${data.codigoAfiliado}`;
           document.getElementById("linkAfiliado").textContent = linkAfiliado;
           document.getElementById("linkAfiliado").href = linkAfiliado;
         } else {
