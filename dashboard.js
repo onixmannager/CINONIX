@@ -38,14 +38,20 @@ onAuthStateChanged(auth, async (user) => {
         const data = userDocSnap.data();
         console.log("Datos del usuario:", data);
 
-        // Si el campo `referidosTotales` no existe en Firebase, lo inicializamos en 0
+        // Si el campo `referidosTotales` no existe en Firebase, inicializarlo en 0
         if (!data.referidosTotales) {
           await updateDoc(userDocRef, { referidosTotales: 0 });
+        }
+
+        // Si el campo `referidosContados` no existe, inicializarlo
+        if (!data.referidosContados) {
+          await updateDoc(userDocRef, { referidosContados: [] });
         }
 
         // Asegurar que `dineroAcumulado` tenga un valor numérico
         const dineroAcumuladoActual = data.dineroAcumulado || 0;
         const referidosTotalesActuales = data.referidosTotales || 0;
+        const referidosContados = data.referidosContados || [];
 
         // Generar link de afiliado
         if (data.codigoAfiliado) {
@@ -57,7 +63,7 @@ onAuthStateChanged(auth, async (user) => {
           console.error("El usuario no tiene código de afiliado");
         }
 
-        // Buscar referidos que tienen "afiliado" en "true"
+        // Buscar referidos válidos (excluyendo al propio usuario)
         const afiliadosQuery = query(
           collection(db, "usuarios"),
           where("codigoAfiliado", "==", data.codigoAfiliado),
@@ -69,8 +75,6 @@ onAuthStateChanged(auth, async (user) => {
         let dineroAcumuladoTotal = 0;
         let nuevosReferidosContados = [];
 
-        const referidosContados = data.referidosContados || [];
-
         afiliadosSnap.forEach((referido) => {
           const referidoData = referido.data();
           const referidoId = referido.id;
@@ -79,7 +83,7 @@ onAuthStateChanged(auth, async (user) => {
           if (referidoId !== user.uid) {
             nuevosReferidosTotales++; 
 
-            // Evitar contar referidos ya contados
+            // Solo sumar dinero si este referido no ha sido contado antes
             if (!referidosContados.includes(referidoId)) {
               dineroAcumuladoTotal += 9.99;
               nuevosReferidosContados.push(referidoId);
@@ -87,16 +91,20 @@ onAuthStateChanged(auth, async (user) => {
           }
         });
 
-        // **Actualizar solo si hay cambios en Firebase**
+        // **Actualizar en Firebase solo si hay cambios**
+        const updates = {};
+        
         if (nuevosReferidosTotales !== referidosTotalesActuales) {
-          await updateDoc(userDocRef, { referidosTotales: nuevosReferidosTotales });
+          updates.referidosTotales = nuevosReferidosTotales;
         }
 
         if (dineroAcumuladoTotal > 0) {
-          await updateDoc(userDocRef, {
-            dineroAcumulado: increment(dineroAcumuladoTotal),
-            referidosContados: arrayUnion(...nuevosReferidosContados)
-          });
+          updates.dineroAcumulado = increment(dineroAcumuladoTotal);
+          updates.referidosContados = arrayUnion(...nuevosReferidosContados);
+        }
+
+        if (Object.keys(updates).length > 0) {
+          await updateDoc(userDocRef, updates);
         }
 
         // Mostrar valores actualizados en la web
@@ -106,7 +114,7 @@ onAuthStateChanged(auth, async (user) => {
 
       } else {
         // Si el usuario aún no tiene datos en Firestore, inicializarlo con `referidosTotales = 0`
-        await setDoc(userDocRef, { referidosTotales: 0 }, { merge: true });
+        await setDoc(userDocRef, { referidosTotales: 0, referidosContados: [] }, { merge: true });
       }
     } catch (error) {
       console.error("Error cargando dashboard:", error);
