@@ -1,6 +1,132 @@
 // app.js
 // Usa <script type="module" src="app.js"></script> en tus páginas
 
+
+
+// Añade estos imports al inicio del archivo
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  updateDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+  increment 
+} from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+// Modifica la función de registro para incluir el nuevo campo
+window.registrarUsuario = async function(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    await setDoc(doc(db, "usuarios", user.uid), {
+      email: email,
+      subscriptionActive: false,
+      afiliado: false,
+      codigoAfiliado: null,
+      dineroAcumulado: 0,
+      referidoPor: null,
+      comisionPagada: false // Nuevo campo
+    });
+
+    alert("Usuario registrado correctamente.");
+    window.location.href = "001login.html";
+  } catch (error) {
+    console.error("Error en el registro:", error.message);
+    alert("Error en el registro: " + error.message);
+  }
+};
+
+// Actualiza la función de validación de pago
+window.validarPagoEnConfirmacion = async function() {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      const userDocRef = doc(db, "usuarios", user.uid);
+      const updateData = {
+        subscriptionActive: true,
+        afiliado: true,
+        codigoAfiliado: generateAffiliateCode()
+      };
+
+      if (sessionStorage.getItem("afiliadoReferrer")) {
+        updateData.referidoPor = sessionStorage.getItem("afiliadoReferrer");
+      }
+
+      await updateDoc(userDocRef, updateData);
+
+      // Verificar y asignar comisión al referidor
+      const userDocSnap = await getDoc(userDocRef);
+      const userData = userDocSnap.data();
+      
+      if (userData.referidoPor && !userData.comisionPagada) {
+        const q = query(collection(db, "usuarios"), 
+          where("codigoAfiliado", "==", userData.referidoPor));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          const referrerDoc = querySnapshot.docs[0];
+          await updateDoc(referrerDoc.ref, {
+            dineroAcumulado: increment(9.99)
+          });
+          await updateDoc(userDocRef, {
+            comisionPagada: true
+          });
+        }
+      }
+
+      alert("Pago confirmado. ¡Bienvenido!");
+      window.location.href = "cinonix.html";
+    } catch (error) {
+      console.error("Error al confirmar el pago:", error);
+      alert("Error al confirmar el pago: " + error.message);
+    }
+  } else {
+    window.location.href = "index.html";
+  }
+};
+
+// Añade función para cargar el dashboard
+window.cargarDashboard = async function() {
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  try {
+    const userDocRef = doc(db, "usuarios", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const data = userDocSnap.data();
+      
+      // Mostrar información principal
+      document.getElementById('affiliate-code').textContent = data.codigoAfiliado || "No activo";
+      document.getElementById('balance').textContent = `€${data.dineroAcumulado?.toFixed(2) || '0.00'}`;
+
+      // Cargar lista de referidos
+      const referralsList = document.getElementById('referrals-list');
+      if (data.codigoAfiliado) {
+        const q = query(collection(db, "usuarios"), 
+          where("referidoPor", "==", data.codigoAfiliado));
+        const querySnapshot = await getDocs(q);
+        
+        referralsList.innerHTML = querySnapshot.docs
+          .map(doc => `<li>${doc.data().email} - €9.99</li>`)
+          .join('') || "<li>No tienes referidos aún</li>";
+      }
+    }
+  } catch (error) {
+    console.error("Error cargando dashboard:", error);
+    alert("Error al cargar el panel de control");
+  }
+};
+
 // 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
