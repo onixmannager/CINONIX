@@ -11,7 +11,9 @@ import {
   collection, 
   query, 
   where, 
-  getDocs 
+  getDocs, 
+  updateDoc, 
+  increment 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -45,18 +47,36 @@ onAuthStateChanged(auth, async (user) => {
         } else {
           console.error("El usuario no tiene código de afiliado");
         }
-        
-        // Contar referidos
-        const afiliadosQuery = query(
-          collection(db, "usuarios"),
-          where("referidoPor", "==", data.codigoAfiliado)
-        );
-        const afiliadosSnap = await getDocs(afiliadosQuery);
-        document.getElementById("numeroAfiliados").textContent = afiliadosSnap.size;
-        
-        // Mostrar balance
-        const balance = data.dineroAcumulado?.toFixed(2) || "0.00";
-        document.getElementById("dineroAcumulado").textContent = balance;
+
+        // Verificar referidos y sumar el dinero acumulado
+        if (data.codigoAfiliado) {
+          const afiliadosQuery = query(
+            collection(db, "usuarios"),
+            where("referidoPor", "==", data.codigoAfiliado)
+          );
+          const afiliadosSnap = await getDocs(afiliadosQuery);
+          
+          // Mostrar la cantidad de referidos
+          document.getElementById("numeroAfiliados").textContent = afiliadosSnap.size;
+
+          // Lógica de dinero acumulado por referidos
+          let dineroAcumuladoTotal = 0;
+          
+          afiliadosSnap.forEach((doc) => {
+            const referidoData = doc.data();
+            dineroAcumuladoTotal += referidoData.dineroGenerado || 0;  // Sumar dinero generado por los referidos
+          });
+          
+          // Actualizar dinero acumulado del usuario
+          await updateDoc(userDocRef, {
+            dineroAcumulado: increment(dineroAcumuladoTotal)  // Acumular el dinero de los referidos
+          });
+          
+          // Mostrar el dinero acumulado actualizado
+          const balance = (data.dineroAcumulado + dineroAcumuladoTotal).toFixed(2) || "0.00";
+          document.getElementById("dineroAcumulado").textContent = balance;
+        }
+
       }
     } catch (error) {
       console.error("Error cargando dashboard:", error);
@@ -73,7 +93,7 @@ window.procesarRetiro = async () => {
     const user = auth.currentUser;
     if (!user) return;
     
-    // Lógica de retiro aquí
+    // Lógica de retiro aquí (suponiendo que haya un saldo suficiente)
     alert("Solicitud de retiro recibida");
   } catch (error) {
     console.error("Error en retiro:", error);
