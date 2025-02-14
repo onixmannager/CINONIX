@@ -190,9 +190,11 @@
     <div class="dashboard-container">
       <h1>Panel de Afiliados</h1>
       
+      
       <div class="affiliate-link">
-        <p>Tu enlace de afiliado:</p>
-        <a id="linkAfiliado" href="#" class="stat-number">Cargando...</a>
+  <p>Tu enlace de afiliado:</p>
+  <a id="linkAfiliado" href="#" class="stat-number">Cargando...</a>
+  <button id="btnCopiar" class="cta-button">Copiar Enlace</button>
       </div>
 
       <div class="stats-container">
@@ -226,6 +228,24 @@
   <footer class="footer">
     © 2025 Cinonix - Todos los derechos reservados
   </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const linkAfiliado = document.getElementById("linkAfiliado");
+    const btnCopiar = document.getElementById("btnCopiar");
+
+    btnCopiar.addEventListener("click", function() {
+      const enlace = linkAfiliado.href;
+
+      navigator.clipboard.writeText(enlace).then(() => {
+        btnCopiar.textContent = "¡Copiado!";
+        setTimeout(() => btnCopiar.textContent = "Copiar Enlace", 2000);
+      }).catch(err => {
+        console.error("Error al copiar:", err);
+      });
+    });
+  });
+  </script>
 
   <script type="module" src="dashboard.js"></script>
 </body>
