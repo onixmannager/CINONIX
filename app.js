@@ -42,30 +42,82 @@ function generateAffiliateCode() {
 }
 
 /** 🔹 REGISTRO DE USUARIO */
-window.registrarUsuario = async function(email, password) {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword 
+} from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc 
+} from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+  authDomain: "cinonix-3a65d.firebaseapp.com",
+  projectId: "cinonix-3a65d",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Función para registrar usuario y guardar afiliado
+async function registrarUsuario(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    
-    // Guarda datos iniciales en Firestore. Puedes agregar otros campos que requieras.
+
+    // Obtener código de referido desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const referidoPor = params.get("afiliado") || null;
+
+    // Crear un código único para el usuario
+    const codigoAfiliado = Math.random().toString(36).substr(2, 8); 
+
+    // Guardar usuario en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
-      email: email,
-      subscriptionActive: false,
-      // Campos para afiliados: se asignarán al confirmar el pago.
-      afiliado: false,
-      codigoAfiliado: null,
-      dineroAcumulado: 0,  // Inicialmente en 0, se irá actualizando con las comisiones.
-      // Si el usuario fue referido, se guardará en 'referidoPor'
-      referidoPor: null
+      email: user.email,
+      referidoPor: referidoPor,
+      codigoAfiliado: codigoAfiliado,
+      referidosTotales: 0,
+      referidosContados: [],
+      dineroAcumulado: 0
     });
 
-    alert("Usuario registrado correctamente.");
-    window.location.href = "001login.html";
+    console.log("Usuario registrado con éxito");
+    window.location.href = "dashboard.html"; // Redirigir al dashboard
   } catch (error) {
-    console.error("Error en el registro:", error.message);
-    alert("Error en el registro: " + error.message);
+    console.error("Error en el registro:", error);
   }
-};
+}
+
+// Función para iniciar sesión
+async function iniciarSesion(email, password) {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    console.log("Sesión iniciada correctamente");
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    console.error("Error en el inicio de sesión:", error);
+  }
+}
+
+// Conectar botones de la UI
+document.getElementById("btnRegistro").addEventListener("click", () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  registrarUsuario(email, password);
+});
+
+document.getElementById("btnLogin").addEventListener("click", () => {
+  const email = document.getElementById("emailLogin").value;
+  const password = document.getElementById("passwordLogin").value;
+  iniciarSesion(email, password);
+});
 
 /** 🔹 INICIO DE SESIÓN */
 window.iniciarSesion = async function(email, password) {
