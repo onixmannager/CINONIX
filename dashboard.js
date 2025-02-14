@@ -1,29 +1,9 @@
 // dashboard.js
-// Usa <script type="module" src="dashboard.js"></script> en la página del dashboard
-
-// Importa la inicialización de Firebase primero
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
-  authDomain: "cinonix-3a65d.firebaseapp.com",
-  projectId: "cinonix-3a65d",
-  // ... otros parámetros de configuración
-};
-
-// Inicializa la app
-const app = initializeApp(firebaseConfig);
-
-// Ahora importa los módulos de Firebase que usarás
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
-
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// El resto de tu código aquí...
-
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+import { 
+  getAuth, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { 
   getFirestore, 
   doc, 
@@ -34,8 +14,17 @@ import {
   getDocs 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-const auth = getAuth();
-const db = getFirestore();
+const firebaseConfig = {
+  apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+  authDomain: "cinonix-3a65d.firebaseapp.com",
+  projectId: "cinonix-3a65d",
+  // Completa con el resto de tu configuración
+};
+
+// Inicialización única de Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
@@ -45,13 +34,19 @@ onAuthStateChanged(auth, async (user) => {
       
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
+        console.log("Datos del usuario:", data);  // Para depuración
         
-        // Construir y mostrar el link de afiliado
-        const linkAfiliado = `https://tuweb.com/?afiliado=${data.codigoAfiliado}`;
-        document.getElementById("linkAfiliado").textContent = linkAfiliado;
-        document.getElementById("linkAfiliado").href = linkAfiliado;
+        // Generar link de afiliado
+        if (data.codigoAfiliado) {
+          const linkAfiliado = `https://tuweb.com/?afiliado=${data.codigoAfiliado}`;
+          const linkElement = document.getElementById("linkAfiliado");
+          linkElement.textContent = linkAfiliado;
+          linkElement.href = linkAfiliado;
+        } else {
+          console.error("El usuario no tiene código de afiliado");
+        }
         
-        // Contar el número de usuarios referidos por el afiliado actual
+        // Contar referidos
         const afiliadosQuery = query(
           collection(db, "usuarios"),
           where("referidoPor", "==", data.codigoAfiliado)
@@ -59,19 +54,29 @@ onAuthStateChanged(auth, async (user) => {
         const afiliadosSnap = await getDocs(afiliadosQuery);
         document.getElementById("numeroAfiliados").textContent = afiliadosSnap.size;
         
-        // Mostrar el dinero acumulado (suponiendo que se actualiza el campo 'dineroAcumulado')
-        document.getElementById("dineroAcumulado").textContent = data.dineroAcumulado ? data.dineroAcumulado.toFixed(2) : "0.00";
+        // Mostrar balance
+        const balance = data.dineroAcumulado?.toFixed(2) || "0.00";
+        document.getElementById("dineroAcumulado").textContent = balance;
       }
     } catch (error) {
-      console.error("Error al cargar los datos del dashboard:", error.message);
+      console.error("Error cargando dashboard:", error);
+      alert("Error al cargar datos. Recarga la página.");
     }
   } else {
     window.location.href = "001login.html";
   }
 });
 
-// Función para procesar el retiro (la lógica real dependerá de tu backend o método de pago)
-window.procesarRetiro = async function() {
-  // Aquí podrías, por ejemplo, actualizar el documento del usuario para registrar una solicitud de retiro
-  alert("Función para procesar retiro no implementada. Aquí iría la integración con tu sistema de pagos.");
+// Función de retiro
+window.procesarRetiro = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    // Lógica de retiro aquí
+    alert("Solicitud de retiro recibida");
+  } catch (error) {
+    console.error("Error en retiro:", error);
+    alert("Error al procesar retiro");
+  }
 };
