@@ -260,65 +260,6 @@
 
   <script type="module" src="app.js"></script>
 
-
-
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
-      authDomain: "cinonix-3a65d.firebaseapp.com",
-      projectId: "cinonix-3a65d",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Función para eliminar la cookie (opcional)
-    function deleteCookie(name) {
-      document.cookie = name + "=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-      console.log("Cookie eliminada:", name);
-    }
-
-    // Esta función se llama cuando el usuario confirma manualmente el referido.
-    async function confirmarReferido() {
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          const userDocRef = doc(db, "usuarios", user.uid);
-          // Actualizamos el campo de estado del referido, por ejemplo, "refConfirmado" a true.
-          await updateDoc(userDocRef, { refConfirmado: true });
-          console.log("El estado del referido se ha actualizado a 'confirmado'.");
-          
-          // Opcional: eliminar la cookie si ya no se necesita
-          deleteCookie("referidor");
-
-          alert("Referido confirmado correctamente.");
-        } catch (error) {
-          console.error("Error al confirmar el referido:", error);
-          alert("Hubo un error al confirmar el referido. Intenta de nuevo.");
-        }
-      } else {
-        alert("Debes iniciar sesión para confirmar el referido.");
-      }
-    }
-
-    // Verificar autenticación y asignar el listener al botón cuando la página cargue
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("btnConfirmar").addEventListener("click", confirmarReferido);
-      } else {
-        // Redireccionar o mostrar mensaje de error si el usuario no está autenticado
-        window.location.href = "001login.html";
-      }
-    });
-  </script>
-
-
   
 </body>
 </html>
