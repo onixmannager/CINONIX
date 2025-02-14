@@ -37,8 +37,9 @@ onAuthStateChanged(auth, async (user) => {
         const data = userDocSnap.data();
         console.log("Datos del usuario:", data);
 
-        // Asegurar que dineroAcumulado tiene un valor numérico
+        // Asegurar que dineroAcumulado y referidosTotales tengan un valor numérico
         const dineroAcumuladoActual = data.dineroAcumulado || 0;
+        const referidosTotales = data.referidosTotales || 0; // Nuevo campo en Firebase
 
         // Generar link de afiliado
         if (data.codigoAfiliado) {
@@ -50,7 +51,7 @@ onAuthStateChanged(auth, async (user) => {
           console.error("El usuario no tiene código de afiliado");
         }
 
-        // Buscar referidos cuyo campo "afiliado" sea "true"
+        // Buscar referidos que tienen "afiliado" en "true"
         const afiliadosQuery = query(
           collection(db, "usuarios"),
           where("codigoAfiliado", "==", data.codigoAfiliado),
@@ -58,8 +59,17 @@ onAuthStateChanged(auth, async (user) => {
         );
         const afiliadosSnap = await getDocs(afiliadosQuery);
         
-        // Mostrar cantidad de referidos
-        document.getElementById("numeroAfiliados").textContent = afiliadosSnap.size;
+        const nuevosReferidosTotales = afiliadosSnap.size; // Contar referidos validados
+
+        // Mostrar el número de referidos en la web
+        document.getElementById("numeroAfiliados").textContent = nuevosReferidosTotales;
+
+        // Guardar en Firebase si hay nuevos referidos
+        if (nuevosReferidosTotales !== referidosTotales) {
+          await updateDoc(userDocRef, {
+            referidosTotales: nuevosReferidosTotales
+          });
+        }
 
         // Lista de referidos contados previamente
         const referidosContados = data.referidosContados || [];
