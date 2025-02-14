@@ -35,7 +35,10 @@ onAuthStateChanged(auth, async (user) => {
       
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
-        console.log("Datos del usuario:", data);  // Para depuración
+        console.log("Datos del usuario:", data);
+
+        // Asegurar que dineroAcumulado tiene un valor numérico
+        const dineroAcumuladoActual = data.dineroAcumulado || 0;
 
         // Generar link de afiliado
         if (data.codigoAfiliado) {
@@ -51,7 +54,7 @@ onAuthStateChanged(auth, async (user) => {
         const afiliadosQuery = query(
           collection(db, "usuarios"),
           where("codigoAfiliado", "==", data.codigoAfiliado),
-          where("afiliado", "==", true) // Solo referidos aprobados
+          where("afiliado", "==", true)
         );
         const afiliadosSnap = await getDocs(afiliadosQuery);
         
@@ -69,21 +72,21 @@ onAuthStateChanged(auth, async (user) => {
 
           // Verificar que este referido no se haya contado antes
           if (!referidosContados.includes(referido.id)) {
-            dineroAcumuladoTotal += 9.99; // Cada referido genera 9.99 €
+            dineroAcumuladoTotal += 9.99;
             nuevosReferidosContados.push(referido.id);
           }
         });
 
         if (dineroAcumuladoTotal > 0) {
           await updateDoc(userDocRef, {
-            dineroAcumulado: increment(dineroAcumuladoTotal), // Sumar dinero
-            referidosContados: arrayUnion(...nuevosReferidosContados) // Registrar referidos ya contados
+            dineroAcumulado: increment(dineroAcumuladoTotal),
+            referidosContados: arrayUnion(...nuevosReferidosContados)
           });
-
-          // Mostrar el dinero acumulado actualizado
-          document.getElementById("dineroAcumulado").textContent = 
-            (data.dineroAcumulado + dineroAcumuladoTotal).toFixed(2);
         }
+
+        // Mostrar el dinero acumulado actualizado en la web
+        document.getElementById("dineroAcumulado").textContent = 
+          `${(dineroAcumuladoActual + dineroAcumuladoTotal).toFixed(2)} €`;
       }
     } catch (error) {
       console.error("Error cargando dashboard:", error);
