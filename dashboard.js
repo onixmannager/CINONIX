@@ -19,9 +19,11 @@ function manejarReferido() {
 
   if (referido) {
     localStorage.setItem("codigoReferido", referido); // Guardar en localStorage
+    urlParams.delete("afiliado"); // Eliminar el parámetro de la URL
+    window.history.replaceState({}, "", `${window.location.pathname}?${urlParams.toString()}`);
   } else {
     const referidoGuardado = localStorage.getItem("codigoReferido");
-    if (referidoGuardado) {
+    if (referidoGuardado && !urlParams.has("afiliado")) {
       urlParams.set("afiliado", referidoGuardado);
       window.history.replaceState({}, "", `${window.location.pathname}?${urlParams.toString()}`);
     }
