@@ -1,3 +1,4 @@
+// dashboard.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
@@ -17,7 +18,19 @@ import {
   increment 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-const firebaseConfig = { 
+// 1. Capturar código de referido de la URL y guardar en localStorage
+const urlParams = new URLSearchParams(window.location.search);
+const afiliadoCode = urlParams.get('afiliado');
+
+if (afiliadoCode) {
+  const referralData = {
+    code: afiliadoCode,
+    expires: Date.now() + 24 * 60 * 60 * 1000 // Expira en 24 horas
+  };
+  localStorage.setItem('referralCode', JSON.stringify(referralData));
+}
+
+const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
   projectId: "cinonix-3a65d",
@@ -27,46 +40,48 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Función para manejar el código de referido y persistirlo
-function manejarReferido() {
-  const urlParams = new URLSearchParams(window.location.search);
-  let codigoReferido = urlParams.get("afiliado");
-
-  if (codigoReferido) {
-    localStorage.setItem("codigoAfiliado", codigoReferido);
-  } else {
-    codigoReferido = localStorage.getItem("codigoAfiliado");
-  }
-
-  if (codigoReferido) {
-    document.querySelectorAll("a").forEach((enlace) => {
-      if (enlace.href && enlace.href.includes(window.location.origin)) {
-        const newUrl = new URL(enlace.href);
-        newUrl.searchParams.set("afiliado", codigoReferido);
-        enlace.href = newUrl.toString();
-      }
-    });
-
-    if (!urlParams.has("afiliado")) {
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.set("afiliado", codigoReferido);
-      window.history.replaceState({}, "", newUrl);
-    }
-  }
-}
-
-// Ejecutar la función al cargar la página
-document.addEventListener("DOMContentLoaded", manejarReferido);
-
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
       const userDocSnap = await getDoc(userDocRef);
-
+      
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
 
+        // 2. Procesar referido almacenado (si existe)
+        const storedReferral = JSON.parse(localStorage.getItem('referralCode'));
+        if (storedReferral && storedReferral.expires > Date.now() && !data.afiliado) {
+          const referrerQuery = query(
+            collection(db, "usuarios"),
+            where("codigoAfiliado", "==", storedReferral.code)
+          );
+          
+          const referrerSnap = await getDocs(referrerQuery);
+          if (!referrerSnap.empty) {
+            const referrerDoc = referrerSnap.docs[0];
+            const referrerId = referrerDoc.id;
+            
+            if (referrerId !== user.uid) {
+              // Actualizar referidor
+              await updateDoc(referrerDoc.ref, {
+                referidosTotales: increment(1),
+                referidosContados: arrayUnion(user.uid)
+              });
+
+              // Marcar usuario actual como referido
+              await updateDoc(userDocRef, {
+                afiliado: true,
+                codigoAfiliado: storedReferral.code
+              });
+
+              // Eliminar código usado
+              localStorage.removeItem('referralCode');
+            }
+          }
+        }
+
+        // Resto del código original...
         if (!data.referidosTotales) {
           await updateDoc(userDocRef, { referidosTotales: 0 });
         }
@@ -139,45 +154,5 @@ onAuthStateChanged(auth, async (user) => {
     }
   } else {
     window.location.href = "001login.html";
-  }
-});
-
-// Confirmar manualmente el referido y sumar dinero
-async function validarReferidoManual(userId, codigoAfiliado) {
-  try {
-    const referidoRef = doc(db, "usuarios", userId);
-    const referidoSnap = await getDoc(referidoRef);
-
-    if (referidoSnap.exists() && !referidoSnap.data().afiliado) {
-      await updateDoc(referidoRef, {
-        afiliado: true
-      });
-
-      const afiliadorQuery = query(collection(db, "usuarios"), where("codigoAfiliado", "==", codigoAfiliado));
-      const afiliadorSnap = await getDocs(afiliadorQuery);
-
-      if (!afiliadorSnap.empty) {
-        afiliadorSnap.forEach(async (afiliadorDoc) => {
-          const afiliadorRef = doc(db, "usuarios", afiliadorDoc.id);
-          const data = afiliadorDoc.data();
-
-          await updateDoc(afiliadorRef, {
-            referidosTotales: increment(1),
-            dineroAcumulado: increment(9.99)
-          });
-        });
-      }
-    }
-  } catch (error) {
-    console.error("Error validando referido:", error);
-  }
-}
-
-// Llamar a esta función en la página de confirmación manual
-document.addEventListener("DOMContentLoaded", () => {
-  const userId = "ID_DEL_REFERIDO"; // Debes obtener el ID del usuario dinámicamente
-  const codigoAfiliado = localStorage.getItem("codigoAfiliado");
-  if (codigoAfiliado) {
-    validarReferidoManual(userId, codigoAfiliado);
   }
 });
