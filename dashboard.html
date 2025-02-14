@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       navigator.clipboard.writeText(enlace).then(() => {
         btnCopiar.textContent = "¡Copiado!";
-        setTimeout(() => btnCopiar.textContent = "Copiar Enlace", 2000);
+        setTimeout(() => btnCopiar.textContent = "Copiar", 2000);
       }).catch(err => {
         console.error("Error al copiar:", err);
       });
