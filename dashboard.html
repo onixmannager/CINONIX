@@ -54,6 +54,52 @@
       text-transform: uppercase;
       text-decoration: none;
     }
+
+
+
+    /* Menú desplegable */
+    .menu-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    
+
+    .menu-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.2rem;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+    }
+
+
+
+    
     
     /* Panel de Afiliados */
     .auth-container {
@@ -179,11 +225,23 @@
   </style>
 </head>
 <body>
+  
 
   <!-- Header -->
   <header class="header">
     <a href="index.html" class="logo">Cinonix</a>
   </header>
+
+  
+
+
+  <div class="menu-container">
+  <a href="javascript:history.back()" class="menu-btn" aria-label="Volver atrás">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  </div>
+
+  
 
   <!-- Panel de Afiliados -->
   <div class="auth-container">
@@ -194,7 +252,7 @@
       <div class="affiliate-link">
   <p>Tu enlace de afiliado:</p>
   <a id="linkAfiliado" href="#" class="stat-number">Cargando...</a>
-  <button id="btnCopiar" class="cta-button" style="padding: 4px 8px; font-size: 0.8rem; width: 100px;">Copiar</button>
+  <button id="btnCopiar" class="cta-button" style="padding: 3px 6px; font-size: 0.8rem; width: 100px;">Copiar</button>
       </div>
 
       <div class="stats-container">
@@ -228,6 +286,23 @@
   <footer class="footer">
     © 2025 Cinonix - Todos los derechos reservados
   </footer>
+
+
+   <script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("backbutton", function() {
+        if (window.history.length > 1) {
+            history.back(); // Volver a la página anterior si hay historial
+        } else {
+            // Opcional: cerrar la app si no hay historial
+            navigator.app.exitApp();
+        }
+    }, false);
+});
+   </script>
+
+
+  
 
   <script>
   document.addEventListener("DOMContentLoaded", function() {
