@@ -1001,45 +1001,6 @@
 </script>
 
 
-<script>
-
-  // Función para manejar el código de referido
-function manejarReferido() {
-  const urlParams = new URLSearchParams(window.location.search);
-  let codigoReferido = urlParams.get("afiliado");
-
-  if (codigoReferido) {
-    // Guardar en localStorage para persistencia
-    localStorage.setItem("codigoAfiliado", codigoReferido);
-  } else {
-    // Si no está en la URL pero sí en localStorage, mantenerlo
-    codigoReferido = localStorage.getItem("codigoAfiliado");
-  }
-
-  if (codigoReferido) {
-    // Agregar el código de referido a todos los enlaces internos
-    document.querySelectorAll("a").forEach((enlace) => {
-      if (enlace.href && enlace.href.includes(window.location.origin)) {
-        const newUrl = new URL(enlace.href);
-        newUrl.searchParams.set("afiliado", codigoReferido);
-        enlace.href = newUrl.toString();
-      }
-    });
-
-    // Si la URL actual no tiene el código, recargar con él para asegurarlo
-    if (!urlParams.has("afiliado")) {
-      const newUrl = new URL(window.location.href);
-      newUrl.searchParams.set("afiliado", codigoReferido);
-      window.history.replaceState({}, "", newUrl);
-    }
-  }
-}
-
-// Ejecutar la función al cargar la página
-document.addEventListener("DOMContentLoaded", manejarReferido);
-
-
-  </sript>
     
 
     
