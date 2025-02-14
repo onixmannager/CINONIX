@@ -1,27 +1,26 @@
-// app.js unificado
+// app.js
+// Usa <script type="module" src="app.js"></script> en tus páginas
+
+// 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  signOut
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  sendPasswordResetEmail, 
+  onAuthStateChanged, 
+  signOut 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { 
-  getFirestore,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  arrayUnion,
-  increment
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  updateDoc, 
+  increment 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
+// 2. Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
@@ -32,170 +31,97 @@ const firebaseConfig = {
   measurementId: "G-9L2E23K72W"
 };
 
+// 3. Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Función para generar código de afiliado
+// 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// Funcionalidad del Dashboard
-if (document.getElementById("linkAfiliado")) {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDocRef = doc(db, "usuarios", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        
-        if (userDocSnap.exists()) {
-          const data = userDocSnap.data();
-          
-          if (!data.referidosTotales) await updateDoc(userDocRef, { referidosTotales: 0 });
-          if (!data.referidosContados) await updateDoc(userDocRef, { referidosContados: [] });
-
-          const dineroAcumuladoActual = data.dineroAcumulado || 0;
-          const referidosTotalesActuales = data.referidosTotales || 0;
-          const referidosContados = data.referidosContados || [];
-
-          if (data.codigoAfiliado) {
-            const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
-            document.getElementById("linkAfiliado").textContent = linkAfiliado;
-            document.getElementById("linkAfiliado").href = linkAfiliado;
-          }
-
-          const afiliadosQuery = query(
-            collection(db, "usuarios"),
-            where("codigoAfiliado", "==", data.codigoAfiliado),
-            where("afiliado", "==", true)
-          );
-          
-          const afiliadosSnap = await getDocs(afiliadosQuery);
-          let nuevosReferidosTotales = referidosTotalesActuales;
-          let nuevosReferidosContados = [...referidosContados];
-          let dineroAcumuladoTotal = 0;
-
-          afiliadosSnap.forEach((referido) => {
-            const referidoId = referido.id;
-            if (referidoId !== user.uid && !referidosContados.includes(referidoId)) {
-              nuevosReferidosTotales++;
-              nuevosReferidosContados.push(referidoId);
-              dineroAcumuladoTotal += 9.99;
-            }
-          });
-
-          const updates = {};
-          if (nuevosReferidosTotales > referidosTotalesActuales) {
-            updates.referidosTotales = nuevosReferidosTotales;
-          }
-          if (dineroAcumuladoTotal > 0) {
-            updates.dineroAcumulado = increment(dineroAcumuladoTotal);
-            updates.referidosContados = arrayUnion(...nuevosReferidosContados);
-          }
-
-          if (Object.keys(updates).length > 0) {
-            await updateDoc(userDocRef, updates);
-          }
-
-          document.getElementById("numeroAfiliados").textContent = nuevosReferidosTotales;
-          document.getElementById("dineroAcumulado").textContent = 
-            `${(dineroAcumuladoActual + dineroAcumuladoTotal).toFixed(2)} €`;
-        }
-      } catch (error) {
-        console.error("Error en dashboard:", error);
-        alert("Error al cargar datos del dashboard");
-      }
-    } else {
-      window.location.href = "001login.html";
-    }
-  });
-}
-
-// Funciones de autenticación
-window.registrarUsuario = async (email, password) => {
+/** 🔹 REGISTRO DE USUARIO CON REFERIDO */
+window.registrarUsuario = async function(email, password, codigoAfiliado = null) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, "usuarios", userCredential.user.uid), {
-      email,
+    const user = userCredential.user;
+
+    // Datos del nuevo usuario
+    const userData = {
+      email: email,
       subscriptionActive: false,
       afiliado: false,
       codigoAfiliado: null,
       dineroAcumulado: 0,
       referidoPor: null
-    });
-    alert("Registro exitoso!");
+    };
+
+    // Si el usuario se registró con un código de referido
+    if (codigoAfiliado) {
+      // Buscar en la base de datos el afiliado correspondiente
+      const afiliadoRef = doc(db, "usuarios", codigoAfiliado);
+      const afiliadoSnap = await getDoc(afiliadoRef);
+
+      if (afiliadoSnap.exists()) {
+        userData.referidoPor = codigoAfiliado;
+
+        // Actualizar los datos del afiliado (sumar un referido y agregar dinero)
+        await updateDoc(afiliadoRef, {
+          referidos: increment(1),
+          dineroAcumulado: increment(5) // Suponiendo que el bono por referido es 5€
+        });
+      }
+    }
+
+    // Guardar el usuario en la base de datos
+    await setDoc(doc(db, "usuarios", user.uid), userData);
+
+    alert("Usuario registrado correctamente.");
     window.location.href = "001login.html";
   } catch (error) {
-    alert(error.message);
+    console.error("Error en el registro:", error.message);
+    alert("Error en el registro: " + error.message);
   }
 };
 
-window.iniciarSesion = async (email, password) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const userDoc = await getDoc(doc(db, "usuarios", userCredential.user.uid));
-    window.location.href = userDoc.data().subscriptionActive ? "cinonix.html" : "004pago.html";
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-window.restablecerContrasena = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    alert("Correo de recuperación enviado");
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-window.validarPagoEnConfirmacion = async () => {
+/** 🔹 CONFIRMAR PAGO Y ASIGNAR CÓDIGO DE AFILIADO */
+window.validarPagoEnConfirmacion = async function() {
   const user = auth.currentUser;
   if (user) {
     try {
-      const updateData = {
-        subscriptionActive: true,
-        afiliado: true,
-        codigoAfiliado: generateAffiliateCode()
-      };
+      const userDocRef = doc(db, "usuarios", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      if (sessionStorage.getItem("afiliadoReferrer")) {
-        updateData.referidoPor = sessionStorage.getItem("afiliadoReferrer");
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+
+        const updateData = {
+          subscriptionActive: true,
+          afiliado: true,
+          codigoAfiliado: userData.codigoAfiliado || generateAffiliateCode() // Asigna un código solo si no lo tenía
+        };
+
+        // Si el usuario fue referido, actualizar las ganancias del afiliado
+        if (userData.referidoPor) {
+          const afiliadoRef = doc(db, "usuarios", userData.referidoPor);
+          await updateDoc(afiliadoRef, {
+            dineroAcumulado: increment(10) // Suponiendo que se le suman 10€ por pago confirmado
+          });
+        }
+
+        await updateDoc(userDocRef, updateData);
+
+        alert("Pago confirmado. Tu suscripción ha sido activada.");
+        window.location.href = "cinonix.html";
+      } else {
+        alert("Error: No se encontraron datos del usuario.");
       }
-
-      await updateDoc(doc(db, "usuarios", user.uid), updateData);
-      alert("Pago confirmado!");
-      window.location.href = "cinonix.html";
     } catch (error) {
-      alert(error.message);
+      console.error("Error al confirmar el pago:", error.message);
+      alert("Error al confirmar el pago: " + error.message);
     }
+  } else {
+    window.location.href = "index.html";
   }
-};
-
-window.restringirContenido = () => {
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) window.location.href = "001login.html";
-    const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-    if (!userDoc.data().subscriptionActive) window.location.href = "004pago.html";
-  });
-};
-
-window.cerrarSesion = async () => {
-  try {
-    await signOut(auth);
-    window.location.href = "001login.html";
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-// Redirección automática para usuarios logueados
-export const redirigirSiPagado = () => {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-      if (userDoc.data().subscriptionActive) window.location.href = "cinonix.html";
-    }
-  });
 };
