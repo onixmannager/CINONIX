@@ -1,3 +1,4 @@
+// dashboard.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
@@ -55,10 +56,10 @@ onAuthStateChanged(auth, async (user) => {
           console.error("El usuario no tiene código de afiliado");
         }
 
-        // Buscar referidos correctamente
         const afiliadosQuery = query(
           collection(db, "usuarios"),
-          where("referidoPor", "==", data.codigoAfiliado) // Cambio clave aquí
+          where("codigoAfiliado", "==", data.codigoAfiliado),
+          where("afiliado", "==", true)
         );
         const afiliadosSnap = await getDocs(afiliadosQuery);
 
@@ -68,7 +69,6 @@ onAuthStateChanged(auth, async (user) => {
 
         afiliadosSnap.forEach((referido) => {
           const referidoId = referido.id;
-          console.log("Revisando referido:", referidoId); // Log para depuración
 
           if (referidoId !== user.uid && !referidosContados.includes(referidoId)) {
             nuevosReferidosTotales++;
