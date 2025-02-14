@@ -1,6 +1,28 @@
 // dashboard.js
 // Usa <script type="module" src="dashboard.js"></script> en la página del dashboard
 
+// Importa la inicialización de Firebase primero
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+  // ... otros parámetros de configuración
+};
+
+// Inicializa la app
+const app = initializeApp(firebaseConfig);
+
+// Ahora importa los módulos de Firebase que usarás
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// El resto de tu código aquí...
+
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { 
   getFirestore, 
