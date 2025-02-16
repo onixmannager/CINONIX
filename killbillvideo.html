@@ -73,6 +73,15 @@
 </iframe>
 
 <script>
+    // Simula un clic en el iframe después de cargar la página
+    window.addEventListener('load', function() {
+        var iframe = document.getElementById('yt-video');
+        iframe.style.pointerEvents = "auto"; // Permite interactuar con el iframe
+        iframe.click(); // Simula un clic en el iframe para empezar la reproducción
+    });
+</script>
+
+<script>
     document.getElementById("yt-video").addEventListener("load", function() {
         setTimeout(() => {
             this.style.pointerEvents = "auto"; // Activa los controles después de cargar el video
