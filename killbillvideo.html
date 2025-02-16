@@ -66,34 +66,12 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe id="yt-video"
-        src="https://www.youtube.com/embed/m7bCVqxAE1w?autoplay=1&vq=hd1080&rel=0&modestbranding=1&controls=1&showinfo=0&fs=1&iv_load_policy=3"
-        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none;"
+    <iframe src="https://www.youtube.com/embed/m7bCVqxAE1w?autoplay=1&vq=hd1080&rel=0&modestbranding=1&controls=1&showinfo=0&fs=1&iv_load_policy=3"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"
         allow="autoplay; fullscreen" allowfullscreen>
 </iframe>
 
-<button id="start-video" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
-    Reproducir Video
-</button>
 
-<script>
-    // Al hacer clic en el botón, habilitar el iframe y simular la reproducción
-    document.getElementById('start-video').addEventListener('click', function() {
-        var iframe = document.getElementById('yt-video');
-        iframe.style.pointerEvents = "auto"; // Permite la interacción con el iframe
-        iframe.src = iframe.src; // Recarga el iframe, lo que provoca que se inicie la reproducción
-        this.style.display = 'none'; // Oculta el botón después de hacer clic
-    });
-</script>
-
-<script>
-    document.getElementById("yt-video").addEventListener("load", function() {
-        setTimeout(() => {
-            this.style.pointerEvents = "auto"; // Activa los controles después de cargar el video
-        }, 1000);
-    });
-</script>
-  </div>
 
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
