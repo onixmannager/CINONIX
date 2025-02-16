@@ -17,6 +17,11 @@
   <title>3 Pequeños Ninjas</title>
   
   <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+    }
     /* Estilos generales */
     body, html {
       margin: 0;
@@ -93,6 +98,17 @@
       requestFullscreen();
     }, { once: true });
   </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+  document.documentElement.style.height = "100vh";
+  document.body.style.height = "100vh";
+  document.documentElement.requestFullscreen();
+});
+</script>
+
+
+    
 
   <script type="module" src="app.js"></script>
 
