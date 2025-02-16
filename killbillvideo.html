@@ -66,10 +66,19 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/m7bCVqxAE1w?autoplay=1&vq=hd1080&rel=0&modestbranding=1&controls=1&showinfo=0&fs=1&iv_load_policy=3"
-        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+    <iframe id="yt-video"
+        src="https://www.youtube.com/embed/m7bCVqxAE1w?autoplay=1&vq=hd1080&rel=0&modestbranding=1&controls=1&showinfo=0&fs=1&iv_load_policy=3"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; pointer-events: none;"
         allow="autoplay; fullscreen" allowfullscreen>
-    </iframe>
+</iframe>
+
+<script>
+    document.getElementById("yt-video").addEventListener("load", function() {
+        setTimeout(() => {
+            this.style.pointerEvents = "auto"; // Activa los controles después de cargar el video
+        }, 1000);
+    });
+</script>
   </div>
 
   <script>
