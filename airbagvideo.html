@@ -85,42 +85,13 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe id="miVideo" src="https://drive.google.com/file/d/1-6XLdbVTb3BIRU0W916B-TtR0ORwl1RZ/preview?vq=hd1080" 
+    <iframe src="https://drive.google.com/file/d/1-6XLdbVTb3BIRU0W916B-TtR0ORwl1RZ/preview?vq=hd1080" 
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
         allowfullscreen allow="fullscreen">
 </iframe>
   </div>
 
-  <script>
-    function reloadIframeIfError() {
-      var iframe = document.getElementById("miVideo");
-      var startTime = Date.now();
-      var reloaded = false;
-
-      var checkLoad = setInterval(function() {
-        var currentTime = Date.now();
-
-        try {
-          var iframeDoc = iframe.contentWindow.document;
-          var iframeContent = iframeDoc.body.innerHTML || "";
-
-          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
-          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
-            clearInterval(checkLoad);
-            console.log("El video no cargó, recargando sin caché...");
-
-            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
-            iframe.src = src + "?nocache=" + new Date().getTime();
-            reloaded = true;
-          }
-        } catch (e) {
-          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
-        }
-      }, 2000);
-    }
-
-    window.onload = reloadIframeIfError;
-  </script>
+  
 
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
