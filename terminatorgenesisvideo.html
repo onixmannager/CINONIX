@@ -13,8 +13,21 @@
   <link rel="manifest" href="data:application/manifest+json,%7B%22display%22%3A%22fullscreen%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%7D">
   <!-- Color del tema -->
   <meta name="theme-color" content="#000000">
+   <meta property="og:title" content="Cinonix - Cine - Kill Bill ">
+  <meta property="og:description" content="Kill Bill ">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.jpg">
+  <meta property="og:type" content="website">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinonix">
+  <meta name="theme-color" content="#999999">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   
-  <title>3 Pequeños Ninjas</title>
+  <title>Terminator Genesis</title>
   
   <style>
     /* Estilos generales */
@@ -66,8 +79,43 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe src="https://drive.google.com/file/d/1iioz0tUHhi-W24Qd9LXzAokQ-DQ7LIbU/preview"frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+    <iframe id="miVideo" src="https://drive.google.com/file/d/1iioz0tUHhi-W24Qd9LXzAokQ-DQ7LIbU/preview"frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
   </div>
+
+
+    <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+
+          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+
+            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+  </script>
+
+
+  
 
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
