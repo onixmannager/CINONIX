@@ -83,8 +83,39 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe src="https://archive.org/embed/ciudad-de-dios" width="560" height="384" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe> 
+    <iframe id="miVideo" src="https://archive.org/embed/ciudad-de-dios" width="560" height="384" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe> 
   </div>
+
+  <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+
+          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+
+            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+  </script>
 
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
