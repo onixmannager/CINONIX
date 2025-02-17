@@ -37,10 +37,11 @@ onAuthStateChanged(auth, async (user) => {
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
 
-        if (!data.referidosTotales) {
+        // Asegurarse de que los contadores estén inicializados
+        if (typeof data.referidosTotales !== 'number') {
           await updateDoc(userDocRef, { referidosTotales: 0 });
         }
-        if (!data.referidosContados) {
+        if (!Array.isArray(data.referidosContados)) {
           await updateDoc(userDocRef, { referidosContados: [] });
         }
 
@@ -48,6 +49,7 @@ onAuthStateChanged(auth, async (user) => {
         const referidosTotalesActuales = data.referidosTotales || 0;
         const referidosContados = data.referidosContados || [];
 
+        // Mostrar el enlace de afiliado del usuario
         if (data.codigoAfiliado) {
           const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
           document.getElementById("linkAfiliado").textContent = linkAfiliado;
@@ -56,6 +58,7 @@ onAuthStateChanged(auth, async (user) => {
           console.error("El usuario no tiene código de afiliado");
         }
 
+        // Consultar a los usuarios que se registraron usando el código de afiliado del usuario (y que hayan sido validados como afiliados)
         const afiliadosQuery = query(
           collection(db, "usuarios"),
           where("codigoAfiliado", "==", data.codigoAfiliado),
@@ -69,30 +72,27 @@ onAuthStateChanged(auth, async (user) => {
 
         afiliadosSnap.forEach((referido) => {
           const referidoId = referido.id;
-
+          // Solo contar si no se ha contado aún
           if (referidoId !== user.uid && !referidosContados.includes(referidoId)) {
             nuevosReferidosTotales++;
-            dineroAcumuladoTotal += 9.99;
+            dineroAcumuladoTotal += 9.99;  // Monto de recompensa por referido (puedes ajustarlo)
             nuevosReferidosContados.push(referidoId);
           }
         });
 
-        // **Evitar que referidosTotales baje**
+        // Evitar que el total baje
         if (nuevosReferidosTotales < referidosTotalesActuales) {
           nuevosReferidosTotales = referidosTotalesActuales;
         }
 
         const updates = {};
-
         if (nuevosReferidosTotales !== referidosTotalesActuales) {
           updates.referidosTotales = nuevosReferidosTotales;
         }
-
         if (dineroAcumuladoTotal > 0) {
           updates.dineroAcumulado = increment(dineroAcumuladoTotal);
           updates.referidosContados = arrayUnion(...nuevosReferidosContados);
         }
-
         if (Object.keys(updates).length > 0) {
           await updateDoc(userDocRef, updates);
         }
