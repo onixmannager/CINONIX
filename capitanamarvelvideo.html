@@ -13,6 +13,24 @@
   <link rel="manifest" href="data:application/manifest+json,%7B%22display%22%3A%22fullscreen%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%7D">
   <!-- Color del tema -->
   <meta name="theme-color" content="#000000">
+
+    <!-- Metadatos Open Graph -->
+  <meta property="og:title" content="Cinonix - Cine - 3 Pequeños Ninjas">
+  <meta property="og:description" content="Noche De Combate">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Configuración básica -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinonix">
+  <meta name="theme-color" content="#999999">
+
+  <!-- Iconos -->
+  <link rel="icon" href="https://i.imgur.com/Zj3Hq9h.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg">
+  
   
   <title>Capitana Marvel</title>
   
@@ -66,8 +84,43 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe src="https://archive.org/embed/capitana-marvel-blu-ray-rip-ac-3-5.1-castellano-2019" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+    <iframe id="miVideo" src="https://archive.org/embed/capitana-marvel-blu-ray-rip-ac-3-5.1-castellano-2019" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
   </div>
+
+
+
+   <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+
+          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+
+            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+  </script>
+
+  
 
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
