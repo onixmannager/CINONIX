@@ -987,6 +987,17 @@
   </div>
 </footer>
 
+    <script>
+        // Extraer el código de referido de la URL
+const urlParams = new URLSearchParams(window.location.search);
+const referralCode = urlParams.get('referido');
+
+if(referralCode) {
+  // Guardar el código en sessionStorage para usarlo en otras páginas
+  sessionStorage.setItem("afiliadoReferrer", referralCode);
+}
+    </script>
+
 
     
 <script>
