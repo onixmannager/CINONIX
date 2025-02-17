@@ -14,7 +14,7 @@
   <!-- Color del tema -->
   <meta name="theme-color" content="#000000">
   
-  <title>3 Pequeños Ninjas</title>
+  <title>Perros De Guerra</title>
   
   <style>
     /* Estilos generales */
@@ -66,9 +66,41 @@
 </head>
 <body>
   <div class="video-container">
-    <iframe src="https://drive.google.com/file/d/1PJ1W8A9cx0_jpphw8mkTB_0eN8T_UIKp/preview?rm=minimal"frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
-  </div>
+    <iframe id="miVideo" src="https://archive.org/embed/hounds-of-war-2024-cast" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+  
 
+    <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+
+          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+
+            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+    </script>
+
+    
   <script>
     // Función para solicitar pantalla completa utilizando la Fullscreen API
     function requestFullscreen() {
