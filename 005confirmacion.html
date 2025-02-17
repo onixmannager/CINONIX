@@ -246,6 +246,36 @@
   </div>
 </footer> 
 
+  
+<script>
+  function validarPagoEnConfirmacion() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const referido = urlParams.get("referido") || sessionStorage.getItem("afiliadoReferrer");
+    
+    fetch('/api/confirmar-pago', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        usuarioId: localStorage.getItem("usuarioId"), // Debes guardar el ID del usuario al registrarse
+        referido: referido || null
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert("Pago confirmado correctamente.");
+        window.location.href = "/dashboard.html"; // Redirige al usuario después de confirmar
+      } else {
+        alert("Hubo un error en la confirmación.");
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+</script>
+  
+
   <script type="module" src="app.js"></script>
 
   
