@@ -100,6 +100,58 @@
     }, { once: true });
   </script>
 
+     <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+
+          // Si han pasado 10 segundos y no se ha cargado, intentamos recargar sin caché
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+
+            var src = iframe.src.split("?")[0]; // Eliminamos parámetros antiguos
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+  </script>
+
+  <script>
+    function requestFullscreen() {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    }
+
+    document.addEventListener('touchstart', function() {
+      requestFullscreen();
+    }, { once: true });
+
+    document.addEventListener('click', function() {
+      requestFullscreen();
+    }, { once: true });
+  </script>
+
   <script type="module" src="app.js"></script>
 
   <script type="module">
