@@ -306,9 +306,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
 
-  <script type="module">
+  <!-- Importa app.js -->
+<script type="module" src="app.js"></script>
+
+<!-- Luego, al cargar el DOM, llama a la función -->
+<script type="module">
   document.addEventListener('DOMContentLoaded', () => {
-    // Llama a la función que actualiza los datos del dashboard
     cargarDashboard();
   });
 </script>
