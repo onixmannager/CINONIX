@@ -272,5 +272,48 @@
     window.registrarUsuario(email, password);
   });
 </script>
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("registerForm");
+    const referido = document.getElementById("referido");
+
+    // Obtener el código de referido de la URL y asignarlo al campo oculto
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("ref")) {
+        referido.value = params.get("ref");
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita el envío inmediato para comprobar errores
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const password2 = document.getElementById("password2").value.trim();
+
+        if (!email || !password || !password2) {
+            alert("Todos los campos son obligatorios");
+            return;
+        }
+
+        if (password !== password2) {
+            alert("Las contraseñas no coinciden");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("La contraseña debe tener al menos 6 caracteres");
+            return;
+        }
+
+        alert("Formulario enviado correctamente");
+        form.submit(); // Enviar el formulario después de validar
+    });
+});
+        </sriptt>
  </body>
 </html>
