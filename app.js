@@ -51,30 +51,25 @@ function obtenerCodigoReferido() {
   return urlParams.get("referido");
 }
 
-/** 
- * 🔹 REGISTRO DE USUARIO
- * Crea el usuario en Firebase Auth y guarda los datos iniciales en Firestore,
- * incluyendo el código de afiliado y, de existir, el código de referido (campo "referidoPor").
- */
-window.registrarUsuario = async function(email, password) {
+window.registrarUsuario = async function(email, password, referidoCode) { // Añadir tercer parámetro
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Extrae el código de referido de la URL
-    const codigoReferido = obtenerCodigoReferido();
+    // Usar el código de referido pasado como parámetro
+    const codigoReferido = referidoCode || obtenerCodigoReferido();
+    
     if (codigoReferido) {
       sessionStorage.setItem("afiliadoReferrer", codigoReferido);
     }
 
-    // Guarda datos iniciales en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
-      afiliado: false,                         // Se marcará como true al confirmar el pago
-      codigoAfiliado: generateAffiliateCode(), // Código único para el usuario
-      dineroAcumulado: 0,                      // Comisiones iniciales en 0
-      referidoPor: codigoReferido || null,     // Código del afiliado que refirió, si existe
+      afiliado: false,
+      codigoAfiliado: generateAffiliateCode(),
+      dineroAcumulado: 0,
+      referidoPor: codigoReferido || null, // Usar el código obtenido
       referidoConfirmado: false,
       referidosTotales: 0,
       referidosContados: []
