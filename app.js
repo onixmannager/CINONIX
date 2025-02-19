@@ -251,7 +251,7 @@ window.cargarDashboard = function() {
 
           // Mostrar el enlace de afiliado del usuario (si tiene)
           if (data.codigoAfiliado) {
-            const linkAfiliado = `https://cinonix.vercel.app/?afiliado=${data.codigoAfiliado}`;
+            const linkAfiliado = `https://cinonix.vercel.app/002registro.html/?afiliado=${data.codigoAfiliado}`;
             const enlaceElement = document.getElementById("linkAfiliado");
             if (enlaceElement) {
               enlaceElement.textContent = linkAfiliado;
