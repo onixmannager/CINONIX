@@ -810,10 +810,7 @@
       const video = document.querySelector(".header-video");
       video.oncanplaythrough = () => document.body.style.display = "block";
       
-      document.querySelectorAll('.carousel-content.infinite-scroll').forEach(container => {
-        let originalContent = container.innerHTML;
-        for(let i=0;i<3;i++) container.innerHTML += originalContent;
-      });
+      
 
       if(window.innerWidth >= 769) {
         document.querySelectorAll('.movies-container').forEach(container => {
