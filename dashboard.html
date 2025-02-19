@@ -315,5 +315,31 @@ document.addEventListener("DOMContentLoaded", function() {
     cargarDashboard();
   });
 </script>
+
+  <script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    // Llama a cargarDashboard() para actualizar el enlace y demás datos.
+    cargarDashboard();
+
+    // Asigna el listener al botón de copiar.
+    const linkAfiliado = document.getElementById("linkAfiliado");
+    const btnCopiar = document.getElementById("btnCopiar");
+
+    if(linkAfiliado && btnCopiar) {
+      btnCopiar.addEventListener("click", () => {
+        // Asegúrate de obtener el href actualizado.
+        const enlace = linkAfiliado.href;
+        navigator.clipboard.writeText(enlace)
+          .then(() => {
+            btnCopiar.textContent = "¡Copiado!";
+            setTimeout(() => { btnCopiar.textContent = "Copiar"; }, 2000);
+          })
+          .catch(err => {
+            console.error("Error al copiar:", err);
+          });
+      });
+    }
+  });
+  </script>
 </body>
 </html>
