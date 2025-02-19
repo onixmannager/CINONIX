@@ -306,24 +306,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
 
-  <script type="module" src="app.js"></script>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const linkAfiliado = document.getElementById("linkAfiliado");
-    const btnCopiar = document.getElementById("btnCopiar");
-
-    btnCopiar.addEventListener("click", function() {
-      const enlace = linkAfiliado.href;
-
-      navigator.clipboard.writeText(enlace).then(() => {
-        btnCopiar.textContent = "¡Copiado!";
-        setTimeout(() => btnCopiar.textContent = "Copiar", 2000);
-      }).catch(err => {
-        console.error("Error al copiar:", err);
-      });
-    });
+  <script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    // Llama a la función que actualiza los datos del dashboard
+    cargarDashboard();
   });
-  </script>
+</script>
 </body>
 </html>
