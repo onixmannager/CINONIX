@@ -47,21 +47,12 @@ function generateAffiliateCode() {
 
 // 5. Función para extraer el código de referido de la URL (parámetro "referido")
 function obtenerCodigoReferido() {
+function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("referido");
+  const urlCode = urlParams.get("referido");
+  const storageCode = sessionStorage.getItem("afiliadoReferrer");
+  return urlCode || storageCode || null;
 }
-
-window.registrarUsuario = async function(email, password, referidoCode) { // Añadir tercer parámetro
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    // Usar el código de referido pasado como parámetro
-    const codigoReferido = referidoCode || obtenerCodigoReferido();
-    
-    if (codigoReferido) {
-      sessionStorage.setItem("afiliadoReferrer", codigoReferido);
-    }
 
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
