@@ -813,12 +813,11 @@
 
 
 
-     // Cambia 'false' por una condición si quieres activarlo en ciertos casos
-    document.querySelectorAll('.carousel-content.infinite-scroll').forEach(container => {
-        let originalContent = container.innerHTML;
-        for(let i=0;i<3;i++) container.innerHTML += originalContent;
-    });
-      }
+     document.querySelectorAll('.carousel-content.infinite-scroll').forEach(container => { 
+       let originalContent = container.innerHTML; 
+       for(let i=0;i<3;i++) container.innerHTML += originalContent; });
+
+
       
       
 
