@@ -254,54 +254,33 @@
     </div>
   </footer>
 
-  <script type="module">
-  // Se añade el listener al formulario de registro
+  
+
+<script type="module">
   const form = document.getElementById('registerForm');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Obtenemos los valores del email, contraseña y código de referido
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const password2 = document.getElementById('password2').value;
-    const referido = obtenerCodigoReferido(); // Obtener código de referido
+    const referido = obtenerCodigoReferido(); // Función local mejorada
 
-    // Validamos que ambas contraseñas sean iguales
     if (password !== password2) {
       alert("Las contraseñas no coinciden.");
       return;
     }
 
-    // Asigna el código de referido al campo oculto
-    document.getElementById('referido').value = referido || '';
-
-    // Llama a la función de registro definida en app.js
+    // Pasar el código de referido como tercer parámetro
     window.registrarUsuario(email, password, referido);
   });
 
   function obtenerCodigoReferido() {
     const urlParams = new URLSearchParams(window.location.search);
-    let code = urlParams.get("referido");
-    if (!code) {
-      code = sessionStorage.getItem("afiliadoReferrer"); // Recuperar del sessionStorage si existe
-    }
+    let code = urlParams.get("referido") || sessionStorage.getItem("afiliadoReferrer");
     return code;
   }
 </script>
-
-
-  <script>
-    function obtenerCodigoReferido() {
-  const urlParams = new URLSearchParams(window.location.search);
-  let code = urlParams.get("referido");
-  if (!code) {
-    // Si no está en la URL, lo recuperamos del sessionStorage
-    code = sessionStorage.getItem("afiliadoReferrer");
-  }
-  return code;
-    }
-
-  </script>
 
   <!-- Se incluye el archivo app.js -->
   <script type="module" src="app.js"></script>
