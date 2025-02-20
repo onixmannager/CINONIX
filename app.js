@@ -1,30 +1,25 @@
 // app.js
+// Usa <script type="module" src="app.js"></script> en tus páginas
 
-// 1. Importa los módulos necesarios de Firebase
+// 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  signOut
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  sendPasswordResetEmail, 
+  onAuthStateChanged, 
+  signOut 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  arrayUnion,
-  increment
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  updateDoc 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// 2. Configuración de Firebase (se usa la configuración completa)
+// 2. Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
@@ -40,41 +35,42 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 4. Función para generar un código único de afiliado (8 caracteres en mayúsculas)
+// 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
+  // Genera un código alfanumérico de 8 caracteres en mayúsculas
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// 5. Función para extraer el código de referido de la URL (parámetro "referido")
+// 5. Función para extraer el código de referido de la URL
 function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("referido");
 }
 
-/** 
- * 🔹 REGISTRO DE USUARIO
- * Crea el usuario en Firebase Auth y guarda los datos iniciales en Firestore,
- * incluyendo el código de afiliado y, de existir, el código de referido (campo "referidoPor").
- */
+/** 🔹 REGISTRO DE USUARIO */
 window.registrarUsuario = async function(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Extrae el código de referido de la URL
+    // Extraer el código de referido desde la URL
     const codigoReferido = obtenerCodigoReferido();
-    if (codigoReferido) {
+    // Si existe un código de referido, lo guardamos en sessionStorage
+    if(codigoReferido) {
       sessionStorage.setItem("afiliadoReferrer", codigoReferido);
     }
 
-    // Guarda datos iniciales en Firestore
+    // Guarda datos iniciales en Firestore con la estructura definida
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
-      afiliado: false,                         // Se marcará como true al confirmar el pago
-      codigoAfiliado: generateAffiliateCode(), // Código único para el usuario
-      dineroAcumulado: 0,                      // Comisiones iniciales en 0
-      referidoPor: codigoReferido || null,     // Código del afiliado que refirió, si existe
+      // Campos para afiliados: se asignarán al confirmar el pago.
+      afiliado: false,                         // Se marcará a true al confirmar el pago
+      codigoAfiliado: generateAffiliateCode(), // Código único generado para el nuevo usuario
+      dineroAcumulado: 0,                      // Inicialmente en 0, se actualizará con comisiones.
+      // Si el usuario fue referido, se guarda en 'referidoPor'
+      referidoPor: codigoReferido || null,
+      // Nuevo campo para validar el referido
       referidoConfirmado: false,
       referidosTotales: 0,
       referidosContados: []
@@ -88,10 +84,7 @@ window.registrarUsuario = async function(email, password) {
   }
 };
 
-/** 
- * 🔹 INICIO DE SESIÓN
- * Inicia sesión y redirige según el estado de la suscripción.
- */
+/** 🔹 INICIO DE SESIÓN */
 window.iniciarSesion = async function(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -102,7 +95,7 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      // Redirige a la plataforma si la suscripción está activa, o a la página de pago
+      // Redirige a la plataforma si la suscripción está activa, de lo contrario a la página de pago.
       window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
@@ -113,10 +106,7 @@ window.iniciarSesion = async function(email, password) {
   }
 };
 
-/** 
- * 🔹 RESTABLECER CONTRASEÑA
- * Envía un correo para restablecer la contraseña.
- */
+/** 🔹 RESTABLECER CONTRASEÑA */
 window.restablecerContrasena = async function(email) {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -127,22 +117,26 @@ window.restablecerContrasena = async function(email) {
   }
 };
 
-/** 
- * 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
- * Al confirmar el pago, se activa la suscripción, se marca al usuario como afiliado,
- * se genera (o renueva) el código de afiliado y se actualiza el campo "referidoConfirmado".
+/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
+ * Al confirmar el pago, se activa la suscripción, se marca al usuario como afiliado, 
+ * se genera un nuevo código de afiliado (si se desea) y se actualiza 'referidoConfirmado'.
  */
 window.validarPagoEnConfirmacion = async function() {
   const user = auth.currentUser;
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
+
+      // Prepara el objeto de actualización
       const updateData = {
-        subscriptionActive: true,
-        afiliado: true,
-        codigoAfiliado: generateAffiliateCode(), // Se puede generar uno nuevo si se desea
-        referidoConfirmado: true
+        subscriptionActive: true,          
+        afiliado: true,                    
+        codigoAfiliado: generateAffiliateCode(),  // Puedes generar uno nuevo si lo deseas
+        referidoConfirmado: true            // Marca al usuario como referido validado
       };
+
+      // Nota: El campo 'referidoPor' ya se estableció en el registro, no se modifica aquí.
+
       await updateDoc(userDocRef, updateData);
 
       console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
@@ -157,16 +151,14 @@ window.validarPagoEnConfirmacion = async function() {
   }
 };
 
-/** 
- * 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES
- * Redirige al usuario a la página de pago si no tiene una suscripción activa.
- */
+/** 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES */
 window.restringirContenido = function() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         const userDocRef = doc(db, "usuarios", user.uid);
         const userDocSnap = await getDoc(userDocRef);
+        
         if (userDocSnap.exists() && !userDocSnap.data().subscriptionActive) {
           alert("Debes activar tu suscripción.");
           window.location.href = "004pago.html";
@@ -180,16 +172,14 @@ window.restringirContenido = function() {
   });
 };
 
-/** 
- * 🔹 REDIRIGIR DESDE INDEX SI YA PAGÓ
- * Verifica el estado de suscripción y redirige a la plataforma si ya está activa.
- */
-window.redirigirSiPagado = function() {
+/** 🔹 REDIRIGIR DESDE INDEX SI YA PAGÓ */
+export const redirigirSiPagado = function() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         const userDocRef = doc(db, "usuarios", user.uid);
         const userDocSnap = await getDoc(userDocRef);
+        
         if (userDocSnap.exists() && userDocSnap.data().subscriptionActive) {
           console.log("Redirigiendo a cinonix.html");
           window.location.href = "cinonix.html";
@@ -198,6 +188,7 @@ window.redirigirSiPagado = function() {
         }
       } catch (error) {
         console.error("Error al verificar estado de pago:", error.message);
+        console.error("Código de error:", error.code);
       }
     } else {
       console.log("Usuario no autenticado");
@@ -205,10 +196,7 @@ window.redirigirSiPagado = function() {
   });
 };
 
-/** 
- * 🔹 CERRAR SESIÓN
- * Cierra la sesión del usuario y redirige a la página de login.
- */
+/** 🔹 CERRAR SESIÓN */
 window.cerrarSesion = async function() {
   try {
     await signOut(auth);
@@ -218,106 +206,4 @@ window.cerrarSesion = async function() {
     console.error("Error al cerrar sesión:", error.message);
     alert("Error al cerrar sesión: " + error.message);
   }
-};
-
-/** 
- * 🔹 CARGAR DASHBOARD
- * Esta función carga y actualiza los datos del dashboard, incluyendo el sistema de referidos.
- * Debe llamarse en la página del dashboard (por ejemplo, en el evento DOMContentLoaded).
- */
-window.cargarDashboard = function() {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDocRef = doc(db, "usuarios", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const data = userDocSnap.data();
-
-          // Asegurarse de que los contadores estén inicializados
-          if (typeof data.referidosTotales !== 'number') {
-            await updateDoc(userDocRef, { referidosTotales: 0 });
-            data.referidosTotales = 0;
-          }
-          if (!Array.isArray(data.referidosContados)) {
-            await updateDoc(userDocRef, { referidosContados: [] });
-            data.referidosContados = [];
-          }
-
-          const dineroAcumuladoActual = data.dineroAcumulado || 0;
-          const referidosTotalesActuales = data.referidosTotales || 0;
-          const referidosContados = data.referidosContados || [];
-
-          // Mostrar el enlace de afiliado del usuario (si tiene)
-          if (data.codigoAfiliado) {
-            const linkAfiliado = `https://cinonix.vercel.app/002registro.html/?afiliado=${data.codigoAfiliado}`;
-            const enlaceElement = document.getElementById("linkAfiliado");
-            if (enlaceElement) {
-              enlaceElement.textContent = linkAfiliado;
-              enlaceElement.href = linkAfiliado;
-            }
-          } else {
-            console.error("El usuario no tiene código de afiliado");
-          }
-
-          // Consultar a los usuarios referidos: buscar en "referidoPor" (no en "codigoAfiliado")
-          const afiliadosQuery = query(
-            collection(db, "usuarios"),
-            where("referidoPor", "==", data.codigoAfiliado),
-            where("afiliado", "==", true)
-          );
-          const afiliadosSnap = await getDocs(afiliadosQuery);
-
-          let nuevosReferidosTotales = referidosTotalesActuales;
-          let dineroAcumuladoTotal = 0;
-          let nuevosReferidosContados = [...referidosContados];
-
-          afiliadosSnap.forEach((referido) => {
-            const referidoId = referido.id;
-            // Solo contar si no se ha contado aún
-            if (referidoId !== user.uid && !referidosContados.includes(referidoId)) {
-              nuevosReferidosTotales++;
-              dineroAcumuladoTotal += 9.99; // Monto de recompensa por referido (ajustable)
-              nuevosReferidosContados.push(referidoId);
-            }
-          });
-
-          // Evitar que el total disminuya
-          if (nuevosReferidosTotales < referidosTotalesActuales) {
-            nuevosReferidosTotales = referidosTotalesActuales;
-          }
-
-          const updates = {};
-          if (nuevosReferidosTotales !== referidosTotalesActuales) {
-            updates.referidosTotales = nuevosReferidosTotales;
-          }
-          if (dineroAcumuladoTotal > 0) {
-            updates.dineroAcumulado = increment(dineroAcumuladoTotal);
-            updates.referidosContados = arrayUnion(...nuevosReferidosContados);
-          }
-          if (Object.keys(updates).length > 0) {
-            await updateDoc(userDocRef, updates);
-          }
-
-          // Actualizar los elementos del dashboard
-          const numeroAfiliadosElem = document.getElementById("numeroAfiliados");
-          if (numeroAfiliadosElem) {
-            numeroAfiliadosElem.textContent = nuevosReferidosTotales;
-          }
-          const dineroAcumuladoElem = document.getElementById("dineroAcumulado");
-          if (dineroAcumuladoElem) {
-            dineroAcumuladoElem.textContent = `${(dineroAcumuladoActual + dineroAcumuladoTotal).toFixed(2)} €`;
-          }
-        } else {
-          await setDoc(userDocRef, { referidosTotales: 0, referidosContados: [] }, { merge: true });
-        }
-      } catch (error) {
-        console.error("Error cargando dashboard:", error);
-        alert("Error al cargar datos. Recarga la página.");
-      }
-    } else {
-      window.location.href = "001login.html";
-    }
-  });
 };

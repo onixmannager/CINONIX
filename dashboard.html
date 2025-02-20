@@ -304,42 +304,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
 
-  
-
-  <!-- Importa app.js -->
-<script type="module" src="app.js"></script>
-
-<!-- Luego, al cargar el DOM, llama a la función -->
-<script type="module">
-  document.addEventListener('DOMContentLoaded', () => {
-    cargarDashboard();
-  });
-</script>
-
-  <script type="module">
-  document.addEventListener('DOMContentLoaded', () => {
-    // Llama a cargarDashboard() para actualizar el enlace y demás datos.
-    cargarDashboard();
-
-    // Asigna el listener al botón de copiar.
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
     const linkAfiliado = document.getElementById("linkAfiliado");
     const btnCopiar = document.getElementById("btnCopiar");
 
-    if(linkAfiliado && btnCopiar) {
-      btnCopiar.addEventListener("click", () => {
-        // Asegúrate de obtener el href actualizado.
-        const enlace = linkAfiliado.href;
-        navigator.clipboard.writeText(enlace)
-          .then(() => {
-            btnCopiar.textContent = "¡Copiado!";
-            setTimeout(() => { btnCopiar.textContent = "Copiar"; }, 2000);
-          })
-          .catch(err => {
-            console.error("Error al copiar:", err);
-          });
+    btnCopiar.addEventListener("click", function() {
+      const enlace = linkAfiliado.href;
+
+      navigator.clipboard.writeText(enlace).then(() => {
+        btnCopiar.textContent = "¡Copiado!";
+        setTimeout(() => btnCopiar.textContent = "Copiar", 2000);
+      }).catch(err => {
+        console.error("Error al copiar:", err);
       });
-    }
+    });
   });
   </script>
+
+  <script type="module" src="dashboard.js"></script>
 </body>
 </html>
