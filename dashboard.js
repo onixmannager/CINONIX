@@ -60,10 +60,10 @@ onAuthStateChanged(auth, async (user) => {
 
         // Consultar a los usuarios que se registraron usando el código de afiliado del usuario (y que hayan sido validados como afiliados)
         const afiliadosQuery = query(
-          collection(db, "usuarios"),
-          where("codigoAfiliado", "==", data.codigoAfiliado),
-          where("afiliado", "==", true)
-        );
+         collection(db, "usuarios"),
+         where("referidoPor", "==", data.codigoAfiliado),
+         where("afiliado", "==", true)
+       );
         const afiliadosSnap = await getDocs(afiliadosQuery);
 
         let nuevosReferidosTotales = referidosTotalesActuales;
