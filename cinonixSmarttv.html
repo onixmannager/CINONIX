@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Metadatos Open Graph -->
+  <meta property="og:title" content="Cinonix - Smart TV App">
+  <meta property="og:description" content="Disfruta del buen cine en tu Smart TV">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <meta property="og:type" content="website">
+  <!-- Iconos -->
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <title>Cinonix - Smart TV App</title>
+  <!-- Preconexiones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <!-- Estilos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { transition: all .3s ease; margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
+    /* Banner de cabecera para TV */
+    .header-banner {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+    /* Menú superior adaptado para control remoto */
+    .menu-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .menu-btn {
+      background: rgba(255,255,255,.1);
+      border: 2px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 1.5rem;
+      backdrop-filter: blur(5px);
+    }
+    .menu-btn:focus { outline: 3px solid #fff; }
+    .dropdown-menu {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: rgba(40,40,40,.95);
+      border-radius: 10px;
+      padding: 10px 0;
+      min-width: 220px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.3);
+      backdrop-filter: blur(10px);
+      display: none;
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    .dropdown-menu.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .dropdown-menu a {
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+    .dropdown-menu a:focus { outline: 3px solid #fff; }
+    .dropdown-menu a:hover {
+      background: rgba(255,255,255,.05);
+      transform: translateX(5px);
+    }
+    /* Contenedores de secciones – mayor tamaño para TV */
+    .content-section {
+      margin: 2rem 0;
+      padding: 0 2%;
+    }
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding-left: 1%;
+    }
+    .movies-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-content {
+      display: flex;
+      gap: 15px;
+      padding: 20px 0;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+    }
+    .carousel-content:focus { outline: none; }
+    .carousel-content::-webkit-scrollbar { display: none; }
+    .movie-card {
+      flex: 0 0 200px;
+      height: 300px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .4s;
+    }
+    .movie-card:focus {
+      outline: 3px solid #fff;
+      transform: scale(1.05);
+      z-index: 2;
+    }
+    .movie-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.9) 100%);
+    }
+    .movie-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .movie-title {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      z-index: 3;
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+    }
+    /* Ocultamos flechas y dots para TV */
+    .carousel-arrow,
+    .carousel-dots { display: none; }
+    /* Fondo de pantalla */
+    body:before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(rgba(255,255,255,.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      z-index: -1;
+      opacity: .3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Banner superior estático -->
+  <header>
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png" alt="Cinonix Banner" class="header-banner" tabindex="0">
+  </header>
+
+  <!-- Menú de navegación -->
+  <div class="menu-container">
+    <button class="menu-btn" aria-label="Abrir menú" tabindex="0">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="dropdown-menu">
+      <a href="#cartelera" tabindex="0"><i class="fas fa-volume-up"></i> Cartelera</a>
+      <a href="#series" tabindex="0"><i class="fas fa-tv"></i> Series</a>
+    </nav>
+  </div>
+
+  <!-- Contenedor principal -->
+  <main>
+    <!-- Sección: Cartelera -->
+    <section class="content-section" id="cartelera">
+      <h2 class="section-title">Cartelera</h2>
+      <div class="movies-container">
+        <div class="carousel-content" tabindex="0">
+          <a href="eliminado.html" class="movie-card" tabindex="0">
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/eliminado.webp" alt="Eliminado" class="movie-poster">
+            <span class="movie-title">Eliminado</span>
+          </a>
+          <a href="fury.html" class="movie-card" tabindex="0">
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fury.webp" alt="Fury" class="movie-poster">
+            <span class="movie-title">Fury</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección: Series -->
+    <section class="content-section" id="series">
+      <h2 class="section-title">Series</h2>
+      <div class="movies-container">
+        <div class="carousel-content" tabindex="0">
+          <a href="combateatraco.html" class="movie-card" tabindex="0">
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche De Combate" class="movie-poster">
+            <span class="movie-title">Noche De Combate</span>
+          </a>
+          <a href="dondeestamarta.html" class="movie-card" tabindex="0">
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" alt="Donde Está Marta" class="movie-poster">
+            <span class="movie-title">Donde Está Marta</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts de navegación para TV -->
+  <script>
+    // Lógica básica para mostrar/ocultar menú
+    const menuBtn = document.querySelector('.menu-btn');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('show');
+    });
+    document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') dropdownMenu.classList.remove('show');
+    });
+  </script>
+  <script src="tv-navigation.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
