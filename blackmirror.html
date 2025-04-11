@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
   
   
-  <title>Black Mirror -Serie en Cinonix</title>
+  <title>Black Mirror - Serie de CinOnix</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <style>
@@ -398,12 +398,12 @@
 
 
 
-  <h1>Black Mirror</h1>
+  <h1>Noche De Combate ,<br> El Atraco Del Millon</h1>
 
   <div class="split-section">
     <div class="image-container">
       <a href="#temporadas">
-        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Poster de la película">
+        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Poster de la película">
       </a>
     </div>
     
@@ -414,7 +414,7 @@
       </p>
       
       <div class="botones-sinopsis">
-    
+        
         <button id="btnCompartir" class="btn-sinopsis compartir-btn">
           <i class="fas fa-share-alt"></i> Compartir
         </button>
@@ -424,11 +424,8 @@
 
   <div class="capitulos-section" id="temporadas">
     <select id="temporadas-select" class="temporadas-select">
-      <option value="1">Temporada 3</option>
-      <option value="2">Temporada 4</option>
-      <option value="3">Temporada 5</option>
-      <option value="4">Temporada 6</option>
-     
+      <option value="1">Temporada 1</option>
+      <option value="2">Temporada 2</option>
     </select>
     
     <h2>Capítulos</h2>
@@ -438,14 +435,23 @@
   <script>
     const capitulosData = {
       '1': [
-        { title: "Capítulo 1", link: "dondeestamarta1video.html" },
-        { title: "Capítulo 2", link: "dondeestamarta2video.html" },
-        { title: "Capítulo 3", link: "dondeestamarta3video.html" },
-       
+        { title: "Capítulo 1", link: "combatecap1video.html" },
+        { title: "Capítulo 2", link: "combatecap2video.html" },
+        { title: "Capítulo 3", link: "combatecap3video.html" },
+        { title: "Capítulo 4", link: "combatecap4video.html" },
+        { title: "Capítulo 5", link: "combatecap5video.html" },
+        { title: "Capítulo 6", link: "combatecap6video.html" },
+        { title: "Capítulo 7", link: "combatecap7video.html" },
       ],
-      '2': [ 
-        { tittle: "Capitulo 1, link: "blackmirror3x1video.html" },
-        ]
+      '2': [
+        { title: "Capítulo 10", link: "combatecap1video.html" },
+        { title: "Capítulo 2", link: "combatecap2video.html" },
+        { title: "Capítulo 3", link: "combatecap3video.html" },
+        { title: "Capítulo 4", link: "combatecap4video.html" },
+        { title: "Capítulo 5", link: "combatecap5video.html" },
+        { title: "Capítulo 6", link: "combatecap6video.html" },
+        { title: "Capítulo 7", link: "combatecap7video.html" },
+      ],
     }
 
     function renderCapitulos(temporada) {
