@@ -298,11 +298,28 @@
   <h1>The faculty</h1>
 
   <div class="split-section">
-    <div class="image-container">
-      <a href="https://pluto.tv/es/on-demand/movies/68ff824f6fe1b6a13d33ca93">
-        <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/thefaculty.webp" alt="Poster de la película">
-      </a>
-    </div>
+  <div class="image-container">
+    <a href="https://pluto.tv/es/on-demand/movies/68ff824f6fe1b6a13d33ca93"
+       onclick="openFullScreen(event)">
+      <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/thefaculty.webp" alt="Poster de la película">
+    </a>
+  </div>
+</div>
+
+<script>
+function openFullScreen(e) {
+  e.preventDefault();
+
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  setTimeout(() => {
+    window.location.href = e.currentTarget.href;
+  }, 300);
+}
+</script>
+
     
     
     
