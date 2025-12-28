@@ -306,19 +306,7 @@
   </div>
 </div>
 
-<script>
-function openFullScreen(e) {
-  e.preventDefault();
 
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  }
-
-  setTimeout(() => {
-    window.location.href = e.currentTarget.href;
-  }, 300);
-}
-</script>
 
     
     
@@ -354,6 +342,23 @@ function openFullScreen(e) {
     <button onclick="closePopup()">Cerrar</button>
   </div>
 </div>
+
+<script>
+function openFullScreen(e) {
+  e.preventDefault();
+
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  setTimeout(() => {
+    window.location.href = e.currentTarget.href;
+  }, 300);
+}
+</script>
+
+
+ 
 
   <script>
   
