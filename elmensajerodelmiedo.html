@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Metadatos Open Graph -->
+  <meta property="og:title" content="Cinonix - Cine ">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/elmensajerodelmiedo.webp">
+  <meta property="og:type" content="website">
+
+  <!-- Configuración básica -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinonix">
+  <meta name="theme-color" content="#999999">
+
+  <!-- Iconos -->
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  
+  
+  <title>Pelicula de cinonix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { 
+      transition: all 0.3s ease;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    
+     /* Menú desplegable */
+    .menu-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    
+
+    .menu-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.2rem;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .menu-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+/* Eliminar todos los estilos relacionados con .dropdown-menu */
+
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-weight: 600;
+      margin: 30px 0;
+      padding: 0 20px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      font-size: 20px;
+    }
+
+    h1:after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: red;
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+
+    /* Sección dividida mejorada */
+    .split-section {
+      display: flex;
+      gap: 30px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+      align-items: center;
+      flex-grow: 1;
+      min-height: calc(100vh - 120px);
+    }
+
+    .image-container {
+      flex: 1 1 50%;
+      min-width: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      aspect-ratio: 2/3;
+      max-width: 450px;
+      background: #000;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .descripcion-container {
+      flex: 1 1 50%;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      height: fit-content;
+    }
+
+    .descripcion-titulo {
+      color: red;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .descripcion-titulo:after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: red;
+      margin: 10px 0;
+    }
+
+      .descripcion-texto {
+    text-align: left; /* Cambiado de justify a left */
+    word-wrap: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+    /* Botones dentro de la sinopsis */
+    .botones-sinopsis {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-sinopsis {
+      background: #CC0000;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-sinopsis:hover {
+      background: #b30000;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive mejorado */
+    @media (max-width: 768px) {
+  /* Eliminar display: none del .menu-btn */
+  .menu-btn {
+    display: flex !important; /* Asegurar que siempre sea visible */
+  }
+  
+ 
+      
+      .split-section {
+        flex-direction: column;
+        min-height: auto;
+        margin: 20px auto;
+        padding: 0 15px;
+        gap: 25px;
+      }
+
+      .image-container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .descripcion-container {
+        width: 100%;
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 18px;
+        margin: 20px 0;
+      }
+    }
+    
+    
+    
+    .popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup {
+  background: #1a1a1a;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.popup button:hover {
+  background: darkred;
+}
+
+/* Mostrar el popup */
+.popup-container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+   
+  </style>
+</head>
+<body>
+<div class="menu-container">
+  <a href="javascript:history.back()" class="menu-btn" aria-label="Volver atrás">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>
+
+
+
+<!-- Eliminar todo el elemento <nav class="dropdown-menu"> -->
+
+  <h1>El mensajero del miedo</h1>
+
+  <div class="split-section">
+    <div class="image-container">
+      <a href="elmensajerodelmiedovideo.html">
+        <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/elmensajerodelmiedo.webp" alt="Poster de la película">
+      </a>
+    </div>
+    
+    
+    
+    
+    <div class="descripcion-container">   
+      <h2 class="descripcion-titulo">Sinopsis
+      </h2>
+      
+     <p class="descripcion-texto">
+    
+     Un comandante estadounidense empieza a sospechar que la heroica hazaña de un sargento durante la Guerra del Golfo oculta una conspiración. Atormentado por pesadillas y recuerdos confusos, investiga si su unidad fue manipulada y si un poderoso entramado político pretende usar a un candidato para controlar el país.
+     
+     </p>
+      
+      
+    
+      <div class="botones-sinopsis"> 
+        
+    <a href="elmensajerodelmiedovideo.html" vervideo>
+    <button class="btn-sinopsis descargar-btn">
+    <i class="fas fa-tv"></i>Ver Online</button>           
+        </a>
+        <button id="btnCompartir" class="btn-sinopsis compartir-btn">
+          <i class="fas fa-share-alt"></i> Compartir &nbsp;
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="customPopup" class="popup-container">
+  <div class="popup">
+    <p id="popupMessage">Enlace copiado al portapapeles.</p>
+    <button onclick="closePopup()">Cerrar</button>
+  </div>
+</div>
+
+  <script>
+  
+
+ 
+function showPopup(message) {
+  document.getElementById('popupMessage').innerText = message;
+  document.getElementById('customPopup').classList.add('show');
+}
+
+function closePopup() {
+  document.getElementById('customPopup').classList.remove('show');
+}
+
+document.getElementById('btnCompartir').addEventListener('click', function() {
+  var enlace = window.location.href;
+  navigator.clipboard.writeText(enlace).then(function() {
+    showPopup('Enlace copiado al portapapeles.');
+  }).catch(function(err) {
+    console.error('Error al copiar el enlace:', err);
+    showPopup('No se pudo copiar el enlace.');
+  });
+});
+  </script>
+ 
+<script type="module" src="app.js"></script>
+ 
+</body>
+</html>
