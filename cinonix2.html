@@ -37,6 +37,13 @@
 
     html { scroll-behavior: smooth; }
 
+
+
+    
+
+
+    
+
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--bg);
@@ -46,6 +53,79 @@
       transition: opacity 0.6s ease;
     }
     body.loaded { opacity: 1; }
+
+
+
+
+
+
+    /* ===========================
+   FULLSCREEN LOADER
+=========================== */
+.fullscreen-loader {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #0d0d18 0%, #000 100%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    animation: loaderExit 3s ease forwards;
+}
+
+.fullscreen-loader img {
+    max-width: 160px;
+    max-height: 160px;
+    object-fit: contain;
+    animation: logoPulse 1.6s ease-in-out infinite;
+    filter: drop-shadow(0 0 24px var(--red-glow));
+}
+
+.loader-bar {
+    width: 120px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.loader-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--red), #ff5533);
+    border-radius: 100px;
+    animation: loaderProgress 2.6s ease-in-out forwards;
+}
+
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--red-glow)); }
+    50%       { transform: scale(1.07); filter: drop-shadow(0 0 36px var(--red-glow)) brightness(1.2); }
+}
+
+@keyframes loaderProgress {
+    0%   { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes loaderExit {
+    0%, 82%  { opacity: 1; visibility: visible; }
+    100%     { opacity: 0; visibility: hidden; }
+}
+
+
+
+
+
+
+
+
+
+
+    
 
     /* ===== SCROLLBAR ===== */
     ::-webkit-scrollbar { width: 6px; }
@@ -571,11 +651,12 @@
 </head>
 <body>
 
-<!-- Loading Screen -->
-<div id="loading-screen">
-  <div class="loading-logo">CINONIX</div>
-  <div class="loading-bar-track"><div class="loading-bar-fill"></div></div>
-</div>
+<!-- Loader de pantalla completa -->
+  <div class="fullscreen-loader" id="loader">
+    <img src="logocinonixapp.webp" alt="Pantalla de carga">
+    <div class="loader-bar"></div>
+  </div>
+</header>
 
 <!-- Navbar -->
 <nav class="navbar" id="navbar">
