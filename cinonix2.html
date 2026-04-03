@@ -177,7 +177,7 @@
       height: 100vh;
       background: var(--surface);
       z-index: 1100;
-      padding: 80px 1.5rem 2rem;
+      padding: var(--nav-h) 1.5rem 2rem;
       transform: translateX(100%);
       transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
       border-left: 1px solid rgba(255,255,255,0.06);
@@ -381,7 +381,7 @@
       overflow-y: hidden;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      touch-action: pan-x;
+      
       will-change: scroll-position;
       cursor: grab;
     }
@@ -401,6 +401,7 @@
       background: var(--surface2);
       transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s;
       transform-origin: center bottom;
+      touch-action: manipulation;
     }
 
     .movie-card:hover {
