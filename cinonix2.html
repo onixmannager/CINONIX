@@ -178,7 +178,7 @@
       height: 100vh;
       background: var(--surface);
       z-index: 1100;
-      padding: var(--nav-h) 1.5rem 2rem;
+      padding: 20px 1.5rem 2rem;
       transform: translateX(100%);
       transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
       border-left: 1px solid rgba(255,255,255,0.06);
@@ -221,6 +221,20 @@
       font-size: 1.2rem;
       cursor: pointer;
     }
+
+    /* ===== HERO CAROUSEL ===== */
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.55);
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      will-change: opacity;
+    }
+    .hero-slide.active { opacity: 1; }
 
     /* ===== HERO VIDEO ===== */
     .hero {
@@ -647,7 +661,18 @@
 
 <!-- Hero Section -->
 <header class="hero">
-  <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/loshermanosdemolicion.webp" class="hero-video" id="heroVideo" alt="Los hermanos demolición" style="object-position: center top;">
+  <div id="heroCarousel" style="position:absolute;inset:0;width:100%;height:100%;">
+    <img class="hero-slide active" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/loshermanosdemolicion.webp" alt="Los hermanos demolición">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/diamantesdesangre.webp" alt="Diamantes de sangre">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mandalorian.webp" alt="Mandalorian">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/django.webp" alt="Django">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaxmen.webp" alt="Saga X-Men">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/super8.webp" alt="Super 8">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/sinidentidad.webp" alt="Sin identidad">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/themedium.webp" alt="The Medium">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/deadpoolylobezno.webp" alt="Deadpool y Lobezno">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mariobros.webp" alt="Super Mario Bros">
+  </div>
   <div class="hero-gradient"></div>
   <div class="hero-content">
     <div class="hero-badge"><i class="fas fa-fire"></i> En cartelera ahora</div>
@@ -3934,6 +3959,18 @@
   } else {
     setTimeout(hideLoader, 800);
   }
+
+  // ===== HERO CAROUSEL AUTO =====
+  (function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (!slides.length) return;
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  })();
 
   // ===== CERRAR SESION (preserve original function) =====
   function cerrarSesion() {
