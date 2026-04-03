@@ -762,6 +762,205 @@
       .modal-title { font-size: 1.5rem; }
       .modal-body { padding: 0 1.1rem 1.4rem; }
     }
+    /* ===== SELECTOR MODAL (Series & Sagas) ===== */
+    .selector-modal { max-width: 540px; }
+
+    .selector-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .selector-label i { color: var(--accent); font-size: 0.75rem; }
+
+    /* Custom season dropdown */
+    .season-dropdown-wrap {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .season-dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: border-color 0.2s;
+      user-select: none;
+    }
+    .season-dropdown-btn:hover { border-color: var(--accent); }
+    .season-dropdown-btn i:first-child { color: var(--accent); font-size: 0.85rem; }
+    .season-chevron {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      transition: transform 0.25s;
+    }
+    .season-chevron.open { transform: rotate(180deg); }
+
+    .season-dropdown-list {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0; right: 0;
+      background: #1a2236;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      z-index: 100;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: max-height 0.3s ease, opacity 0.2s;
+    }
+    .season-dropdown-list.open {
+      max-height: 260px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .season-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .season-option:last-child { border-bottom: none; }
+    .season-option:hover { background: rgba(229,9,20,0.1); color: var(--text); }
+    .season-option.selected { color: var(--accent); font-weight: 700; }
+    .season-option.selected::before {
+      content: '';
+      width: 3px; height: 18px;
+      background: var(--accent);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Episode grid */
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .episode-grid::-webkit-scrollbar { width: 4px; }
+    .episode-grid::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    .episode-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-dim);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      line-height: 1.3;
+    }
+    .episode-btn .ep-icon {
+      width: 26px; height: 26px;
+      background: rgba(229,9,20,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.6rem;
+      color: var(--accent);
+      transition: all 0.2s;
+      padding-left: 1px;
+    }
+    .episode-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .episode-btn:hover .ep-icon { background: rgba(255,255,255,0.2); color: #fff; }
+
+    /* Saga movie list */
+    .saga-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .saga-list::-webkit-scrollbar { width: 4px; }
+    .saga-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    .saga-movie-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.22s;
+    }
+    .saga-movie-btn .saga-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      color: var(--accent);
+      opacity: 0.6;
+      min-width: 22px;
+      transition: opacity 0.2s;
+    }
+    .saga-movie-btn .saga-play {
+      margin-left: auto;
+      width: 32px; height: 32px;
+      background: rgba(229,9,20,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: all 0.22s;
+      padding-left: 2px;
+    }
+    .saga-movie-btn:hover {
+      background: rgba(229,9,20,0.1);
+      border-color: rgba(229,9,20,0.35);
+      transform: translateX(3px);
+    }
+    .saga-movie-btn:hover .saga-num { opacity: 1; }
+    .saga-movie-btn:hover .saga-play { background: var(--accent); color: #fff; }
+
+    @media (max-width: 600px) {
+      .episode-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); max-height: 170px; }
+      .saga-list { max-height: 220px; }
+    }
   </style>
 </head>
 <body>
@@ -2277,85 +2476,103 @@
   <!-- Section: Series (✅️= Nuevos capitulos) -->
   <section class="content-section" id="series">
     <div class="section-header">
-      <h2 class="section-title"><span class="section-icon">📺</span>Series (✅️= Nuevos capitulos)</h2>
+      <h2 class="section-title"><span class="section-icon">📺</span>Series</h2>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-arrow right" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       <div class="carousel-track">
-        <a href="mandalorian.html" class="movie-card" data-desc="Din Djarin, un cazarrecompensas mandaloriano solitario, debe entregar a un misterioso niño de una raza desconocida. Cuando ve quien lo reclama, decide protegerlo. Una space western épica que expandió el universo Star Wars con un héroe callado y un bebé adorable.">
+
+        <!-- Serie: Mandalorian -->
+        <div class="movie-card serie-card" data-serie="mandalorian" data-desc="Din Djarin, un cazarrecompensas mandaloriano solitario, debe entregar a un misterioso niño de una raza desconocida. Cuando ve quien lo reclama, decide protegerlo." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mandalorian.webp" class="movie-poster" alt="Mandalorian ✅️ Estreno 2ª Temporada " loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mandalorian.webp" class="movie-poster" alt="Mandalorian" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Mandalorian ✅️ Nueva Temporada</span>
         </div>
-        <span class="card-title">Mandalorian ✅️ Estreno 2ª Temporada</span>
-        </a>
-        <a href="elsilencio.html" class="movie-card" data-desc="Una familia con una hija sorda huye hacia las montañas cuando criaturas que cazan por el sonido invaden el mundo. Adaptada a comunicarse en silencio, la familia tiene ventaja. Un thriller de supervivencia postapocalíptico sobre adaptarse al horror inesperado.">
+
+        <!-- Serie: El Silencio -->
+        <div class="movie-card serie-card" data-serie="elsilencio" data-desc="Una familia con una hija sorda huye hacia las montañas cuando criaturas que cazan por el sonido invaden el mundo." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elsilencio.webp" class="movie-poster" alt="El silencio" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elsilencio.webp" class="movie-poster" alt="El silencio" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">El silencio</span>
         </div>
-        <span class="card-title">El silencio</span>
-        </a>
-        <a href="elcasoasunta.html" class="movie-card" data-desc="La serie documental recrea el mediático caso de Asunta Basterra, una niña adoptada de origen chino encontrada muerta en Galicia en 2013. Sus propios padres son los principales sospechosos en un caso que conmocionó a toda España.">
+
+        <!-- Serie: El caso Asunta -->
+        <div class="movie-card serie-card" data-serie="elcasoasunta" data-desc="La serie documental recrea el mediático caso de Asunta Basterra, una niña adoptada de origen chino encontrada muerta en Galicia en 2013." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elcasoasunta.webp" class="movie-poster" alt="El caso Asunta" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elcasoasunta.webp" class="movie-poster" alt="El caso Asunta" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">El caso Asunta</span>
         </div>
-        <span class="card-title">El caso Asunta</span>
-        </a>
-        <a href="elcuerpoenllamas.html" class="movie-card" data-desc="Basada en el caso real de Rosa Peral, una policía de Barcelona condenada por asesinar a su pareja y quemar su cuerpo en el Pantano de Foix. La serie explora el crimen, el juicio mediático y la psicología de una de las acusadas.">
+
+        <!-- Serie: El cuerpo en llamas -->
+        <div class="movie-card serie-card" data-serie="elcuerpoenllamas" data-desc="Basada en el caso real de Rosa Peral, una policía de Barcelona condenada por asesinar a su pareja y quemar su cuerpo en el Pantano de Foix." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elcuerpoenllamas.webp" class="movie-poster" alt="El cuerpo en llamas" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elcuerpoenllamas.webp" class="movie-poster" alt="El cuerpo en llamas" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">El cuerpo en llamas</span>
         </div>
-        <span class="card-title">El cuerpo en llamas</span>
-        </a>
-        <a href="theboys.html" class="movie-card" data-desc="En un mundo donde los superhéroes son famosos corporativos corruptos, un grupo de ciudadanos normales decide revelar sus crímenes. Vought International controla a sus héroes con relaciones públicas y violencia. Una sátira adulta brutal sobre el poder y los medios.">
+
+        <!-- Serie: The Boys -->
+        <div class="movie-card serie-card" data-serie="theboys" data-desc="En un mundo donde los superhéroes son famosos corporativos corruptos, un grupo de ciudadanos normales decide revelar sus crímenes." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/theboys.webp" class="movie-poster" alt="The Boys" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/theboys.webp" class="movie-poster" alt="The Boys" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">The Boys</span>
         </div>
-        <span class="card-title">The Boys</span>
-        </a>
-        <a href="strangerthings.html" class="movie-card" data-desc="En Hawkins, Indiana, la desaparición de un niño desencadena el descubrimiento del Mundo del Revés, una dimensión oscura paralela. Un grupo de amigos, su madre desesperada y un jefe de policía descubren experimentos secretos del gobierno con consecuencias sobrenaturales.">
+
+        <!-- Serie: Stranger Things -->
+        <div class="movie-card serie-card" data-serie="strangerthings" data-desc="En Hawkins, Indiana, la desaparición de un niño desencadena el descubrimiento del Mundo del Revés, una dimensión oscura paralela." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/strangerthings.webp" class="movie-poster" alt="Stranger Things" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/strangerthings.webp" class="movie-poster" alt="Stranger Things" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Stranger Things</span>
         </div>
-        <span class="card-title">Stranger Things</span>
-        </a>
-        <a href="blackmirror.html" class="movie-card" data-desc="Serie antológica que explora los efectos perturbadores de la tecnología en la sociedad moderna. Cada episodio independiente presenta un futuro cercano donde las innovaciones digitales amplifican los peores aspectos de la naturaleza humana con resultados devastadores.">
+
+        <!-- Serie: Black Mirror -->
+        <div class="movie-card serie-card" data-serie="blackmirror" data-desc="Serie antológica que explora los efectos perturbadores de la tecnología en la sociedad moderna." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" class="movie-poster" alt="Black Mirror" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" class="movie-poster" alt="Black Mirror" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Black Mirror</span>
         </div>
-        <span class="card-title">Black Mirror</span>
-        </a>
-        <a href="dondeestamarta.html" class="movie-card" data-desc="Documental español que sigue la búsqueda de Marta del Castillo, desaparecida en Sevilla en 2009. Su familia lleva años luchando para encontrar el cuerpo y conocer la verdad completa sobre lo ocurrido aquella noche, en un caso judicial sin resolver del todo.">
+
+        <!-- Serie: Donde Está Marta -->
+        <div class="movie-card serie-card" data-serie="dondeestamarta" data-desc="Documental español que sigue la búsqueda de Marta del Castillo, desaparecida en Sevilla en 2009." data-type="serie">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" class="movie-poster" alt="Donde Esta Marta" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" class="movie-poster" alt="Donde Esta Marta" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Donde Esta Marta</span>
         </div>
-        <span class="card-title">Donde Esta Marta</span>
-        </a>
-        <a href="https://pluto.tv/es/on-demand/619041a006d23b0007375107/672ccd06030a2c0008fa09f8?utm_source=microsoft&utm_medium=textsearch&utm_campaign=602233954&utm_content=1332610546897298&utm_term=e_pluto+tv&utm_creative=&device=c&msclkid=b48a7b70c6bb113935b212202be89c0a" class="movie-card">
+
+        <!-- Externos (sin temporadas, enlace directo) -->
+        <a href="https://pluto.tv/es/on-demand/619041a006d23b0007375107/672ccd06030a2c0008fa09f8?utm_source=microsoft&utm_medium=textsearch&utm_campaign=602233954&utm_content=1332610546897298&utm_term=e_pluto+tv&utm_creative=&device=c&msclkid=b48a7b70c6bb113935b212202be89c0a" class="movie-card" target="_blank">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/plutotv.webp" class="movie-poster" alt="Series de Pluto Tv" loading="lazy">
           <div class="card-overlay">
@@ -2364,7 +2581,7 @@
         </div>
         <span class="card-title">Series de Pluto Tv</span>
         </a>
-        <a href="https://www.rakuten.tv/es/lists/free-top-tv-shows" class="movie-card">
+        <a href="https://www.rakuten.tv/es/lists/free-top-tv-shows" class="movie-card" target="_blank">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/rakutentv.webp" class="movie-poster" alt="Series de Rakuten Tv" loading="lazy">
           <div class="card-overlay">
@@ -2373,7 +2590,7 @@
         </div>
         <span class="card-title">Series de Rakuten Tv</span>
         </a>
-        <a href="https://www.rtve.es/play/series/" class="movie-card">
+        <a href="https://www.rtve.es/play/series/" class="movie-card" target="_blank">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/rtveplay.webp" class="movie-poster" alt="Series de Rtve Play" loading="lazy">
           <div class="card-overlay">
@@ -2382,7 +2599,7 @@
         </div>
         <span class="card-title">Series de Rtve Play</span>
         </a>
-        <a href="https://www.mediasetinfinity.es/series-y-miniseries" class="movie-card">
+        <a href="https://www.mediasetinfinity.es/series-y-miniseries" class="movie-card" target="_blank">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/mediaset.webp" class="movie-poster" alt="Series de Mediaset Infinity" loading="lazy">
           <div class="card-overlay">
@@ -2391,7 +2608,7 @@
         </div>
         <span class="card-title">Series de Mediaset Infinity</span>
         </a>
-        <a href="https://www.rtve.es/play/clan/series/" class="movie-card">
+        <a href="https://www.rtve.es/play/clan/series/" class="movie-card" target="_blank">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/clan.webp" class="movie-poster" alt="Series de Clan (Infantiles)" loading="lazy">
           <div class="card-overlay">
@@ -2412,69 +2629,77 @@
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-arrow right" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       <div class="carousel-track">
-        <a href="sagaxmen.html" class="movie-card" data-desc="Colección completa de la franquicia de mutantes Marvel: desde el origen de los X-Men hasta la Fénix Oscura. Sigue a Charles Xavier, Magneto, Lobezno y sus alumnos en la lucha por la coexistencia entre humanos y mutantes a lo largo de décadas.">
+
+        <div class="movie-card saga-card" data-saga="sagaxmen" data-desc="Colección completa de la franquicia de mutantes Marvel: desde el origen de los X-Men hasta la Fénix Oscura." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaxmen.webp" class="movie-poster" alt="Saga X-Men" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaxmen.webp" class="movie-poster" alt="Saga X-Men" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga X-Men</span>
         </div>
-        <span class="card-title">Saga X-Men</span>
-        </a>
-        <a href="sagaregresoalfuturo.html" class="movie-card" data-desc="La trilogía completa de Doc Brown y Marty McFly viajando entre 1885, 1955, 1985 y 2015. Tres aventuras que combinan comedia, acción y ciencia ficción en una de las franquicias más queridas y atemporales de la historia del cine.">
+
+        <div class="movie-card saga-card" data-saga="sagaregresoalfuturo" data-desc="La trilogía completa de Doc Brown y Marty McFly viajando entre 1885, 1955, 1985 y 2015." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaregresoalfuturo.webp" class="movie-poster" alt="Saga Regreso al futuro" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaregresoalfuturo.webp" class="movie-poster" alt="Saga Regreso al futuro" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga Regreso al futuro</span>
         </div>
-        <span class="card-title">Saga Regreso al futuro</span>
-        </a>
-        <a href="sagahostel.html" class="movie-card" data-desc="La trilogía completa del horror extremo de Eli Roth: desde los jóvenes turistas en Eslovaquia hasta las lujosas instalaciones de Las Vegas. Una exploración perturbadora del sadismo de élite y la mercantilización de la violencia que definió el torture porn.">
+
+        <div class="movie-card saga-card" data-saga="sagahostel" data-desc="La trilogía completa del horror extremo de Eli Roth: desde los jóvenes turistas en Eslovaquia hasta Las Vegas." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagahostel.jpg" class="movie-poster" alt="Saga Hostel" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagahostel.jpg" class="movie-poster" alt="Saga Hostel" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga Hostel</span>
         </div>
-        <span class="card-title">Saga Hostel</span>
-        </a>
-        <a href="sagaterminator.html" class="movie-card" data-desc="Todas las entregas de la saga sobre Skynet y los viajes en el tiempo: desde el T-800 original hasta los nuevos modelos. La guerra entre humanos y máquinas contada a través de múltiples líneas temporales con John y Sarah Connor como eje central.">
+
+        <div class="movie-card saga-card" data-saga="sagaterminator" data-desc="Todas las entregas de la saga sobre Skynet y los viajes en el tiempo." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaterminator.jpg" class="movie-poster" alt="Saga Terminator" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagaterminator.jpg" class="movie-poster" alt="Saga Terminator" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga Terminator</span>
         </div>
-        <span class="card-title">Saga Terminator</span>
-        </a>
-        <a href="sagascream.html" class="movie-card" data-desc="Las cuatro películas de Wes Craven con Sidney Prescott sobreviviendo a sucesivas generaciones de Ghostface. Una franquicia que mezcló el terror con la autoconciencia metalingüística, definiendo el slasher moderno y convirtiendo las reglas del género en argumento.">
+
+        <div class="movie-card saga-card" data-saga="sagascream" data-desc="Las cuatro películas de Wes Craven con Sidney Prescott sobreviviendo a sucesivas generaciones de Ghostface." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagascream.jpg" class="movie-poster" alt="Saga Scream" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagascream.jpg" class="movie-poster" alt="Saga Scream" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga Scream</span>
         </div>
-        <span class="card-title">Saga Scream</span>
-        </a>
-        <a href="sagakillbill.html" class="movie-card" data-desc="Las dos partes del venganza épica de Quentin Tarantino: La Novia contra el escuadrón letal completo. Desde las sangrientas batallas del primer volumen hasta el intimismo del enfrentamiento final con Bill. Una obra total sobre el amor, la traición y la redención.">
+
+        <div class="movie-card saga-card" data-saga="sagakillbill" data-desc="Las dos partes de la venganza épica de Quentin Tarantino: La Novia contra el escuadrón letal completo." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagakillbill.jpg" class="movie-poster" alt="Saga Kill Bill" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagakillbill.jpg" class="movie-poster" alt="Saga Kill Bill" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga Kill Bill</span>
         </div>
-        <span class="card-title">Saga Kill Bill</span>
-        </a>
-        <a href="sagadbs.html" class="movie-card" data-desc="Las tres películas de Dragon Ball Super: La Batalla de los Dioses, La Resurrección de Freezer y las aventuras más recientes. Goku y sus amigos enfrentan a los dioses de la destrucción y amenazas cósmicas en combates que redefinen los límites del poder.">
+
+        <div class="movie-card saga-card" data-saga="sagadbs" data-desc="Las tres películas de Dragon Ball Super: La Batalla de los Dioses, La Resurrección de Freezer y más." data-type="saga">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagadbs.jpg" class="movie-poster" alt="Saga DragonBall Super" loading="lazy">
-          <div class="card-overlay">
-            <button class="play-btn"><i class="fas fa-play"></i></button>
+            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/sagadbs.jpg" class="movie-poster" alt="Saga DragonBall Super" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
           </div>
+          <span class="card-title">Saga DragonBall Super</span>
         </div>
-        <span class="card-title">Saga DragonBall Super</span>
-        </a>
+
       </div>
     </div>
   </section>
@@ -3971,6 +4196,46 @@
   </section>
 </main>
 
+<!-- Modal Serie/Saga Selector -->
+<div class="modal-overlay" id="selectorModal">
+  <div class="modal selector-modal" id="selectorBox">
+    <div class="modal-img-wrap">
+      <img id="selectorImg" src="" alt="">
+      <div class="modal-img-gradient"></div>
+      <button class="modal-close" id="selectorClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-title" id="selectorTitle"></h2>
+      <div class="modal-meta">
+        <span class="modal-badge" id="selectorBadge">Serie</span>
+      </div>
+      <p class="modal-desc" id="selectorDesc"></p>
+
+      <!-- Season selector (for series) -->
+      <div id="seasonBlock" style="display:none;">
+        <div class="season-dropdown-wrap">
+          <div class="season-dropdown-btn" id="seasonDropdownBtn">
+            <i class="fas fa-tv"></i>
+            <span id="seasonDropdownLabel">1ª Temporada</span>
+            <i class="fas fa-chevron-down season-chevron" id="seasonChevron"></i>
+          </div>
+          <div class="season-dropdown-list" id="seasonDropdownList"></div>
+        </div>
+        <div id="episodeBlock">
+          <div id="episodeList" class="episode-grid"></div>
+        </div>
+      </div>
+
+      <!-- Movie selector (for sagas) -->
+      <div id="sagaBlock" style="display:none;">
+        <p class="selector-label"><i class="fas fa-film"></i> Películas de la saga</p>
+        <div id="sagaMovieList" class="saga-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- Modal -->
 <div class="modal-overlay" id="movieModal">
   <div class="modal" id="modalBox">
@@ -4195,11 +4460,416 @@
   movieModal.addEventListener('click', e => { if (e.target === movieModal) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // Intercept all movie-card clicks
-  document.querySelectorAll('.movie-card').forEach(card => {
+  // Intercept all movie-card clicks (except serie/saga cards which have their own modal)
+  document.querySelectorAll('.movie-card:not(.serie-card):not(.saga-card)').forEach(card => {
     card.addEventListener('click', e => {
       e.preventDefault();
       openModal(card);
+    });
+  });
+
+  // ===== SERIES & SAGAS DATA =====
+  const SERIES_DATA = {
+    mandalorian: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1 — El Mandaloriano', url: 'mandalorian.html?t=1&ep=1' },
+          { label: 'Ep 2 — El Niño', url: 'mandalorian.html?t=1&ep=2' },
+          { label: 'Ep 3 — El Pecado', url: 'mandalorian.html?t=1&ep=3' },
+          { label: 'Ep 4 — Santuario', url: 'mandalorian.html?t=1&ep=4' },
+          { label: 'Ep 5 — El Prisionero', url: 'mandalorian.html?t=1&ep=5' },
+          { label: 'Ep 6 — El Guardián', url: 'mandalorian.html?t=1&ep=6' },
+          { label: 'Ep 7 — El Ajuste de Cuentas', url: 'mandalorian.html?t=1&ep=7' },
+          { label: 'Ep 8 — Redención', url: 'mandalorian.html?t=1&ep=8' },
+        ]},
+        { label: '2ª Temporada ✅️', episodios: [
+          { label: 'Ep 1 — El Sheriff', url: 'mandalorian.html?t=2&ep=1' },
+          { label: 'Ep 2 — El Pasajero', url: 'mandalorian.html?t=2&ep=2' },
+          { label: 'Ep 3 — La Heredera', url: 'mandalorian.html?t=2&ep=3' },
+          { label: 'Ep 4 — El Asedio', url: 'mandalorian.html?t=2&ep=4' },
+          { label: 'Ep 5 — La Jedi', url: 'mandalorian.html?t=2&ep=5' },
+          { label: 'Ep 6 — El Rescate', url: 'mandalorian.html?t=2&ep=6' },
+          { label: 'Ep 7 — El Creyente', url: 'mandalorian.html?t=2&ep=7' },
+          { label: 'Ep 8 — La Redención', url: 'mandalorian.html?t=2&ep=8' },
+        ]},
+      ]
+    },
+    elsilencio: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'elsilencio.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'elsilencio.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'elsilencio.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'elsilencio.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'elsilencio.html?t=1&ep=5' },
+          { label: 'Ep 6', url: 'elsilencio.html?t=1&ep=6' },
+        ]},
+      ]
+    },
+    elcasoasunta: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'elcasoasunta.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'elcasoasunta.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'elcasoasunta.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'elcasoasunta.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'elcasoasunta.html?t=1&ep=5' },
+          { label: 'Ep 6', url: 'elcasoasunta.html?t=1&ep=6' },
+        ]},
+      ]
+    },
+    elcuerpoenllamas: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'elcuerpoenllamas.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'elcuerpoenllamas.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'elcuerpoenllamas.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'elcuerpoenllamas.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'elcuerpoenllamas.html?t=1&ep=5' },
+          { label: 'Ep 6', url: 'elcuerpoenllamas.html?t=1&ep=6' },
+          { label: 'Ep 7', url: 'elcuerpoenllamas.html?t=1&ep=7' },
+          { label: 'Ep 8', url: 'elcuerpoenllamas.html?t=1&ep=8' },
+        ]},
+      ]
+    },
+    theboys: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'theboys.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'theboys.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'theboys.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'theboys.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'theboys.html?t=1&ep=5' },
+          { label: 'Ep 6', url: 'theboys.html?t=1&ep=6' },
+          { label: 'Ep 7', url: 'theboys.html?t=1&ep=7' },
+          { label: 'Ep 8', url: 'theboys.html?t=1&ep=8' },
+        ]},
+        { label: '2ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'theboys.html?t=2&ep=1' },
+          { label: 'Ep 2', url: 'theboys.html?t=2&ep=2' },
+          { label: 'Ep 3', url: 'theboys.html?t=2&ep=3' },
+          { label: 'Ep 4', url: 'theboys.html?t=2&ep=4' },
+          { label: 'Ep 5', url: 'theboys.html?t=2&ep=5' },
+          { label: 'Ep 6', url: 'theboys.html?t=2&ep=6' },
+          { label: 'Ep 7', url: 'theboys.html?t=2&ep=7' },
+          { label: 'Ep 8', url: 'theboys.html?t=2&ep=8' },
+        ]},
+        { label: '3ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'theboys.html?t=3&ep=1' },
+          { label: 'Ep 2', url: 'theboys.html?t=3&ep=2' },
+          { label: 'Ep 3', url: 'theboys.html?t=3&ep=3' },
+          { label: 'Ep 4', url: 'theboys.html?t=3&ep=4' },
+          { label: 'Ep 5', url: 'theboys.html?t=3&ep=5' },
+          { label: 'Ep 6', url: 'theboys.html?t=3&ep=6' },
+          { label: 'Ep 7', url: 'theboys.html?t=3&ep=7' },
+          { label: 'Ep 8', url: 'theboys.html?t=3&ep=8' },
+        ]},
+        { label: '4ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'theboys.html?t=4&ep=1' },
+          { label: 'Ep 2', url: 'theboys.html?t=4&ep=2' },
+          { label: 'Ep 3', url: 'theboys.html?t=4&ep=3' },
+          { label: 'Ep 4', url: 'theboys.html?t=4&ep=4' },
+          { label: 'Ep 5', url: 'theboys.html?t=4&ep=5' },
+          { label: 'Ep 6', url: 'theboys.html?t=4&ep=6' },
+          { label: 'Ep 7', url: 'theboys.html?t=4&ep=7' },
+          { label: 'Ep 8', url: 'theboys.html?t=4&ep=8' },
+        ]},
+      ]
+    },
+    strangerthings: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'strangerthings.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'strangerthings.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'strangerthings.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'strangerthings.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'strangerthings.html?t=1&ep=5' },
+          { label: 'Ep 6', url: 'strangerthings.html?t=1&ep=6' },
+          { label: 'Ep 7', url: 'strangerthings.html?t=1&ep=7' },
+          { label: 'Ep 8', url: 'strangerthings.html?t=1&ep=8' },
+        ]},
+        { label: '2ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'strangerthings.html?t=2&ep=1' },
+          { label: 'Ep 2', url: 'strangerthings.html?t=2&ep=2' },
+          { label: 'Ep 3', url: 'strangerthings.html?t=2&ep=3' },
+          { label: 'Ep 4', url: 'strangerthings.html?t=2&ep=4' },
+          { label: 'Ep 5', url: 'strangerthings.html?t=2&ep=5' },
+          { label: 'Ep 6', url: 'strangerthings.html?t=2&ep=6' },
+          { label: 'Ep 7', url: 'strangerthings.html?t=2&ep=7' },
+          { label: 'Ep 8', url: 'strangerthings.html?t=2&ep=8' },
+          { label: 'Ep 9', url: 'strangerthings.html?t=2&ep=9' },
+        ]},
+        { label: '3ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'strangerthings.html?t=3&ep=1' },
+          { label: 'Ep 2', url: 'strangerthings.html?t=3&ep=2' },
+          { label: 'Ep 3', url: 'strangerthings.html?t=3&ep=3' },
+          { label: 'Ep 4', url: 'strangerthings.html?t=3&ep=4' },
+          { label: 'Ep 5', url: 'strangerthings.html?t=3&ep=5' },
+          { label: 'Ep 6', url: 'strangerthings.html?t=3&ep=6' },
+          { label: 'Ep 7', url: 'strangerthings.html?t=3&ep=7' },
+          { label: 'Ep 8', url: 'strangerthings.html?t=3&ep=8' },
+        ]},
+        { label: '4ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'strangerthings.html?t=4&ep=1' },
+          { label: 'Ep 2', url: 'strangerthings.html?t=4&ep=2' },
+          { label: 'Ep 3', url: 'strangerthings.html?t=4&ep=3' },
+          { label: 'Ep 4', url: 'strangerthings.html?t=4&ep=4' },
+          { label: 'Ep 5', url: 'strangerthings.html?t=4&ep=5' },
+          { label: 'Ep 6', url: 'strangerthings.html?t=4&ep=6' },
+          { label: 'Ep 7', url: 'strangerthings.html?t=4&ep=7' },
+          { label: 'Ep 8', url: 'strangerthings.html?t=4&ep=8' },
+          { label: 'Ep 9', url: 'strangerthings.html?t=4&ep=9' },
+        ]},
+      ]
+    },
+    blackmirror: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1 — El Himno Nacional', url: 'blackmirror.html?t=1&ep=1' },
+          { label: 'Ep 2 — 15 Millones de Méritos', url: 'blackmirror.html?t=1&ep=2' },
+          { label: 'Ep 3 — Toda tu Historia', url: 'blackmirror.html?t=1&ep=3' },
+        ]},
+        { label: '2ª Temporada', episodios: [
+          { label: 'Ep 1 — Vuelvo Enseguida', url: 'blackmirror.html?t=2&ep=1' },
+          { label: 'Ep 2 — Oso Blanco', url: 'blackmirror.html?t=2&ep=2' },
+          { label: 'Ep 3 — El Momento de Waldo', url: 'blackmirror.html?t=2&ep=3' },
+        ]},
+        { label: '3ª Temporada', episodios: [
+          { label: 'Ep 1 — Caída en Picado', url: 'blackmirror.html?t=3&ep=1' },
+          { label: 'Ep 2 — Playtest', url: 'blackmirror.html?t=3&ep=2' },
+          { label: 'Ep 3 — Toda la Historia de ti', url: 'blackmirror.html?t=3&ep=3' },
+          { label: 'Ep 4 — San Junípero', url: 'blackmirror.html?t=3&ep=4' },
+          { label: 'Ep 5 — Hombres contra el Fuego', url: 'blackmirror.html?t=3&ep=5' },
+          { label: 'Ep 6 — Odio en la Nación', url: 'blackmirror.html?t=3&ep=6' },
+        ]},
+        { label: '4ª Temporada', episodios: [
+          { label: 'Ep 1 — USS Callister', url: 'blackmirror.html?t=4&ep=1' },
+          { label: 'Ep 2 — Arkangel', url: 'blackmirror.html?t=4&ep=2' },
+          { label: 'Ep 3 — Crocodile', url: 'blackmirror.html?t=4&ep=3' },
+          { label: 'Ep 4 — Hang the DJ', url: 'blackmirror.html?t=4&ep=4' },
+          { label: 'Ep 5 — Metalhead', url: 'blackmirror.html?t=4&ep=5' },
+          { label: 'Ep 6 — Black Museum', url: 'blackmirror.html?t=4&ep=6' },
+        ]},
+        { label: '5ª Temporada', episodios: [
+          { label: 'Ep 1 — Striking Vipers', url: 'blackmirror.html?t=5&ep=1' },
+          { label: 'Ep 2 — Smithereens', url: 'blackmirror.html?t=5&ep=2' },
+          { label: 'Ep 3 — Rachel, Jack and Ashley', url: 'blackmirror.html?t=5&ep=3' },
+        ]},
+        { label: '6ª Temporada', episodios: [
+          { label: 'Ep 1 — Joan is Awful', url: 'blackmirror.html?t=6&ep=1' },
+          { label: 'Ep 2 — Loch Henry', url: 'blackmirror.html?t=6&ep=2' },
+          { label: 'Ep 3 — Beyond the Sea', url: 'blackmirror.html?t=6&ep=3' },
+          { label: 'Ep 4 — Mazey Day', url: 'blackmirror.html?t=6&ep=4' },
+          { label: 'Ep 5 — Demon 79', url: 'blackmirror.html?t=6&ep=5' },
+        ]},
+      ]
+    },
+    dondeestamarta: {
+      temporadas: [
+        { label: '1ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'dondeestamarta.html?t=1&ep=1' },
+          { label: 'Ep 2', url: 'dondeestamarta.html?t=1&ep=2' },
+          { label: 'Ep 3', url: 'dondeestamarta.html?t=1&ep=3' },
+          { label: 'Ep 4', url: 'dondeestamarta.html?t=1&ep=4' },
+          { label: 'Ep 5', url: 'dondeestamarta.html?t=1&ep=5' },
+        ]},
+      ]
+    },
+  };
+
+  const SAGAS_DATA = {
+    sagaxmen: {
+      peliculas: [
+        { label: 'X-Men (2000)', url: 'xmen.html' },
+        { label: 'X-Men 2 (2003)', url: 'xmen2.html' },
+        { label: 'X-Men 3: La Decisión Final (2006)', url: 'xmen3.html' },
+        { label: 'X-Men: Primera Generación (2011)', url: 'xmen4primera.html' },
+        { label: 'X-Men: Días del Futuro Pasado (2014)', url: 'xmen5diasdelfuturo.html' },
+        { label: 'X-Men: Apocalipsis (2016)', url: 'xmen6apocalipsis.html' },
+        { label: 'X-Men: Fénix Oscura (2019)', url: 'xmen7fenix.html' },
+      ]
+    },
+    sagaregresoalfuturo: {
+      peliculas: [
+        { label: 'Regreso al Futuro (1985)', url: 'regresoalfuturo.html' },
+        { label: 'Regreso al Futuro 2 (1989)', url: 'regresoalfuturo2.html' },
+        { label: 'Regreso al Futuro 3 (1990)', url: 'regresoalfuturo3.html' },
+      ]
+    },
+    sagahostel: {
+      peliculas: [
+        { label: 'Hostel (2005)', url: 'hostel.html' },
+        { label: 'Hostel 2 (2007)', url: 'hostel2.html' },
+        { label: 'Hostel 3 (2011)', url: 'hostel3.html' },
+      ]
+    },
+    sagaterminator: {
+      peliculas: [
+        { label: 'Terminator (1984)', url: 'terminator.html' },
+        { label: 'Terminator 2 (1991)', url: 'terminator2.html' },
+        { label: 'Terminator 3 (2003)', url: 'terminator3.html' },
+        { label: 'Terminator: Génesis (2015)', url: 'terminatorgenesis.html' },
+        { label: 'Terminator: Destino Oscuro (2019)', url: 'terminator4.html' },
+      ]
+    },
+    sagascream: {
+      peliculas: [
+        { label: 'Scream (1996)', url: 'scream.html' },
+        { label: 'Scream 2 (1997)', url: 'scream2.html' },
+        { label: 'Scream 3 (2000)', url: 'scream3.html' },
+        { label: 'Scream 4 (2011)', url: 'scream4.html' },
+      ]
+    },
+    sagakillbill: {
+      peliculas: [
+        { label: 'Kill Bill: Volumen 1 (2003)', url: 'killbill.html' },
+        { label: 'Kill Bill: Volumen 2 (2004)', url: 'killbill2.html' },
+      ]
+    },
+    sagadbs: {
+      peliculas: [
+        { label: 'La Batalla de los Dioses (2013)', url: 'batalladioses.html' },
+        { label: 'La Resurrección de Freezer (2015)', url: 'resurreccionf.html' },
+        { label: 'Dragon Ball Super: Broly (2018)', url: 'superbroly.html' },
+        { label: 'Dragon Ball Super: Super Hero (2022)', url: 'superhero.html' },
+      ]
+    },
+  };
+
+  // ===== SELECTOR MODAL LOGIC =====
+  const selectorModal = document.getElementById('selectorModal');
+  const selectorClose = document.getElementById('selectorClose');
+  const selectorImg = document.getElementById('selectorImg');
+  const selectorTitle = document.getElementById('selectorTitle');
+  const selectorDesc = document.getElementById('selectorDesc');
+  const selectorBadge = document.getElementById('selectorBadge');
+  const seasonBlock = document.getElementById('seasonBlock');
+  const sagaBlock = document.getElementById('sagaBlock');
+  const seasonDropdownBtn = document.getElementById('seasonDropdownBtn');
+  const seasonDropdownLabel = document.getElementById('seasonDropdownLabel');
+  const seasonDropdownList = document.getElementById('seasonDropdownList');
+  const seasonChevron = document.getElementById('seasonChevron');
+  const episodeList = document.getElementById('episodeList');
+  const sagaMovieList = document.getElementById('sagaMovieList');
+
+  let dropdownOpen = false;
+
+  function toggleSeasonDropdown(forceClose) {
+    if (forceClose || dropdownOpen) {
+      dropdownOpen = false;
+      seasonDropdownList.classList.remove('open');
+      seasonChevron.classList.remove('open');
+    } else {
+      dropdownOpen = true;
+      seasonDropdownList.classList.add('open');
+      seasonChevron.classList.add('open');
+    }
+  }
+
+  seasonDropdownBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSeasonDropdown();
+  });
+  document.addEventListener('click', () => { if (dropdownOpen) toggleSeasonDropdown(true); });
+
+  function loadEpisodes(temporada) {
+    episodeList.innerHTML = '';
+    temporada.episodios.forEach(ep => {
+      const btn = document.createElement('a');
+      btn.href = ep.url;
+      btn.className = 'episode-btn';
+      btn.innerHTML = `<span class="ep-icon"><i class="fas fa-play"></i></span>${ep.label}`;
+      episodeList.appendChild(btn);
+    });
+  }
+
+  function openSelectorModal(card) {
+    const img = card.querySelector('.movie-poster');
+    const title = card.querySelector('.card-title');
+    const desc = card.dataset.desc || '';
+    const isSerie = card.classList.contains('serie-card');
+    const isSaga = card.classList.contains('saga-card');
+    const key = isSerie ? card.dataset.serie : card.dataset.saga;
+
+    selectorImg.src = img ? img.src : '';
+    selectorImg.alt = title ? title.textContent : '';
+    selectorTitle.textContent = title ? title.textContent.trim() : '';
+    selectorDesc.textContent = desc || '';
+
+    seasonBlock.style.display = 'none';
+    sagaBlock.style.display = 'none';
+    episodeList.innerHTML = '';
+    sagaMovieList.innerHTML = '';
+    seasonDropdownList.innerHTML = '';
+    toggleSeasonDropdown(true);
+
+    if (isSerie) {
+      selectorBadge.textContent = 'Serie';
+      selectorBadge.className = 'modal-badge serie';
+      const data = SERIES_DATA[key];
+      if (data) {
+        seasonBlock.style.display = 'block';
+
+        data.temporadas.forEach((t, i) => {
+          const opt = document.createElement('div');
+          opt.className = 'season-option' + (i === 0 ? ' selected' : '');
+          opt.textContent = t.label;
+          opt.addEventListener('click', (e) => {
+            e.stopPropagation();
+            seasonDropdownList.querySelectorAll('.season-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            seasonDropdownLabel.textContent = t.label;
+            toggleSeasonDropdown(true);
+            loadEpisodes(t);
+          });
+          seasonDropdownList.appendChild(opt);
+        });
+
+        // Auto-load first season
+        seasonDropdownLabel.textContent = data.temporadas[0].label;
+        loadEpisodes(data.temporadas[0]);
+
+        // Hide dropdown button if only 1 season
+        seasonDropdownBtn.style.display = data.temporadas.length > 1 ? 'flex' : 'none';
+      }
+    } else if (isSaga) {
+      selectorBadge.textContent = 'Saga';
+      selectorBadge.className = 'modal-badge';
+      const data = SAGAS_DATA[key];
+      if (data) {
+        sagaBlock.style.display = 'block';
+        data.peliculas.forEach((p, i) => {
+          const btn = document.createElement('a');
+          btn.href = p.url;
+          btn.className = 'saga-movie-btn';
+          btn.innerHTML = `<span class="saga-num">${String(i+1).padStart(2,'0')}</span><span>${p.label}</span><span class="saga-play"><i class="fas fa-play"></i></span>`;
+          sagaMovieList.appendChild(btn);
+        });
+      }
+    }
+
+    selectorModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSelectorModal() {
+    selectorModal.classList.remove('open');
+    document.body.style.overflow = '';
+    episodeList.innerHTML = '';
+    sagaMovieList.innerHTML = '';
+    seasonDropdownList.innerHTML = '';
+    toggleSeasonDropdown(true);
+  }
+
+  selectorClose.addEventListener('click', closeSelectorModal);
+  selectorModal.addEventListener('click', e => { if (e.target === selectorModal) closeSelectorModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSelectorModal(); });
+
+  // Intercept serie/saga card clicks
+  document.querySelectorAll('.serie-card, .saga-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      openSelectorModal(card);
     });
   });
 
@@ -4217,4 +4887,4 @@
 <script type="module" src="app.js" defer></script>
 
 </body>
-  </html>
+</html>
