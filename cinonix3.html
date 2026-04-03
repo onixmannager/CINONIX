@@ -828,6 +828,51 @@
       }
     }
 
+    /* ===== MOVIE MODAL: Desktop two-column layout (image left) ===== */
+    @media (min-width: 601px) {
+      #modalBox .modal-img-wrap {
+        position: absolute;
+        top: 0; left: 0;
+        width: 260px;
+        height: 100%;
+        min-height: 100%;
+        flex-shrink: 0;
+      }
+      #modalBox .modal-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+      }
+      #modalBox .modal-img-gradient {
+        background: linear-gradient(to right, transparent 60%, var(--surface) 100%);
+      }
+      #modalBox {
+        flex-direction: row;
+        overflow: hidden;
+        position: relative;
+        min-height: 380px;
+      }
+      #modalBox .modal-body {
+        margin-left: 260px;
+        padding: 1.8rem 1.6rem 1.8rem;
+        overflow-y: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      #modalBox .modal-title {
+        margin-top: 0;
+        font-size: 2rem;
+      }
+      #modalBox .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 20;
+      }
+    }
+
     .selector-label {
       font-size: 0.7rem;
       font-weight: 700;
@@ -4694,7 +4739,7 @@
     modalDesc.classList.toggle('empty', !desc);
     modalBadge.textContent = type === 'serie' ? 'Serie' : 'Película';
     modalBadge.className = 'modal-badge' + (type === 'serie' ? ' serie' : '');
-    modalBtn.href = href || '#';
+    modalBtn.href = href ? href.replace(/\.html(\?.*)?$/, 'video.html$1') : '#';
     movieModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
