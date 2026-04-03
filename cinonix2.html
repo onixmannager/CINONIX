@@ -599,6 +599,169 @@
       .hero-title { font-size: 2.4rem; }
       .navbar { padding: 0 1rem; }
     }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 5000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(6px);
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--surface);
+      border-radius: 14px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .modal-overlay.open .modal {
+      transform: scale(1) translateY(0);
+    }
+    .modal-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      flex-shrink: 0;
+    }
+    .modal-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .modal-img-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 30%, var(--surface) 100%);
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 0.75rem;
+      z-index: 10;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .modal-body {
+      padding: 0 1.6rem 1.8rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 2px;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      margin-top: -2.2rem;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    }
+    .modal-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+    .modal-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 3px;
+      background: var(--accent);
+      color: #fff;
+    }
+    .modal-badge.serie { background: #1a6bc4; }
+    .modal-desc {
+      color: rgba(255,255,255,0.62);
+      font-size: 0.85rem;
+      line-height: 1.75;
+      margin-bottom: 1.4rem;
+    }
+    .modal-desc.empty {
+      color: rgba(255,255,255,0.2);
+      font-style: italic;
+    }
+    .modal-watch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      transition: all 0.25s;
+      position: relative;
+    }
+    .modal-watch-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .modal-watch-btn:hover::after { width: 100%; }
+    .modal-watch-btn:hover { color: var(--accent); gap: 18px; }
+    .modal-watch-btn .btn-play {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      transition: transform 0.25s, background 0.25s;
+      padding-left: 2px;
+    }
+    .modal-watch-btn:hover .btn-play {
+      transform: scale(1.12);
+      background: #c40812;
+    }
+
+    @media (max-width: 600px) {
+      .modal { max-height: 95vh; }
+      .modal-img-wrap { height: 200px; }
+      .modal-title { font-size: 1.5rem; }
+      .modal-body { padding: 0 1.1rem 1.4rem; }
+    }
   </style>
 </head>
 <body>
@@ -696,7 +859,7 @@
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-arrow right" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       <div class="carousel-track">
-        <a href="diamantesdesangre.html" class="movie-card">
+        <a href="diamantesdesangre.html" class="movie-card" data-desc="Sierra Leone, años 90. En plena guerra civil, un pescador encuentra un diamante rosa excepcional que podría cambiar su vida para siempre. Un mercenario sin escrúpulos y una periodista idealista se cruzan en su camino. Entre la codicia, la supervivencia y la redención, todos persiguen la misma piedra en un país devastado por la violencia.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/diamantesdesangre.webp" class="movie-poster" alt="Diamantes de sangre" loading="lazy">
           <div class="card-overlay">
@@ -3809,6 +3972,29 @@
   </section>
 </main>
 
+<!-- Modal -->
+<div class="modal-overlay" id="movieModal">
+  <div class="modal" id="modalBox">
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="">
+      <div class="modal-img-gradient"></div>
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-meta">
+        <span class="modal-badge" id="modalBadge">Película</span>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <a href="#" class="modal-watch-btn" id="modalBtn">
+        <span class="btn-play"><i class="fas fa-play"></i></span>
+        Ver ahora
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer>
   <div class="footer-logo">CINONIX</div>
@@ -3971,6 +4157,52 @@
       slides[current].classList.add('active');
     }, 5000);
   })();
+
+
+  // ===== MODAL =====
+  const movieModal = document.getElementById('movieModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalBtn = document.getElementById('modalBtn');
+  const modalBadge = document.getElementById('modalBadge');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(card) {
+    const img = card.querySelector('.movie-poster');
+    const title = card.querySelector('.card-title');
+    const href = card.getAttribute('href');
+    const desc = card.dataset.desc || '';
+    const type = card.dataset.type || 'movie';
+
+    modalImg.src = img ? img.src : '';
+    modalImg.alt = title ? title.textContent : '';
+    modalTitle.textContent = title ? title.textContent.trim() : '';
+    modalDesc.textContent = desc || 'Descripción próximamente...';
+    modalDesc.classList.toggle('empty', !desc);
+    modalBadge.textContent = type === 'serie' ? 'Serie' : 'Película';
+    modalBadge.className = 'modal-badge' + (type === 'serie' ? ' serie' : '');
+    modalBtn.href = href || '#';
+    movieModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    movieModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  movieModal.addEventListener('click', e => { if (e.target === movieModal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Intercept all movie-card clicks
+  document.querySelectorAll('.movie-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      openModal(card);
+    });
+  });
 
   // ===== CERRAR SESION (preserve original function) =====
   function cerrarSesion() {
