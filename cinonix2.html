@@ -28,8 +28,8 @@
       --gold: #f5c518;
       --text: #f0f0f0;
       --text-dim: #8a9bb5;
-      --card-w: 170px;
-      --card-h: 255px;
+      --card-w: 185px;
+      --card-h: 275px;
       --nav-h: 70px;
       --radius: 10px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -73,8 +73,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 2rem;
-      background: linear-gradient(to bottom, rgba(7,11,20,0.95) 0%, transparent 100%);
-      backdrop-filter: blur(0px);
+      background: rgba(7,11,20,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
       transition: background 0.4s, backdrop-filter 0.4s;
     }
     .navbar.scrolled {
@@ -572,14 +573,14 @@
       .menu-toggle { display: block; }
       .mobile-drawer { display: block; }
       .drawer-overlay { display: block; }
-      :root { --card-w: 130px; --card-h: 195px; }
+      :root { --card-w: 142px; --card-h: 212px; }
       .section-header { padding: 0 1rem 0.5rem; }
       .carousel-track { padding: 8px 1rem 16px; gap: 8px; }
       .carousel-arrow { display: none; }
       .hero-content { bottom: 8%; left: 5%; right: 5%; max-width: none; }
     }
     @media (max-width: 480px) {
-      :root { --card-w: 110px; --card-h: 165px; }
+      :root { --card-w: 120px; --card-h: 180px; }
       .section-title { font-size: 0.95rem; }
       .hero-title { font-size: 2.4rem; }
       .navbar { padding: 0 1rem; }
