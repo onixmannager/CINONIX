@@ -170,7 +170,7 @@
 
     /* ===== MOBILE DRAWER ===== */
     .mobile-drawer {
-      display: none;
+      display: block;
       position: fixed;
       top: 0; right: 0;
       width: 280px;
@@ -185,15 +185,16 @@
     }
     .mobile-drawer.open { transform: translateX(0); }
     .drawer-overlay {
-      display: none;
+      display: block;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.7);
       z-index: 1050;
       opacity: 0;
+      pointer-events: none;
       transition: opacity 0.35s;
     }
-    .drawer-overlay.open { opacity: 1; }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
     .mobile-drawer a {
       display: flex;
@@ -3203,6 +3204,39 @@
     });
   });
 
+  // ===== TOUCH DRAG FIX for carousel tracks =====
+  document.querySelectorAll('.carousel-track').forEach(track => {
+    let startX = 0;
+    let startScrollLeft = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startScrollLeft = track.scrollLeft;
+      isDragging = false;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', e => {
+      const diff = startX - e.touches[0].clientX;
+      if (Math.abs(diff) > 8) {
+        isDragging = true;
+        track.scrollLeft = startScrollLeft + diff;
+      }
+    }, { passive: true });
+
+    track.addEventListener('touchend', e => {
+      if (isDragging) {
+        // Block the next click event on child links to prevent navigation on swipe
+        const blocker = function(ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          track.removeEventListener('click', blocker, true);
+        };
+        track.addEventListener('click', blocker, true);
+      }
+    }, { passive: true });
+  });
+
   // ===== CAROUSEL ARROWS =====
   document.querySelectorAll('.movies-container').forEach(container => {
     const track = container.querySelector('.carousel-track');
@@ -3261,4 +3295,4 @@
 <script type="module" src="app.js" defer></script>
 
 </body>
-  </html>
+              </html>
