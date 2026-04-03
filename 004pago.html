@@ -21,34 +21,31 @@
       --red:        #E50914;
       --red-dark:   #b5050e;
       --red-glow:   rgba(229,9,20,0.4);
+      --gold:       #c8a55e;
+      --gold-glow:  rgba(200,165,94,0.3);
       --bg:         #07080f;
-      --card-bg:    rgba(10,11,20,0.85);
+      --card-bg:    rgba(10,11,20,0.88);
       --border:     rgba(255,255,255,0.07);
       --text:       #eeeef5;
       --text-muted: #7a7a90;
-      --input-bg:   rgba(255,255,255,0.05);
-      --input-border: rgba(255,255,255,0.1);
       --ease:       cubic-bezier(0.4,0,0.2,1);
       --font-display: 'Bebas Neue', sans-serif;
       --font-body:    'DM Sans', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior:smooth; }
 
     body {
       background-color: var(--bg);
       background-image:
-        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(229,9,20,0.07) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(229,9,20,0.04) 0%, transparent 60%);
-      color: var(--text);
-      font-family: var(--font-body);
-      overflow-x: hidden;
-      min-height: 100vh;
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(229,9,20,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(200,165,94,0.04) 0%, transparent 60%);
+      color:var(--text); font-family:var(--font-body);
+      overflow-x:hidden; min-height:100vh;
     }
 
     body::after {
-      content:'';
-      position:fixed; inset:0;
+      content:''; position:fixed; inset:0;
       pointer-events:none; z-index:9990; opacity:0.022;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
     }
@@ -56,219 +53,282 @@
     /* ── HEADER ── */
     .header {
       display:flex; justify-content:space-between; align-items:center;
-      padding: 20px 52px;
-      background: rgba(7,8,15,0.92);
-      border-bottom: 1px solid rgba(229,9,20,0.12);
+      padding:20px 52px;
+      background:rgba(7,8,15,0.92);
+      border-bottom:1px solid rgba(229,9,20,0.12);
       color:white; position:relative; z-index:100;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
     }
-
     .logo {
-      font-family: var(--font-display);
-      font-size: 2.1rem;
-      letter-spacing: 0.06em;
-      color: var(--text);
-      text-decoration: none;
+      font-family:var(--font-display); font-size:2.1rem;
+      letter-spacing:0.06em; color:var(--text); text-decoration:none;
     }
-    .logo em { color: var(--red); font-style:normal; text-shadow: 0 0 14px var(--red-glow); }
+    .logo em { color:var(--red); font-style:normal; text-shadow:0 0 14px var(--red-glow); }
 
     .cta-button {
-      background: linear-gradient(135deg, var(--red), var(--red-dark));
-      color:#fff; padding:10px 24px;
-      font-family: var(--font-body); font-size:0.85rem; font-weight:600;
+      background:linear-gradient(135deg, var(--red), var(--red-dark));
+      color:#fff; padding:11px 24px;
+      font-family:var(--font-body); font-size:0.85rem; font-weight:600;
       letter-spacing:0.07em; text-transform:uppercase;
       border:none; border-radius:4px; cursor:pointer;
-      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      position:relative; overflow:hidden;
+      transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      text-decoration:none; display:inline-block;
+    }
+    .cta-button::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+      opacity:0; transition:opacity 0.3s;
     }
     .cta-button:hover {
       transform:translateY(-2px);
-      box-shadow: 0 8px 28px var(--red-glow);
+      box-shadow:0 8px 28px var(--red-glow);
     }
+    .cta-button:hover::before { opacity:1; }
 
-    /* ── AUTH WRAPPER ── */
-    .auth-container {
+    /* ── MAIN PAYMENT SECTION ── */
+    .payment-wrapper {
       display:flex; justify-content:center; align-items:center;
       min-height: calc(100vh - 76px);
-      padding: 48px 20px;
+      padding: 80px 20px 60px;
     }
 
-    .auth-form {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 52px 48px;
-      border-radius: 16px;
-      box-shadow:
-        0 0 0 1px rgba(229,9,20,0.06),
-        0 32px 80px rgba(0,0,0,0.7),
-        0 8px 32px rgba(0,0,0,0.5);
+    .payment-card {
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding: 64px 56px;
+      max-width: 560px; width:100%;
       text-align:center;
-      max-width:420px; width:100%;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      animation: cardIn 0.7s var(--ease) forwards;
+      position:relative; overflow:hidden;
+      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+      box-shadow:
+        0 0 0 1px rgba(229,9,20,0.07),
+        0 48px 100px rgba(0,0,0,0.75),
+        0 12px 40px rgba(0,0,0,0.5);
+      animation:cardIn 0.8s var(--ease) forwards;
+    }
+
+    /* Gold top accent */
+    .payment-card::before {
+      content:''; position:absolute;
+      top:0; left:10%; right:10%;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius:0 0 2px 2px;
+    }
+
+    /* Ambient glow */
+    .payment-card::after {
+      content:''; position:absolute;
+      top:-80px; left:50%; transform:translateX(-50%);
+      width:300px; height:300px;
+      background:radial-gradient(circle, rgba(229,9,20,0.07) 0%, transparent 70%);
+      pointer-events:none;
     }
 
     @keyframes cardIn {
-      from { opacity:0; transform: translateY(28px) scale(0.97); }
-      to   { opacity:1; transform: translateY(0) scale(1); }
+      from { opacity:0; transform:translateY(32px) scale(0.96); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
     }
 
-    /* Logo/icon top */
-    .form-brand {
-      font-family: var(--font-display);
-      font-size: 1.9rem;
-      letter-spacing: 0.08em;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .form-brand em { color: var(--red); font-style:normal; text-shadow: 0 0 12px var(--red-glow); }
-
-    .form-divider {
-      width: 40px; height: 2px;
-      background: linear-gradient(90deg, var(--red), transparent);
-      border-radius: 2px; margin: 14px auto 28px;
+    .payment-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:linear-gradient(135deg, rgba(200,165,94,0.12), rgba(200,165,94,0.06));
+      border:1px solid rgba(200,165,94,0.25);
+      color:var(--gold); font-size:0.75rem; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase;
+      padding:7px 18px; border-radius:100px;
+      margin-bottom:28px;
     }
 
-    .auth-form h2 {
-      font-family: var(--font-display);
-      font-size: 1.65rem;
-      letter-spacing: 0.08em;
-      color: var(--text);
-      margin-bottom: 28px;
+    .payment-card h2 {
+      font-family:var(--font-display); font-size:2.8rem;
+      letter-spacing:0.07em; line-height:1.05;
+      margin-bottom:20px; position:relative; z-index:1;
     }
 
-    .form-group { margin-bottom: 14px; text-align:left; }
-
-    .form-label {
-      display:block; font-size:0.75rem; font-weight:600;
-      letter-spacing:0.1em; text-transform:uppercase;
-      color: var(--text-muted); margin-bottom:6px;
+    .price-block {
+      display:flex; align-items:baseline; justify-content:center;
+      gap:6px; margin-bottom:36px;
+    }
+    .price-amount {
+      font-family:var(--font-display); font-size:4.5rem;
+      letter-spacing:0.04em; color:var(--text);
+      text-shadow:0 0 40px rgba(255,255,255,0.08);
+    }
+    .price-currency {
+      font-family:var(--font-display); font-size:2.2rem;
+      color:var(--red); text-shadow:0 0 14px var(--red-glow);
+    }
+    .price-label {
+      font-size:0.82rem; color:var(--text-muted); font-weight:500;
+      display:block; margin-top:-8px; letter-spacing:0.04em;
     }
 
-    .form-input {
-      width:100%; padding: 13px 16px;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
-      color: var(--text); font-family: var(--font-body); font-size:0.95rem;
-      transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-      outline:none;
-    }
-    .form-input::placeholder { color: var(--text-muted); }
-    .form-input:focus {
-      border-color: rgba(229,9,20,0.55);
-      box-shadow: 0 0 0 3px rgba(229,9,20,0.1);
-      background: rgba(255,255,255,0.07);
+    /* Feature list */
+    .check-list {
+      list-style:none; padding:0;
+      display:flex; flex-direction:column; gap:0;
+      margin-bottom:40px; text-align:left;
+      border:1px solid var(--border);
+      border-radius:12px; overflow:hidden;
     }
 
-    .auth-button {
-      width:100%; padding: 14px;
-      background: linear-gradient(135deg, var(--red), var(--red-dark));
+    .check-list li {
+      display:flex; align-items:center; gap:14px;
+      padding:14px 20px;
+      font-size:0.93rem; font-weight:500;
+      border-bottom:1px solid var(--border);
+      transition:background 0.25s;
+    }
+    .check-list li:last-child { border-bottom:none; }
+    .check-list li:hover { background:rgba(255,255,255,0.025); }
+
+    .check-icon {
+      width:24px; height:24px; flex-shrink:0;
+      background:rgba(229,9,20,0.12);
+      border:1px solid rgba(229,9,20,0.2);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--red); font-size:0.65rem;
+    }
+
+    .cta-pay {
+      width:100%; padding:18px;
+      background:linear-gradient(135deg, var(--red), var(--red-dark));
       border:none; color:white;
-      font-family: var(--font-body); font-size:0.95rem; font-weight:700;
-      letter-spacing:0.06em; text-transform:uppercase;
-      border-radius: 8px; cursor:pointer;
-      margin-top: 8px;
+      font-family:var(--font-body); font-size:1rem; font-weight:700;
+      letter-spacing:0.08em; text-transform:uppercase;
+      border-radius:10px; cursor:pointer;
       position:relative; overflow:hidden;
-      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      text-decoration:none; display:block;
     }
-    .auth-button::before {
+    .cta-pay::before {
       content:''; position:absolute; inset:0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
-      opacity:0; transition: opacity 0.3s;
+      background:linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+      opacity:0; transition:opacity 0.3s;
     }
-    .auth-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px var(--red-glow), 0 4px 12px rgba(0,0,0,0.4);
+    .cta-pay:hover {
+      transform:translateY(-3px);
+      box-shadow:0 16px 48px var(--red-glow), 0 6px 20px rgba(0,0,0,0.5);
     }
-    .auth-button:hover::before { opacity:1; }
+    .cta-pay:hover::before { opacity:1; }
 
-    .auth-links {
-      margin-top: 22px; font-size:0.88rem; color: var(--text-muted);
-      line-height:1.9;
+    .pay-note {
+      margin-top:16px; font-size:0.8rem; color:var(--text-muted);
+      display:flex; align-items:center; justify-content:center; gap:6px;
     }
-    .auth-links a { color: var(--red); text-decoration:none; font-weight:500; transition:opacity 0.2s; }
-    .auth-links a:hover { opacity:0.75; text-decoration:underline; }
+    .pay-note i { color:var(--red); font-size:0.85em; }
 
     /* ── FOOTER ── */
     .footer {
-      padding: 56px 80px 28px;
-      background: linear-gradient(180deg, var(--bg) 0%, #000 100%);
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      position:relative;
+      padding:56px 80px 28px;
+      background:linear-gradient(180deg, var(--bg) 0%, #000 100%);
+      color:var(--text-muted);
+      border-top:1px solid var(--border); position:relative;
     }
     .footer::before {
       content:''; position:absolute; top:-1px; left:50%; transform:translateX(-50%);
       width:180px; height:1px;
-      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      background:linear-gradient(90deg, transparent, var(--red), transparent);
     }
     .footer-content {
       display:grid; grid-template-columns:repeat(5,1fr);
       gap:28px; max-width:1200px; margin:0 auto 40px;
     }
     .footer-column h3 {
-      color:#fff; margin-bottom:16px;
-      font-size:0.7rem; font-weight:700;
+      color:#fff; margin-bottom:16px; font-size:0.7rem; font-weight:700;
       letter-spacing:0.14em; text-transform:uppercase;
     }
     .footer-column a {
-      color: var(--text-muted); text-decoration:none;
+      color:var(--text-muted); text-decoration:none;
       display:flex; align-items:center; gap:7px;
       margin-bottom:11px; font-size:0.87rem;
-      transition: color 0.25s, transform 0.25s var(--ease);
+      transition:color 0.25s, transform 0.25s var(--ease);
     }
-    .footer-column a:hover { color: var(--text); transform:translateX(4px); }
+    .footer-column a:hover { color:var(--text); transform:translateX(4px); }
     .footer-column a i { color:var(--red); width:16px; font-size:0.9em; }
     .footer-bottom {
       text-align:center; padding-top:24px;
       border-top:1px solid var(--border);
-      font-size:0.78rem; letter-spacing:0.04em;
-      color:rgba(255,255,255,0.16);
+      font-size:0.78rem; letter-spacing:0.04em; color:rgba(255,255,255,0.16);
     }
 
-    /* ── RESPONSIVE ── */
     @media(max-width:768px){
       .header { padding:14px 20px; }
       .logo { font-size:1.7rem; }
-      .auth-form { padding:36px 28px; }
+      .payment-card { padding:40px 28px; }
+      .price-amount { font-size:3.5rem; }
       .footer { padding:36px 24px 20px; }
       .footer-content { grid-template-columns:repeat(2,1fr); }
     }
     @media(max-width:480px){
       .footer-content { grid-template-columns:1fr 1fr; }
+      .payment-card h2 { font-size:2.2rem; }
     }
   </style>
 </head>
 <body>
   <header class="header">
     <a href="index.html" class="logo">CIN<em>O</em>NIX</a>
+    <a href="https://buy.stripe.com/5kA01m5Le2723T2145">
+      <button class="cta-button">Suscríbete</button>
+    </a>
   </header>
 
-  <div class="auth-container">
-    <form id="loginForm" class="auth-form">
-      <div class="form-brand">CIN<em>O</em>NIX</div>
-      <div class="form-divider"></div>
-      <h2>Iniciar Sesión</h2>
-
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="email" class="form-input" placeholder="tucorreo@ejemplo.com" required>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Contraseña</label>
-        <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+  <div class="payment-wrapper">
+    <div class="payment-card">
+      <div class="payment-badge">
+        <i class="fas fa-fire" style="font-size:0.8em;"></i>
+        Oferta de lanzamiento
       </div>
 
-      <button type="submit" class="auth-button">Iniciar Sesión</button>
+      <h2>ACTIVAR SUSCRIPCIÓN</h2>
 
-      <div class="auth-links">
-        <p>¿Primera vez en Cinonix? <a href="002registro.html">Regístrate ahora</a></p>
-        <p><a href="003resetpassword.html">¿Olvidaste tu contraseña?</a></p>
+      <div class="price-block">
+        <span class="price-currency">€</span>
+        <span class="price-amount">19<span style="font-size:0.55em;opacity:0.7">,99</span></span>
       </div>
-    </form>
+      <span class="price-label">Pago único · Acceso de por vida</span>
+
+      <ul class="check-list">
+        <li><span class="check-icon"><i class="fas fa-check"></i></span> <strong>Acceso para toda la vida</strong></li>
+        <li><span class="check-icon"><i class="fas fa-check"></i></span> <strong>Sin suscripciones mensuales</strong></li>
+        <li><span class="check-icon"><i class="fas fa-check"></i></span> <strong>Contenido sin restricciones</strong></li>
+        <li><span class="check-icon"><i class="fas fa-check"></i></span> <strong>Acceso a descargas</strong></li>
+        <li><span class="check-icon"><i class="fas fa-check"></i></span> <strong>Siempre disponible</strong></li>
+      </ul>
+
+      <p style="font-size:0.93rem; color:var(--text-muted); margin-bottom:24px; line-height:1.65;">
+        No esperes más. Únete hoy y empieza a disfrutar sin límites.
+      </p>
+
+      <a href="https://buy.stripe.com/cNi28t60f6gx0C70xQ3ks00" class="cta-pay">
+        Suscríbete Ahora
+      </a>
+
+      <p class="pay-note">
+        <i class="fas fa-shield-alt"></i>
+        Pago seguro con Stripe · Sin compromisos
+      </p>
+    </div>
   </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyD2dZO307P3B_YmH8dZI5-ll_ZO6uzy0SU",
+      authDomain: "inframe2.firebaseapp.com",
+      databaseURL: "https://inframe2-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "inframe2",
+      storageBucket: "inframe2.firebasestorage.app",
+      messagingSenderId: "68415435303",
+      appId: "1:68415435303:web:b26db7799d71dee6119402"
+    };
+    const app = initializeApp(firebaseConfig);
+  </script>
 
   <footer class="footer">
     <div class="footer-content">
@@ -299,16 +359,5 @@
     </div>
     <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
   </footer>
-
-  <script type="module" src="app.js"></script>
-  <script type="module">
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      window.iniciarSesion(email, password);
-    });
-  </script>
 </body>
 </html>
