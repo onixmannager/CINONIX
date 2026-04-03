@@ -4532,10 +4532,10 @@
 <!-- Modal -->
 <div class="modal-overlay" id="movieModal">
   <div class="modal" id="modalBox">
+    <button class="modal-close" id="modalClose" style="position:absolute;top:12px;right:12px;z-index:30;"><i class="fas fa-times"></i></button>
     <div class="modal-img-wrap">
       <img id="modalImg" src="" alt="">
       <div class="modal-img-gradient"></div>
-      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
       <h2 class="modal-title" id="modalTitle"></h2>
@@ -4739,7 +4739,7 @@
     modalDesc.classList.toggle('empty', !desc);
     modalBadge.textContent = type === 'serie' ? 'Serie' : 'Película';
     modalBadge.className = 'modal-badge' + (type === 'serie' ? ' serie' : '');
-    modalBtn.href = href ? href.replace(/\.html(\?.*)?$/, 'video.html$1') : '#';
+    modalBtn.href = href || '#';
     movieModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
