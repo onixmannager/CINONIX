@@ -1,253 +1,308 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-<!-- Metadatos Open Graph -->
+
   <meta property="og:title" content="Cinonix - Peliculas y Series Online -">
   <meta property="og:description" content="Disfruta del buen cine">
   <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <meta property="og:type" content="website">
-  <!-- Iconos -->
   <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <title>Cinonix - Cine - Series - Documentales</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
+
   <style>
-    /* Estilos principales idénticos al inicio */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }body {
-  background-color: #141414;
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-/* Header centrado */
-.header {
-  padding: 25px 20px;
-  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0));
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-}
+    :root {
+      --red:          #E50914;
+      --red-dark:     #b5050e;
+      --red-glow:     rgba(229,9,20,0.4);
+      --green:        #00c853;
+      --green-glow:   rgba(0,200,83,0.35);
+      --bg:           #07080f;
+      --card-bg:      rgba(10,11,20,0.88);
+      --border:       rgba(255,255,255,0.07);
+      --text:         #eeeef5;
+      --text-muted:   #7a7a90;
+      --ease:         cubic-bezier(0.4,0,0.2,1);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
 
-.logo {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: #E50914;
-  text-decoration: none;
-  letter-spacing: -1px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
+    html { scroll-behavior:smooth; }
 
-/* Contenedor de confirmación */
-.payment-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-}
+    body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 70% 55% at 50% 0%,  rgba(0,200,83,0.055) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 90%, rgba(229,9,20,0.04)  0%, transparent 60%);
+      color:var(--text); font-family:var(--font-body);
+      overflow-x:hidden; min-height:100vh;
+      display:flex; flex-direction:column;
+    }
 
-.payment-card {
-  background: rgba(0,0,0,0.75);
-  width: 100%;
-  max-width: 450px;
-  padding: 60px 40px;
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-}
+    /* grain */
+    body::after {
+      content:''; position:fixed; inset:0;
+      pointer-events:none; z-index:9990; opacity:0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
 
-.checkmark-container {
-  text-align: center;
-  margin-bottom: 30px;
-}
+    /* ── HEADER ── */
+    .header {
+      display:flex; justify-content:center; align-items:center;
+      padding:22px 52px;
+      background:rgba(7,8,15,0.92);
+      border-bottom:1px solid rgba(229,9,20,0.12);
+      position:relative; z-index:100;
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    }
+    .logo {
+      font-family:var(--font-display); font-size:2.1rem;
+      letter-spacing:0.06em; color:var(--text); text-decoration:none;
+    }
+    .logo em { color:var(--red); font-style:normal; text-shadow:0 0 14px var(--red-glow); }
 
-.checkmark {
-  font-size: 4.5rem;
-  color: #00c853;
-  animation: checkmarkPop 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
+    /* ── MAIN ── */
+    .payment-container {
+      flex:1; display:flex; justify-content:center; align-items:center;
+      padding:80px 20px 60px;
+    }
 
-@keyframes checkmarkPop {
-  0% { transform: scale(0); opacity: 0; }
-  80% { transform: scale(1.2); }
-  100% { transform: scale(1); opacity: 1; }
-}
+    .payment-card {
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      width:100%; max-width:480px;
+      padding:64px 52px;
+      border-radius:20px;
+      text-align:center;
+      position:relative; overflow:hidden;
+      backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+      box-shadow:
+        0 0 0 1px rgba(0,200,83,0.07),
+        0 48px 100px rgba(0,0,0,0.75),
+        0 12px 40px rgba(0,0,0,0.5);
+      animation: cardIn 0.8s var(--ease) forwards;
+    }
 
-.payment-title {
-  color: #fff;
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 15px;
-}
+    /* Green accent line at top */
+    .payment-card::before {
+      content:''; position:absolute;
+      top:0; left:10%; right:10%; height:2px;
+      background:linear-gradient(90deg, transparent, var(--green), transparent);
+      border-radius:0 0 2px 2px;
+    }
 
-.payment-text {
-  color: #b3b3b3;
-  text-align: center;
-  line-height: 1.6;
-  margin-bottom: 30px;
-  font-size: 1.05rem;
-}
+    /* Ambient glow */
+    .payment-card::after {
+      content:''; position:absolute;
+      top:-60px; left:50%; transform:translateX(-50%);
+      width:280px; height:280px;
+      background:radial-gradient(circle, rgba(0,200,83,0.06) 0%, transparent 70%);
+      pointer-events:none;
+    }
 
-.verify-button {
-  width: 100%;
-  padding: 16px;
-  background: #E50914;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(32px) scale(0.96); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
 
-.verify-button:hover {
-  background: #ff2a2a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(229,9,20,0.3);
-}
+    /* ── CHECKMARK ── */
+    .checkmark-container {
+      margin-bottom:28px; position:relative; z-index:1;
+    }
 
-/* Footer idéntico al inicio */
-.footer {
-  background: #000;
-  color: #757575;
-  padding: 50px 20px 30px;
-  margin-top: auto;
-}
+    .checkmark-ring {
+      width:88px; height:88px;
+      background:rgba(0,200,83,0.1);
+      border:2px solid rgba(0,200,83,0.3);
+      border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      box-shadow:0 0 32px rgba(0,200,83,0.18), 0 0 64px rgba(0,200,83,0.08);
+      animation: ringPulse 2.4s ease-in-out infinite;
+    }
 
-.footer-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
+    .checkmark {
+      font-size:2.6rem; color:var(--green);
+      filter: drop-shadow(0 0 10px var(--green-glow));
+      animation: checkmarkPop 0.7s cubic-bezier(0.68,-0.55,0.27,1.55) 0.15s both;
+    }
 
-.footer-column {
-  display: flex;
-  flex-direction: column;
-}
+    @keyframes checkmarkPop {
+      0%   { transform:scale(0); opacity:0; }
+      75%  { transform:scale(1.25); }
+      100% { transform:scale(1); opacity:1; }
+    }
 
-.footer-column h3 {
-  color: #fff;
-  font-size: 1rem;
-  margin-bottom: 20px;
-}
+    @keyframes ringPulse {
+      0%,100% { box-shadow:0 0 28px rgba(0,200,83,0.18), 0 0 56px rgba(0,200,83,0.08); }
+      50%      { box-shadow:0 0 44px rgba(0,200,83,0.28), 0 0 88px rgba(0,200,83,0.12); }
+    }
 
-.footer-column a {
-  color: inherit;
-  text-decoration: none;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-  transition: color 0.3s ease;
-}
+    /* ── TEXT ── */
+    .payment-title {
+      font-family:var(--font-display); font-size:2.6rem;
+      letter-spacing:0.06em; color:var(--text);
+      margin-bottom:16px; position:relative; z-index:1;
+    }
 
-.footer-column a:hover {
-  color: #E50914;
-}
+    .payment-text {
+      color:var(--text-muted); line-height:1.75;
+      margin-bottom:36px; font-size:0.95rem;
+      position:relative; z-index:1;
+    }
 
-.footer-bottom {
-  text-align: center;
-  margin-top: 50px;
-  padding-top: 30px;
-  border-top: 1px solid #333;
-  font-size: 0.9rem;
-}
+    .payment-text strong { color:var(--text); font-weight:600; }
 
-@media (max-width: 768px) {
-  .footer-content {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .payment-card {
-    padding: 40px 25px;
-  }
-  
-  .logo {
-    font-size: 2.2rem;
-  }
-}
+    /* ── BUTTON ── */
+    .verify-button {
+      width:100%; padding:17px;
+      background:linear-gradient(135deg, var(--red), var(--red-dark));
+      border:none; border-radius:10px;
+      color:white; font-family:var(--font-body);
+      font-size:0.97rem; font-weight:700;
+      letter-spacing:0.07em; text-transform:uppercase;
+      cursor:pointer; position:relative; overflow:hidden;
+      transition:transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .verify-button::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+      opacity:0; transition:opacity 0.3s;
+    }
+    .verify-button:hover {
+      transform:translateY(-3px);
+      box-shadow:0 16px 48px var(--red-glow), 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .verify-button:hover::before { opacity:1; }
+    .verify-button:active { transform:translateY(-1px); }
 
-@media (max-width: 480px) {
-  .footer-content {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-column {
-    align-items: center;
-    text-align: center;
-  }
-}
+    .verify-note {
+      margin-top:16px; font-size:0.78rem; color:var(--text-muted);
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      position:relative; z-index:1;
+    }
+    .verify-note i { color:var(--green); font-size:0.85em; }
 
+    /* ── FOOTER ── */
+    .footer {
+      padding:56px 80px 28px;
+      background:linear-gradient(180deg, var(--bg) 0%, #000 100%);
+      color:var(--text-muted);
+      border-top:1px solid var(--border); position:relative;
+      margin-top:auto;
+    }
+    .footer::before {
+      content:''; position:absolute; top:-1px; left:50%; transform:translateX(-50%);
+      width:180px; height:1px;
+      background:linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+    .footer-content {
+      display:grid; grid-template-columns:repeat(5,1fr);
+      gap:28px; max-width:1200px; margin:0 auto 40px;
+    }
+    .footer-column h3 {
+      color:#fff; margin-bottom:16px; font-size:0.7rem; font-weight:700;
+      letter-spacing:0.14em; text-transform:uppercase;
+    }
+    .footer-column a {
+      color:var(--text-muted); text-decoration:none;
+      display:flex; align-items:center; gap:7px;
+      margin-bottom:11px; font-size:0.87rem;
+      transition:color 0.25s, transform 0.25s var(--ease);
+    }
+    .footer-column a:hover { color:var(--text); transform:translateX(4px); }
+    .footer-column a i { color:var(--red); width:16px; font-size:0.9em; }
+    .footer-bottom {
+      text-align:center; padding-top:24px;
+      border-top:1px solid var(--border);
+      font-size:0.78rem; letter-spacing:0.04em; color:rgba(255,255,255,0.16);
+    }
+
+    @media(max-width:768px){
+      .header { padding:14px 20px; }
+      .logo { font-size:1.7rem; }
+      .payment-card { padding:40px 28px; }
+      .footer { padding:36px 24px 20px; }
+      .footer-content { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:480px){
+      .footer-content { grid-template-columns:1fr 1fr; }
+      .payment-title { font-size:2rem; }
+    }
   </style>
 </head>
 <body>
-  <!-- Header idéntico al inicio -->
+
   <header class="header">
-    <a href="index.html" class="logo">CINONIX</a>
-  </header>  <!-- Contenido principal -->  <div class="payment-container">
+    <a href="index.html" class="logo">CIN<em>O</em>NIX</a>
+  </header>
+
+  <div class="payment-container">
     <div class="payment-card">
+
       <div class="checkmark-container">
-        <i class="fas fa-check-circle checkmark"></i>
+        <div class="checkmark-ring">
+          <i class="fas fa-check checkmark"></i>
+        </div>
       </div>
+
       <h1 class="payment-title">Pago Confirmado</h1>
+
       <p class="payment-text">
-        ¡Gracias por tu compra! Para activar tu acceso vitalicio, 
-        es <strong>imprescindible</strong> que pulses el siguiente botón 
+        ¡Gracias por tu compra! Para activar tu acceso vitalicio,
+        es <strong>imprescindible</strong> que pulses el siguiente botón
         para completar la verificación final de tu suscripción.
       </p>
 
-      <button class="verify-button" onclick="validarPagoEnConfirmacion()">Confirmar Pago</button>
-     
-    
-    
-    </div>
-  </div> <!-- Footer --><footer class="footer">
-  <div class="footer-content">
-    
-    <div class="footer-column">
-      <h3>Contenido</h3>
-      <a href="index.html#peliculas">Películas</a> <!-- Redirige a la sección de películas en index.html -->
-      <a href="index.html#series">Series</a> <!-- Redirige a la sección de series en index.html -->
-      <a href="index.html#documentales">Documentales</a> <!-- Redirige a la sección de documentales en index.html -->
-    </div>
-    <div class="footer-column">
-              <h3>App</h3> 
-              <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
-    </div>
-    <div class="footer-column">
-      <h3>Nosotros</h3>
-      <a href="index.html#sobre-cinonix">Sobre Cinonix</a> <!-- Redirige a la sección sobre Cinonix en index.html -->
-    </div>
-    <div class="footer-column">
-      <h3>Soporte</h3>
-      <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank">Centro de ayuda</a> <!-- Link externo para el centro de ayuda -->
-    </div>
-    <div class="footer-column">
-      <h3>Síguenos</h3>
-      <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a> <!-- Redirige a Facebook -->
-      <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-twitter"></i> Youtube</a> <!-- Redirige a Twitter -->
-      <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a> <!-- Redirige a Instagram -->
-    </div>
-  </div>
-  <div class="footer-bottom">
-    © 2025 Cinonix - Todos los derechos reservados
-  </div>
-</footer> 
+      <button class="verify-button" onclick="validarPagoEnConfirmacion()">
+        <i class="fas fa-shield-alt" style="margin-right:8px;font-size:0.9em;"></i>
+        Confirmar Pago
+      </button>
 
-  
-<script>
+      <p class="verify-note">
+        <i class="fas fa-lock"></i>
+        Verificación segura · Paso obligatorio
+      </p>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Contenido</h3>
+        <a href="index.html#peliculas">Películas</a>
+        <a href="index.html#series">Series</a>
+        <a href="index.html#documentales">Documentales</a>
+      </div>
+      <div class="footer-column">
+        <h3>App</h3>
+        <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
+      </div>
+      <div class="footer-column">
+        <h3>Nosotros</h3>
+        <a href="index.html#sobre-cinonix">Sobre Cinonix</a>
+      </div>
+      <div class="footer-column">
+        <h3>Soporte</h3>
+        <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank">Centro de ayuda</a>
+      </div>
+      <div class="footer-column">
+        <h3>Síguenos</h3>
+        <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+        <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
+  </footer>
+
+  <script>
   function validarPagoEnConfirmacion() {
     const urlParams = new URLSearchParams(window.location.search);
     const referido = urlParams.get("referido") || sessionStorage.getItem("afiliadoReferrer");
@@ -258,7 +313,7 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        usuarioId: localStorage.getItem("usuarioId"), // Debes guardar el ID del usuario al registrarse
+        usuarioId: localStorage.getItem("usuarioId"),
         referido: referido || null
       })
     })
@@ -266,18 +321,16 @@
     .then(data => {
       if (data.success) {
         alert("Pago confirmado correctamente.");
-        window.location.href = "/dashboard.html"; // Redirige al usuario después de confirmar
+        window.location.href = "/dashboard.html";
       } else {
         alert("Hubo un error en la confirmación.");
       }
     })
     .catch(error => console.error('Error:', error));
   }
-</script>
-  
+  </script>
 
   <script type="module" src="app.js"></script>
 
-  
 </body>
 </html>
