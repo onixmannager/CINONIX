@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <script type="module">
+  import { redirigirSiPagado } from './app.js';
+  document.addEventListener("DOMContentLoaded", () => {
+    redirigirSiPagado();
+  });
+    </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Metadatos Open Graph -->
+<meta property="og:title" content="Cinonix - Cine - Series - Documentales">
+<meta property="og:description" content="Disfruta del mejor cine y series en calidad premium. Accede a contenido exclusivo de cine en streaming desde cualquier dispositivo.">
+<meta property="og:image" content="https://i.imgur.com/Zj3Hq9h.png">
+<meta property="og:type" content="website">
+
+<!-- Configuración básica para pantalla de inicio -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cinonix">
+<meta name="theme-color" content="#000000">
+
+<!-- Iconos -->
+<link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+
+<title>Cinonix - Cine - Series - Documentales</title>
+
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cinonix - Cine - Series - Documentales">
+<meta name="twitter:description" content="Disfruta de películas, series y documentales premium en calidad 4K desde cualquier lugar. Accede al mejor entretenimiento online.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.cinonix.com",
+  "name": "Cinonix",
+  "description": "Disfruta del mejor cine y entretenimiento premium en streaming, accede a películas, series y documentales exclusivos.",
+  "sameAs": [
+    "https://www.facebook.com/cinonix",
+    "https://twitter.com/cinonix",
+    "https://www.instagram.com/cinonix"
+  ]
+}
+</script>
+
+<style>
+/* ===========================
+   RESET & VARIABLES
+=========================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --red:         #E50914;
+    --red-dark:    #b5050e;
+    --red-glow:    rgba(229, 9, 20, 0.45);
+    --gold:        #c8a55e;
+    --bg:          #07080f;
+    --bg-2:        #0c0d18;
+    --card-bg:     #10111c;
+    --text:        #eeeef5;
+    --text-muted:  #7a7a90;
+    --border:      rgba(255,255,255,0.06);
+    --ease:        cubic-bezier(0.4, 0, 0.2, 1);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+}
+
+/* Subtle noise grain overlay */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+/* ===========================
+   FULLSCREEN LOADER
+=========================== */
+.fullscreen-loader {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #0d0d18 0%, #000 100%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    animation: loaderExit 3s ease forwards;
+}
+
+.fullscreen-loader img {
+    max-width: 160px;
+    max-height: 160px;
+    object-fit: contain;
+    animation: logoPulse 1.6s ease-in-out infinite;
+    filter: drop-shadow(0 0 24px var(--red-glow));
+}
+
+.loader-bar {
+    width: 120px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.loader-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--red), #ff5533);
+    border-radius: 100px;
+    animation: loaderProgress 2.6s ease-in-out forwards;
+}
+
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--red-glow)); }
+    50%       { transform: scale(1.07); filter: drop-shadow(0 0 36px var(--red-glow)) brightness(1.2); }
+}
+
+@keyframes loaderProgress {
+    0%   { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes loaderExit {
+    0%, 82%  { opacity: 1; visibility: visible; }
+    100%     { opacity: 0; visibility: hidden; }
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 52px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    background: linear-gradient(180deg, rgba(7,8,15,0.92) 0%, rgba(7,8,15,0.5) 70%, transparent 100%);
+}
+
+.header.scrolled {
+    background: rgba(7, 8, 15, 0.97);
+    border-bottom: 1px solid rgba(229, 9, 20, 0.15);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(229,9,20,0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    transition: opacity 0.3s;
+}
+
+.logo em {
+    color: var(--red);
+    font-style: normal;
+    text-shadow: 0 0 18px var(--red-glow);
+}
+
+.logo:hover { opacity: 0.88; }
+
+/* ===========================
+   BUTTONS
+=========================== */
+.cta-button {
+    background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    color: #fff;
+    padding: 11px 26px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.cta-button:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 10px 32px var(--red-glow), 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.cta-button:hover::before { opacity: 1; }
+.cta-button:active { transform: translateY(-1px); }
+
+.cta-button-lg {
+    padding: 16px 52px;
+    font-size: 1rem;
+    border-radius: 5px;
+    letter-spacing: 0.08em;
+}
+
+/* ===========================
+   HERO SECTION
+=========================== */
+.hero {
+    height: 100vh;
+    min-height: 680px;
+    background:
+        linear-gradient(to bottom, rgba(7,8,15,0.2) 0%, rgba(7,8,15,0.55) 55%, var(--bg) 100%),
+        url('https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fondolanding.webp') center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Vignette edges */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 35%, rgba(7,8,15,0.65) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Scanline shimmer */
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.03) 3px,
+        rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 860px;
+    z-index: 2;
+    padding-top: 90px;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--red), #ff4500);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 3px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+    box-shadow: 0 4px 18px var(--red-glow);
+}
+
+.hero h1 {
+    font-family: var(--font-display);
+    font-size: 5.5rem;
+    letter-spacing: 0.04em;
+    line-height: 1.0;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.8);
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s ease forwards;
+}
+
+.hero p {
+    font-size: 1.18rem;
+    color: rgba(238,238,245,0.82);
+    line-height: 1.75;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s ease forwards;
+}
+
+.hero p strong { color: var(--gold); }
+
+.hero .cta-button {
+    opacity: 0;
+    animation: fadeUp 0.9s 0.65s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   CAROUSEL SECTIONS
+=========================== */
+.carousel-section {
+    padding: 52px 0 24px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.carousel-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.carousel-title {
+    padding: 0 52px;
+    margin-bottom: 26px;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.carousel-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 30px;
+    background: linear-gradient(180deg, var(--red), #ff5533);
+    border-radius: 2px;
+    box-shadow: 0 0 14px var(--red-glow);
+    flex-shrink: 0;
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    mask-image:        linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.movies-wrapper {
+    display: flex;
+    width: 200%;
+    animation: scrollLoop 40s linear infinite;
+    gap: 10px;
+    padding: 8px 4px 18px;
+}
+
+.movies-wrapper:hover {
+    animation-play-state: paused;
+}
+
+.movie-card {
+    flex: 0 0 calc(100% / 13);
+    height: 270px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+    transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275), box-shadow 0.4s ease, z-index 0s;
+    background: var(--card-bg);
+}
+
+.movie-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+    z-index: 1;
+    opacity: 0.5;
+    transition: opacity 0.35s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.08) translateY(-12px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(229,9,20,0.25), 0 0 28px rgba(229,9,20,0.1);
+    z-index: 10;
+}
+
+.movie-card:hover::after {
+    opacity: 1;
+}
+
+.movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.movie-card:hover img {
+    transform: scale(1.12);
+}
+
+.movie-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 13px 11px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,1);
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.movie-card:hover .movie-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes scrollLoop {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ===========================
+   INFO / VALUE SECTION
+=========================== */
+.info-section {
+    padding: 100px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.info-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ambient glow bg */
+.info-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(ellipse, rgba(229,9,20,0.055) 0%, transparent 65%);
+    pointer-events: none;
+}
+
+.info-section .inner {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.info-section h2 {
+    font-family: var(--font-display);
+    font-size: 3.4rem;
+    letter-spacing: 0.05em;
+    line-height: 1.05;
+    margin-bottom: 28px;
+}
+
+.info-section > .inner > p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+    margin-bottom: 40px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.check-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 40px;
+    max-width: 700px;
+}
+
+.check-list li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 100px;
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    backdrop-filter: blur(6px);
+    transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease);
+}
+
+.check-list li:hover {
+    background: rgba(229, 9, 20, 0.1);
+    border-color: rgba(229, 9, 20, 0.28);
+    transform: translateY(-3px);
+}
+
+.check-icon {
+    color: var(--red);
+    font-size: 0.75em;
+    flex-shrink: 0;
+    text-shadow: 0 0 8px var(--red-glow);
+}
+
+.info-cta-note {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+.footer {
+    padding: 60px 80px 28px;
+    background: linear-gradient(180deg, var(--bg) 0%, #000 100%);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    position: relative;
+}
+
+/* Red accent line at top */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 28px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+}
+
+.footer-column h3 {
+    color: #fff;
+    margin-bottom: 18px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+}
+
+.footer-column a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+    font-size: 0.88rem;
+    transition: color 0.25s, transform 0.25s var(--ease);
+}
+
+.footer-column a:hover {
+    color: var(--text);
+    transform: translateX(4px);
+}
+
+.footer-column a i {
+    color: var(--red);
+    width: 16px;
+    font-size: 0.92em;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.18);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 1200px) {
+    .hero h1 { font-size: 4.2rem; }
+    .movie-card { flex: 0 0 calc(100% / 10); }
+}
+
+@media (max-width: 900px) {
+    .footer-content { grid-template-columns: repeat(3, 1fr); }
+    .movie-card { flex: 0 0 calc(100% / 7); }
+    .hero h1 { font-size: 3.4rem; }
+}
+
+@media (max-width: 768px) {
+    .header { padding: 14px 20px; }
+    .logo { font-size: 1.7rem; }
+    .cta-button { padding: 9px 16px; font-size: 0.8rem; }
+    .hero { height: 85vh; }
+    .hero h1 { font-size: 2.6rem; }
+    .hero p { font-size: 1rem; }
+    .carousel-title { padding: 0 20px; font-size: 1.5rem; }
+    .movie-card { height: 200px; flex: 0 0 calc(100% / 5); }
+    .footer { padding: 40px 24px 20px; }
+    .footer-content { grid-template-columns: repeat(2, 1fr); }
+    .info-section h2 { font-size: 2.4rem; }
+    .check-list { flex-direction: column; align-items: center; }
+    .check-list li { width: 100%; max-width: 340px; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2.1rem; }
+    .hero p { font-size: 0.95rem; }
+    .movie-card { height: 150px; flex: 0 0 calc(100% / 3); }
+    .footer-content { grid-template-columns: 1fr 1fr; }
+    .carousel-title { font-size: 1.2rem; }
+}
+</style>
+
+</head>
+<body>
+
+<header class="header" id="mainHeader">
+  <a href="#" class="logo">CIN<em>O</em>NIX</a>
+  <button class="cta-button" onclick="location.href='001login.html';">Iniciar sesión</button>
+
+  <!-- Loader de pantalla completa -->
+  <div class="fullscreen-loader" id="loader">
+    <img src="logocinonixapp.webp" alt="Pantalla de carga">
+    <div class="loader-bar"></div>
+  </div>
+</header>
+
+
+<!-- ── HERO ─────────────────────────────── -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">⚡ Oferta de lanzamiento · Válida hasta fin de mes</div>
+        <h1>Películas, series sin límites y mucho más</h1>
+        <p>Un solo pago de <strong>19,99 €</strong> · <strong style="color:var(--gold)">Suscripción vitalicia</strong><br>
+        ¿Quieres ver algo ya? Pulsa en comenzar para crear una suscripción en Cinonix y disfrutar.</p>
+        <button class="cta-button cta-button-lg" onclick="location.href='002registro.html';">Comenzar</button>
+    </div>
+</section>
+
+
+<!-- ── PELÍCULAS ─────────────────────────── -->
+<section class="carousel-section" id="peliculas">
+    <h2 class="carousel-title">Películas</h2>
+    <div class="carousel-container">
+        <div class="movies-wrapper">
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/liloystitch.webp" alt="Lilo & Stitch"><span class="movie-title">Lilo &amp; Stitch</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamarvel.jpg" alt="Capitana Marvel"><span class="movie-title">Capitana Marvel</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ciudaddedios.jpg" alt="Ciudad De Dios"><span class="movie-title">Ciudad De Dios</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/losodiosos8.jpg" alt="Los Odiosos Ocho"><span class="movie-title">Los Odiosos Ocho</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator4.jpg" alt="Terminator 4"><span class="movie-title">Terminator 4</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/perrosdeguerra.jpg" alt="Perros de Guerra"><span class="movie-title">Perros de Guerra</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/killbill.jpg" alt="Kill Bill"><span class="movie-title">Kill Bill</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/asesinatojusto.jpg" alt="Asesinato Justo"><span class="movie-title">Asesinato Justo</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/granapuesta.jpg" alt="La Gran Apuesta"><span class="movie-title">La Gran Apuesta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/donniebrasco.jpg" alt="Donnie Brasco"><span class="movie-title">Donnie Brasco</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/heman.jpg" alt="He-Man"><span class="movie-title">He-Man</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/preciodelpoder.jpg" alt="El Precio Del Poder"><span class="movie-title">El Precio Del Poder</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/hostel2.jpg" alt="Hostel 2"><span class="movie-title">Hostel 2</span></div>
+            <!-- Duplicados para scroll infinito -->
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/liloystitch.webp" alt="Lilo & Stitch"><span class="movie-title">Lilo &amp; Stitch</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamarvel.jpg" alt="Capitana Marvel"><span class="movie-title">Capitana Marvel</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ciudaddedios.jpg" alt="Ciudad De Dios"><span class="movie-title">Ciudad De Dios</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/losodiosos8.jpg" alt="Los Odiosos Ocho"><span class="movie-title">Los Odiosos Ocho</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator4.jpg" alt="Terminator 4"><span class="movie-title">Terminator 4</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/perrosdeguerra.jpg" alt="Perros de Guerra"><span class="movie-title">Perros de Guerra</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/killbill.jpg" alt="Kill Bill"><span class="movie-title">Kill Bill</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/asesinatojusto.jpg" alt="Asesinato Justo"><span class="movie-title">Asesinato Justo</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/granapuesta.jpg" alt="La Gran Apuesta"><span class="movie-title">La Gran Apuesta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/donniebrasco.jpg" alt="Donnie Brasco"><span class="movie-title">Donnie Brasco</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/heman.jpg" alt="He-Man"><span class="movie-title">He-Man</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/preciodelpoder.jpg" alt="El Precio Del Poder"><span class="movie-title">El Precio Del Poder</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/hostel2.jpg" alt="Hostel 2"><span class="movie-title">Hostel 2</span></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── SERIES ────────────────────────────── -->
+<section class="carousel-section" id="series">
+    <h2 class="carousel-title">Series</h2>
+    <div class="carousel-container">
+        <div class="movies-wrapper">
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+            <!-- Duplicados -->
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/combateatraco.jpg" alt="Noche de Combate"><span class="movie-title">Noche de Combate</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/blackmirror.webp" alt="Black Mirror"><span class="movie-title">Black Mirror</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/celda211.jpg" alt="Celda 211"><span class="movie-title">Celda 211</span></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── DOCUMENTALES ──────────────────────── -->
+<section class="carousel-section" id="documentales">
+    <h2 class="carousel-title">Documentales</h2>
+    <div class="carousel-container">
+        <div class="movies-wrapper">
+            <div class="movie-card"><img src="https://tse4.mm.bing.net/th/id/OIP.-Ko4glTCcWNvqffOVFju0gAAAA?pid=Api&P=0&h=180" alt="Gasol"><span class="movie-title">Gasol</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" alt="Donde Está Marta"><span class="movie-title">Donde Está Marta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/maradona.jpg" alt="Maradona"><span class="movie-title">Maradona</span></div>
+            <div class="movie-card"><img src="https://tse4.mm.bing.net/th/id/OIP.-Ko4glTCcWNvqffOVFju0gAAAA?pid=Api&P=0&h=180" alt="Gasol"><span class="movie-title">Gasol</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" alt="Donde Está Marta"><span class="movie-title">Donde Está Marta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/maradona.jpg" alt="Maradona"><span class="movie-title">Maradona</span></div>
+            <!-- Duplicados -->
+            <div class="movie-card"><img src="https://tse4.mm.bing.net/th/id/OIP.-Ko4glTCcWNvqffOVFju0gAAAA?pid=Api&P=0&h=180" alt="Gasol"><span class="movie-title">Gasol</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" alt="Donde Está Marta"><span class="movie-title">Donde Está Marta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/maradona.jpg" alt="Maradona"><span class="movie-title">Maradona</span></div>
+            <div class="movie-card"><img src="https://tse4.mm.bing.net/th/id/OIP.-Ko4glTCcWNvqffOVFju0gAAAA?pid=Api&P=0&h=180" alt="Gasol"><span class="movie-title">Gasol</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" alt="Donde Está Marta"><span class="movie-title">Donde Está Marta</span></div>
+            <div class="movie-card"><img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/maradona.jpg" alt="Maradona"><span class="movie-title">Maradona</span></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── PROPUESTA DE VALOR ─────────────────── -->
+<section class="info-section" id="sobrecinonix">
+    <div class="inner">
+        <h2>Todo el entretenimiento que quieres,<br>en un solo pago</h2>
+        <p>Aprovecha nuestra oferta de lanzamiento para poder ver todo el entretenimiento cuando quieras para toda la vida.
+        ¿Por qué pagar mes a mes cuando puedes disfrutarlo para siempre? Con nuestra suscripción de pago único, tendrás acceso ilimitado a películas, series y mucho más, sin cargos recurrentes ni sorpresas.</p>
+        <ul class="check-list">
+            <li><span class="check-icon">✦</span> <strong>Un solo pago, acceso de por vida</strong></li>
+            <li><span class="check-icon">✦</span> <strong>Sin suscripciones mensuales</strong></li>
+            <li><span class="check-icon">✦</span> <strong>Contenido sin restricciones</strong></li>
+            <li><span class="check-icon">✦</span> <strong>Acceso a descargas</strong></li>
+            <li><span class="check-icon">✦</span> <strong>Siempre disponible</strong></li>
+        </ul>
+        <p class="info-cta-note">No esperes más. Únete hoy y empieza a disfrutar sin límites.</p>
+        <button class="cta-button cta-button-lg" onclick="location.href='002registro.html';">Acceder Ahora</button>
+    </div>
+</section>
+
+
+<!-- ── FIREBASE ──────────────────────────── -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyD2dZO307P3B_YmH8dZI5-ll_ZO6uzy0SU",
+    authDomain: "inframe2.firebaseapp.com",
+    databaseURL: "https://inframe2-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "inframe2",
+    storageBucket: "inframe2.firebasestorage.app",
+    messagingSenderId: "68415435303",
+    appId: "1:68415435303:web:b26db7799d71dee6119402"
+  };
+  const app = initializeApp(firebaseConfig);
+</script>
+
+
+<!-- ── FOOTER ────────────────────────────── -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>Contenido</h3>
+            <a href="#peliculas">Películas</a>
+            <a href="#series">Series</a>
+            <a href="#documentales">Documentales</a>
+        </div>
+        <div class="footer-column">
+            <h3>App</h3>
+            <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
+        </div>
+        <div class="footer-column">
+            <h3>Nosotros</h3>
+            <a href="#sobrecinonix">Sobre Cinonix</a>
+        </div>
+        <div class="footer-column">
+            <h3>Soporte</h3>
+            <a href="0s.html" target="_blank">Centro de ayuda</a>
+        </div>
+        <div class="footer-column">
+            <h3>Síguenos</h3>
+            <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+            <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 Cinonix · Todos los derechos reservados
+    </div>
+</footer>
+
+
+<!-- ── SCRIPTS ───────────────────────────── -->
+<script>
+    // Código de referido desde URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+
+    if (ref) {
+        localStorage.setItem("referral", ref.toUpperCase());
+    }
+
+    // Eliminación del loader
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if(loader) loader.remove();
+        }, 3000);
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Scroll reveal para secciones
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.carousel-section, .info-section').forEach(el => {
+        revealObserver.observe(el);
+    });
+</script>
+
+</body>
+</html>                                                                                                                                                                          </html>
