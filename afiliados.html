@@ -164,7 +164,7 @@
     /* ── HERO ── */
     .hero {
       text-align: center;
-      padding: 140px 20px 60px;
+      padding: 180px 20px 64px;
       position: relative;
     }
     .hero-badge {
@@ -493,10 +493,7 @@
 
     /* ── RESPONSIVE ── */
     @media(max-width: 768px) {
-      .header { padding: 14px 20px; }
-      .nav-links { display: none; }
-      .logo { font-size: 1.7rem; }
-      .hero { padding: 56px 20px 40px; }
+      .hero { padding: 120px 20px 40px; }
       .stats-row { grid-template-columns: 1fr; }
       .link-card, .withdraw-card { padding: 28px 22px; }
       .link-box { flex-direction: column; }
@@ -509,9 +506,111 @@
     @media(max-width: 480px) {
       .footer-content { grid-template-columns: 1fr 1fr; }
     }
+
+    /* ── CUSTOM MODAL ── */
+    .cx-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s var(--ease);
+    }
+    .cx-modal-overlay.open {
+      opacity: 1; pointer-events: auto;
+    }
+    .cx-modal {
+      background: #0a0b14;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 40px 36px 32px;
+      max-width: 420px; width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.8), 0 0 0 1px rgba(229,9,20,0.08);
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.3s var(--ease);
+    }
+    .cx-modal-overlay.open .cx-modal {
+      transform: translateY(0) scale(1);
+    }
+    /* top accent line */
+    .cx-modal::before {
+      content: ''; position: absolute;
+      top: 0; left: 12%; right: 12%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      border-radius: 0 0 2px 2px;
+    }
+    .cx-modal.success::before {
+      background: linear-gradient(90deg, transparent, #16a34a, transparent);
+    }
+    .cx-modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin: 0 auto 20px;
+      background: rgba(229,9,20,0.12);
+      border: 1px solid rgba(229,9,20,0.2);
+      color: var(--red);
+    }
+    .cx-modal.success .cx-modal-icon {
+      background: rgba(22,163,74,0.12);
+      border-color: rgba(22,163,74,0.25);
+      color: #4ade80;
+    }
+    .cx-modal.warning .cx-modal-icon {
+      background: rgba(200,165,94,0.12);
+      border-color: rgba(200,165,94,0.25);
+      color: var(--gold);
+    }
+    .cx-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem; letter-spacing: 0.08em;
+      margin-bottom: 12px; color: var(--text);
+    }
+    .cx-modal-msg {
+      font-size: 0.9rem; color: var(--text-muted);
+      line-height: 1.65; margin-bottom: 28px;
+    }
+    .cx-modal-btn {
+      display: inline-block; width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      border: none; border-radius: 10px; cursor: pointer;
+      color: #fff; font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .cx-modal-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .cx-modal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+    .cx-modal-btn:hover::before { opacity: 1; }
+    .cx-modal.success .cx-modal-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+    .cx-modal.success .cx-modal-btn:hover { box-shadow: 0 8px 24px rgba(22,163,74,0.4); }
+    .cx-modal.warning .cx-modal-btn {
+      background: linear-gradient(135deg, var(--gold), #a07c3a);
+    }
+    .cx-modal.warning .cx-modal-btn:hover { box-shadow: 0 8px 24px var(--gold-glow); }
   </style>
 </head>
 <body>
+
+  <!-- CUSTOM MODAL -->
+  <div class="cx-modal-overlay" id="cxOverlay">
+    <div class="cx-modal" id="cxModal">
+      <div class="cx-modal-icon" id="cxIcon"><i id="cxIconI" class="fas fa-exclamation"></i></div>
+      <div class="cx-modal-title" id="cxTitle">Aviso</div>
+      <p class="cx-modal-msg" id="cxMsg"></p>
+      <button class="cx-modal-btn" id="cxBtn" onclick="closeCxModal()">Entendido</button>
+    </div>
+  </div>
 
   <!-- NAVBAR (idéntico a cinonix.html) -->
   <nav class="navbar" id="navbar">
@@ -848,7 +947,7 @@
       const importe = document.getElementById("amountDisplay").textContent;
 
       if (!nombre || !email || !cuenta) {
-        alert("Por favor rellena los campos obligatorios.");
+        showCxModal("Campos incompletos", "Por favor rellena nombre, email y datos de pago antes de enviar.", "warning");
         return;
       }
 
@@ -871,10 +970,38 @@ ${nota || "(ninguna)"}
 `);
 
       window.location.href = `mailto:soporte@cinonix.com?subject=${asunto}&body=${cuerpo}`;
+      setTimeout(() => {
+        showCxModal("Solicitud enviada", "Se ha abierto tu cliente de correo con los datos rellenos. Envía el email y el equipo de Cinonix te contactará en 3–5 días hábiles.", "success");
+      }, 500);
     };
   </script>
-  <!-- NAVBAR JS -->
+  <!-- NAVBAR JS + MODAL -->
   <script>
+    /* ── CUSTOM MODAL ── */
+    const ICONS = { error: 'fa-exclamation', success: 'fa-check', warning: 'fa-triangle-exclamation', info: 'fa-info' };
+    const TITLES = { error: 'Error', success: '¡Listo!', warning: 'Atención', info: 'Info' };
+
+    function showCxModal(title, msg, type = 'error') {
+      const overlay = document.getElementById('cxOverlay');
+      const modal   = document.getElementById('cxModal');
+      document.getElementById('cxTitle').textContent = title || TITLES[type];
+      document.getElementById('cxMsg').textContent   = msg;
+      document.getElementById('cxIconI').className   = `fas ${ICONS[type] || ICONS.error}`;
+      modal.className = `cx-modal ${type}`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCxModal() {
+      document.getElementById('cxOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('cxOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeCxModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCxModal(); });
+
+    /* ── NAVBAR SCROLL ── */
+    /* ── NAVBAR SCROLL ── */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 60);
