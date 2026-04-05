@@ -302,35 +302,47 @@
     <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
   </footer>
 
-  <script>
-  function validarPagoEnConfirmacion() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const referido = urlParams.get("referido") || sessionStorage.getItem("afiliadoReferrer");
-    
-    fetch('/api/confirmar-pago', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        usuarioId: localStorage.getItem("usuarioId"),
-        referido: referido || null
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert("Pago confirmado correctamente.");
-        window.location.href = "/dashboard.html";
-      } else {
-        alert("Hubo un error en la confirmación.");
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
+  <script type="module" src="app.js"></script>
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+      authDomain: "cinonix-3a65d.firebaseapp.com",
+      projectId: "cinonix-3a65d",
+      storageBucket: "cinonix-3a65d.appspot.com",
+      messagingSenderId: "298364890273",
+      appId: "1:298364890273:web:f8d61cd538f228648f54e0"
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.validarPagoEnConfirmacion = function() {
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          alert("No hay sesión activa. Inicia sesión primero.");
+          window.location.href = "001login.html";
+          return;
+        }
+        try {
+          await updateDoc(doc(db, "usuarios", user.uid), {
+            subscriptionActive: true,
+            afiliado: true,
+            referidoConfirmado: true
+          });
+          alert("Pago confirmado. Tu suscripción ha sido activada.");
+          window.location.href = "cinonix.html";
+        } catch (error) {
+          console.error("Error al confirmar el pago:", error);
+          alert("Error al confirmar el pago: " + error.message);
+        }
+      });
+    };
   </script>
 
-  <script type="module" src="app.js"></script>
-
 </body>
-</html>
+    </html>
