@@ -15,7 +15,12 @@ import {
   doc, 
   setDoc, 
   getDoc, 
-  updateDoc 
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  increment
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -36,14 +41,13 @@ function generateAffiliateCode() {
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// ✅ FIX 1: Parámetro cambiado de "referido" a "ref" para que coincida
-//            con el link que genera el dashboard (?ref=CODIGO)
+// ✅ Obtener código de referido desde la URL (?ref=CODIGO)
 function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get("ref");
 }
 
-/** 🔹 REGISTRO DE USUARIO */
+/** 🔹 REGISTRO DE USUARIO + ACTUALIZACIÓN AL REFERIDOR */
 window.registrarUsuario = async function(email, password, refParam) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -60,6 +64,7 @@ window.registrarUsuario = async function(email, password, refParam) {
       localStorage.setItem("referral", codigoReferido);
     }
 
+    // 1. Crear documento del nuevo usuario
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
@@ -71,6 +76,30 @@ window.registrarUsuario = async function(email, password, refParam) {
       referidosTotales: 0,
       referidosContados: []
     });
+
+    // 2. Si tiene código de referido, actualizar los contadores del referidor
+    if (codigoReferido) {
+      const referidoresQuery = query(
+        collection(db, "usuarios"),
+        where("codigoAfiliado", "==", codigoReferido),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(referidoresQuery);
+
+      if (!querySnapshot.empty) {
+        const referidorDoc = querySnapshot.docs[0];
+        const referidorRef = referidorDoc.ref;
+
+        // Incrementar en +1 referido y +9.99 € (ajusta el monto si es diferente)
+        await updateDoc(referidorRef, {
+          referidosTotales: increment(1),
+          dineroAcumulado: increment(9.99)
+        });
+        console.log(`✅ Referidor ${codigoReferido} actualizado: +1 referido, +9.99€`);
+      } else {
+        console.warn(`⚠️ No se encontró referidor con código ${codigoReferido}`);
+      }
+    }
 
     alert("Usuario registrado correctamente.");
     window.location.href = "001login.html";
@@ -118,15 +147,11 @@ window.validarPagoEnConfirmacion = async function() {
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
-
-      const updateData = {
+      await updateDoc(userDocRef, {
         subscriptionActive: true,
         afiliado: true,
-              referidoConfirmado: true
-      };
-
-      await updateDoc(userDocRef, updateData);
-
+        referidoConfirmado: true
+      });
       console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
       window.location.href = "cinonix.html";
