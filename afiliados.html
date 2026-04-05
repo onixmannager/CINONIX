@@ -883,18 +883,71 @@
           <textarea id="wNota" placeholder="Cualquier información extra para el equipo…"></textarea>
         </div>
 
-        <button type="button" class="submit-btn" id="submitBtn" onclick="enviarSolicitud()">
+        <button type="button" class="submit-btn" id="submitBtn" onclick="mostrarPopupRetiro()">
           <i class="fas fa-paper-plane"></i>
           Enviar solicitud de retiro
         </button>
         <p class="submit-note">
           <i class="fas fa-shield-alt"></i>
-          Tu solicitud se enviará por email al equipo de Cinonix
+          Tu solicitud quedará registrada en el sistema
         </p>
       </form>
     </div>
 
+    <!-- HISTORIAL -->
+    <div class="historial-card">
+      <h2>HISTORIAL</h2>
+      <p>Resumen total desde que te uniste al programa de afiliados.</p>
+      <div class="historial-totales">
+        <div class="historial-stat">
+          <div class="historial-stat-label"><i class="fas fa-users"></i> Total referidos conseguidos</div>
+          <div class="historial-stat-value" id="totalReferidosHistorico">—</div>
+        </div>
+        <div class="historial-stat">
+          <div class="historial-stat-label"><i class="fas fa-coins"></i> Total dinero ganado</div>
+          <div class="historial-stat-value gold" id="totalDineroHistorico">—</div>
+        </div>
+      </div>
+      <table class="historial-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Importe</th>
+            <th>Método</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="historialRetiros">
+          <tr><td colspan="4" class="historial-empty">Aún no has realizado ningún retiro.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </main>
+
+  <!-- POPUP CONFIRMACION RETIRO -->
+  <div id="popupRetiro" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;">
+    <div style="background:#0d0e1a;border:1px solid rgba(229,9,20,0.2);border-radius:16px;padding:40px 36px;max-width:440px;width:90%;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.8);">
+      <div style="width:64px;height:64px;background:rgba(229,9,20,0.1);border:2px solid rgba(229,9,20,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+        <i class="fas fa-exclamation-triangle" style="color:#E50914;font-size:1.6rem;"></i>
+      </div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.08em;color:#eeeef5;margin-bottom:12px;">ATENCIÓN</h3>
+      <p style="color:#7a7a90;line-height:1.7;margin-bottom:8px;font-size:0.92rem;">
+        Al confirmar, tu solicitud de retiro quedará registrada y el equipo de Cinonix la procesará en 3–5 días hábiles.
+      </p>
+      <p style="color:#E50914;font-size:0.85rem;font-weight:600;margin-bottom:28px;">
+        <i class="fas fa-exclamation-circle"></i> Asegúrate de que los datos de pago son correctos antes de continuar.
+      </p>
+      <div style="display:flex;gap:12px;">
+        <button onclick="cancelarRetiro()" style="flex:1;padding:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#eeeef5;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;">
+          Cancelar
+        </button>
+        <button onclick="confirmarRetiro()" style="flex:1;padding:13px;background:linear-gradient(135deg,#E50914,#b5050e);border:none;border-radius:8px;color:white;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;">
+          Finalizar solicitud
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -1055,7 +1108,35 @@
       });
     };
 
-    // -- Enviar solicitud por mailto y guardar en Firestore
+    // -- Mostrar popup de confirmacion
+    window.mostrarPopupRetiro = function() {
+      const nombre  = document.getElementById("wNombre").value.trim();
+      const email   = document.getElementById("wEmail").value.trim();
+      const cuenta  = document.getElementById("wCuenta").value.trim();
+      const importeStr = document.getElementById("amountDisplay").textContent;
+      const importe = parseFloat(importeStr.replace("€","").replace(",",".").trim()) || 0;
+
+      if (!nombre || !email || !cuenta) {
+        showCxModal("Campos incompletos", "Por favor rellena nombre, email y datos de pago antes de enviar.", "warning");
+        return;
+      }
+      if (importe < 20) {
+        showCxModal("Saldo insuficiente", "El mínimo para retirar es de 20 €. Tu saldo disponible es de " + importe.toFixed(2) + " €.", "warning");
+        return;
+      }
+      document.getElementById("popupRetiro").style.display = "flex";
+    };
+
+    window.cancelarRetiro = function() {
+      document.getElementById("popupRetiro").style.display = "none";
+    };
+
+    window.confirmarRetiro = async function() {
+      document.getElementById("popupRetiro").style.display = "none";
+      await window.enviarSolicitud();
+    };
+
+    // -- Enviar solicitud solo por Firestore (sin email)
     window.enviarSolicitud = async function() {
       const nombre  = document.getElementById("wNombre").value.trim();
       const email   = document.getElementById("wEmail").value.trim();
@@ -1071,7 +1152,6 @@
       }
 
       try {
-        // Guardar retiro en historial de Firestore
         const userRef = doc(db, "usuarios", auth.currentUser.uid);
         const userSnap = await getDoc(userRef);
         const historialActual = userSnap.data().historialRetiros || [];
@@ -1081,40 +1161,23 @@
           importe: importe,
           metodo: metodo,
           cuenta: cuenta,
+          nombre: nombre,
+          email: email,
+          nota: nota || "",
           estado: "pendiente"
         };
 
         await updateDoc(userRef, {
           historialRetiros: [...historialActual, nuevoRetiro]
         });
-      } catch(e) {
-        console.error("Error guardando historial:", e);
-      }
 
-      const asunto = encodeURIComponent(`[Cinonix Afiliados] Solicitud de retiro – ${nombre}`);
-      const cuerpo = encodeURIComponent(
-`Solicitud de retiro de comisiones – Programa de Afiliados Cinonix
-────────────────────────────────────
-Nombre:        ${nombre}
-Email cuenta:  ${email}
-Link afiliado: ${window._afiliadoLink || "N/A"}
-
-Método de cobro: ${metodo}
-Datos de pago:   ${cuenta}
-
-Importe solicitado: ${importeStr}
-
-Nota adicional:
-${nota || "(ninguna)"}
-────────────────────────────────────
-`);
-
-      window.location.href = `mailto:soporte@cinonix.com?subject=${asunto}&body=${cuerpo}`;
-      setTimeout(() => {
-        showCxModal("Solicitud enviada", "Se ha abierto tu cliente de correo con los datos rellenos. Envía el email y el equipo de Cinonix te contactará en 3–5 días hábiles.", "success");
-        // Recargar para actualizar saldo disponible
+        showCxModal("Solicitud enviada", "Tu solicitud de retiro ha sido registrada correctamente. El equipo de Cinonix te contactará en 3–5 días hábiles.", "success");
         setTimeout(() => location.reload(), 3000);
-      }, 500);
+
+      } catch(e) {
+        console.error("Error guardando solicitud:", e);
+        showCxModal("Error", "No se pudo registrar tu solicitud. Inténtalo de nuevo.", "error");
+      }
     };
   </script>
   <!-- NAVBAR JS + MODAL -->
