@@ -1,6 +1,7 @@
 // app.js
 // Usa <script type="module" src="app.js"></script> en tus páginas
 
+// 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
@@ -15,14 +16,10 @@ import {
   doc, 
   setDoc, 
   getDoc, 
-  updateDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  increment
+  updateDoc 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
+// 2. Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
@@ -33,73 +30,51 @@ const firebaseConfig = {
   measurementId: "G-9L2E23K72W"
 };
 
+// 3. Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
+  // Genera un código alfanumérico de 8 caracteres en mayúsculas
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// ✅ Obtener código de referido desde la URL (?ref=CODIGO)
+// 5. Función para extraer el código de referido de la URL
 function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("ref");
+  return urlParams.get("referido");
 }
 
-/** 🔹 REGISTRO DE USUARIO + ACTUALIZACIÓN AL REFERIDOR */
-window.registrarUsuario = async function(email, password, refParam) {
+/** 🔹 REGISTRO DE USUARIO */
+window.registrarUsuario = async function(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Prioridad: 1) param del formulario, 2) URL, 3) localStorage
-    const codigoReferido = refParam
-      || obtenerCodigoReferido()
-      || localStorage.getItem("referral")
-      || null;
-
-    if (codigoReferido) {
+    // Extraer el código de referido desde la URL
+    const codigoReferido = obtenerCodigoReferido();
+    // Si existe un código de referido, lo guardamos en sessionStorage
+    if(codigoReferido) {
       sessionStorage.setItem("afiliadoReferrer", codigoReferido);
-      localStorage.setItem("referral", codigoReferido);
     }
 
-    // 1. Crear documento del nuevo usuario
+    // Guarda datos iniciales en Firestore con la estructura definida
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
-      afiliado: false,
-      codigoAfiliado: generateAffiliateCode(),
-      dineroAcumulado: 0,
-      referredBy: codigoReferido,
+      // Campos para afiliados: se asignarán al confirmar el pago.
+      afiliado: false,                         // Se marcará a true al confirmar el pago
+      codigoAfiliado: generateAffiliateCode(), // Código único generado para el nuevo usuario
+      dineroAcumulado: 0,                      // Inicialmente en 0, se actualizará con comisiones.
+      // Si el usuario fue referido, se guarda en 'referidoPor'
+      referidoPor: codigoReferido || null,
+      // Nuevo campo para validar el referido
       referidoConfirmado: false,
       referidosTotales: 0,
       referidosContados: []
     });
-
-    // 2. Si tiene código de referido, actualizar los contadores del referidor
-    if (codigoReferido) {
-      const referidoresQuery = query(
-        collection(db, "usuarios"),
-        where("codigoAfiliado", "==", codigoReferido),
-        limit(1)
-      );
-      const querySnapshot = await getDocs(referidoresQuery);
-
-      if (!querySnapshot.empty) {
-        const referidorDoc = querySnapshot.docs[0];
-        const referidorRef = referidorDoc.ref;
-
-        // Incrementar en +1 referido y +9.99 € (ajusta el monto si es diferente)
-        await updateDoc(referidorRef, {
-          referidosTotales: increment(1),
-          dineroAcumulado: increment(9.99)
-        });
-        console.log(`✅ Referidor ${codigoReferido} actualizado: +1 referido, +9.99€`);
-      } else {
-        console.warn(`⚠️ No se encontró referidor con código ${codigoReferido}`);
-      }
-    }
 
     alert("Usuario registrado correctamente.");
     window.location.href = "001login.html";
@@ -120,6 +95,7 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
+      // Redirige a la plataforma si la suscripción está activa, de lo contrario a la página de pago.
       window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
@@ -141,17 +117,28 @@ window.restablecerContrasena = async function(email) {
   }
 };
 
-/** 🔹 CONFIRMAR PAGO Y ACTIVAR CUENTA */
+/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
+ * Al confirmar el pago, se activa la suscripción, se marca al usuario como afiliado, 
+ * se genera un nuevo código de afiliado (si se desea) y se actualiza 'referidoConfirmado'.
+ */
 window.validarPagoEnConfirmacion = async function() {
   const user = auth.currentUser;
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
-      await updateDoc(userDocRef, {
-        subscriptionActive: true,
-        afiliado: true,
-        referidoConfirmado: true
-      });
+
+      // Prepara el objeto de actualización
+      const updateData = {
+        subscriptionActive: true,          
+        afiliado: true,                    
+        codigoAfiliado: generateAffiliateCode(),  // Puedes generar uno nuevo si lo deseas
+        referidoConfirmado: true            // Marca al usuario como referido validado
+      };
+
+      // Nota: El campo 'referidoPor' ya se estableció en el registro, no se modifica aquí.
+
+      await updateDoc(userDocRef, updateData);
+
       console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
       window.location.href = "cinonix.html";
