@@ -710,7 +710,7 @@ body::after {
         <h1>Películas, series sin límites y mucho más</h1>
         <p>Un solo pago de <strong>19,99 €</strong> · <strong style="color:var(--gold)">Suscripción vitalicia</strong><br>
         ¿Quieres ver algo ya? Pulsa en comenzar para crear una suscripción en Cinonix y disfrutar.</p>
-        <button class="cta-button cta-button-lg" onclick="location.href='002registro.html';">Comenzar</button>
+        <button class="cta-button cta-button-lg" onclick="irARegistro();">Comenzar</button>
     </div>
 </section>
 
@@ -818,7 +818,7 @@ body::after {
             <li><span class="check-icon">✦</span> <strong>Siempre disponible</strong></li>
         </ul>
         <p class="info-cta-note">No esperes más. Únete hoy y empieza a disfrutar sin límites.</p>
-        <button class="cta-button cta-button-lg" onclick="location.href='002registro.html';">Acceder Ahora</button>
+        <button class="cta-button cta-button-lg" onclick="irARegistro();">Acceder Ahora</button>
     </div>
 </section>
 
@@ -877,9 +877,10 @@ body::after {
 <script>
     // Código de referido desde URL
     const urlParams = new URLSearchParams(window.location.search);
-    const referralCode = urlParams.get('referido');
-    if(referralCode) {
-        sessionStorage.setItem("afiliadoReferrer", referralCode);
+    const ref = urlParams.get('ref');
+
+    if (ref) {
+        localStorage.setItem("referral", ref.toUpperCase());
     }
 
     // Eliminación del loader
@@ -911,5 +912,25 @@ body::after {
     });
 </script>
 
+
+  <script>
+    // Guardar codigo de referido al llegar a la pagina
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        localStorage.setItem('referral', ref.toUpperCase());
+      }
+    })();
+
+    function irARegistro() {
+      const ref = localStorage.getItem('referral') || new URLSearchParams(window.location.search).get('ref');
+      if (ref) {
+        window.location.href = '002registro.html?ref=' + ref;
+      } else {
+        window.location.href = '002registro.html';
+      }
+    }
+  </script>
 </body>
-</html>                                                                                                                                                                          </html>
+</html> 
