@@ -436,6 +436,91 @@
       opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none;
     }
 
+    /* ── HISTORIAL ── */
+    .historial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-top: 32px;
+    }
+    .historial-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .historial-card > p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+    .historial-totales {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .historial-stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .historial-stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .historial-stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text);
+    }
+    .historial-stat-value.gold { color: #c8a55e; }
+    .historial-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .historial-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 12px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .historial-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+    .historial-table tr:last-child td { border-bottom: none; }
+    .historial-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      padding: 24px 0;
+    }
+    .badge-retiro {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .badge-pendiente { background: rgba(200,165,94,0.15); color: #c8a55e; }
+    .badge-pagado { background: rgba(0,200,83,0.12); color: #00c853; }
+
     .submit-note {
       text-align: center; font-size: 0.78rem; color: var(--text-muted);
       display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -901,7 +986,12 @@
 
         const total   = snap.size;
         const dinero  = total * 9.99;
-        const puedeRetirar = dinero >= 20;
+
+        // Calcular total retirado
+        const historialRetiros = data.historialRetiros || [];
+        const totalRetirado = historialRetiros.reduce((acc, r) => acc + (r.importe || 0), 0);
+        const saldoDisponible = Math.max(0, dinero - totalRetirado);
+        const puedeRetirar = saldoDisponible >= 20;
 
         // Guardar en Firestore los valores actualizados
         await updateDoc(doc(db, "usuarios", user.uid), {
@@ -909,11 +999,33 @@
           referidosTotales: total
         });
 
+        // Stats actuales (saldo disponible)
         document.getElementById("numeroAfiliados").textContent = total;
-        document.getElementById("dineroAcumulado").textContent = `${dinero.toFixed(2)} €`;
-        document.getElementById("amountDisplay").textContent   = `${dinero.toFixed(2)} €`;
+        document.getElementById("dineroAcumulado").textContent = `${saldoDisponible.toFixed(2)} €`;
+        document.getElementById("amountDisplay").textContent   = `${saldoDisponible.toFixed(2)} €`;
 
-        // Bloquear form si < 20 €
+        // Stats historial total
+        document.getElementById("totalReferidosHistorico").textContent = total;
+        document.getElementById("totalDineroHistorico").textContent = `${dinero.toFixed(2)} €`;
+
+        // Tabla historial de retiros
+        const tbody = document.getElementById("historialRetiros");
+        if (historialRetiros.length > 0) {
+          tbody.innerHTML = historialRetiros.map(r => {
+            const fecha = r.fecha ? new Date(r.fecha).toLocaleDateString("es-ES") : "—";
+            const badge = r.estado === "pagado"
+              ? '<span class="badge-retiro badge-pagado">Pagado</span>'
+              : '<span class="badge-retiro badge-pendiente">Pendiente</span>';
+            return `<tr>
+              <td>${fecha}</td>
+              <td>${r.importe ? r.importe.toFixed(2) + " €" : "—"}</td>
+              <td>${r.metodo || "—"}</td>
+              <td>${badge}</td>
+            </tr>`;
+          }).join("");
+        }
+
+        // Bloquear form si saldo < 20 €
         if (!puedeRetirar) {
           document.getElementById("lockedNotice").style.display = "flex";
           document.getElementById("submitBtn").disabled = true;
@@ -943,18 +1055,40 @@
       });
     };
 
-    // -- Enviar solicitud por mailto
-    window.enviarSolicitud = function() {
+    // -- Enviar solicitud por mailto y guardar en Firestore
+    window.enviarSolicitud = async function() {
       const nombre  = document.getElementById("wNombre").value.trim();
       const email   = document.getElementById("wEmail").value.trim();
       const metodo  = document.getElementById("wMetodo").value;
       const cuenta  = document.getElementById("wCuenta").value.trim();
       const nota    = document.getElementById("wNota").value.trim();
-      const importe = document.getElementById("amountDisplay").textContent;
+      const importeStr = document.getElementById("amountDisplay").textContent;
+      const importe = parseFloat(importeStr.replace("€","").replace(",",".").trim()) || 0;
 
       if (!nombre || !email || !cuenta) {
         showCxModal("Campos incompletos", "Por favor rellena nombre, email y datos de pago antes de enviar.", "warning");
         return;
+      }
+
+      try {
+        // Guardar retiro en historial de Firestore
+        const userRef = doc(db, "usuarios", auth.currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        const historialActual = userSnap.data().historialRetiros || [];
+
+        const nuevoRetiro = {
+          fecha: new Date().toISOString(),
+          importe: importe,
+          metodo: metodo,
+          cuenta: cuenta,
+          estado: "pendiente"
+        };
+
+        await updateDoc(userRef, {
+          historialRetiros: [...historialActual, nuevoRetiro]
+        });
+      } catch(e) {
+        console.error("Error guardando historial:", e);
       }
 
       const asunto = encodeURIComponent(`[Cinonix Afiliados] Solicitud de retiro – ${nombre}`);
@@ -968,7 +1102,7 @@ Link afiliado: ${window._afiliadoLink || "N/A"}
 Método de cobro: ${metodo}
 Datos de pago:   ${cuenta}
 
-Importe solicitado: ${importe}
+Importe solicitado: ${importeStr}
 
 Nota adicional:
 ${nota || "(ninguna)"}
@@ -978,6 +1112,8 @@ ${nota || "(ninguna)"}
       window.location.href = `mailto:soporte@cinonix.com?subject=${asunto}&body=${cuerpo}`;
       setTimeout(() => {
         showCxModal("Solicitud enviada", "Se ha abierto tu cliente de correo con los datos rellenos. Envía el email y el equipo de Cinonix te contactará en 3–5 días hábiles.", "success");
+        // Recargar para actualizar saldo disponible
+        setTimeout(() => location.reload(), 3000);
       }, 500);
     };
   </script>
