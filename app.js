@@ -41,36 +41,38 @@ function generateAffiliateCode() {
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// 5. Función para extraer el código de referido de la URL
+// 5. Función para extraer el código de referido de la URL o localStorage
 function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("referido");
+  const refUrl = urlParams.get("ref");
+  if (refUrl) {
+    localStorage.setItem("referral", refUrl.toUpperCase());
+    return refUrl.toUpperCase();
+  }
+  return localStorage.getItem("referral") || null;
 }
 
 /** 🔹 REGISTRO DE USUARIO */
-window.registrarUsuario = async function(email, password) {
+window.registrarUsuario = async function(email, password, refParam) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Extraer el código de referido desde la URL
-    const codigoReferido = obtenerCodigoReferido();
-    // Si existe un código de referido, lo guardamos en sessionStorage
-    if(codigoReferido) {
-      sessionStorage.setItem("afiliadoReferrer", codigoReferido);
+    // Prioridad: 1) param del formulario, 2) URL, 3) localStorage
+    const codigoReferido = refParam || obtenerCodigoReferido() || null;
+
+    if (codigoReferido) {
+      localStorage.setItem("referral", codigoReferido);
     }
 
-    // Guarda datos iniciales en Firestore con la estructura definida
+    // Guarda datos iniciales en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
-      // Campos para afiliados: se asignarán al confirmar el pago.
-      afiliado: false,                         // Se marcará a true al confirmar el pago
-      codigoAfiliado: generateAffiliateCode(), // Código único generado para el nuevo usuario
-      dineroAcumulado: 0,                      // Inicialmente en 0, se actualizará con comisiones.
-      // Si el usuario fue referido, se guarda en 'referidoPor'
-      referidoPor: codigoReferido || null,
-      // Nuevo campo para validar el referido
+      afiliado: false,
+      codigoAfiliado: generateAffiliateCode(),
+      dineroAcumulado: 0,
+      referredBy: codigoReferido,
       referidoConfirmado: false,
       referidosTotales: 0,
       referidosContados: []
@@ -129,13 +131,10 @@ window.validarPagoEnConfirmacion = async function() {
 
       // Prepara el objeto de actualización
       const updateData = {
-        subscriptionActive: true,          
-        afiliado: true,                    
-        codigoAfiliado: generateAffiliateCode(),  // Puedes generar uno nuevo si lo deseas
-        referidoConfirmado: true            // Marca al usuario como referido validado
+        subscriptionActive: true,
+        afiliado: true,
+        referidoConfirmado: true
       };
-
-      // Nota: El campo 'referidoPor' ya se estableció en el registro, no se modifica aquí.
 
       await updateDoc(userDocRef, updateData);
 

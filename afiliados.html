@@ -847,7 +847,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, query, where, getDocs }
+    import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs }
       from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -902,6 +902,12 @@
         const total   = snap.size;
         const dinero  = total * 9.99;
         const puedeRetirar = dinero >= 20;
+
+        // Guardar en Firestore los valores actualizados
+        await updateDoc(doc(db, "usuarios", user.uid), {
+          dineroAcumulado: dinero,
+          referidosTotales: total
+        });
 
         document.getElementById("numeroAfiliados").textContent = total;
         document.getElementById("dineroAcumulado").textContent = `${dinero.toFixed(2)} €`;
