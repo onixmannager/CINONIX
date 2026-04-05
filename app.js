@@ -1,7 +1,6 @@
 // app.js
 // Usa <script type="module" src="app.js"></script> en tus páginas
 
-// 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
@@ -19,7 +18,6 @@ import {
   updateDoc 
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// 2. Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
@@ -30,47 +28,45 @@ const firebaseConfig = {
   measurementId: "G-9L2E23K72W"
 };
 
-// 3. Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
-  // Genera un código alfanumérico de 8 caracteres en mayúsculas
   return Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
-// 5. Función para extraer el código de referido de la URL
+// ✅ FIX 1: Parámetro cambiado de "referido" a "ref" para que coincida
+//            con el link que genera el dashboard (?ref=CODIGO)
 function obtenerCodigoReferido() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("referido");
+  return urlParams.get("ref");
 }
 
 /** 🔹 REGISTRO DE USUARIO */
-window.registrarUsuario = async function(email, password) {
+window.registrarUsuario = async function(email, password, refParam) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Extraer el código de referido desde la URL
-    const codigoReferido = obtenerCodigoReferido();
-    // Si existe un código de referido, lo guardamos en sessionStorage
-    if(codigoReferido) {
+    // Prioridad: 1) param del formulario, 2) URL, 3) localStorage
+    const codigoReferido = refParam
+      || obtenerCodigoReferido()
+      || localStorage.getItem("referral")
+      || null;
+
+    if (codigoReferido) {
       sessionStorage.setItem("afiliadoReferrer", codigoReferido);
+      localStorage.setItem("referral", codigoReferido);
     }
 
-    // Guarda datos iniciales en Firestore con la estructura definida
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
-      // Campos para afiliados: se asignarán al confirmar el pago.
-      afiliado: false,                         // Se marcará a true al confirmar el pago
-      codigoAfiliado: generateAffiliateCode(), // Código único generado para el nuevo usuario
-      dineroAcumulado: 0,                      // Inicialmente en 0, se actualizará con comisiones.
-      // Si el usuario fue referido, se guarda en 'referidoPor'
-      referidoPor: codigoReferido || null,
-      // Nuevo campo para validar el referido
+      afiliado: false,
+      codigoAfiliado: generateAffiliateCode(),
+      dineroAcumulado: 0,
+      referredBy: codigoReferido,
       referidoConfirmado: false,
       referidosTotales: 0,
       referidosContados: []
@@ -95,7 +91,6 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      // Redirige a la plataforma si la suscripción está activa, de lo contrario a la página de pago.
       window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
@@ -117,25 +112,18 @@ window.restablecerContrasena = async function(email) {
   }
 };
 
-/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
- * Al confirmar el pago, se activa la suscripción, se marca al usuario como afiliado, 
- * se genera un nuevo código de afiliado (si se desea) y se actualiza 'referidoConfirmado'.
- */
+/** 🔹 CONFIRMAR PAGO Y ACTIVAR CUENTA */
 window.validarPagoEnConfirmacion = async function() {
   const user = auth.currentUser;
   if (user) {
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
 
-      // Prepara el objeto de actualización
       const updateData = {
-        subscriptionActive: true,          
-        afiliado: true,                    
-        codigoAfiliado: generateAffiliateCode(),  // Puedes generar uno nuevo si lo deseas
-        referidoConfirmado: true            // Marca al usuario como referido validado
+        subscriptionActive: true,
+        afiliado: true,
+              referidoConfirmado: true
       };
-
-      // Nota: El campo 'referidoPor' ya se estableció en el registro, no se modifica aquí.
 
       await updateDoc(userDocRef, updateData);
 
