@@ -280,30 +280,37 @@
     <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
   </footer>
 
-  <script>
-    function obtenerCodigoReferido() {
-      const urlParams = new URLSearchParams(window.location.search);
-      let code = urlParams.get("referido");
-      if (!code) {
-        code = sessionStorage.getItem("afiliadoReferrer");
-      }
-      return code;
-    }
-  </script>
-
   <script type="module" src="app.js"></script>
   <script type="module">
-    const form = document.getElementById('registerForm');
-    form.addEventListener('submit', (e) => {
+    // Funcion unica para obtener el codigo de referido
+    function obtenerCodigoReferido() {
+      // 1) Primero mira la URL (?ref=CODIGO)
+      const urlParams = new URLSearchParams(window.location.search);
+      const refUrl = urlParams.get("ref");
+      if (refUrl) {
+        localStorage.setItem("referral", refUrl.toUpperCase());
+        return refUrl.toUpperCase();
+      }
+      // 2) Si no hay en URL, mira localStorage (guardado desde index.html)
+      return localStorage.getItem("referral") || null;
+    }
+
+    // Guardar ref al cargar la pagina por si acaso
+    obtenerCodigoReferido();
+
+    const form = document.getElementById("registerForm");
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const password2 = document.getElementById('password2').value;
-      if(password !== password2) {
-        alert("Las contraseñas no coinciden.");
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const password2 = document.getElementById("password2").value;
+      if (password !== password2) {
+        alert("Las contrasenas no coinciden.");
         return;
       }
-      window.registrarUsuario(email, password);
+      const ref = obtenerCodigoReferido();
+      console.log("Codigo referido al registrar:", ref); // debug
+      window.registrarUsuario(email, password, ref);
     });
   </script>
 </body>
