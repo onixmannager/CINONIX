@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Cinonix - Cartelera Completa">
+  <meta property="og:description" content="Todo el catálogo de películas de Cinonix">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <title>Cinonix · Cartelera Completa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #070b14;
+      --surface:  #0e1420;
+      --surface2: #141c2e;
+      --accent:   #e50914;
+      --gold:     #f5c518;
+      --text:     #f0f0f0;
+      --text-dim: #8a9bb5;
+      --nav-h:    70px;
+      --radius:   10px;
+      --ease:     cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* Noise overlay */
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(7,11,20,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .navbar-nav { display: flex; align-items: center; gap: 0.25rem; }
+    .navbar-nav a {
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px;
+      transition: 0.3s var(--ease); white-space: nowrap;
+    }
+    .navbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+    .navbar-nav a.active-nav { color: var(--accent); }
+    .navbar-right { display: flex; align-items: center; gap: 1rem; }
+    .download-btn-nav {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      font-size: 0.8rem; font-weight: 600;
+      padding: 8px 16px; border-radius: 6px;
+      transition: 0.3s var(--ease); letter-spacing: 0.5px;
+    }
+    .download-btn-nav:hover { background: #c40812; transform: translateY(-1px); }
+    .logout-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text-dim); font-size: 0.8rem; font-family: 'Outfit', sans-serif;
+      padding: 8px 14px; border-radius: 6px; cursor: pointer;
+      transition: 0.3s var(--ease);
+    }
+    .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px; }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-drawer {
+      position: fixed; top: 0; right: 0; width: 280px; height: 100vh;
+      background: var(--surface); z-index: 1100;
+      padding: 20px 1.5rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.35s var(--ease);
+      border-left: 1px solid rgba(255,255,255,0.06);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      z-index: 1050; opacity: 0; pointer-events: none; transition: opacity 0.35s;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .mobile-drawer a {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.95rem; font-weight: 500;
+      padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: 0.3s var(--ease);
+    }
+    .mobile-drawer a:hover { color: var(--text); padding-left: 18px; }
+    .mobile-drawer a i { width: 18px; color: var(--accent); }
+    .drawer-close {
+      position: absolute; top: 18px; right: 18px;
+      background: none; border: none; color: var(--text-dim);
+      font-size: 1.2rem; cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .navbar-nav, .download-btn-nav, .logout-btn { display: none; }
+      .menu-toggle { display: block; }
+    }
+    @media (max-width: 480px) { .navbar { padding: 0 1rem; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: calc(var(--nav-h) + 36px) 2rem 0;
+      max-width: 1400px; margin: 0 auto;
+    }
+    .page-header-inner {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .page-title-group {}
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(229,9,20,0.12); border: 1px solid rgba(229,9,20,0.3);
+      color: var(--accent); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 10px;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      letter-spacing: 0.06em; line-height: 1;
+      background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.55) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-count {
+      font-size: 0.82rem; color: var(--text-dim); margin-top: 6px;
+    }
+    .page-count span { color: var(--text); font-weight: 700; }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      position: relative; flex: 0 0 auto; width: 100%; max-width: 320px;
+    }
+    .search-wrap i {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 0.85rem; pointer-events: none;
+    }
+    .search-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      padding: 11px 16px 11px 40px;
+      color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.25s;
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.25); }
+    .search-input:focus { border-color: rgba(229,9,20,0.45); }
+
+    @media (max-width: 600px) {
+      .page-header { padding-left: 1rem; padding-right: 1rem; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+      .search-wrap { max-width: 100%; }
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 2rem 20px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600;
+      padding: 7px 16px; border-radius: 100px; cursor: pointer;
+      transition: 0.25s var(--ease); white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+    .filter-btn.active {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .filter-bar {
+        padding-left: 1rem; padding-right: 1rem;
+        flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+    }
+
+    /* ── INSTAGRAM GRID ── */
+    .grid-wrap {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 2rem 80px;
+    }
+    .poster-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    /* Larger screens: more columns */
+    @media (min-width: 640px)  { .poster-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 900px)  { .poster-grid { grid-template-columns: repeat(5, 1fr); } }
+    @media (min-width: 1200px) { .poster-grid { grid-template-columns: repeat(6, 1fr); } }
+    @media (min-width: 1500px) { .poster-grid { grid-template-columns: repeat(7, 1fr); } }
+
+    @media (max-width: 600px) { .grid-wrap { padding: 0 0 80px; } }
+
+    .poster-item {
+      position: relative;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface2);
+    }
+    .poster-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.45s var(--ease), filter 0.35s;
+    }
+    .poster-item:hover img {
+      transform: scale(1.07);
+      filter: brightness(0.45);
+    }
+    .poster-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      opacity: 0; transition: opacity 0.3s;
+      padding: 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+    }
+    .poster-item:hover .poster-overlay { opacity: 1; }
+
+    .poster-play {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.92);
+      color: #000; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+      padding-left: 3px;
+      transform: scale(0.75); transition: transform 0.3s var(--ease);
+    }
+    .poster-item:hover .poster-play { transform: scale(1); }
+
+    .poster-title {
+      font-size: 0.72rem; font-weight: 700;
+      color: #fff; text-align: center;
+      line-height: 1.3;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Genre badge on poster */
+    .poster-badge {
+      position: absolute; top: 7px; left: 7px;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+      background: var(--accent); color: #fff; z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Hidden items */
+    .poster-item.hidden { display: none; }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 80px 20px; text-align: center; color: var(--text-dim);
+    }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 16px; opacity: 0.3; display: block; }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 5000; display: flex; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(6px);
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .modal {
+      background: var(--surface); border-radius: 14px; overflow: hidden;
+      width: 100%; max-width: 780px; max-height: 90vh;
+      display: flex; flex-direction: column; position: relative;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.35s var(--ease);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+    .modal-img-wrap {
+      position: relative; width: 100%; height: 260px; flex-shrink: 0;
+    }
+    .modal-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top; display: block;
+    }
+    .modal-img-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 30%, var(--surface) 100%);
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.75rem; z-index: 10;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .modal-body { padding: 0 1.6rem 1.8rem; overflow-y: auto; flex: 1; }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem;
+      letter-spacing: 2px; color: var(--text);
+      margin-bottom: 0.4rem; margin-top: -2.2rem;
+      position: relative; z-index: 2;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    }
+    .modal-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .modal-badge {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 3px;
+      background: var(--accent); color: #fff;
+    }
+    .modal-desc {
+      color: rgba(255,255,255,0.62); font-size: 0.85rem;
+      line-height: 1.75; margin-bottom: 1.4rem;
+    }
+    .modal-desc.empty { color: rgba(255,255,255,0.2); font-style: italic; }
+
+    .modal-watch-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: transparent; color: #fff; text-decoration: none;
+      font-weight: 600; font-size: 0.82rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.25);
+      transition: all 0.25s; position: relative;
+    }
+    .modal-watch-btn::after {
+      content: ''; position: absolute; bottom: -1px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .modal-watch-btn:hover::after { width: 100%; }
+    .modal-watch-btn:hover { color: var(--accent); gap: 18px; }
+    .modal-watch-btn .btn-play {
+      width: 38px; height: 38px; background: var(--accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; flex-shrink: 0; padding-left: 2px;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .modal-watch-btn:hover .btn-play { transform: scale(1.12); background: #c40812; }
+
+    /* Desktop two-col modal */
+    @media (min-width: 601px) {
+      .modal-img-wrap {
+        position: absolute; top: 0; left: 0;
+        width: 260px; height: 100%; min-height: 100%; flex-shrink: 0;
+      }
+      .modal-img-wrap img { object-fit: cover; object-position: center top; }
+      .modal-img-gradient { background: linear-gradient(to right, transparent 60%, var(--surface) 100%); }
+      #movieModal .modal {
+        flex-direction: row; overflow: hidden;
+        position: relative; min-height: 380px;
+      }
+      #movieModal .modal-body {
+        margin-left: 260px; padding: 1.8rem 1.6rem;
+        overflow-y: auto; flex: 1; display: flex; flex-direction: column;
+      }
+      #movieModal .modal-title { margin-top: 0; font-size: 2rem; }
+      #movieModal .modal-close { position: absolute; top: 12px; right: 12px; z-index: 20; }
+    }
+    @media (max-width: 600px) {
+      .modal { max-height: 95vh; }
+      .modal-img-wrap { height: 200px; }
+      .modal-title { font-size: 1.5rem; }
+      .modal-body { padding: 0 1.1rem 1.4rem; }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 40px 60px 24px;
+      background: linear-gradient(180deg, var(--bg) 0%, #000 100%);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .footer::before {
+      content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      width: 160px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .footer-content {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 24px; max-width: 1200px; margin: 0 auto 32px;
+    }
+    .footer-column h3 {
+      color: #fff; margin-bottom: 14px; font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .footer-column a {
+      color: var(--text-dim); text-decoration: none;
+      display: flex; align-items: center; gap: 7px;
+      margin-bottom: 10px; font-size: 0.87rem;
+      transition: color 0.25s, transform 0.25s var(--ease);
+    }
+    .footer-column a:hover { color: var(--text); transform: translateX(4px); }
+    .footer-column a i { color: var(--accent); width: 16px; font-size: 0.9em; }
+    .footer-bottom {
+      text-align: center; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.78rem; color: rgba(255,255,255,0.16);
+    }
+    @media (max-width: 768px) {
+      .footer { padding: 32px 20px 20px; }
+      .footer-content { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="cinonix.html" class="navbar-logo">
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png" class="logo-img" alt="Cinonix">
+    <span class="logo-text">CINONIX</span>
+  </a>
+  <div class="navbar-nav">
+    <a href="cinonix.html#cartelera">Cine</a>
+    <a href="cinonix.html#series">Series</a>
+    <a href="cinonix.html#accion">Acción</a>
+    <a href="cinonix.html#cienciaficcion">Sci-Fi</a>
+    <a href="cinonix.html#drama">Drama</a>
+    <a href="cinonix.html#terror">Terror</a>
+    <a href="cinonix.html#comedia">Comedia</a>
+    <a href="cinonix.html#infantiles">Infantil</a>
+    <a href="afiliados.html">Afiliados</a>
+    <a href="cartelera.html" class="active-nav">Cartelera Completa</a>
+  </div>
+  <div class="navbar-right">
+    <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" class="download-btn-nav" target="_blank">
+      <i class="fas fa-download"></i> App
+    </a>
+    <button class="logout-btn" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+  <a href="cinonix.html#cartelera"><i class="fas fa-film"></i> Cine</a>
+  <a href="cinonix.html#series"><i class="fas fa-tv"></i> Series</a>
+  <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+  <hr style="margin:15px 0;border:0;border-top:1px solid rgba(255,255,255,0.08);">
+  <a href="javascript:void(0);" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+  <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" download><i class="fas fa-download"></i> Descargar App</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-title-group">
+      <div class="page-badge"><i class="fas fa-film"></i> Catálogo completo</div>
+      <h1 class="page-title">Cartelera<br>Completa</h1>
+      <p class="page-count">Mostrando <span id="visibleCount">0</span> películas</p>
+    </div>
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar película…">
+    </div>
+  </div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">🎬 Todas</button>
+  <button class="filter-btn" data-filter="nuevas">🔥 Nuevas</button>
+  <button class="filter-btn" data-filter="accion">💥 Acción</button>
+  <button class="filter-btn" data-filter="scifi">🚀 Sci-Fi</button>
+  <button class="filter-btn" data-filter="drama">🎭 Drama</button>
+  <button class="filter-btn" data-filter="thriller">🔍 Thriller</button>
+  <button class="filter-btn" data-filter="terror">👻 Terror</button>
+  <button class="filter-btn" data-filter="comedia">😂 Comedia</button>
+  <button class="filter-btn" data-filter="infantil">🧒 Infantil</button>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="poster-grid" id="posterGrid"></div>
+</div>
+
+<!-- MOVIE MODAL -->
+<div class="modal-overlay" id="movieModal">
+  <div class="modal" id="modalBox">
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="">
+      <div class="modal-img-gradient"></div>
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-meta">
+        <span class="modal-badge" id="modalBadge">Película</span>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <a href="#" class="modal-watch-btn" id="modalBtn" target="_blank">
+        <span class="btn-play"><i class="fas fa-play"></i></span>
+        Ver ahora
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contenido</h3>
+      <a href="cinonix.html#cartelera"><i class="fas fa-film"></i> Películas</a>
+      <a href="cinonix.html#series"><i class="fas fa-tv"></i> Series</a>
+      <a href="cinonix.html#infantiles"><i class="fas fa-child"></i> Infantil</a>
+    </div>
+    <div class="footer-column">
+      <h3>Géneros</h3>
+      <a href="#" onclick="setFilter('accion')"><i class="fas fa-bolt"></i> Acción</a>
+      <a href="#" onclick="setFilter('terror')"><i class="fas fa-ghost"></i> Terror</a>
+      <a href="#" onclick="setFilter('drama')"><i class="fas fa-theater-masks"></i> Drama</a>
+    </div>
+    <div class="footer-column">
+      <h3>App</h3>
+      <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk"><i class="fas fa-download"></i> Android APK</a>
+    </div>
+    <div class="footer-column">
+      <h3>Nosotros</h3>
+      <a href="cinonix.html#sobre-cinonix"><i class="fas fa-info-circle"></i> Sobre Cinonix</a>
+      <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+    </div>
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+      <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
+</footer>
+
+<script>
+// ── MOVIE DATA ──────────────────────────────────────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/onixmannager/';
+const I1 = BASE + 'images-cinonix/refs/heads/main/';
+const I2 = BASE + 'Pruebas/refs/heads/main/';
+const I3 = BASE + 'images-cinonix2/refs/heads/main/';
+
+const MOVIES = [
+  // ── NUEVAS ──
+  { title:'Mike & Nick & Alice', url:'mikenickalice.html', img:I1+'mikenickalice.webp', genre:'nuevas', desc:'Dos gánsteres y la mujer que aman viven una noche caótica llena de violencia, errores y viajes en el tiempo, intentando sobrevivir mientras todo se complica cada vez más.' },
+  { title:'Avatar: Fuego y Cenizas', url:'avatarfuegoycenizavideo.html', img:I1+'avatarfuegoyceniza.webp', genre:'nuevas', desc:'Jake Sully y Neytiri enfrentan una nueva tribu Na\'vi ligada al fuego. La familia lucha por sobrevivir, descubriendo que la guerra redefine alianzas, sacrificios y el destino del mundo.' },
+  { title:'Drácula', url:'dracula.html', img:I1+'dracula.webp', genre:'nuevas', desc:'Tras perder a su esposa, el príncipe Vlad renuncia a Dios y es maldecido con la inmortalidad. Convertido en vampiro, vaga siglos hasta hallar en Londres a una mujer idéntica a su amor perdido.' },
+  { title:'28 Años Después', url:'28añosdespuesvideo.html', img:I2+'28añosdespues.webp', genre:'nuevas', desc:'Décadas después del brote del virus de la rabia que devastó Gran Bretaña, los supervivientes intentan reconstruir la civilización. Un joven viaja hacia la zona infectada descubriendo que el virus ha seguido evolucionando.' },
+  { title:'Jurassic World: El Renacer', url:'jurassicworldelrenacervideo.html', img:I2+'jurassicworldelrenacer.webp', genre:'nuevas', desc:'Cinco años después del colapso de Jurassic World, los dinosaurios se han extendido por todo el planeta. Un equipo debe infiltrarse en una isla remota para recuperar material genético crucial.' },
+
+  // ── ACCIÓN ──
+  { title:'Django', url:'djangovideo.html', img:I1+'django.webp', genre:'accion', desc:'Django, un esclavo liberado, se asocia con un cazarrecompensas alemán para rescatar a su esposa. Un western violento y apasionante sobre libertad, amor y venganza en el sur americano.' },
+  { title:'Los Hermanos Demolición', url:'loshermanosdemolicionvideo.html', img:I1+'loshermanosdemolicion.webp', genre:'accion', desc:'Dos hermanos opuestos se reencuentran tras años separados. Entre peleas, risas y situaciones disparatadas, descubren que la familia une incluso cuando todo lo demás los separa.' },
+  { title:'Gamer', url:'gamervideo.html', img:I2+'gamer.webp', genre:'accion', desc:'En un futuro próximo, los condenados a muerte participan en un videojuego mortal controlados por jugadores reales. Un preso busca sobrevivir para recuperar su libertad.' },
+  { title:'The Warriors', url:'thewarriorsvideo.html', img:I2+'thewarriors.webp', genre:'accion', desc:'Nueva York, noche de verano. Los Warriors son acusados falsamente del asesinato de un líder pandillero en Coney Island. Deben cruzar toda la ciudad perseguidos por decenas de bandas rivales.' },
+  { title:'Con Air', url:'conairvideo.html', img:I2+'conair.webp', genre:'accion', desc:'Cameron Poe, exboina verde, es trasladado en un avión con los presos más peligrosos de EE.UU. Los reclusos toman el control del vuelo. Poe debe detenerlos desde dentro.' },
+  { title:'Rock and Rolla', url:'rockandrollavideo.html', img:I2+'rockandrolla.webp', genre:'accion', desc:'Londres. Un magnate ruso pierde un cuadro valioso mientras bandas locales, estafadores y gangsters compiten. Guy Ritchie vuelve a su universo criminal con estilo caótico y giros constantes.' },
+  { title:'Fury', url:'furyvideo.html', img:I2+'fury.webp', genre:'accion', desc:'WWII, 1945. Un veterano sargento comanda un tanque Sherman con misión suicida en territorio alemán. Cuando incorporan a un joven recluta sin experiencia, el equipo enfrenta su mayor reto.' },
+  { title:'Malditos Bastardos', url:'malditosbastardosvideo.html', img:I2+'malditosbastrados.webp', genre:'accion', desc:'WWII. Un grupo de soldados judeoamericanos siembra el terror entre los nazis. Simultáneamente, una joven judía planea su venganza. Tarantino reescribe la historia.' },
+  { title:'Kill Bill Vol.1', url:'killbillvideo.html', img:I2+'sagakillbill.jpg', genre:'accion', desc:'Una asesina despierta del coma tras ser traicionada y dejada por muerta por su propio equipo. Ahora busca venganza contra cada uno de los miembros del escuadrón que intentó matarla.' },
+  { title:'Kill Bill Vol.2', url:'killbill2video.html', img:I2+'sagakillbill.jpg', genre:'accion', desc:'La Novia continúa su venganza hasta llegar al propio Bill. Una segunda parte más reflexiva y profunda que completa el viaje hacia la redención con duelos verbales y físicos memorables.' },
+  { title:'Perros de Guerra', url:'perrosdeguerravideo.html', img:I2+'perrosdeguerra.jpg', genre:'accion', desc:'Un mercenario profesional es contratado para explorar un pequeño país africano y luego liderar un golpe de estado. Una mirada cruda al mundo del mercenariado internacional.' },
+  { title:'La Armadura de Dios', url:'armaduradediosvideo.html', img:I1+'armaduradedios.webp', genre:'accion', desc:'Jackie Chan interpreta a un aventurero que debe recuperar reliquias medievales robadas por una secta satánica. Artes marciales, humor físico y acrobacias imposibles.' },
+  { title:'El Precio del Poder', url:'preciodelpodervideo.html', img:I2+'preciodelpoder.jpg', genre:'accion', desc:'Tony Montana llega a Miami como refugiado cubano y escala hasta la cima del narcotráfico. Una ópera de exceso, violencia y el sueño americano pervertido.' },
+  { title:'Terminator', url:'terminatorvideo.html', img:I2+'terminator.jpg', genre:'accion', desc:'Un cyborg indestructible llega desde el futuro para matar a Sarah Connor. Kyle Reese viaja también para protegerla. James Cameron define el cine de acción moderno.' },
+  { title:'Terminator 2', url:'terminator2video.html', img:I2+'terminator2.jpg', genre:'accion', desc:'El T-800 regresa reprogramado para proteger a John Connor de un T-1000 de metal líquido, más avanzado e imparable. Efectos revolucionarios y emoción inesperadamente humana.' },
+  { title:'Terminator 3', url:'terminator3video.html', img:I2+'terminator3.jpg', genre:'accion', desc:'John Connor vive fuera del sistema cuando llega la T-X para matar a los futuros líderes de la resistencia. El T-800 regresa mientras Skynet avanza hacia su activación.' },
+  { title:'Terminator: Destino Oscuro', url:'terminator4video.html', img:I2+'terminator4.jpg', genre:'accion', desc:'En un futuro alternativo, una nueva IA llamada Legión persigue a Dani Ramos. Una Terminator y un soldado aumentado la protegen mientras la historia se reinicia con nuevas reglas.' },
+  { title:'Terminator: Génesis', url:'terminatorgenesisvideo.html', img:I2+'terminatorgenesis.jpg', genre:'accion', desc:'Kyle Reese viaja al 1984 y encuentra una realidad alterada: Sarah Connor ya está entrenada y el T-800 es su guardián. La línea temporal está rota.' },
+  { title:'Diamantes de Sangre', url:'diamantesdesangrevideo.html', img:I1+'diamantesdesangre.webp', genre:'accion', desc:'Un mercenario sudafricano y un pescador de Sierra Leona unen fuerzas para recuperar un diamante excepcional. Ambos luchan contra rebeldes y sus propios dilemas morales.' },
+  { title:'Contacto Sangriento', url:'contactosangrientovideo.html', img:I3+'contactosangriento.webp', genre:'accion', desc:'Un detective investiga crímenes brutales que lo llevan por los bajos fondos de una ciudad corrompida. Sus conexiones con el crimen organizado ponen en peligro su propia vida.' },
+
+  // ── SCI-FI ──
+  { title:'Yo, Robot', url:'yorobotvideo.html', img:I2+'yorobot.webp', genre:'scifi', desc:'Chicago 2035. El detective Del Spooner investiga el aparente suicidio del creador de los robots NS-5. Sus investigaciones revelan una conspiración que amenaza a toda la humanidad.' },
+  { title:'Minority Report', url:'minorityreportvideo.html', img:I2+'minorityreport.webp', genre:'scifi', desc:'Washington 2054. La policía arresta asesinos antes de que actúen. El jefe del programa es acusado de un futuro crimen y debe huir para demostrar su inocencia.' },
+  { title:'Soy Leyenda', url:'soyleyendavideo.html', img:I2+'soyleyenda.webp', genre:'scifi', desc:'Robert Neville es el último hombre vivo en Nueva York tras un virus que transformó a la humanidad. De día investiga una cura. De noche sobrevive. Una reflexión sobre la soledad y la esperanza.' },
+  { title:'Super 8', url:'super8video.html', img:I2+'super8.webp', genre:'scifi', desc:'En 1979, unos adolescentes filman una película cuando presencian un accidente militar. Algo escapa del vagón. Mientras los militares ocultan la verdad, los chicos descubren un secreto.' },
+  { title:'Akira', url:'akiravideo.html', img:I2+'akira.webp', genre:'scifi', desc:'Neo-Tokyo 2019. Tetsuo desarrolla poderes psíquicos devastadores. Su amigo Kaneda intenta detenerlo mientras el gobierno converge. Obra maestra del anime que redefinió la animación.' },
+  { title:'Coherence', url:'coherencevideo.html', img:I2+'coherence.webp', genre:'scifi', desc:'Durante el paso de un cometa, un grupo de amigos descubre que la realidad se ha fragmentado. Hay versiones de ellos mismos en casas paralelas. La paranoia destruye las relaciones.' },
+  { title:'Dolor y Dinero', url:'dolorydinerovideo.html', img:I2+'dolorydinero.webp', genre:'scifi', desc:'Brad Pitt interpreta a un consultor enviado por la CIA para modernizar una célula de espionaje disfuncional. Una comedia oscura y absurda de los Coen sobre la estupidez humana.' },
+
+  // ── DRAMA ──
+  { title:'Sin Identidad', url:'sinidentidadvideo.html', img:I1+'sinidentidad.webp', genre:'drama', desc:'Un hombre despierta en Berlín sin recuerdos y descubre que otra persona ocupa su identidad. Nadie le cree. Mientras huye de asesinos, intenta reconstruir su pasado.' },
+  { title:'American Gangster', url:'americanganstervideo.html', img:I1+'americanganster.webp', genre:'drama', desc:'Frank Lucas construye un imperio de heroína en los años 70 importando droga desde Asia. Un detective honesto en un departamento corrupto lo persigue obsesivamente. Basada en hechos reales.' },
+  { title:'Blow', url:'blow.html', img:I2+'blow.webp', genre:'drama', desc:'George Jung pasa de vender marihuana a convertirse en el mayor traficante de cocaína junto al Cartel de Medellín. Una historia real de ascenso, caída y consecuencias devastadoras.' },
+  { title:'Una Historia del Bronx', url:'unahistoriadelbronx.html', img:I2+'unahistoriadelbronx.webp', genre:'drama', desc:'En el Bronx de los años 60, un niño queda fascinado por el carismático jefe de la mafia local. Su padre intenta alejarlo. Un relato íntimo sobre dos modelos opuestos de hombría.' },
+  { title:'El Oficial y el Espía', url:'eloficialyelespia.html', img:I2+'eloficialyelespia.webp', genre:'drama', desc:'Basada en el caso Dreyfus. Un oficial del ejército francés es condenado falsamente por espionaje. El coronel Picquart descubre la verdad pero el ejército prefiere el escándalo.' },
+  { title:'Gangs of New York', url:'gangs.html', img:I2+'gangs.webp', genre:'drama', desc:'Nueva York, 1863. Amsterdam Vallon regresa al barrio Five Points para vengar la muerte de su padre. Scorsese retrata el nacimiento violento de la identidad americana.' },
+  { title:'La Milla Verde', url:'lamillaverde.html', img:I2+'lamillaverde.webp', genre:'drama', desc:'Un carcelero del corredor de la muerte conoce a John Coffey, un gigante condenado que posee poderes sanadores inexplicables. Una historia sobre la compasión, la injusticia y los milagros.' },
+  { title:'Camino a la Perdición', url:'caminoalaperdicion.html', img:I2+'caminoalaperdicion.webp', genre:'drama', desc:'Durante la Gran Depresión, un asesino a sueldo huye con su hijo. Padre e hijo recorren el midwest en una road movie elegíaca sobre culpa, redención y el peso de los secretos.' },
+  { title:'El Renacido', url:'elrenacido.html', img:I2+'elrenacido.webp', genre:'drama', desc:'Un explorador es abandonado gravemente herido en la frontera americana del siglo XIX. A través del frío extremo arrastra su cuerpo impulsado únicamente por el deseo de venganza.' },
+  { title:'Cadena Perpetua', url:'cadenaperpetua.html', img:I2+'cadenaperpetua.webp', genre:'drama', desc:'Andy Dufresne llega a la prisión de Shawshank condenado por un asesinato. Forja amistad con Red mientras mantiene una esperanza silenciosa. Una historia sobre la dignidad humana.' },
+  { title:'Náufrago', url:'naufragovideo.html', img:I2+'naufrago.webp', genre:'drama', desc:'Chuck Noland sobrevive a un accidente aéreo y queda varado en una isla desierta durante cuatro años. Su única compañía es un balón llamado Wilson. Sobre la voluntad humana y la soledad.' },
+  { title:'Gold: La Gran Estafa', url:'gold.html', img:I2+'gold.webp', genre:'drama', desc:'Un prospector fracasado convence a un geólogo para buscar oro en la jungla indonesia. Encuentran el mayor yacimiento del siglo. Pero el éxito atrae a corporaciones y estafadores.' },
+  { title:'El Mensajero del Miedo', url:'elmensajerodelmiedovideo.html', img:I1+'elmensajerodelmiedo.webp', genre:'drama', desc:'Un excombatiente investiga a un compañero de guerra que regresa como héroe nacional, sospechando que ha sido sometido a lavado de cerebro. Thriller político sobre manipulación.' },
+
+  // ── THRILLER ──
+  { title:'El Experimento', url:'elexperimento.html', img:I2+'elexperimento.webp', genre:'thriller', desc:'Veinte hombres participan en un experimento psicológico: unos son guardias y otros presos. Lo que comienza como un juego escala hacia la violencia real. Basada en hechos reales.' },
+  { title:'Victor Frankenstein', url:'victorfrankensteinvideo.html', img:I2+'victorfrankenstein.webp', genre:'thriller', desc:'Narrada desde el punto de vista de Igor, reinterpreta al ambicioso doctor Frankenstein y su obsesión por crear vida. Una versión oscura que explora los límites éticos de la ciencia.' },
+  { title:'Gangs of New York', url:'gangs.html', img:I2+'gangs.webp', genre:'thriller', desc:'Nueva York, 1863. Un hombre regresa para vengar la muerte de su padre. Scorsese retrata el nacimiento violento de la identidad americana entre fuego e inmigración.' },
+  { title:'Eduardo Manostijeras', url:'eduardomanostijerasvideo.html', img:I2+'eduardomanostijeras.webp', genre:'thriller', desc:'Un científico muere antes de terminar a su creación: un joven con tijeras por manos. Eduardo es acogido pero la sociedad no entiende su diferencia. Un cuento de hadas oscuro.' },
+
+  // ── TERROR ──
+  { title:'El Resplandor', url:'elresplandorvideo.html', img:I2+'elresplandor.webp', genre:'terror', desc:'Jack Torrance acepta trabajar como vigilante en el Hotel Overlook. El lugar tiene un pasado sobrenatural que corroe su cordura hasta convertirlo en una amenaza letal para su familia.' },
+  { title:'Déjame Entrar', url:'dejameentrarvideo.html', img:I2+'dejameentrar.webp', genre:'terror', desc:'Oskar, un niño sueco solitario, entabla amistad con Eli, su nueva vecina que solo sale de noche. Una historia de amor oscura y perturbadora en el frío invierno escandinavo.' },
+  { title:'Vivarium', url:'vivarium.html', img:I2+'vivarium.webp', genre:'terror', desc:'Una pareja queda atrapada en un laberinto de casas idénticas sin salida. Se ven forzados a criar a un niño misterioso para ser liberados. Un thriller perturbador sobre la domesticidad.' },
+
+  // ── COMEDIA ──
+  { title:'Shrek', url:'shrekvideo.html', img:I2+'shrek.webp', genre:'comedia', desc:'Un ogro solitario ve su pantano invadido por personajes de cuento. Para recuperar su hogar debe rescatar a una princesa. Lo que parece misión simple se complica cuando el amor transforma todo.' },
+  { title:'Shrek 2', url:'shrek2video.html', img:I2+'shrek2.webp', genre:'comedia', desc:'Shrek y Fiona visitan el reino de Muy Muy Lejano para conocer a sus suegros. El rey tiene planes para separar a la pareja con la ayuda del Hada Madrina. El Gato con Botas se une.' },
+  { title:'Toc Toc', url:'toctocvideo.html', img:I2+'toctoc.webp', genre:'comedia', desc:'Seis pacientes con diferentes TOCs llegan a la consulta de su psiquiatra y acaban improvisando una sesión de terapia grupal. Una comedia española cargada de situaciones disparatadas.' },
+  { title:'Antz Hormigaz', url:'antzvideo.html', img:I2+'antz.webp', genre:'comedia', desc:'Z, una hormiga trabajadora inadaptada, se hace pasar por soldado para impresionar a la princesa y acaba liderando una revolución. Comedia de animación adulta sobre identidad y conformismo.' },
+  { title:'Los Goonies', url:'losgooniesvideo.html', img:I2+'losgoonies.webp', genre:'comedia', desc:'Un grupo de niños descubren un mapa del siglo XVII que lleva al tesoro del pirata Willy el Tuerto. Perseguidos por una banda criminal, viven la aventura más grande de sus vidas.' },
+  { title:'Solo en Casa 2', url:'soloencasa2video.html', img:I2+'soloencasa2.webp', genre:'comedia', desc:'Kevin McCallister vuelve a quedarse solo, esta vez perdido en Nueva York. Se hospeda en el Plaza y vuelve a enfrentarse a los mismos ladrones con nuevas trampas aún más elaboradas.' },
+
+  // ── INFANTIL ──
+  { title:'Super Mario Bros', url:'mariobrosvideo.html', img:I1+'mariobros.webp', genre:'infantil', desc:'Mario y Luigi, dos fontaneros de Brooklyn, son transportados a un reino paralelo dominado por Bowser. Deben rescatar a la princesa Peach y salvar dos mundos antes de que colapsen.' },
+  { title:'La Sirenita', url:'lasirenitavideo.html', img:I1+'lasirenita.webp', genre:'infantil', desc:'Ariel, una joven sirena fascinada por el mundo humano, hace un trato con la bruja del mar Úrsula para obtener piernas. Dispone de tres días para conquistar el amor del príncipe Eric.' },
+  { title:'La Bella y la Bestia', url:'labellaylabestiavideo.html', img:I2+'labellaylabestia.webp', genre:'infantil', desc:'Belle queda prisionera en el castillo encantado de una Bestia malhumorada. Bajo la maldición hay un príncipe que solo el amor verdadero puede liberar. Un cuento clásico.' },
+  { title:'Bambi', url:'bambivideo.html', img:I2+'bambi.webp', genre:'infantil', desc:'Bambi, un cervatillo del bosque, crece aprendiendo los secretos de la naturaleza. La pérdida de su madre a manos de cazadores lo obliga a madurar antes de tiempo.' },
+  { title:'Lilo & Stitch', url:'liloystitchvideo.html', img:I2+'liloystitch.webp', genre:'infantil', desc:'En Hawaii, una solitaria niña llamada Lilo adopta lo que cree es un perro extraño. En realidad es Stitch, un experimento alienígena. Juntos aprenden el significado de ohana: la familia.' },
+  { title:'El Príncipe de Egipto', url:'elprincipedeegiptovideo.html', img:I2+'elprincipedeegiptovideo.webp', genre:'infantil', desc:'Moisés, criado como príncipe egipcio, descubre su verdadero origen hebreo y recibe la misión de liberar a su pueblo. Una épica animada sobre fe, identidad y la amistad entre hermanos.' },
+];
+
+// ── GENRE LABELS ───────────────────────────────────────────────────────────
+const GENRE_LABELS = {
+  nuevas: 'NUEVO', accion: 'ACCIÓN', scifi: 'SCI-FI',
+  drama: 'DRAMA', thriller: 'THRILLER', terror: 'TERROR',
+  comedia: 'COMEDIA', infantil: 'INFANTIL'
+};
+
+// ── RENDER GRID ────────────────────────────────────────────────────────────
+const grid = document.getElementById('posterGrid');
+
+MOVIES.forEach((m, i) => {
+  const item = document.createElement('div');
+  item.className = 'poster-item';
+  item.dataset.genre = m.genre;
+  item.dataset.title = m.title.toLowerCase();
+  item.dataset.index = i;
+  item.innerHTML = `
+    <img src="${m.img}" alt="${m.title}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png'">
+    ${GENRE_LABELS[m.genre] ? `<div class="poster-badge">${GENRE_LABELS[m.genre]}</div>` : ''}
+    <div class="poster-overlay">
+      <div class="poster-play"><i class="fas fa-play"></i></div>
+      <div class="poster-title">${m.title}</div>
+    </div>`;
+  item.addEventListener('click', () => openModal(i));
+  grid.appendChild(item);
+});
+
+updateCount();
+
+// ── FILTER ─────────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+let searchQuery = '';
+
+function applyFilters() {
+  const items = grid.querySelectorAll('.poster-item');
+  items.forEach(item => {
+    const matchFilter = activeFilter === 'all' || item.dataset.genre === activeFilter;
+    const matchSearch = !searchQuery || item.dataset.title.includes(searchQuery);
+    item.classList.toggle('hidden', !(matchFilter && matchSearch));
+  });
+  updateCount();
+
+  // Empty state
+  let empty = grid.querySelector('.empty-state');
+  const visible = grid.querySelectorAll('.poster-item:not(.hidden)').length;
+  if (visible === 0) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML = '<i class="fas fa-film"></i><p>No se encontraron resultados.</p>';
+      grid.appendChild(empty);
+    }
+  } else if (empty) {
+    empty.remove();
+  }
+}
+
+function updateCount() {
+  const n = grid.querySelectorAll('.poster-item:not(.hidden)').length;
+  document.getElementById('visibleCount').textContent = n;
+}
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+window.setFilter = function(f) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === f);
+  });
+  activeFilter = f;
+  applyFilters();
+  document.querySelector('.filter-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+// ── MODAL ──────────────────────────────────────────────────────────────────
+const movieModal = document.getElementById('movieModal');
+const modalImg   = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc  = document.getElementById('modalDesc');
+const modalBadge = document.getElementById('modalBadge');
+const modalBtn   = document.getElementById('modalBtn');
+
+function openModal(i) {
+  const m = MOVIES[i];
+  modalImg.src = m.img;
+  modalImg.alt = m.title;
+  modalTitle.textContent = m.title;
+  modalDesc.textContent = m.desc || '';
+  modalDesc.className = m.desc ? 'modal-desc' : 'modal-desc empty';
+  modalBadge.textContent = GENRE_LABELS[m.genre] || 'Película';
+  modalBtn.href = m.url;
+  movieModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+movieModal.addEventListener('click', e => { if (e.target === movieModal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  movieModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── NAVBAR SCROLL ──────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MOBILE DRAWER ──────────────────────────────────────────────────────────
+const menuToggle    = document.getElementById('menuToggle');
+const mobileDrawer  = document.getElementById('mobileDrawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const drawerClose   = document.getElementById('drawerClose');
+
+function openDrawer()  { mobileDrawer.classList.add('open'); drawerOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+menuToggle.addEventListener('click', openDrawer);
+drawerClose.addEventListener('click', closeDrawer);
+drawerOverlay.addEventListener('click', closeDrawer);
+</script>
+
+<!-- FIREBASE AUTH -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+    authDomain: "cinonix-3a65d.firebaseapp.com",
+    projectId: "cinonix-3a65d",
+    storageBucket: "cinonix-3a65d.appspot.com",
+    messagingSenderId: "298364890273",
+    appId: "1:298364890273:web:f8d61cd538f228648f54e0"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.cerrarSesion = async () => {
+    await signOut(auth);
+    window.location.href = "001login.html";
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (!user) window.location.href = "001login.html";
+  });
+</script>
+
+</body>
+</html>
