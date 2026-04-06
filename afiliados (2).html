@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Cinonix - Programa de Afiliados">
+  <meta property="og:description" content="Gana dinero compartiendo Cinonix">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <title>Cinonix · Programa de Afiliados</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red:        #E50914;
+      --red-dark:   #b5050e;
+      --red-glow:   rgba(229,9,20,0.4);
+      --gold:       #c8a55e;
+      --gold-light: #e0c07a;
+      --gold-glow:  rgba(200,165,94,0.3);
+      --bg:         #07080f;
+      --card-bg:    rgba(10,11,20,0.88);
+      --border:     rgba(255,255,255,0.07);
+      --text:       #eeeef5;
+      --text-muted: #7a7a90;
+      --ease:       cubic-bezier(0.4,0,0.2,1);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(229,9,20,0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(200,165,94,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 0% 60%, rgba(229,9,20,0.04) 0%, transparent 55%);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 9990; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAVBAR (idéntico a cinonix.html) ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 70px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(7,11,20,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    .navbar.scrolled {
+      background: rgba(7,11,20,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .navbar-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem; letter-spacing: 3px;
+      background: linear-gradient(135deg, #fff 30%, var(--red) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .navbar-nav { display: flex; align-items: center; gap: 0.25rem; }
+    .navbar-nav a {
+      color: #8a9bb5; text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px;
+      transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+      white-space: nowrap;
+    }
+    .navbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+    .navbar-nav a.active-nav { color: var(--gold); }
+    .navbar-right { display: flex; align-items: center; gap: 1rem; }
+    .download-btn-nav {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--red); color: #fff; text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      padding: 8px 16px; border-radius: 6px;
+      transition: 0.3s cubic-bezier(0.4,0,0.2,1); letter-spacing: 0.5px;
+    }
+    .download-btn-nav:hover { background: #c40812; transform: translateY(-1px); }
+    .logout-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: #8a9bb5; font-size: 0.8rem; font-family: 'Outfit', sans-serif;
+      padding: 8px 14px; border-radius: 6px; cursor: pointer;
+      transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .logout-btn:hover { border-color: var(--red); color: var(--red); }
+    .menu-toggle {
+      display: none; background: none; border: none;
+      color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px;
+    }
+    /* Mobile drawer */
+    .mobile-drawer {
+      display: block; position: fixed;
+      top: 0; right: 0; width: 280px; height: 100vh;
+      background: #0e1420; z-index: 1100;
+      padding: 20px 1.5rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      border-left: 1px solid rgba(255,255,255,0.06);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+    .drawer-overlay {
+      display: block; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 1050;
+      opacity: 0; pointer-events: none; transition: opacity 0.35s;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .mobile-drawer a {
+      display: flex; align-items: center; gap: 12px;
+      color: #8a9bb5; text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem; font-weight: 500;
+      padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-drawer a:hover { color: var(--text); padding-left: 18px; }
+    .mobile-drawer a i { width: 18px; color: var(--red); }
+    .drawer-close {
+      position: absolute; top: 18px; right: 18px;
+      background: none; border: none; color: #8a9bb5;
+      font-size: 1.2rem; cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .navbar-nav { display: none; }
+      .download-btn-nav { display: none; }
+      .logout-btn { display: none; }
+      .menu-toggle { display: block; }
+    }
+    @media (max-width: 480px) {
+      .navbar { padding: 0 1rem; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 180px 20px 64px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(200,165,94,0.12), rgba(200,165,94,0.06));
+      border: 1px solid rgba(200,165,94,0.25);
+      color: var(--gold); font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 7px 18px; border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: var(--font-display); font-size: clamp(3rem, 7vw, 5.5rem);
+      letter-spacing: 0.06em; line-height: 1;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--red); text-shadow: 0 0 40px var(--red-glow); }
+    .hero p {
+      max-width: 560px; margin: 0 auto 0;
+      color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      display: flex; justify-content: center; gap: 20px;
+      padding: 0 20px 70px; flex-wrap: wrap;
+      max-width: 900px; margin: 40px auto 0;
+    }
+    .how-step {
+      flex: 1; min-width: 200px; max-width: 260px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s var(--ease);
+      animation: fadeUp 0.6s var(--ease) both;
+    }
+    .how-step:nth-child(2) { animation-delay: 0.1s; }
+    .how-step:nth-child(3) { animation-delay: 0.2s; }
+    .how-step:hover { border-color: rgba(229,9,20,0.25); transform: translateY(-4px); }
+
+    .step-num {
+      font-family: var(--font-display); font-size: 3rem; color: var(--red);
+      opacity: 0.25; line-height: 1; margin-bottom: 12px;
+    }
+    .step-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(229,9,20,0.10); border: 1px solid rgba(229,9,20,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--red); font-size: 1.2rem;
+      margin: 0 auto 16px;
+    }
+    .how-step h3 {
+      font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.02em;
+    }
+    .how-step p {
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      max-width: 900px; margin: 0 auto; padding: 0 20px 100px;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 36px 32px;
+      position: relative; overflow: hidden;
+      text-align: center;
+      animation: fadeUp 0.7s var(--ease) both;
+      transition: border-color 0.3s;
+    }
+    .stat-card:hover { border-color: rgba(229,9,20,0.2); }
+    .stat-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 15%; right: 15%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+    .stat-card.gold-card::before {
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .stat-glow {
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(229,9,20,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .stat-glow.gold { background: radial-gradient(circle, rgba(200,165,94,0.07) 0%, transparent 70%); }
+
+    .stat-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 14px; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+    }
+    .stat-label i { color: var(--red); }
+    .gold-card .stat-label i { color: var(--gold); }
+
+    .stat-value {
+      font-family: var(--font-display); font-size: 4rem;
+      letter-spacing: 0.04em; line-height: 1;
+      color: var(--text);
+    }
+    .gold-card .stat-value { color: var(--gold); text-shadow: 0 0 30px var(--gold-glow); }
+
+    .stat-sub {
+      font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;
+    }
+
+    /* ── LINK CARD ── */
+    .link-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 36px 40px;
+      animation: fadeUp 0.7s 0.15s var(--ease) both;
+    }
+    .link-card h2 {
+      font-family: var(--font-display); font-size: 1.6rem;
+      letter-spacing: 0.07em; margin-bottom: 8px;
+    }
+    .link-card > p {
+      color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6;
+    }
+
+    .commission-info {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, rgba(200,165,94,0.10), rgba(200,165,94,0.04));
+      border: 1px solid rgba(200,165,94,0.2);
+      border-radius: 10px; padding: 14px 20px;
+      margin-bottom: 28px; width: 100%;
+    }
+    .commission-info i { color: var(--gold); font-size: 1.1rem; flex-shrink: 0; }
+    .commission-info span {
+      font-size: 0.9rem; line-height: 1.5; color: var(--text);
+    }
+    .commission-info strong { color: var(--gold); }
+
+    .link-box {
+      display: flex; gap: 12px; align-items: center;
+    }
+    .link-input {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 18px; color: var(--text);
+      font-family: var(--font-body); font-size: 0.88rem;
+      outline: none; transition: border-color 0.25s;
+      cursor: text; user-select: all;
+    }
+    .link-input:focus { border-color: rgba(229,9,20,0.4); }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      color: #fff; border: none; border-radius: 10px;
+      padding: 14px 22px; cursor: pointer;
+      font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.05em; white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .copy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+    .copy-btn.copied { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+    .share-row {
+      display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      transition: border-color 0.25s, color 0.25s, background 0.25s;
+    }
+    .share-btn:hover { border-color: rgba(255,255,255,0.18); color: var(--text); background: rgba(255,255,255,0.06); }
+    .share-btn.tg:hover { border-color: rgba(36,161,222,0.4); color: #24a1de; }
+    .share-btn.wa:hover { border-color: rgba(37,211,102,0.4); color: #25d366; }
+    .share-btn.tw:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+    /* ── WITHDRAW CARD ── */
+    .withdraw-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 36px 40px;
+      animation: fadeUp 0.7s 0.25s var(--ease) both;
+    }
+    .withdraw-card h2 {
+      font-family: var(--font-display); font-size: 1.6rem;
+      letter-spacing: 0.07em; margin-bottom: 8px;
+    }
+    .withdraw-card > p {
+      color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.6;
+    }
+
+    /* Locked state */
+    .locked-notice {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(229,9,20,0.06); border: 1px solid rgba(229,9,20,0.15);
+      border-radius: 10px; padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+    .locked-notice i { color: var(--red); font-size: 1.2rem; flex-shrink: 0; }
+    .locked-notice span { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+    .locked-notice strong { color: var(--text); }
+
+    /* Form */
+    .withdraw-form { display: flex; flex-direction: column; gap: 18px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 13px 16px; color: var(--text);
+      font-family: var(--font-body); font-size: 0.9rem;
+      outline: none; transition: border-color 0.25s;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: rgba(229,9,20,0.4); }
+    .form-group select { cursor: pointer; appearance: none; }
+    .form-group select option { background: #0d0e1a; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .amount-display {
+      background: linear-gradient(135deg, rgba(200,165,94,0.08), rgba(200,165,94,0.03));
+      border: 1px solid rgba(200,165,94,0.2);
+      border-radius: 10px; padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .amount-display span { font-size: 0.82rem; color: var(--text-muted); }
+    .amount-display strong {
+      font-family: var(--font-display); font-size: 2rem;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
+
+    .submit-btn {
+      width: 100%; padding: 17px;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      border: none; color: white;
+      font-family: var(--font-body); font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 12px; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .submit-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 48px var(--red-glow); }
+    .submit-btn:hover::before { opacity: 1; }
+    .submit-btn:disabled {
+      opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none;
+    }
+
+    /* ── HISTORIAL ── */
+    .historial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-top: 32px;
+    }
+    .historial-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .historial-card > p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+    .historial-totales {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .historial-stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .historial-stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .historial-stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text);
+    }
+    .historial-stat-value.gold { color: #c8a55e; }
+    .historial-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .historial-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 12px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .historial-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+    .historial-table tr:last-child td { border-bottom: none; }
+    .historial-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      padding: 24px 0;
+    }
+    .badge-retiro {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .badge-pendiente { background: rgba(200,165,94,0.15); color: #c8a55e; }
+    .badge-pagado { background: rgba(0,200,83,0.12); color: #00c853; }
+
+    .submit-note {
+      text-align: center; font-size: 0.78rem; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 4px;
+    }
+    .submit-note i { color: var(--red); }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 56px 80px 28px;
+      background: linear-gradient(180deg, var(--bg) 0%, #000 100%);
+      border-top: 1px solid var(--border); position: relative;
+    }
+    .footer::before {
+      content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      width: 180px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+    .footer-content {
+      display: grid; grid-template-columns: repeat(5,1fr);
+      gap: 28px; max-width: 1200px; margin: 0 auto 40px;
+    }
+    .footer-column h3 {
+      color: #fff; margin-bottom: 16px; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .footer-column a {
+      color: var(--text-muted); text-decoration: none;
+      display: flex; align-items: center; gap: 7px;
+      margin-bottom: 11px; font-size: 0.87rem;
+      transition: color 0.25s, transform 0.25s var(--ease);
+    }
+    .footer-column a:hover { color: var(--text); transform: translateX(4px); }
+    .footer-column a i { color: var(--red); width: 16px; font-size: 0.9em; }
+    .footer-bottom {
+      text-align: center; padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.16);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 768px) {
+      .hero { padding: 120px 20px 40px; }
+      .stats-row { grid-template-columns: 1fr; }
+      .link-card, .withdraw-card { padding: 28px 22px; }
+      .link-box { flex-direction: column; }
+      .copy-btn { width: 100%; justify-content: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer { padding: 36px 24px 20px; }
+      .footer-content { grid-template-columns: repeat(2,1fr); }
+      .how { gap: 14px; }
+    }
+    @media(max-width: 480px) {
+      .footer-content { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── CUSTOM MODAL ── */
+    .cx-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s var(--ease);
+    }
+    .cx-modal-overlay.open {
+      opacity: 1; pointer-events: auto;
+    }
+    .cx-modal {
+      background: #0a0b14;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 40px 36px 32px;
+      max-width: 420px; width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.8), 0 0 0 1px rgba(229,9,20,0.08);
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.3s var(--ease);
+    }
+    .cx-modal-overlay.open .cx-modal {
+      transform: translateY(0) scale(1);
+    }
+    /* top accent line */
+    .cx-modal::before {
+      content: ''; position: absolute;
+      top: 0; left: 12%; right: 12%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      border-radius: 0 0 2px 2px;
+    }
+    .cx-modal.success::before {
+      background: linear-gradient(90deg, transparent, #16a34a, transparent);
+    }
+    .cx-modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin: 0 auto 20px;
+      background: rgba(229,9,20,0.12);
+      border: 1px solid rgba(229,9,20,0.2);
+      color: var(--red);
+    }
+    .cx-modal.success .cx-modal-icon {
+      background: rgba(22,163,74,0.12);
+      border-color: rgba(22,163,74,0.25);
+      color: #4ade80;
+    }
+    .cx-modal.warning .cx-modal-icon {
+      background: rgba(200,165,94,0.12);
+      border-color: rgba(200,165,94,0.25);
+      color: var(--gold);
+    }
+    .cx-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem; letter-spacing: 0.08em;
+      margin-bottom: 12px; color: var(--text);
+    }
+    .cx-modal-msg {
+      font-size: 0.9rem; color: var(--text-muted);
+      line-height: 1.65; margin-bottom: 28px;
+    }
+    .cx-modal-btn {
+      display: inline-block; width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      border: none; border-radius: 10px; cursor: pointer;
+      color: #fff; font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .cx-modal-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .cx-modal-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+    .cx-modal-btn:hover::before { opacity: 1; }
+    .cx-modal.success .cx-modal-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+    .cx-modal.success .cx-modal-btn:hover { box-shadow: 0 8px 24px rgba(22,163,74,0.4); }
+    .cx-modal.warning .cx-modal-btn {
+      background: linear-gradient(135deg, var(--gold), #a07c3a);
+    }
+    .cx-modal.warning .cx-modal-btn:hover { box-shadow: 0 8px 24px var(--gold-glow); }
+  </style>
+</head>
+<body>
+
+  <!-- CUSTOM MODAL -->
+  <div class="cx-modal-overlay" id="cxOverlay">
+    <div class="cx-modal" id="cxModal">
+      <div class="cx-modal-icon" id="cxIcon"><i id="cxIconI" class="fas fa-exclamation"></i></div>
+      <div class="cx-modal-title" id="cxTitle">Aviso</div>
+      <p class="cx-modal-msg" id="cxMsg"></p>
+      <button class="cx-modal-btn" id="cxBtn" onclick="closeCxModal()">Entendido</button>
+    </div>
+  </div>
+
+  <!-- NAVBAR (idéntico a cinonix.html) -->
+  <nav class="navbar" id="navbar">
+    <a href="cinonix.html" class="navbar-logo">
+      <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png" class="logo-img" alt="Cinonix">
+      <span class="logo-text">CINONIX</span>
+    </a>
+
+    <div class="navbar-nav">
+      <a href="cinonix.html#cartelera">Cine</a>
+      <a href="cinonix.html#series">Series</a>
+      
+    </div>
+
+    <div class="navbar-right">
+      <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" class="download-btn-nav" target="_blank">
+        <i class="fas fa-download"></i> App
+      </a>
+      <button class="logout-btn" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+    <a href="cinonix.html#cartelera"><i class="fas fa-film"></i>Cine</a>
+    <a href="cinonix.html#series"><i class="fas fa-tv"></i>Series</a>
+
+    <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
+
+    <a href="javascript:void(0);" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+
+    <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" download>
+  <i class="fas fa-download"></i> Descargar App (APK)
+</a>
+    
+    
+   </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <i class="fas fa-coins"></i>
+      Programa de Afiliados
+    </div>
+    <h1>GANA DINERO<br>CON <span>CINONIX</span></h1>
+    <p>Comparte tu link único y gana comisión por cada persona que se suscriba.<br>Sin límites, sin caducidad.</p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <div class="how">
+    <div class="how-step">
+      <div class="step-icon"><i class="fas fa-link"></i></div>
+      <h3>Copia tu link</h3>
+      <p>Tienes un enlace único e intransferible que identifica cada registro que generas.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-icon"><i class="fas fa-share-alt"></i></div>
+      <h3>Compártelo</h3>
+      <p>Envíalo por WhatsApp, Telegram, redes sociales o donde quieras. Tú decides.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-icon"><i class="fas fa-euro-sign"></i></div>
+      <h3>Cobra tu comisión</h3>
+      <p>Por cada suscripción completada ganas <strong style="color:var(--gold)">9,99 €</strong>. Sin tope máximo.</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-glow"></div>
+        <div class="stat-label"><i class="fas fa-users"></i> Afiliados conseguidos</div>
+        <div class="stat-value" id="numeroAfiliados">
+          <span class="skeleton" style="display:inline-block;width:60px;height:56px;"></span>
+        </div>
+        <div class="stat-sub">Personas que se suscribieron con tu link</div>
+      </div>
+      <div class="stat-card gold-card">
+        <div class="stat-glow gold"></div>
+        <div class="stat-label"><i class="fas fa-wallet"></i> Billetera</div>
+        <div class="stat-value" id="dineroAcumulado">
+          <span class="skeleton" style="display:inline-block;width:100px;height:56px;"></span>
+        </div>
+        <div class="stat-sub">Listo para retirar (mín. 20 €)</div>
+      </div>
+    </div>
+
+    <!-- LINK -->
+    <div class="link-card">
+      <h2>TU LINK DE REFERIDO</h2>
+      <p>Comparte este enlace para que tus referidos se registren con tu código.</p>
+
+      <div class="commission-info">
+        <i class="fas fa-fire-alt"></i>
+        <span>
+          Por cada persona que se suscriba con tu link recibirás el <strong>50% de comisión</strong>,
+          un total de <strong>9,99 € por afiliado</strong>.
+          Sin límite de referidos ni fecha de caducidad.
+        </span>
+      </div>
+
+      <div class="link-box">
+        <input type="text" class="link-input" id="linkAfiliado" readonly
+          value="Cargando tu enlace…" onclick="this.select()">
+        <button class="copy-btn" id="copyBtn" onclick="copiarLink()">
+          <i class="fas fa-copy"></i> Copiar
+        </button>
+      </div>
+
+      <div class="share-row">
+        <a class="share-btn wa" id="shareWa" href="#" target="_blank">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a class="share-btn tg" id="shareTg" href="#" target="_blank">
+          <i class="fab fa-telegram"></i> Telegram
+        </a>
+        <a class="share-btn tw" id="shareTw" href="#" target="_blank">
+          <i class="fab fa-x-twitter"></i> Twitter / X
+        </a>
+      </div>
+    </div>
+
+    <!-- WITHDRAW -->
+    <div class="withdraw-card">
+      <h2>SOLICITAR RETIRO</h2>
+      <p>Rellena el formulario para solicitar el pago de tus comisiones. El equipo de Cinonix procesará tu solicitud en un plazo de 3–5 días hábiles.</p>
+
+      <div class="locked-notice" id="lockedNotice" style="display:none;">
+        <i class="fas fa-lock"></i>
+        <span>Aún no has alcanzado el <strong>mínimo de 20 € </strong> para retirar. Sigue compartiendo tu link y vuelve cuando lo hayas alcanzado.</span>
+      </div>
+
+      <div class="amount-display" style="margin-bottom:24px;">
+        <span>Importe a retirar</span>
+        <strong id="amountDisplay">0,00 €</strong>
+      </div>
+
+      <form class="withdraw-form" id="withdrawForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre completo</label>
+            <input type="text" id="wNombre" placeholder="Tu nombre y apellidos" required>
+          </div>
+          <div class="form-group">
+            <label>Email de contacto</label>
+            <input type="email" id="wEmail" placeholder="tu@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Método de cobro</label>
+            <select id="wMetodo">
+              <option value="Bizum">Bizum</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Transferencia bancaria">Transferencia bancaria</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Número / cuenta / email de pago</label>
+            <input type="text" id="wCuenta" placeholder="Ej: 612 345 678 o IBAN" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nota adicional (opcional)</label>
+          <textarea id="wNota" placeholder="Cualquier información extra para el equipo…"></textarea>
+        </div>
+
+        <button type="button" class="submit-btn" id="submitBtn" onclick="mostrarPopupRetiro()">
+          <i class="fas fa-paper-plane"></i>
+          Enviar solicitud de retiro
+        </button>
+        <p class="submit-note">
+          <i class="fas fa-shield-alt"></i>
+          Tu solicitud quedará registrada en el sistema
+        </p>
+      </form>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="historial-card">
+      <h2>HISTORIAL</h2>
+      <p>Resumen total desde que te uniste al programa de afiliados.</p>
+      <div class="historial-totales">
+        <div class="historial-stat">
+          <div class="historial-stat-label"><i class="fas fa-users"></i> Total referidos conseguidos</div>
+          <div class="historial-stat-value" id="totalReferidosHistorico">—</div>
+        </div>
+        <div class="historial-stat">
+          <div class="historial-stat-label"><i class="fas fa-coins"></i> Total dinero ganado</div>
+          <div class="historial-stat-value gold" id="totalDineroHistorico">—</div>
+        </div>
+      </div>
+      <table class="historial-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Importe</th>
+            <th>Método</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="historialRetiros">
+          <tr><td colspan="4" class="historial-empty">Aún no has realizado ningún retiro.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- POPUP CONFIRMACION RETIRO -->
+  <div id="popupRetiro" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;">
+    <div style="background:#0d0e1a;border:1px solid rgba(229,9,20,0.2);border-radius:16px;padding:40px 36px;max-width:440px;width:90%;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.8);">
+      <div style="width:64px;height:64px;background:rgba(229,9,20,0.1);border:2px solid rgba(229,9,20,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+        <i class="fas fa-exclamation-triangle" style="color:#E50914;font-size:1.6rem;"></i>
+      </div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.08em;color:#eeeef5;margin-bottom:12px;">ATENCIÓN</h3>
+      <p style="color:#7a7a90;line-height:1.7;margin-bottom:8px;font-size:0.92rem;">
+        Al confirmar, tu solicitud de retiro quedará registrada y el equipo de Cinonix la procesará en 3–5 días hábiles.
+      </p>
+      <p style="color:#E50914;font-size:0.85rem;font-weight:600;margin-bottom:28px;">
+        <i class="fas fa-exclamation-circle"></i> Asegúrate de que los datos de pago son correctos antes de continuar.
+      </p>
+      <div style="display:flex;gap:12px;">
+        <button onclick="cancelarRetiro()" style="flex:1;padding:13px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#eeeef5;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;">
+          Cancelar
+        </button>
+        <button onclick="confirmarRetiro()" style="flex:1;padding:13px;background:linear-gradient(135deg,#E50914,#b5050e);border:none;border-radius:8px;color:white;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;">
+          Finalizar solicitud
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Contenido</h3>
+        <a href="index.html#peliculas">Películas</a>
+        <a href="index.html#series">Series</a>
+        <a href="index.html#documentales">Documentales</a>
+      </div>
+      <div class="footer-column">
+        <h3>App</h3>
+        <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
+      </div>
+      <div class="footer-column">
+        <h3>Nosotros</h3>
+        <a href="index.html#sobre-cinonix">Sobre Cinonix</a>
+      </div>
+      <div class="footer-column">
+        <h3>Soporte</h3>
+        <a href="soporte.html">Centro de ayuda</a>
+      </div>
+      <div class="footer-column">
+        <h3>Síguenos</h3>
+        <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+        <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
+  </footer>
+
+
+  <!-- FIREBASE + LÓGICA -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs }
+      from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+      authDomain: "cinonix-3a65d.firebaseapp.com",
+      projectId: "cinonix-3a65d",
+      storageBucket: "cinonix-3a65d.appspot.com",
+      messagingSenderId: "298364890273",
+      appId: "1:298364890273:web:f8d61cd538f228648f54e0",
+      measurementId: "G-9L2E23K72W"
+    };
+
+    const app   = initializeApp(firebaseConfig);
+    const auth  = getAuth(app);
+    const db    = getFirestore(app);
+
+    // Cerrar sesión global
+    window.cerrarSesion = async () => {
+      await signOut(auth);
+      window.location.href = "001login.html";
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "001login.html"; return; }
+
+      try {
+        const userDocSnap = await getDoc(doc(db, "usuarios", user.uid));
+        if (!userDocSnap.exists()) return;
+        const data = userDocSnap.data();
+
+        if (!data.codigoAfiliado) return;
+
+        // -- Construir link
+        const link = `https://cinonix.vercel.app/?ref=${data.codigoAfiliado}`;
+        window._afiliadoLink = link;
+        window._afiliadoEmail = user.email;
+
+        document.getElementById("linkAfiliado").value = link;
+
+        // Botones compartir
+        const txt = encodeURIComponent(`🎬 Accede a Cinonix con descuento usando mi link: ${link}`);
+        document.getElementById("shareWa").href = `https://wa.me/?text=${txt}`;
+        document.getElementById("shareTg").href = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent("🎬 Accede a Cinonix con mi link de afiliado")}`;
+        document.getElementById("shareTw").href = `https://twitter.com/intent/tweet?text=${txt}`;
+
+        // -- Consultar referidos
+        const snap = await getDocs(query(
+          collection(db, "usuarios"),
+          where("referredBy", "==", data.codigoAfiliado)
+        ));
+
+        const total   = snap.size;
+        const dinero  = total * 9.99;
+
+        // Calcular total retirado
+        const historialRetiros = data.historialRetiros || [];
+        const totalRetirado = historialRetiros.reduce((acc, r) => acc + (r.importe || 0), 0);
+        const saldoDisponible = Math.max(0, dinero - totalRetirado);
+        const puedeRetirar = saldoDisponible >= 20;
+
+        // Guardar en Firestore los valores actualizados
+        await updateDoc(doc(db, "usuarios", user.uid), {
+          dineroAcumulado: dinero,
+          referidosTotales: total
+        });
+
+        // Stats actuales (saldo disponible)
+        document.getElementById("numeroAfiliados").textContent = total;
+        document.getElementById("dineroAcumulado").textContent = `${saldoDisponible.toFixed(2)} €`;
+        document.getElementById("amountDisplay").textContent   = `${saldoDisponible.toFixed(2)} €`;
+
+        // Stats historial total
+        document.getElementById("totalReferidosHistorico").textContent = total;
+        document.getElementById("totalDineroHistorico").textContent = `${dinero.toFixed(2)} €`;
+
+        // Tabla historial de retiros
+        const tbody = document.getElementById("historialRetiros");
+        if (historialRetiros.length > 0) {
+          tbody.innerHTML = historialRetiros.map(r => {
+            const fecha = r.fecha ? new Date(r.fecha).toLocaleDateString("es-ES") : "—";
+            const badge = r.estado === "pagado"
+              ? '<span class="badge-retiro badge-pagado">Pagado</span>'
+              : '<span class="badge-retiro badge-pendiente">Pendiente</span>';
+            return `<tr>
+              <td>${fecha}</td>
+              <td>${r.importe ? r.importe.toFixed(2) + " €" : "—"}</td>
+              <td>${r.metodo || "—"}</td>
+              <td>${badge}</td>
+            </tr>`;
+          }).join("");
+        }
+
+        // Bloquear form si saldo < 20 €
+        if (!puedeRetirar) {
+          document.getElementById("lockedNotice").style.display = "flex";
+          document.getElementById("submitBtn").disabled = true;
+        }
+
+        // Pre-rellenar email
+        if (user.email) {
+          document.getElementById("wEmail").value = user.email;
+        }
+
+      } catch (e) {
+        console.error("Error cargando datos de afiliado:", e);
+      }
+    });
+
+    // -- Copiar link
+    window.copiarLink = function() {
+      const input = document.getElementById("linkAfiliado");
+      const btn   = document.getElementById("copyBtn");
+      navigator.clipboard.writeText(input.value).then(() => {
+        btn.classList.add("copied");
+        btn.innerHTML = '<i class="fas fa-check"></i> Copiado';
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          btn.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+        }, 2500);
+      });
+    };
+
+    // -- Mostrar popup de confirmacion
+    window.mostrarPopupRetiro = function() {
+      const nombre  = document.getElementById("wNombre").value.trim();
+      const email   = document.getElementById("wEmail").value.trim();
+      const cuenta  = document.getElementById("wCuenta").value.trim();
+      const importeStr = document.getElementById("amountDisplay").textContent;
+      const importe = parseFloat(importeStr.replace("€","").replace(",",".").trim()) || 0;
+
+      if (!nombre || !email || !cuenta) {
+        showCxModal("Campos incompletos", "Por favor rellena nombre, email y datos de pago antes de enviar.", "warning");
+        return;
+      }
+      if (importe < 20) {
+        showCxModal("Saldo insuficiente", "El mínimo para retirar es de 20 €. Tu saldo disponible es de " + importe.toFixed(2) + " €.", "warning");
+        return;
+      }
+      document.getElementById("popupRetiro").style.display = "flex";
+    };
+
+    window.cancelarRetiro = function() {
+      document.getElementById("popupRetiro").style.display = "none";
+    };
+
+    window.confirmarRetiro = async function() {
+      document.getElementById("popupRetiro").style.display = "none";
+      await window.enviarSolicitud();
+    };
+
+    // -- Enviar solicitud solo por Firestore (sin email)
+    window.enviarSolicitud = async function() {
+      const nombre  = document.getElementById("wNombre").value.trim();
+      const email   = document.getElementById("wEmail").value.trim();
+      const metodo  = document.getElementById("wMetodo").value;
+      const cuenta  = document.getElementById("wCuenta").value.trim();
+      const nota    = document.getElementById("wNota").value.trim();
+      const importeStr = document.getElementById("amountDisplay").textContent;
+      const importe = parseFloat(importeStr.replace("€","").replace(",",".").trim()) || 0;
+
+      if (!nombre || !email || !cuenta) {
+        showCxModal("Campos incompletos", "Por favor rellena nombre, email y datos de pago antes de enviar.", "warning");
+        return;
+      }
+
+      try {
+        const userRef = doc(db, "usuarios", auth.currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        const historialActual = userSnap.data().historialRetiros || [];
+
+        const nuevoRetiro = {
+          fecha: new Date().toISOString(),
+          importe: importe,
+          metodo: metodo,
+          cuenta: cuenta,
+          nombre: nombre,
+          email: email,
+          nota: nota || "",
+          estado: "pendiente"
+        };
+
+        await updateDoc(userRef, {
+          historialRetiros: [...historialActual, nuevoRetiro]
+        });
+
+        showCxModal("Solicitud enviada", "Tu solicitud de retiro ha sido registrada correctamente. El equipo de Cinonix te contactará en 3–5 días hábiles.", "success");
+        setTimeout(() => location.reload(), 3000);
+
+      } catch(e) {
+        console.error("Error guardando solicitud:", e);
+        showCxModal("Error", "No se pudo registrar tu solicitud. Inténtalo de nuevo.", "error");
+      }
+    };
+  </script>
+  <!-- NAVBAR JS + MODAL -->
+  <script>
+    /* ── CUSTOM MODAL ── */
+    const ICONS = { error: 'fa-exclamation', success: 'fa-check', warning: 'fa-triangle-exclamation', info: 'fa-info' };
+    const TITLES = { error: 'Error', success: '¡Listo!', warning: 'Atención', info: 'Info' };
+
+    function showCxModal(title, msg, type = 'error') {
+      const overlay = document.getElementById('cxOverlay');
+      const modal   = document.getElementById('cxModal');
+      document.getElementById('cxTitle').textContent = title || TITLES[type];
+      document.getElementById('cxMsg').textContent   = msg;
+      document.getElementById('cxIconI').className   = `fas ${ICONS[type] || ICONS.error}`;
+      modal.className = `cx-modal ${type}`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCxModal() {
+      document.getElementById('cxOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('cxOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeCxModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCxModal(); });
+
+    /* ── NAVBAR SCROLL ── */
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    const menuToggle    = document.getElementById('menuToggle');
+    const mobileDrawer  = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerClose   = document.getElementById('drawerClose');
+
+    function openDrawer()  { mobileDrawer.classList.add('open');  drawerOverlay.classList.add('open'); }
+    function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); }
+
+    menuToggle.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+  </script>
+
+</body>
+  </html>
