@@ -15,47 +15,78 @@
   <meta name="apple-mobile-web-app-title" content="Cinonix">
   <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <title>Pelicula De Cinonix</title>
-  
+
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: black;
+      width: 100%; height: 100%;
+      background: #000;
       overflow: hidden;
     }
-    .video-container {
+
+    /* Contenedor con overflow hidden para recortar el iframe agrandado */
+    .clip {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* ── TRUCO PRINCIPAL ──
+       El iframe se hace más grande que la pantalla en todas las direcciones.
+       - top: -56px  → oculta la barra de título de Drive (~56px)
+       - bottom: -60px → oculta la barra de controles inferior (~60px)
+       Ajusta estos valores si la UI de Drive tiene diferente altura en tu dispositivo */
+    #miVideo {
       position: absolute;
-      top: 0;
+      top: -56px;
       left: 0;
       width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
+      height: calc(100% + 116px); /* 56 arriba + 60 abajo */
       border: none;
     }
-    @media (orientation: portrait) {
-      iframe { width: 100%; height: 56.25vw; }
+
+    /* Overlays negros que tapan los bordes del iframe agrandado
+       por si el recorte no es perfecto o Drive añade margen */
+    .mask {
+      position: fixed;
+      background: #000;
+      z-index: 10;
+      pointer-events: none; /* deja pasar clics al iframe */
     }
-    @media (orientation: landscape) {
-      iframe { width: 177.78vh; height: 100%; }
+    .mask-top    { top: 0;    left: 0; right: 0; height: 4px; }
+    .mask-bottom { bottom: 0; left: 0; right: 0; height: 4px; }
+    .mask-left   { top: 0; bottom: 0; left: 0;  width: 4px; }
+    .mask-right  { top: 0; bottom: 0; right: 0; width: 4px; }
+
+    /* Bloque extra arriba por si Drive sigue mostrando algo */
+    .mask-top-heavy {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--top-mask, 0px); /* se ajusta por JS */
+      background: #000;
+      z-index: 11;
+      pointer-events: none;
+      transition: height 0.3s;
+    }
+    .mask-bottom-heavy {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--bot-mask, 0px);
+      background: #000;
+      z-index: 11;
+      pointer-events: none;
+      transition: height 0.3s;
     }
   </style>
 </head>
 <body>
-  <div class="video-container">
+
+  <div class="clip">
     <iframe id="miVideo"
-      src="https://drive.google.com/file/d/1UjAHeVapOvxxtycswyQ8QuYr4nMZeCGK/preview?rm=minimal&vq=hd1080"
-      style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+      src="https://drive.google.com/file/d/1UjAHeVapOvxxtycswyQ8QuYr4nMZeCGK/preview?rm=minimal&vq=hd1080&usp=embed_googleplus"
       allowfullscreen
       allow="fullscreen; autoplay"
       referrerpolicy="no-referrer"
@@ -63,9 +94,32 @@
     </iframe>
   </div>
 
+  <!-- Máscaras negras en los 4 bordes -->
+  <div class="mask mask-top"></div>
+  <div class="mask mask-bottom"></div>
+  <div class="mask mask-left"></div>
+  <div class="mask mask-right"></div>
+
+  <!-- Máscaras gruesas ajustables desde JS -->
+  <div class="mask-top-heavy" id="maskTop"></div>
+  <div class="mask-bottom-heavy" id="maskBot"></div>
+
   <script>
-    // ── Truco 1: Spoof del User-Agent hacia Android WebView ──
-    // Solo funciona en navegadores que permiten sobrescribir UA (limitado en Chrome moderno)
+    // ── Ajuste dinámico de máscaras ──
+    // Si en tu pantalla la barra moderna de Drive sigue visible,
+    // aumenta MASK_TOP (en px). Para la barra de controles baja, MASK_BOT.
+    const MASK_TOP = 0;  // ← sube este valor (ej: 56) si ves la barra superior de Drive
+    const MASK_BOT = 0;  // ← sube este valor (ej: 48) si ves controles abajo de Drive
+
+    document.documentElement.style.setProperty('--top-mask', MASK_TOP + 'px');
+    document.documentElement.style.setProperty('--bot-mask', MASK_BOT + 'px');
+
+    // ── Compensar el offset del iframe para que el vídeo quede centrado ──
+    // Al mover el iframe -56px arriba, el vídeo dentro también sube.
+    // Ajusta TOP_OFFSET para bajar el contenido y recentrarlo si hace falta.
+    const iframe = document.getElementById('miVideo');
+
+    // ── Spoof UA hacia Android WebView ──
     try {
       Object.defineProperty(navigator, 'userAgent', {
         get: () => 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
@@ -73,83 +127,50 @@
       });
     } catch(e) {}
 
-    // ── Truco 2: Fallback de URLs — prueba formatos en orden ──
+    // ── Fallback de URLs si no carga ──
     const FILE_ID = '1UjAHeVapOvxxtycswyQ8QuYr4nMZeCGK';
-    const urlCandidates = [
+    const urls = [
+      `https://drive.google.com/file/d/${FILE_ID}/preview?rm=minimal&vq=hd1080&usp=embed_googleplus`,
       `https://drive.google.com/file/d/${FILE_ID}/preview?rm=minimal&vq=hd1080`,
       `https://drive.google.com/file/d/${FILE_ID}/preview?rm=minimal`,
-      `https://drive.google.com/file/d/${FILE_ID}/preview?embedded=true&vq=hd1080`,
+      `https://drive.google.com/file/d/${FILE_ID}/preview?embedded=true`,
       `https://drive.google.com/file/d/${FILE_ID}/preview`,
-      `https://drive.google.com/file/d/${FILE_ID}/view?usp=sharing&embedded=true`,
     ];
+    let idx = 0;
 
-    let currentUrlIndex = 0;
-    const iframe = document.getElementById('miVideo');
-
-    function tryNextUrl() {
-      currentUrlIndex++;
-      if (currentUrlIndex < urlCandidates.length) {
-        console.log(`Intentando URL ${currentUrlIndex + 1}:`, urlCandidates[currentUrlIndex]);
-        iframe.src = urlCandidates[currentUrlIndex] + '&_t=' + Date.now();
-      } else {
-        console.warn('Todas las URLs fallaron.');
-      }
+    function tryNext() {
+      idx++;
+      if (idx < urls.length) iframe.src = urls[idx] + '&_nc=' + Date.now();
     }
-
-    // ── Truco 3: Detectar si el iframe está vacío y rotar URL ──
-    let attempts = 0;
-    const maxAttempts = urlCandidates.length;
-
-    const checkLoad = setInterval(function () {
-      attempts++;
-      try {
-        const doc = iframe.contentWindow.document;
-        const body = doc.body.innerHTML || '';
-        if (body.length < 500 || body.includes('error') || body.includes('quota')) {
-          console.warn('Video no cargó correctamente, probando siguiente URL...');
-          clearInterval(checkLoad);
-          tryNextUrl();
-          // Relanzar el checker para el nuevo intento
-          setTimeout(startChecker, 3000);
-        }
-      } catch (e) {
-        // CORS — no podemos leer el iframe, asumimos que cargó
-        clearInterval(checkLoad);
-      }
-      if (attempts >= 5) clearInterval(checkLoad);
-    }, 4000);
 
     function startChecker() {
-      let a = 0;
-      const id = setInterval(() => {
-        a++;
+      let ticks = 0;
+      const t = setInterval(() => {
+        ticks++;
         try {
-          const doc = iframe.contentWindow.document;
-          const body = doc.body.innerHTML || '';
-          if (body.length < 500 || body.includes('error')) {
-            clearInterval(id);
-            tryNextUrl();
-            if (currentUrlIndex < maxAttempts - 1) setTimeout(startChecker, 3000);
+          const b = iframe.contentWindow.document.body.innerHTML;
+          if (b.length < 500 || b.includes('error') || b.includes('quota')) {
+            clearInterval(t);
+            tryNext();
           }
-        } catch (e) { clearInterval(id); }
-        if (a >= 5) clearInterval(id);
+        } catch(e) { clearInterval(t); } // CORS = cargó OK
+        if (ticks > 5) clearInterval(t);
       }, 4000);
     }
+    startChecker();
 
-    // ── Truco 4: Pantalla completa al primer toque/clic ──
-    function requestFullscreen() {
+    // ── Pantalla completa al primer toque ──
+    function goFS() {
       const el = document.documentElement;
       (el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen || (() => {})).call(el);
     }
-    document.addEventListener('touchstart', requestFullscreen, { once: true });
-    document.addEventListener('click', requestFullscreen, { once: true });
+    document.addEventListener('touchstart', goFS, { once: true });
+    document.addEventListener('click',      goFS, { once: true });
   </script>
 
   <script type="module" src="app.js"></script>
   <script type="module">
-    document.addEventListener('DOMContentLoaded', function () {
-      window.restringirContenido();
-    });
+    document.addEventListener('DOMContentLoaded', () => window.restringirContenido());
   </script>
 </body>
 </html>
