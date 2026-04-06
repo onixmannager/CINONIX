@@ -483,8 +483,14 @@
       color: var(--text);
     }
     .historial-stat-value.gold { color: #c8a55e; }
+    .historial-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
     .historial-table {
       width: 100%;
+      min-width: 380px;
       border-collapse: collapse;
       font-size: 0.88rem;
     }
@@ -520,6 +526,13 @@
     }
     .badge-pendiente { background: rgba(200,165,94,0.15); color: #c8a55e; }
     .badge-pagado { background: rgba(0,200,83,0.12); color: #00c853; }
+    @media(max-width: 480px) {
+      .historial-card { padding: 24px 16px; }
+      .historial-totales { grid-template-columns: 1fr; }
+      .historial-table { font-size: 0.78rem; }
+      .historial-table th, .historial-table td { padding: 10px 8px; }
+      .badge-retiro { font-size: 0.65rem; padding: 3px 7px; }
+    }
 
     .submit-note {
       text-align: center; font-size: 0.78rem; color: var(--text-muted);
@@ -898,19 +911,21 @@
           <div class="historial-stat-value gold" id="totalDineroHistorico">—</div>
         </div>
       </div>
-      <table class="historial-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Importe</th>
-            <th>Método</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody id="historialRetiros">
-          <tr><td colspan="4" class="historial-empty">Aún no has realizado ningún retiro.</td></tr>
-        </tbody>
-      </table>
+      <div class="historial-table-wrap">
+        <table class="historial-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Importe</th>
+              <th>Método</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="historialRetiros">
+            <tr><td colspan="4" class="historial-empty">Aún no has realizado ningún retiro.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </main>
@@ -1216,4 +1231,4 @@
   </script>
 
 </body>
-  </html>
+</html>
