@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Cinonix - Series Completas">
+  <meta property="og:description" content="Todo el catálogo de series de Cinonix">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <title>Cinonix · Series Completas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #070b14;
+      --surface:  #0e1420;
+      --surface2: #141c2e;
+      --accent:   #e50914;
+      --gold:     #f5c518;
+      --text:     #f0f0f0;
+      --text-dim: #8a9bb5;
+      --nav-h:    70px;
+      --radius:   10px;
+      --ease:     cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* Noise overlay */
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(7,11,20,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-img { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .navbar-nav { display: flex; align-items: center; gap: 0.25rem; }
+    .navbar-nav a {
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px;
+      transition: 0.3s var(--ease); white-space: nowrap;
+    }
+    .navbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+    .navbar-nav a.active-nav { color: var(--accent); }
+    .navbar-right { display: flex; align-items: center; gap: 1rem; }
+    .download-btn-nav {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      font-size: 0.8rem; font-weight: 600;
+      padding: 8px 16px; border-radius: 6px;
+      transition: 0.3s var(--ease); letter-spacing: 0.5px;
+    }
+    .download-btn-nav:hover { background: #c40812; transform: translateY(-1px); }
+    .logout-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text-dim); font-size: 0.8rem; font-family: 'Outfit', sans-serif;
+      padding: 8px 14px; border-radius: 6px; cursor: pointer;
+      transition: 0.3s var(--ease);
+    }
+    .logout-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px; }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-drawer {
+      position: fixed; top: 0; right: 0; width: 280px; height: 100vh;
+      background: var(--surface); z-index: 1100;
+      padding: 20px 1.5rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.35s var(--ease);
+      border-left: 1px solid rgba(255,255,255,0.06);
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      z-index: 1050; opacity: 0; pointer-events: none; transition: opacity 0.35s;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .mobile-drawer a {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.95rem; font-weight: 500;
+      padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: 0.3s var(--ease);
+    }
+    .mobile-drawer a:hover { color: var(--text); padding-left: 18px; }
+    .mobile-drawer a i { width: 18px; color: var(--accent); }
+    .drawer-close {
+      position: absolute; top: 18px; right: 18px;
+      background: none; border: none; color: var(--text-dim);
+      font-size: 1.2rem; cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .navbar-nav, .download-btn-nav, .logout-btn { display: none; }
+      .menu-toggle { display: block; }
+    }
+    @media (max-width: 480px) { .navbar { padding: 0 1rem; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: calc(var(--nav-h) + 36px) 2rem 0;
+      max-width: 1400px; margin: 0 auto;
+    }
+    .page-header-inner {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .page-title-group {}
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(26,107,196,0.15); border: 1px solid rgba(26,107,196,0.35);
+      color: #1a6bc4; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 10px;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      letter-spacing: 0.06em; line-height: 1;
+      background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.55) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-count {
+      font-size: 0.82rem; color: var(--text-dim); margin-top: 6px;
+    }
+    .page-count span { color: var(--text); font-weight: 700; }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      position: relative; flex: 0 0 auto; width: 100%; max-width: 320px;
+    }
+    .search-wrap i {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 0.85rem; pointer-events: none;
+    }
+    .search-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      padding: 11px 16px 11px 40px;
+      color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.25s;
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.25); }
+    .search-input:focus { border-color: rgba(26,107,196,0.5); }
+
+    @media (max-width: 600px) {
+      .page-header { padding-left: 1rem; padding-right: 1rem; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+      .search-wrap { max-width: 100%; }
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 2rem 20px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600;
+      padding: 7px 16px; border-radius: 100px; cursor: pointer;
+      transition: 0.25s var(--ease); white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+    .filter-btn.active {
+      background: #1a6bc4; border-color: #1a6bc4; color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .filter-bar {
+        padding-left: 1rem; padding-right: 1rem;
+        flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+    }
+
+    /* ── INSTAGRAM GRID ── */
+    .grid-wrap {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 2rem 80px;
+    }
+    .poster-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    @media (min-width: 640px)  { .poster-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 900px)  { .poster-grid { grid-template-columns: repeat(5, 1fr); } }
+    @media (min-width: 1200px) { .poster-grid { grid-template-columns: repeat(6, 1fr); } }
+    @media (min-width: 1500px) { .poster-grid { grid-template-columns: repeat(7, 1fr); } }
+
+    @media (max-width: 600px) { .grid-wrap { padding: 0 0 80px; } }
+
+    .poster-item {
+      position: relative;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--surface2);
+    }
+    .poster-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.45s var(--ease), filter 0.35s;
+    }
+    .poster-item:hover img {
+      transform: scale(1.07);
+      filter: brightness(0.45);
+    }
+    .poster-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      opacity: 0; transition: opacity 0.3s;
+      padding: 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+    }
+    .poster-item:hover .poster-overlay { opacity: 1; }
+
+    .poster-play {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.92);
+      color: #000; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+      padding-left: 3px;
+      transform: scale(0.75); transition: transform 0.3s var(--ease);
+    }
+    .poster-item:hover .poster-play { transform: scale(1); }
+
+    .poster-title {
+      font-size: 0.72rem; font-weight: 700;
+      color: #fff; text-align: center;
+      line-height: 1.3;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+
+    .poster-badge {
+      position: absolute; top: 7px; left: 7px;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+      background: #1a6bc4; color: #fff; z-index: 3;
+      pointer-events: none;
+    }
+    .poster-badge.nuevo { background: var(--accent); }
+
+    .poster-item.hidden { display: none; }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 80px 20px; text-align: center; color: var(--text-dim);
+    }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 16px; opacity: 0.3; display: block; }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ── MODAL BASE ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 5000; display: flex; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      backdrop-filter: blur(6px);
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .modal {
+      background: var(--surface); border-radius: 14px; overflow: hidden;
+      width: 100%; max-width: 780px; max-height: 90vh;
+      display: flex; flex-direction: column; position: relative;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.35s var(--ease);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.75rem; z-index: 30;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .modal-img-wrap {
+      position: relative; width: 100%; height: 260px; flex-shrink: 0;
+    }
+    .modal-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top; display: block;
+    }
+    .modal-img-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 30%, var(--surface) 100%);
+    }
+
+    .modal-body { padding: 0 1.6rem 1.8rem; overflow-y: auto; flex: 1; }
+
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem;
+      letter-spacing: 2px; color: var(--text);
+      margin-bottom: 0.4rem; margin-top: -2.2rem;
+      position: relative; z-index: 2;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    }
+    .modal-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .modal-badge {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 3px;
+      background: #1a6bc4; color: #fff;
+    }
+    .modal-desc {
+      color: rgba(255,255,255,0.62); font-size: 0.85rem;
+      line-height: 1.75; margin-bottom: 1.2rem;
+    }
+    .modal-desc.empty { color: rgba(255,255,255,0.2); font-style: italic; }
+
+    /* Desktop two-col modal */
+    @media (min-width: 601px) {
+      .modal-img-wrap {
+        position: absolute; top: 0; left: 0;
+        width: 260px; height: 100%; min-height: 100%; flex-shrink: 0;
+      }
+      .modal-img-wrap img { object-fit: cover; object-position: center top; }
+      .modal-img-gradient { background: linear-gradient(to right, transparent 60%, var(--surface) 100%); }
+      .modal {
+        flex-direction: row; overflow: hidden;
+        position: relative; min-height: 420px;
+      }
+      .modal-body {
+        margin-left: 260px; padding: 1.8rem 1.6rem;
+        overflow-y: auto; flex: 1; display: flex; flex-direction: column;
+      }
+      .modal-title { margin-top: 0; font-size: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .modal { max-height: 95vh; }
+      .modal-img-wrap { height: 200px; }
+      .modal-title { font-size: 1.5rem; }
+      .modal-body { padding: 0 1.1rem 1.4rem; }
+    }
+
+    /* ── SEASON DROPDOWN ── */
+    .selector-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 0.65rem; display: flex; align-items: center; gap: 7px;
+    }
+    .selector-label i { color: #1a6bc4; font-size: 0.75rem; }
+
+    .season-dropdown-wrap { position: relative; margin-bottom: 1rem; }
+    .season-dropdown-btn {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface2); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 11px 16px; cursor: pointer;
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600;
+      color: var(--text); transition: border-color 0.2s; user-select: none;
+    }
+    .season-dropdown-btn:hover { border-color: #1a6bc4; }
+    .season-dropdown-btn i:first-child { color: #1a6bc4; font-size: 0.85rem; }
+    .season-chevron { margin-left: auto; font-size: 0.7rem; color: var(--text-dim); transition: transform 0.25s; }
+    .season-chevron.open { transform: rotate(180deg); }
+
+    .season-dropdown-list {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: #1a2236; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; overflow: hidden; z-index: 100;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      max-height: 0; opacity: 0; pointer-events: none;
+      transition: max-height 0.3s ease, opacity 0.2s;
+    }
+    .season-dropdown-list.open { max-height: 260px; opacity: 1; pointer-events: auto; }
+
+    .season-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem; font-weight: 500; color: var(--text-dim);
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .season-option:last-child { border-bottom: none; }
+    .season-option:hover { background: rgba(26,107,196,0.12); color: var(--text); }
+    .season-option.selected { color: #1a6bc4; font-weight: 700; }
+    .season-option.selected::before {
+      content: ''; width: 3px; height: 18px;
+      background: #1a6bc4; border-radius: 2px; flex-shrink: 0;
+    }
+
+    /* ── EPISODE GRID ── */
+    .episode-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px; max-height: 220px; overflow-y: auto; padding-right: 4px;
+    }
+    .episode-grid::-webkit-scrollbar { width: 4px; }
+    .episode-grid::-webkit-scrollbar-thumb { background: #1a6bc4; border-radius: 2px; }
+
+    .episode-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface2); border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-dim); font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 10px 12px; border-radius: 8px; cursor: pointer;
+      text-decoration: none; transition: all 0.2s; line-height: 1.3;
+    }
+    .episode-btn .ep-icon {
+      width: 26px; height: 26px;
+      background: rgba(26,107,196,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 0.6rem; color: #1a6bc4;
+      transition: all 0.2s; padding-left: 1px;
+    }
+    .episode-btn:hover { background: #1a6bc4; border-color: #1a6bc4; color: #fff; transform: translateY(-1px); }
+    .episode-btn:hover .ep-icon { background: rgba(255,255,255,0.2); color: #fff; }
+
+    @media (max-width: 600px) {
+      .episode-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); max-height: 170px; }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 40px 60px 24px;
+      background: linear-gradient(180deg, var(--bg) 0%, #000 100%);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .footer-content {
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      max-width: 1200px; margin: 0 auto 2rem;
+    }
+    .footer-column { flex: 1; min-width: 140px; }
+    .footer-column h3 {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+      letter-spacing: 2px; color: var(--text); margin-bottom: 1rem;
+    }
+    .footer-column a {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); text-decoration: none; font-size: 0.82rem;
+      padding: 5px 0; transition: color 0.2s;
+    }
+    .footer-column a:hover { color: var(--text); }
+    .footer-column a i { color: var(--accent); width: 14px; font-size: 0.75rem; }
+    .footer-bottom {
+      text-align: center; color: var(--text-dim); font-size: 0.75rem;
+      padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    @media (max-width: 600px) { .footer { padding: 30px 1rem 20px; } }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="cinonix.html" class="navbar-logo">
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png" class="logo-img" alt="Cinonix">
+    <span class="logo-text">Cinonix</span>
+  </a>
+  <div class="navbar-nav">
+    <a href="cinonix.html">Inicio</a>
+    <a href="cine.html">Películas</a>
+    <a href="series.html" class="active-nav">Series</a>
+    <a href="cinonix.html#sagas">Sagas</a>
+    <a href="afiliados.html">Afiliados</a>
+  </div>
+  <div class="navbar-right">
+    <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" class="download-btn-nav" target="_blank">
+      <i class="fas fa-download"></i> App
+    </a>
+    <button class="logout-btn" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+  <a href="cinonix.html"><i class="fas fa-home"></i> Inicio</a>
+  <a href="cine.html"><i class="fas fa-film"></i> Películas</a>
+  <a href="series.html"><i class="fas fa-tv"></i> Series</a>
+  <a href="cinonix.html#sagas"><i class="fas fa-trophy"></i> Sagas</a>
+  <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+  <a href="javascript:void(0);" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+  <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" download>
+    <i class="fas fa-download"></i> Descargar App (APK)
+  </a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-title-group">
+      <div class="page-badge"><i class="fas fa-tv"></i> Catálogo Completo</div>
+      <h1 class="page-title">Series</h1>
+      <p class="page-count">Mostrando <span id="visibleCount">0</span> series</p>
+    </div>
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar serie...">
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all"><i class="fas fa-border-all"></i> Todo</button>
+  <button class="filter-btn" data-filter="nuevo"><i class="fas fa-fire"></i> Nuevas</button>
+  <button class="filter-btn" data-filter="drama"><i class="fas fa-theater-masks"></i> Drama</button>
+  <button class="filter-btn" data-filter="thriller"><i class="fas fa-user-secret"></i> Thriller</button>
+  <button class="filter-btn" data-filter="terror"><i class="fas fa-ghost"></i> Terror</button>
+  <button class="filter-btn" data-filter="scifi"><i class="fas fa-rocket"></i> Sci-Fi</button>
+  <button class="filter-btn" data-filter="accion"><i class="fas fa-bolt"></i> Acción</button>
+  <button class="filter-btn" data-filter="documental"><i class="fas fa-eye"></i> Documental</button>
+  <button class="filter-btn" data-filter="infantil"><i class="fas fa-star"></i> Infantil</button>
+  <button class="filter-btn" data-filter="externo"><i class="fas fa-globe"></i> Más series</button>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="poster-grid" id="posterGrid"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contenido</h3>
+      <a href="cine.html"><i class="fas fa-film"></i> Películas</a>
+      <a href="series.html"><i class="fas fa-tv"></i> Series</a>
+      <a href="cinonix.html#sagas"><i class="fas fa-trophy"></i> Sagas</a>
+    </div>
+    <div class="footer-column">
+      <h3>Géneros</h3>
+      <a href="#" onclick="setFilter('drama')"><i class="fas fa-theater-masks"></i> Drama</a>
+      <a href="#" onclick="setFilter('thriller')"><i class="fas fa-user-secret"></i> Thriller</a>
+      <a href="#" onclick="setFilter('terror')"><i class="fas fa-ghost"></i> Terror</a>
+    </div>
+    <div class="footer-column">
+      <h3>App</h3>
+      <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk"><i class="fas fa-download"></i> Android APK</a>
+    </div>
+    <div class="footer-column">
+      <h3>Nosotros</h3>
+      <a href="cinonix.html#sobre-cinonix"><i class="fas fa-info-circle"></i> Sobre Cinonix</a>
+      <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+    </div>
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+      <a href="https://www.instagram.com/cinonix_/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
+</footer>
+
+<!-- SERIES MODAL -->
+<div class="modal-overlay" id="seriesModal">
+  <div class="modal" id="seriesModalBox">
+    <button class="modal-close" id="seriesModalClose"><i class="fas fa-times"></i></button>
+    <div class="modal-img-wrap">
+      <img id="seriesModalImg" src="" alt="">
+      <div class="modal-img-gradient"></div>
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-title" id="seriesModalTitle"></h2>
+      <div class="modal-meta">
+        <span class="modal-badge" id="seriesModalBadge">Serie</span>
+      </div>
+      <p class="modal-desc" id="seriesModalDesc"></p>
+
+      <!-- Season selector -->
+      <div id="seriesSeasonBlock" style="display:none;">
+        <div class="season-dropdown-wrap">
+          <div class="season-dropdown-btn" id="seriesSeasonDropdownBtn">
+            <i class="fas fa-tv"></i>
+            <span id="seriesSeasonDropdownLabel">1ª Temporada</span>
+            <i class="fas fa-chevron-down season-chevron" id="seriesSeasonChevron"></i>
+          </div>
+          <div class="season-dropdown-list" id="seriesSeasonDropdownList"></div>
+        </div>
+        <div id="seriesEpisodeList" class="episode-grid"></div>
+      </div>
+
+      <!-- Direct link (for extern series) -->
+      <div id="seriesDirectBlock" style="display:none;">
+        <a href="#" class="episode-btn" id="seriesDirectBtn" target="_blank" style="display:inline-flex; margin-top:0.5rem;">
+          <span class="ep-icon"><i class="fas fa-external-link-alt"></i></span>
+          Ver series
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SERIES DATA ─────────────────────────────────────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/onixmannager/';
+const I1 = BASE + 'images-cinonix/refs/heads/main/';
+const I2 = BASE + 'Pruebas/refs/heads/main/';
+const I3 = BASE + 'images-cinonix2/refs/heads/main/';
+
+const SERIES = [
+  // ── NUEVAS ──
+  {
+    key: 'mandalorian', title: 'Mandalorian', img: I1+'mandalorian.webp',
+    genre: 'nuevo', badge: 'NUEVO',
+    desc: 'Din Djarin, un cazarrecompensas mandaloriano solitario, debe entregar a un misterioso niño de una raza desconocida. Cuando ve quien lo reclama, decide protegerlo.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1 — El Mandaloriano', url: 'mandalorianvideo1x1.html' },
+        { label: 'Ep 2 — El Niño', url: 'mandalorianvideo1x2.html' },
+        { label: 'Ep 3 — El Pecado', url: 'mandalorianvideo1x3.html' },
+        { label: 'Ep 4 — Santuario', url: 'mandalorianvideo1x4.html' },
+        { label: 'Ep 5 — El Prisionero', url: 'mandalorianvideo1x5.html' },
+        { label: 'Ep 6 — El Guardián', url: 'mandalorianvideo1x6.html' },
+        { label: 'Ep 7 — El Ajuste de Cuentas', url: 'mandalorianvideo1x7.html' },
+        { label: 'Ep 8 — Redención', url: 'mandalorianvideo1x8.html' },
+      ]},
+      { label: '2ª Temporada ✅️', episodios: [
+        { label: 'Ep 1 — El Sheriff', url: 'mandalorianvideo2x1.html' },
+        { label: 'Ep 2 — El Pasajero', url: 'mandalorianvideo2x2.html' },
+        { label: 'Ep 3 — La Heredera', url: 'mandalorianvideo2x3.html' },
+        { label: 'Ep 4 — El Asedio', url: 'mandalorianvideo2x4.html' },
+        { label: 'Ep 5 — La Jedi', url: 'mandalorianvideo2x5.html' },
+        { label: 'Ep 6 — El Rescate', url: 'mandalorianvideo2x6.html' },
+        { label: 'Ep 7 — El Creyente', url: 'mandalorianvideo2x7.html' },
+        { label: 'Ep 8 — La Redención', url: 'mandalorianvideo2x8.html' },
+      ]},
+    ]
+  },
+  {
+    key: 'theboys', title: 'The Boys', img: I2+'theboys.webp',
+    genre: 'nuevo', badge: 'NUEVO',
+    desc: 'En un mundo donde los superhéroes son famosos corporativos corruptos, un grupo de ciudadanos normales decide revelar sus crímenes.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'theboys1x1video.html' }, { label: 'Ep 2', url: 'theboys1x2video.html' },
+        { label: 'Ep 3', url: 'theboys1x3video.html' }, { label: 'Ep 4', url: 'theboys1x4video.html' },
+        { label: 'Ep 5', url: 'theboys1x5video.html' }, { label: 'Ep 6', url: 'theboys1x6video.html' },
+        { label: 'Ep 7', url: 'theboys1x7video.html' }, { label: 'Ep 8', url: 'theboys1x8video.html' },
+      ]},
+      { label: '2ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'theboys2x1video.html' }, { label: 'Ep 2', url: 'theboys2x2video.html' },
+        { label: 'Ep 3', url: 'theboys2x3video.html' }, { label: 'Ep 4', url: 'theboys2x4video.html' },
+        { label: 'Ep 5', url: 'theboys2x5video.html' }, { label: 'Ep 6', url: 'theboys2x6video.html' },
+        { label: 'Ep 7', url: 'theboys2x7video.html' }, { label: 'Ep 8', url: 'theboys2x8video.html' },
+      ]},
+      { label: '3ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'theboys3x1video.html' }, { label: 'Ep 2', url: 'theboys3x2video.html' },
+        { label: 'Ep 3', url: 'theboys3x3video.html' }, { label: 'Ep 4', url: 'theboys3x4video.html' },
+        { label: 'Ep 5', url: 'theboys3x5video.html' }, { label: 'Ep 6', url: 'theboys3x6video.html' },
+        { label: 'Ep 7', url: 'theboys3x7video.html' }, { label: 'Ep 8', url: 'theboys3x8video.html' },
+      ]},
+      { label: '4ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'theboys4x1video.html' }, { label: 'Ep 2', url: 'theboys4x2video.html' },
+        { label: 'Ep 3', url: 'theboys4x3video.html' }, { label: 'Ep 4', url: 'theboys4x4video.html' },
+        { label: 'Ep 5', url: 'theboys4x5video.html' }, { label: 'Ep 6', url: 'theboys4x6video.html' },
+        { label: 'Ep 7', url: 'theboys4x7video.html' }, { label: 'Ep 8', url: 'theboys4x8video.html' },
+      ]},
+    ]
+  },
+  {
+    key: 'strangerthings', title: 'Stranger Things', img: I2+'strangerthings.webp',
+    genre: 'nuevo', badge: 'NUEVO',
+    desc: 'En Hawkins, Indiana, la desaparición de un niño desencadena el descubrimiento del Mundo del Revés, una dimensión oscura paralela.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'strangerthings1x1video.html' }, { label: 'Ep 2', url: 'strangerthings1x2video.html' },
+        { label: 'Ep 3', url: 'strangerthings1x3video.html' }, { label: 'Ep 4', url: 'strangerthings1x4video.html' },
+        { label: 'Ep 5', url: 'strangerthings1x5video.html' }, { label: 'Ep 6', url: 'strangerthings1x6video.html' },
+        { label: 'Ep 7', url: 'strangerthings1x7video.html' }, { label: 'Ep 8', url: 'strangerthings1x8video.html' },
+      ]},
+      { label: '2ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'strangerthings2x1video.html' }, { label: 'Ep 2', url: 'strangerthings2x2video.html' },
+        { label: 'Ep 3', url: 'strangerthings2x3video.html' }, { label: 'Ep 4', url: 'strangerthings2x4video.html' },
+        { label: 'Ep 5', url: 'strangerthings2x5video.html' }, { label: 'Ep 6', url: 'strangerthings2x6video.html' },
+        { label: 'Ep 7', url: 'strangerthings2x7video.html' }, { label: 'Ep 8', url: 'strangerthings2x8video.html' },
+        { label: 'Ep 9', url: 'strangerthings2x9video.html' },
+      ]},
+      { label: '3ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'strangerthings3x1video.html' }, { label: 'Ep 2', url: 'strangerthings3x2video.html' },
+        { label: 'Ep 3', url: 'strangerthings3x3video.html' }, { label: 'Ep 4', url: 'strangerthings3x4video.html' },
+        { label: 'Ep 5', url: 'strangerthings3x5video.html' }, { label: 'Ep 6', url: 'strangerthings3x6video.html' },
+        { label: 'Ep 7', url: 'strangerthings3x7video.html' }, { label: 'Ep 8', url: 'strangerthings3x8video.html' },
+      ]},
+      { label: '4ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'strangerthings4x1video.html' }, { label: 'Ep 2', url: 'strangerthings4x2video.html' },
+        { label: 'Ep 3', url: 'strangerthings4x3video.html' }, { label: 'Ep 4', url: 'strangerthings4x4video.html' },
+        { label: 'Ep 5', url: 'strangerthings4x5video.html' }, { label: 'Ep 6', url: 'strangerthings4x6video.html' },
+        { label: 'Ep 7', url: 'strangerthings4x7video.html' }, { label: 'Ep 8', url: 'strangerthings4x8video.html' },
+        { label: 'Ep 9', url: 'strangerthings4x9video.html' },
+      ]},
+      { label: '5ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'strangerthings5x1video.html' }, { label: 'Ep 2', url: 'strangerthings5x2video.html' },
+        { label: 'Ep 3', url: 'strangerthings5x3video.html' }, { label: 'Ep 4', url: 'strangerthings5x4video.html' },
+        { label: 'Ep 5', url: 'strangerthings5x5video.html' }, { label: 'Ep 6', url: 'strangerthings5x6video.html' },
+        { label: 'Ep 7', url: 'strangerthings5x7video.html' }, { label: 'Ep 8', url: 'strangerthings5x8video.html' },
+      ]},
+    ]
+  },
+
+  // ── THRILLER ──
+  {
+    key: 'blackmirror', title: 'Black Mirror', img: I2+'blackmirror.webp',
+    genre: 'thriller', badge: 'THRILLER',
+    desc: 'Serie antológica que explora los efectos perturbadores de la tecnología en la sociedad moderna.',
+    temporadas: [
+      { label: '3ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'blacmirror3x1video.html' }, { label: 'Ep 2', url: 'blacmirror3x2video.html' },
+        { label: 'Ep 3', url: 'blacmirror3x3video.html' }, { label: 'Ep 4', url: 'blacmirror3x4video.html' },
+        { label: 'Ep 5', url: 'blacmirror3x5video.html' }, { label: 'Ep 6', url: 'blacmirror3x6video.html' },
+      ]},
+      { label: '4ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'blacmirror4x1video.html' }, { label: 'Ep 2', url: 'blacmirror4x2video.html' },
+        { label: 'Ep 3', url: 'blacmirror4x3video.html' }, { label: 'Ep 4', url: 'blacmirror4x4video.html' },
+        { label: 'Ep 5', url: 'blacmirror4x5video.html' }, { label: 'Ep 6', url: 'blacmirror4x6video.html' },
+      ]},
+      { label: '5ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'blacmirror5x1video.html' }, { label: 'Ep 2', url: 'blacmirror5x2video.html' },
+        { label: 'Ep 3', url: 'blacmirror5x3video.html' },
+      ]},
+      { label: '6ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'blacmirror6x1video.html' }, { label: 'Ep 2', url: 'blacmirror6x2video.html' },
+        { label: 'Ep 3', url: 'blacmirror6x3video.html' }, { label: 'Ep 4', url: 'blacmirror6x4video.html' },
+      ]},
+      { label: '7ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'blacmirror7x1video.html' }, { label: 'Ep 2', url: 'blacmirror7x2video.html' },
+        { label: 'Ep 3', url: 'blacmirror7x3video.html' }, { label: 'Ep 4', url: 'blacmirror7x4video.html' },
+        { label: 'Ep 5', url: 'blacmirror7x5video.html' }, { label: 'Ep 6', url: 'blacmirror7x6video.html' },
+      ]},
+    ]
+  },
+
+  // ── DRAMA ──
+  {
+    key: 'elsilencio', title: 'El Silencio', img: I2+'elsilencio.webp',
+    genre: 'drama', badge: 'DRAMA',
+    desc: 'Una familia con una hija sorda huye hacia las montañas cuando criaturas que cazan por el sonido invaden el mundo.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'elsilencio1x1video.html' }, { label: 'Ep 2', url: 'elsilencio1x2video.html' },
+        { label: 'Ep 3', url: 'elsilencio1x3video.html' }, { label: 'Ep 4', url: 'elsilencio1x4video.html' },
+        { label: 'Ep 5', url: 'elsilencio1x5video.html' }, { label: 'Ep 6', url: 'elsilencio1x6video.html' },
+      ]},
+    ]
+  },
+
+  // ── DOCUMENTAL ──
+  {
+    key: 'elcasoasunta', title: 'El Caso Asunta', img: I2+'elcasoasunta.webp',
+    genre: 'documental', badge: 'DOCUMENTAL',
+    desc: 'La serie documental recrea el mediático caso de Asunta Basterra, una niña adoptada de origen chino encontrada muerta en Galicia en 2013.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1 - 21 de septiembre', url: 'elcasoasunta1x1video.html' },
+        { label: 'Ep 2 - 24 de septiembre', url: 'elcasoasunta1x2video.html' },
+        { label: 'Ep 3 - 26 de septiembre', url: 'elcasoasunta1x3video.html' },
+        { label: 'Ep 4 - 28 de septiembre', url: 'elcasoasunta1x4video.html' },
+        { label: 'Ep 5 - 24 horas', url: 'elcasoasunta1x5video.html' },
+        { label: 'Ep 6 - El juicio', url: 'elcasoasunta1x6video.html' },
+      ]},
+    ]
+  },
+  {
+    key: 'elcuerpoenllamas', title: 'El Cuerpo en Llamas', img: I2+'elcuerpoenllamas.webp',
+    genre: 'documental', badge: 'DOCUMENTAL',
+    desc: 'Basada en el caso real de Rosa Peral, una policía de Barcelona condenada por asesinar a su pareja y quemar su cuerpo en el Pantano de Foix.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1 - El pantano', url: 'elcuerpoenllamas1x1video.html' },
+        { label: 'Ep 2 - La investigación', url: 'elcuerpoenllamas1x2video.html' },
+        { label: 'Ep 3 - El triángulo', url: 'elcuerpoenllamas1x3video.html' },
+        { label: 'Ep 4 - La presión', url: 'elcuerpoenllamas1x4video.html' },
+        { label: 'Ep 5 - La caída', url: 'elcuerpoenllamas1x5video.html' },
+        { label: 'Ep 6 - La estrategia', url: 'elcuerpoenllamas1x6video.html' },
+        { label: 'Ep 7 - Frente a frente', url: 'elcuerpoenllamas1x7video.html' },
+        { label: 'Ep 8 - 1 de mayo de 2017', url: 'elcuerpoenllamas1x8video.html' },
+      ]},
+    ]
+  },
+  {
+    key: 'dondeestamarta', title: 'Donde Está Marta', img: I3+'dondeestamarta.webp',
+    genre: 'documental', badge: 'DOCUMENTAL',
+    desc: 'Documental español que sigue la búsqueda de Marta del Castillo, desaparecida en Sevilla en 2009.',
+    temporadas: [
+      { label: '1ª Temporada', episodios: [
+        { label: 'Ep 1', url: 'dondeestamarta1video.html' },
+        { label: 'Ep 2', url: 'dondeestamarta2video.html' },
+        { label: 'Ep 3', url: 'dondeestamarta3video.html' },
+      ]},
+    ]
+  },
+
+  // ── EXTERNAS ──
+  {
+    key: 'plutotv', title: 'Series de Pluto TV', img: I2+'plutotv.webp',
+    genre: 'externo', badge: 'GRATIS',
+    desc: 'Explora el catálogo de series gratuitas de Pluto TV. Una amplia selección de contenido en streaming sin necesidad de suscripción.',
+    url: 'https://pluto.tv/es/on-demand/619041a006d23b0007375107/672ccd06030a2c0008fa09f8?utm_source=microsoft&utm_medium=textsearch&utm_campaign=602233954&utm_content=1332610546897298&utm_term=e_pluto+tv&utm_creative=&device=c&msclkid=b48a7b70c6bb113935b212202be89c0a'
+  },
+  {
+    key: 'rakutentv', title: 'Series de Rakuten TV', img: I2+'rakutentv.webp',
+    genre: 'externo', badge: 'GRATIS',
+    desc: 'Accede al catálogo de series gratuitas de Rakuten TV. Contenido de calidad disponible sin suscripción.',
+    url: 'https://www.rakuten.tv/es/lists/free-top-tv-shows'
+  },
+  {
+    key: 'rtveplay', title: 'Series de RTVE Play', img: I2+'rtveplay.webp',
+    genre: 'externo', badge: 'GRATIS',
+    desc: 'Series españolas e internacionales disponibles gratuitamente en RTVE Play. El catálogo completo de la televisión pública española.',
+    url: 'https://www.rtve.es/play/series/'
+  },
+  {
+    key: 'mediaset', title: 'Series de Mediaset Infinity', img: I2+'mediaset.webp',
+    genre: 'externo', badge: 'GRATIS',
+    desc: 'Series y miniseries disponibles gratuitamente en Mediaset Infinity. El catálogo de Telecinco y Cuatro online.',
+    url: 'https://www.mediasetinfinity.es/series-y-miniseries'
+  },
+  {
+    key: 'clan', title: 'Series de Clan (Infantiles)', img: I2+'clan.webp',
+    genre: 'infantil', badge: 'INFANTIL',
+    desc: 'Series infantiles y de animación del canal Clan, disponibles gratuitamente en RTVE Play. Perfecto para los más pequeños.',
+    url: 'https://www.rtve.es/play/clan/series/'
+  },
+];
+
+const BADGE_LABELS = {
+  nuevo: 'NUEVO', drama: 'DRAMA', thriller: 'THRILLER',
+  terror: 'TERROR', scifi: 'SCI-FI', accion: 'ACCIÓN',
+  documental: 'DOCUMENTAL', infantil: 'INFANTIL', externo: 'GRATIS'
+};
+
+// ── RENDER GRID ──────────────────────────────────────────────────────────────
+const grid = document.getElementById('posterGrid');
+
+SERIES.forEach((s, i) => {
+  const item = document.createElement('div');
+  item.className = 'poster-item';
+  item.dataset.genre = s.genre;
+  item.dataset.title = s.title.toLowerCase();
+  item.dataset.index = i;
+  const badgeLabel = s.badge || BADGE_LABELS[s.genre] || 'SERIE';
+  const badgeClass = s.genre === 'nuevo' ? 'poster-badge nuevo' : 'poster-badge';
+  item.innerHTML = `
+    <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png'">
+    <div class="${badgeClass}">${badgeLabel}</div>
+    <div class="poster-overlay">
+      <div class="poster-play"><i class="fas fa-play"></i></div>
+      <div class="poster-title">${s.title}</div>
+    </div>`;
+  item.addEventListener('click', () => openModal(i));
+  grid.appendChild(item);
+});
+
+updateCount();
+
+// ── FILTERS ──────────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+let searchQuery = '';
+
+function applyFilters() {
+  const items = grid.querySelectorAll('.poster-item');
+  items.forEach(item => {
+    const matchFilter = activeFilter === 'all' || item.dataset.genre === activeFilter;
+    const matchSearch = !searchQuery || item.dataset.title.includes(searchQuery);
+    item.classList.toggle('hidden', !(matchFilter && matchSearch));
+  });
+  updateCount();
+  let empty = grid.querySelector('.empty-state');
+  const visible = grid.querySelectorAll('.poster-item:not(.hidden)').length;
+  if (visible === 0) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML = '<i class="fas fa-tv"></i><p>No se encontraron resultados.</p>';
+      grid.appendChild(empty);
+    }
+  } else if (empty) {
+    empty.remove();
+  }
+}
+
+function updateCount() {
+  const n = grid.querySelectorAll('.poster-item:not(.hidden)').length;
+  document.getElementById('visibleCount').textContent = n;
+}
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+window.setFilter = function(f) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === f);
+  });
+  activeFilter = f;
+  applyFilters();
+  document.querySelector('.filter-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+const seriesModal       = document.getElementById('seriesModal');
+const seriesModalImg    = document.getElementById('seriesModalImg');
+const seriesModalTitle  = document.getElementById('seriesModalTitle');
+const seriesModalDesc   = document.getElementById('seriesModalDesc');
+const seriesModalBadge  = document.getElementById('seriesModalBadge');
+const seriesSeasonBlock = document.getElementById('seriesSeasonBlock');
+const seriesDirectBlock = document.getElementById('seriesDirectBlock');
+const seriesDirectBtn   = document.getElementById('seriesDirectBtn');
+const seasonDropdownBtn = document.getElementById('seriesSeasonDropdownBtn');
+const seasonDropdownLabel = document.getElementById('seriesSeasonDropdownLabel');
+const seasonDropdownList = document.getElementById('seriesSeasonDropdownList');
+const seasonChevron     = document.getElementById('seriesSeasonChevron');
+const episodeList       = document.getElementById('seriesEpisodeList');
+
+let dropdownOpen = false;
+
+function toggleSeasonDropdown(forceClose) {
+  if (forceClose || dropdownOpen) {
+    dropdownOpen = false;
+    seasonDropdownList.classList.remove('open');
+    seasonChevron.classList.remove('open');
+  } else {
+    dropdownOpen = true;
+    seasonDropdownList.classList.add('open');
+    seasonChevron.classList.add('open');
+  }
+}
+
+seasonDropdownBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  toggleSeasonDropdown();
+});
+document.addEventListener('click', () => { if (dropdownOpen) toggleSeasonDropdown(true); });
+
+function loadEpisodes(temporada) {
+  episodeList.innerHTML = '';
+  temporada.episodios.forEach(ep => {
+    const btn = document.createElement('a');
+    btn.href = ep.url;
+    btn.className = 'episode-btn';
+    btn.innerHTML = `<span class="ep-icon"><i class="fas fa-play"></i></span>${ep.label}`;
+    episodeList.appendChild(btn);
+  });
+}
+
+function openModal(i) {
+  const s = SERIES[i];
+  seriesModalImg.src = s.img;
+  seriesModalImg.alt = s.title;
+  seriesModalTitle.textContent = s.title;
+  seriesModalDesc.textContent = s.desc || '';
+  seriesModalDesc.className = s.desc ? 'modal-desc' : 'modal-desc empty';
+  seriesModalBadge.textContent = s.badge || BADGE_LABELS[s.genre] || 'SERIE';
+
+  seriesSeasonBlock.style.display = 'none';
+  seriesDirectBlock.style.display = 'none';
+  episodeList.innerHTML = '';
+  seasonDropdownList.innerHTML = '';
+  toggleSeasonDropdown(true);
+
+  if (s.temporadas && s.temporadas.length) {
+    seriesSeasonBlock.style.display = 'block';
+    s.temporadas.forEach((t, idx) => {
+      const opt = document.createElement('div');
+      opt.className = 'season-option' + (idx === 0 ? ' selected' : '');
+      opt.textContent = t.label;
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        seasonDropdownList.querySelectorAll('.season-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        seasonDropdownLabel.textContent = t.label;
+        toggleSeasonDropdown(true);
+        loadEpisodes(t);
+      });
+      seasonDropdownList.appendChild(opt);
+    });
+    seasonDropdownLabel.textContent = s.temporadas[0].label;
+    loadEpisodes(s.temporadas[0]);
+    seasonDropdownBtn.style.display = s.temporadas.length > 1 ? 'flex' : 'none';
+  } else if (s.url) {
+    seriesDirectBlock.style.display = 'block';
+    seriesDirectBtn.href = s.url;
+  }
+
+  seriesModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('seriesModalClose').addEventListener('click', closeModal);
+seriesModal.addEventListener('click', e => { if (e.target === seriesModal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  seriesModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── NAVBAR SCROLL ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MOBILE DRAWER ─────────────────────────────────────────────────────────────
+const menuToggle    = document.getElementById('menuToggle');
+const mobileDrawer  = document.getElementById('mobileDrawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const drawerClose   = document.getElementById('drawerClose');
+
+function openDrawer()  { mobileDrawer.classList.add('open'); drawerOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+menuToggle.addEventListener('click', openDrawer);
+drawerClose.addEventListener('click', closeDrawer);
+drawerOverlay.addEventListener('click', closeDrawer);
+</script>
+
+<!-- FIREBASE AUTH -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
+    authDomain: "cinonix-3a65d.firebaseapp.com",
+    projectId: "cinonix-3a65d",
+    storageBucket: "cinonix-3a65d.appspot.com",
+    messagingSenderId: "298364890273",
+    appId: "1:298364890273:web:f8d61cd538f228648f54e0"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.cerrarSesion = async () => {
+    await signOut(auth);
+    window.location.href = "001login.html";
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (!user) window.location.href = "001login.html";
+  });
+</script>
+
+</body>
+</html>
