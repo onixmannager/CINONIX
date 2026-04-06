@@ -375,12 +375,12 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      transition: var(--transition);
-      opacity: 0;
-      transition: opacity 0.3s;
+      transition: color 0.3s;
+      opacity: 1;
+      white-space: nowrap;
     }
     .content-section:hover .see-all { opacity: 1; }
-    .see-all:hover { color: var(--text); }
+    .see-all:hover { color: var(--accent); }
 
     /* ===== CAROUSEL ===== */
     .movies-container {
@@ -1097,6 +1097,7 @@
     <a href="#comedia">Comedia</a>
     <a href="#infantiles">Infantil</a>
     <a href="#mas">Más Cine</a>
+    <a href="afiliados.html">Afiliados</a>
   </div>
 
   <div class="navbar-right">
@@ -1114,26 +1115,30 @@
 <!-- Mobile Drawer -->
 <div class="mobile-drawer" id="mobileDrawer">
   <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-  <a href="#cartelera"><i class="fas fa-film"></i> Cartelera Completa</a>
+  <a href="#cartelera"><i class="fas fa-film"></i> Cine</a>
   <a href="#series"><i class="fas fa-tv"></i> Series</a>
-  <a href="#sagas"><i class="fas fa-layer-group"></i> Sagas</a>
-  <a href="#accion"><i class="fas fa-fist-raised"></i> Acción</a>
-  <a href="#cienciaficcion"><i class="fa-solid fa-user-astronaut"></i> Ciencia Ficción</a>
-  <a href="#drama"><i class="fas fa-mask"></i> Drama</a>
-  <a href="#thriller"><i class="fas fa-user-secret"></i> Thriller</a>
-  <a href="#terror"><i class="fas fa-ghost"></i> Terror</a>
-  <a href="#comedia"><i class="fas fa-theater-masks"></i> Comedia</a>
-  <a href="#infantiles"><i class="fas fa-star"></i> Infantil & Anime</a>
-  <a href="#mas"><i class="fas fa-globe"></i> Más Cine Gratis</a>
-  <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" target="_blank"><i class="fas fa-download"></i> Descargar App</a>
-  <a href="javascript:void(0);" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+  
+  <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
+  
+  <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+  
+  <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
+  
+  <a href="javascript:void(0);" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+
+ <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" download>
+  <i class="fas fa-download"></i> Descargar App (APK)
+</a>
+
 </div>
 
 <!-- Hero Section -->
 <header class="hero">
   <div id="heroCarousel" style="position:absolute;inset:0;width:100%;height:100%;">
-    
-    <img class="hero-slide active" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/dracula.webp" alt="">
+
+    <img class="hero-slide active" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mikenickalice.webp" alt="">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/avatarfuegoyceniza.webp" alt="">
+    <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/dracula.webp" alt="">
     <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mandalorian.webp" alt="">
     <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/django.webp" alt="">
     <img class="hero-slide" src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/dejamesalir.webp" alt="">
@@ -1160,6 +1165,7 @@
   <section class="content-section" id="cartelera">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🎬</span>Cartelera Completa</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -1167,7 +1173,25 @@
       <div class="carousel-track">
         </a>
 
-        
+        <a href="mikenickalice.html" class="movie-card" data-desc="Dos gánsteres y la mujer que aman viven una noche caótica llena de violencia, errores y viajes en el tiempo, intentando sobrevivir mientras todo se complica cada vez más.">
+          <div class="movie-poster-wrap">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mikenickalice.webp" class="movie-poster" alt="" loading="lazy">
+          <div class="card-overlay">
+            <button class="play-btn"><i class="fas fa-play"></i></button>
+          </div>        
+        </div>
+          <span class="card-title">Mike nick, nick y alice</span>
+        </a>
+
+        <a href="avatarfuegoycenizavideo.html" class="movie-card" data-desc="Jake Sully y Neytiri enfrentan una nueva tribu Na’vi ligada al fuego, mientras Pandora entra en conflicto interno. La familia lucha por sobrevivir, descubriendo que la guerra redefine alianzas, sacrificios y el destino del mundo.">
+          <div class="movie-poster-wrap">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/avatarfuegoyceniza.webp" class="movie-poster" alt="" loading="lazy">
+          <div class="card-overlay">
+            <button class="play-btn"><i class="fas fa-play"></i></button>
+          </div>        
+        </div>
+          <span class="card-title">Avatar Fuego Y Cenizas</span>
+        </a>
         
         <a href="dracula.html" class="movie-card" data-desc="Tras perder a su esposa, el príncipe Vlad renuncia a Dios y es maldecido con la inmortalidad. Convertido en vampiro, vaga siglos hasta hallar en Londres a una mujer idéntica a su amor perdido, desatando una obsesiva búsqueda que desafía destino y muerte.">
           <div class="movie-poster-wrap">
@@ -2030,7 +2054,7 @@
         </a>
         <a href="aladinvideo.html" class="movie-card" data-desc="Un joven pícaro de Agrabah encuentra una lámpara mágica con un genio que concede tres deseos. Se hace pasar por príncipe para conquistar a la princesa Jasmine, pero el malvado Jafar busca la lámpara para hacerse con el poder total.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/aladin.jpg" class="movie-poster" alt="Aladin" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/aladin.webp" class="movie-poster" alt="Aladin" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2039,7 +2063,7 @@
         </a>
         <a href="mufasavideo.html" class="movie-card" data-desc="La historia de origen del rey Mufasa: desde su infancia como cachorro hasta convertirse en el gran rey de las Tierras del Orgullo. Un viaje épico de amistad, amor y liderazgo que revela cómo un huérfano se convirtió en el rey más legendario.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/mufasa.jpg" class="movie-poster" alt="Mufasa" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/mufasa.webp" class="movie-poster" alt="Mufasa" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2048,7 +2072,7 @@
         </a>
         <a href="avengersvideo.html" class="movie-card" data-desc="Nick Fury reúne a Iron Man, Hulk, Thor, Capitán América, Viuda Negra y Ojo de Halcón cuando Loki llega a la Tierra buscando el Tesseract para entregar el planeta a una fuerza invasora alienígena. El inicio de una era cinematográfica única.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/avengers.jpg" class="movie-poster" alt="Avengers" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/avengers.webp" class="movie-poster" alt="Avengers" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2075,7 +2099,7 @@
         </a>
         <a href="capitanamericavideo.html" class="movie-card" data-desc="Steve Rogers, un joven débil pero valiente de Brooklyn, es transformado en supersoldado para combatir al HYDRA durante la Segunda Guerra Mundial. Enfrenta al villano Red Skull en una batalla que determinará el destino del mundo y su propio sacrificio.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamerica.jpg" class="movie-poster" alt="Capitan America" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/capitanamerica.webp" class="movie-poster" alt="Capitan America" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2093,7 +2117,7 @@
         </a>
         <a href="dejamesalirvideo.html" class="movie-card" data-desc="Un joven negro visita a los padres blancos de su novia y algo inquietante se esconde bajo la aparente cordialidad. La sensación de peligro crece hasta una revelación aterradora. Jordan Peele redefinió el terror social con una obra maestra del género.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dejamesalir.jpg" class="movie-poster" alt="Dejame Salir" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/dejamesalir.webp" class="movie-poster" alt="Dejame Salir" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2120,7 +2144,7 @@
         </a>
         <a href="americanhistoryxvideo.html" class="movie-card" data-desc="Edward Norton interpreta a un exlíder neonazi que sale de prisión transformado e intenta evitar que su hermano pequeño siga el mismo camino. Una narración en blanco y negro alterna pasado y presente para contar una historia poderosa sobre el odio y la redención.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/americanhistoryx.jpg" class="movie-poster" alt="American History X" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/americanhistoryx.webp" class="movie-poster" alt="American History X" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2129,7 +2153,7 @@
         </a>
         <a href="exmachinavideo.html" class="movie-card" data-desc="Un programador es invitado a la mansión remota de su jefe excéntrico para evaluar a Ava, una inteligencia artificial con apariencia humana. Lo que parece un test científico se convierte en un juego de manipulación, deseo y supervivencia entre los tres.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/exmachina.jpg" class="movie-poster" alt="Ex-Machina" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/exmachina.webp" class="movie-poster" alt="Ex-Machina" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2147,7 +2171,7 @@
         </a>
         <a href="8apellidosvascosvideo.html" class="movie-card" data-desc="Rafa, un sevillano que nunca ha salido de Andalucía, persigue a una chica vasca hasta el País Vasco haciéndose pasar por vasco. Una comedia de enredos que explota con cariño y humor los tópicos regionales españoles con enorme éxito de taquilla.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/8apellidosvascos.jpg" class="movie-poster" alt="8 Apellidos Vascos" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/8apellidosvascos.webp" class="movie-poster" alt="8 Apellidos Vascos" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2156,7 +2180,7 @@
         </a>
         <a href="gladiatorvideo.html" class="movie-card" data-desc="Máximo, un general romano traicionado por el hijo del emperador, pierde a su familia y es vendido como esclavo. Se convierte en gladiador legendario para vengarse del usurpador Cómodo. Una épica de acción y honor que conquistó el Oscar a mejor película.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/gladiator.jpg" class="movie-poster" alt="Gladiator" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/gladiator.webp" class="movie-poster" alt="Gladiator" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2183,7 +2207,7 @@
         </a>
         <a href="capitanamarvelvideo.html" class="movie-card" data-desc="Carol Danvers, una guerrera Kree con amnesia, llega a la Tierra en 1995 persiguiendo a los Skrulls. Al investigar su pasado descubre que todo lo que le contaron es mentira. Un origen épico de la superheroína más poderosa del universo Marvel.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamarvel.jpg" class="movie-poster" alt="Capitana Marvel" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/capitanamarvel.webp" class="movie-poster" alt="Capitana Marvel" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2192,7 +2216,7 @@
         </a>
         <a href="troyavideo.html" class="movie-card" data-desc="Basada en la Ilíada. Paris de Troya rapta a Helena, esposa del rey espartano Menelao, desencadenando una guerra devastadora. Aquiles, el mejor guerrero griego, lucha por la gloria eterna mientras los dioses observan el destino de héroes y reyes.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/Troya.jpg" class="movie-poster" alt="Troya" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/Troya.webp" class="movie-poster" alt="Troya" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2201,7 +2225,7 @@
         </a>
         <a href="fuegovenganzavideo.html" class="movie-card" data-desc="John Creasy, un exagente atormentado, encuentra razón para vivir protegiendo a una niña en México. Cuando la secuestran, desencadena una venganza brutal y metódica contra todos los responsables. Denzel Washington en una actuación devastadora sobre el dolor y la redención.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fuegovenganza.jpg" class="movie-poster" alt="El Fuego De La Venganza" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/fuegovenganza.webp" class="movie-poster" alt="El Fuego De La Venganza" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2255,7 +2279,7 @@
         </a>
         <a href="ciudaddediosvideo.html" class="movie-card" data-desc="En la favela Ciudad de Dios de Río de Janeiro, Buscapé intenta sobrevivir y escapar fotografiando la violencia que rodea a Zé Pequeño, el señor de la droga que controla el barrio. Basada en hechos reales, es una obra maestra del cine brasileño.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ciudaddedios.jpg" class="movie-poster" alt="Ciudad De Dios" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/ciudaddedios.webp" class="movie-poster" alt="Ciudad De Dios" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2264,7 +2288,7 @@
         </a>
         <a href="asesinatojustovideo.html" class="movie-card" data-desc="Dos policías de Nueva York investigan una serie de crímenes que los llevan a cuestionar sus propios métodos y la línea entre la justicia legal y la justicia moral. Un drama policial que examina las zonas grises de la ley y la conciencia.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/asesinatojusto.jpg" class="movie-poster" alt="Asesinato Justo" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/asesinatojusto.webp" class="movie-poster" alt="Asesinato Justo" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2273,7 +2297,7 @@
         </a>
         <a href="airbagvideo.html" class="movie-card" data-desc="Tres amigos pierden el anillo de boda en el peor lugar posible la noche antes de una boda. La búsqueda los lleva a burdeles, narcotraficantes y situaciones cada vez más disparatadas. Una comedia española de culto con un ritmo endiablado.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/airbag.jpg" class="movie-poster" alt="Airbag" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/airbag.webp" class="movie-poster" alt="Airbag" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2291,7 +2315,7 @@
         </a>
         <a href="armaduradediosvideo.html" class="movie-card" data-desc="Jackie Chan interpreta a un aventurero que debe recuperar unas reliquias medievales robadas por una secta satánica europea. Una película de aventuras y artes marciales llena de las acrobacias imposibles y el humor físico que definen al actor hongkonés.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/armaduradedios.jpg" class="movie-poster" alt="La Armadura De Dios" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/armaduradedios.webp" class="movie-poster" alt="La Armadura De Dios" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2300,7 +2324,7 @@
         </a>
         <a href="efectomariposavideo.html" class="movie-card" data-desc="Evan descubre que puede volver al pasado leyendo sus diarios de infancia. Cada cambio que intenta mejorar desencadena consecuencias devastadoras en el presente. Un thriller de ciencia ficción oscuro sobre el trauma infantil y la imposibilidad de arreglar el pasado.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/efectomariposa.jpg" class="movie-poster" alt="El Efecto Mariposa" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/efectomariposa.webp" class="movie-poster" alt="El Efecto Mariposa" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2309,7 +2333,7 @@
         </a>
         <a href="destinodecaballerovideo.html" class="movie-card" data-desc="Un joven de clase baja en la Inglaterra medieval decide hacerse pasar por caballero para competir en torneos. Reescribe su historia con la ayuda de Geoffrey Chaucer. Una comedia anacrónica y emotiva sobre el sueño de cambiar el propio destino.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/destinodecaballero.jpg" class="movie-poster" alt="Destino De Caballero" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/destinodecaballero.webp" class="movie-poster" alt="Destino De Caballero" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2327,7 +2351,7 @@
         </a>
         <a href="contactosangrientovideo.html" class="movie-card" data-desc="Un detective investiga una serie de crímenes brutales que lo llevan por los bajos fondos de una ciudad corrompida. A medida que profundiza en el caso, descubre conexiones con el crimen organizado que ponen en peligro su propia vida y la de su familia.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/contactosangriento.jpg" class="movie-poster" alt="Contacto Sangriento" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/contactosangriento.webp" class="movie-poster" alt="Contacto Sangriento" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2336,7 +2360,7 @@
         </a>
         <a href="donniebrascovideo.html" class="movie-card" data-desc="Un agente del FBI se infiltra en la mafia italiana de Nueva York durante años adoptando la identidad de Donnie Brasco. La amistad genuina que desarrolla con el veterano gánster Lefty Ruggiero hace cada vez más difícil mantener la doble vida.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/donniebrasco.jpg" class="movie-poster" alt="Donnie Brasco" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/donniebrasco.webp" class="movie-poster" alt="Donnie Brasco" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2345,7 +2369,7 @@
         </a>
         <a href="torrentevideo.html" class="movie-card" data-desc="José Luis Torrente es un policía corrupto, racista y maleducado del Madrid más castizo. Involucrado accidentalmente en una operación antidroga, Torrente navega entre la incompetencia y el descaro en una comedia española irreverente que se convirtió en fenómeno cultural.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/torrente.jpg" class="movie-poster" alt="Torrente" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/torrente.webp" class="movie-poster" alt="Torrente" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2354,7 +2378,7 @@
         </a>
         <a href="3ninjasvideo.html" class="movie-card" data-desc="Tres hermanos entrenados en artes marciales por su abuelo japonés deben usar sus habilidades cuando son secuestrados por criminales. Una película familiar de aventuras y patadas voladoras con el humor inocente que caracteriza el cine de acción infantil de los 90.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg" class="movie-poster" alt="3 Pequeños Ninjas" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/3ninjas.webp" class="movie-poster" alt="3 Pequeños Ninjas" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2507,7 +2531,7 @@
         </a>
         <a href="batalladiosesvideo.html" class="movie-card" data-desc="Goku y sus amigos enfrentan a Bills, el Dios de la Destrucción, que ha despertado buscando al Super Saiyan Dios. Una aventura que expande el universo Dragon Ball hacia la mitología divina con peleas espectaculares y el humor característico de la saga.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/batalladioses.jpg" class="movie-poster" alt="La Batalla De Los Dioses" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/batalladioses.webp" class="movie-poster" alt="La Batalla De Los Dioses" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -2630,6 +2654,7 @@
   <section class="content-section" id="series">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">📺</span>Series</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -2716,7 +2741,7 @@
         <!-- Serie: Donde Está Marta -->
         <div class="movie-card serie-card" data-serie="dondeestamarta" data-desc="Documental español que sigue la búsqueda de Marta del Castillo, desaparecida en Sevilla en 2009." data-type="serie">
           <div class="movie-poster-wrap">
-            <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dondeestamarta.jpg" class="movie-poster" alt="Donde Esta Marta" loading="lazy">
+            <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/dondeestamarta.webp" class="movie-poster" alt="Donde Esta Marta" loading="lazy">
             <div class="card-overlay">
               <button class="play-btn"><i class="fas fa-play"></i></button>
             </div>
@@ -2817,6 +2842,7 @@
   <section class="content-section" id="sagas">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🏆</span>Sagas</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -2927,11 +2953,24 @@
   <section class="content-section" id="accion">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">💥</span>Acción</h2>
+      <a href="cine.html?filter=accion" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-arrow right" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       <div class="carousel-track">
+
+        <a href="mikenickalice.html" class="movie-card" data-desc="Dos gánsteres y la mujer que aman viven una noche caótica llena de violencia, errores y viajes en el tiempo, intentando sobrevivir mientras todo se complica cada vez más.">
+          <div class="movie-poster-wrap">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/mikenickalice.webp" class="movie-poster" alt="" loading="lazy">
+          <div class="card-overlay">
+            <button class="play-btn"><i class="fas fa-play"></i></button>
+          </div>        
+        </div>
+          <span class="card-title">Mike nick, nick y alice</span>
+        </a>
+
+        
         <a href="djangovideo.html" class="movie-card" data-desc="Django, un esclavo liberado, se asocia con un cazarrecompensas alemán para rescatar a su esposa de las garras de un brutal terrateniente sureño. Un western violento y apasionante sobre libertad, amor y venganza en el sur americano.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/django.webp" class="movie-poster" alt="Django" loading="lazy">
@@ -2977,7 +3016,7 @@
         </div>
         <span class="card-title">Jurassic world, el renacer</span>
         </a>
-        <a href="conair.html" class="movie-card" data-desc="Cameron Poe, exboina verde, es trasladado en un avión junto a los presos más peligrosos de Estados Unidos. Los reclusos toman el control del vuelo. Poe debe detenerlos desde dentro sin revelar su identidad ni poner en peligro a los rehenes.">
+        <a href="conairvideo.html" class="movie-card" data-desc="Cameron Poe, exboina verde, es trasladado en un avión junto a los presos más peligrosos de Estados Unidos. Los reclusos toman el control del vuelo. Poe debe detenerlos desde dentro sin revelar su identidad ni poner en peligro a los rehenes.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/conair.webp" class="movie-poster" alt="Con Air" loading="lazy">
           <div class="card-overlay">
@@ -2986,7 +3025,7 @@
         </div>
         <span class="card-title">Con Air</span>
         </a>
-        <a href="rockandrolla.html" class="movie-card" data-desc="Londres. Un magnate inmobiliario ruso pierde un cuadro valioso justo cuando bandas locales, estafadores y gangsters compiten por los beneficios de una gran operación. Guy Ritchie vuelve a su universo criminal con su estilo caótico, vibrante y lleno de giros.">
+        <a href="rockandrollavideo.html" class="movie-card" data-desc="Londres. Un magnate inmobiliario ruso pierde un cuadro valioso justo cuando bandas locales, estafadores y gangsters compiten por los beneficios de una gran operación. Guy Ritchie vuelve a su universo criminal con su estilo caótico, vibrante y lleno de giros.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/rockandrolla.webp" class="movie-poster" alt="Rock and Rolla" loading="lazy">
           <div class="card-overlay">
@@ -2995,7 +3034,7 @@
         </div>
         <span class="card-title">Rock and Rolla</span>
         </a>
-        <a href="dolorydinero.html" class="movie-card" data-desc="Brad Pitt interpreta a un consultor enviado por la CIA para modernizar una célula de espionaje disfuncional durante la crisis financiera de 2008. Una comedia oscura y absurda de los Coen sobre la estupidez humana, el azar y las consecuencias imprevistas.">
+        <a href="dolorydinerovideo.html" class="movie-card" data-desc="Brad Pitt interpreta a un consultor enviado por la CIA para modernizar una célula de espionaje disfuncional durante la crisis financiera de 2008. Una comedia oscura y absurda de los Coen sobre la estupidez humana, el azar y las consecuencias imprevistas.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dolorydinero.webp" class="movie-poster" alt="Dolor Y Dinero" loading="lazy">
           <div class="card-overlay">
@@ -3004,7 +3043,7 @@
         </div>
         <span class="card-title">Dolor Y Dinero</span>
         </a>
-        <a href="fury.html" class="movie-card" data-desc="Segunda Guerra Mundial, 1945. Un veterano sargento americano comanda un tanque Sherman con una tripulación curtida en batalla. Cuando incorporan a un joven recluta sin experiencia, deben completar una misión suicida en territorio alemán con el enemigo por todas partes.">
+        <a href="furyvideo.html" class="movie-card" data-desc="Segunda Guerra Mundial, 1945. Un veterano sargento americano comanda un tanque Sherman con una tripulación curtida en batalla. Cuando incorporan a un joven recluta sin experiencia, deben completar una misión suicida en territorio alemán con el enemigo por todas partes.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fury.webp" class="movie-poster" alt="Fury" loading="lazy">
           <div class="card-overlay">
@@ -3013,7 +3052,7 @@
         </div>
         <span class="card-title">Fury</span>
         </a>
-        <a href="invicto4.html" class="movie-card" data-desc="El maestro de artes marciales Boyka participa en un torneo internacional en Europa del Este. Más allá del combate, debe enfrentarse a sus demonios internos y a un promotor sin escrúpulos que convierte la lucha en un negocio de vida o muerte.">
+        <a href="invicto4video.html" class="movie-card" data-desc="El maestro de artes marciales Boyka participa en un torneo internacional en Europa del Este. Más allá del combate, debe enfrentarse a sus demonios internos y a un promotor sin escrúpulos que convierte la lucha en un negocio de vida o muerte.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/invicto4.jpg" class="movie-poster" alt="Invicto 4" loading="lazy">
           <div class="card-overlay">
@@ -3022,7 +3061,7 @@
         </div>
         <span class="card-title">Invicto 4</span>
         </a>
-        <a href="killbill.html" class="movie-card" data-desc="La Novia despierta de un coma de cuatro años y recuerda que Bill y su escuadrón de asesinos la dejaron por muerta en el día de su boda. Con una lista de nombres en la mente, inicia una venganza quirúrgica, violenta y estilizada.">
+        <a href="killbillvideo.html" class="movie-card" data-desc="La Novia despierta de un coma de cuatro años y recuerda que Bill y su escuadrón de asesinos la dejaron por muerta en el día de su boda. Con una lista de nombres en la mente, inicia una venganza quirúrgica, violenta y estilizada.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/killbill.jpg" class="movie-poster" alt="Kill Bill" loading="lazy">
           <div class="card-overlay">
@@ -3031,7 +3070,7 @@
         </div>
         <span class="card-title">Kill Bill</span>
         </a>
-        <a href="killbill2.html" class="movie-card" data-desc="La Novia continúa su venganza eliminando uno a uno a los miembros del escuadrón letal hasta llegar al propio Bill. El ritmo cambia: más pausado, más íntimo y emocional. El enfrentamiento final revela verdades sobre el amor, la familia y el sacrificio.">
+        <a href="killbill2video.html" class="movie-card" data-desc="La Novia continúa su venganza eliminando uno a uno a los miembros del escuadrón letal hasta llegar al propio Bill. El ritmo cambia: más pausado, más íntimo y emocional. El enfrentamiento final revela verdades sobre el amor, la familia y el sacrificio.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/killbill2.jpg" class="movie-poster" alt="Kill Bill 2" loading="lazy">
           <div class="card-overlay">
@@ -3040,7 +3079,7 @@
         </div>
         <span class="card-title">Kill Bill 2</span>
         </a>
-        <a href="perrosdeguerra.html" class="movie-card" data-desc="Un mercenario profesional es contratado para explorar un pequeño país africano rico en minerales y luego liderar un golpe de estado para instalar un gobierno títere. Una mirada cruda y sin glamour al mundo del mercenariado internacional.">
+        <a href="perrosdeguerravideo.html" class="movie-card" data-desc="Un mercenario profesional es contratado para explorar un pequeño país africano rico en minerales y luego liderar un golpe de estado para instalar un gobierno títere. Una mirada cruda y sin glamour al mundo del mercenariado internacional.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/perrosdeguerra.jpg" class="movie-poster" alt="Perros De Guerra" loading="lazy">
           <div class="card-overlay">
@@ -3049,25 +3088,25 @@
         </div>
         <span class="card-title">Perros De Guerra</span>
         </a>
-        <a href="contactosangriento.html" class="movie-card" data-desc="Un detective investiga una serie de crímenes brutales que lo llevan por los bajos fondos de una ciudad corrompida. A medida que profundiza en el caso, descubre conexiones con el crimen organizado que ponen en peligro su propia vida y la de su familia.">
+        <a href="contactosangrientovideo.html" class="movie-card" data-desc="Un detective investiga una serie de crímenes brutales que lo llevan por los bajos fondos de una ciudad corrompida. A medida que profundiza en el caso, descubre conexiones con el crimen organizado que ponen en peligro su propia vida y la de su familia.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/contactosangriento.jpg" class="movie-poster" alt="Contacto Sangriento" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/contactosangriento.webp" class="movie-poster" alt="Contacto Sangriento" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Contacto Sangriento</span>
         </a>
-        <a href="armaduradedios.html" class="movie-card" data-desc="Jackie Chan interpreta a un aventurero que debe recuperar unas reliquias medievales robadas por una secta satánica europea. Una película de aventuras y artes marciales llena de las acrobacias imposibles y el humor físico que definen al actor hongkonés.">
+        <a href="armaduradediosvideo.html" class="movie-card" data-desc="Jackie Chan interpreta a un aventurero que debe recuperar unas reliquias medievales robadas por una secta satánica europea. Una película de aventuras y artes marciales llena de las acrobacias imposibles y el humor físico que definen al actor hongkonés.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/armaduradedios.jpg" class="movie-poster" alt="La Armadura De Dios" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/armaduradedios.webp" class="movie-poster" alt="La Armadura De Dios" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">La Armadura De Dios</span>
         </a>
-        <a href="preciodelpoder.html" class="movie-card" data-desc="Tony Montana llega a Miami como refugiado cubano y escala implacablemente hasta la cima del narcotráfico. Su ascenso es tan vertiginoso como su caída. Una ópera de exceso, violencia y el sueño americano pervertido hasta sus consecuencias más destructivas.">
+        <a href="preciodelpodervideo.html" class="movie-card" data-desc="Tony Montana llega a Miami como refugiado cubano y escala implacablemente hasta la cima del narcotráfico. Su ascenso es tan vertiginoso como su caída. Una ópera de exceso, violencia y el sueño americano pervertido hasta sus consecuencias más destructivas.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/preciodelpoder.jpg" class="movie-poster" alt="El Precio Del Poder (Scarface)" loading="lazy">
           <div class="card-overlay">
@@ -3076,7 +3115,7 @@
         </div>
         <span class="card-title">El Precio Del Poder (Scarface)</span>
         </a>
-        <a href="terminator.html" class="movie-card" data-desc="En 1984 llega desde el futuro un cyborg casi indestructible con misión de matar a Sarah Connor, madre del futuro líder de la resistencia humana. Kyle Reese viaja también desde el futuro para protegerla. James Cameron define el cine de acción moderno.">
+        <a href="terminatorvideo.html" class="movie-card" data-desc="En 1984 llega desde el futuro un cyborg casi indestructible con misión de matar a Sarah Connor, madre del futuro líder de la resistencia humana. Kyle Reese viaja también desde el futuro para protegerla. James Cameron define el cine de acción moderno.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator.jpg" class="movie-poster" alt="Terminator" loading="lazy">
           <div class="card-overlay">
@@ -3085,7 +3124,7 @@
         </div>
         <span class="card-title">Terminator</span>
         </a>
-        <a href="terminator2.html" class="movie-card" data-desc="El T-800 que intentó matar a Sarah Connor regresa reprogramado para proteger a su hijo John de un T-1000 de metal líquido, más avanzado e imparable. La secuela supera al original con efectos revolucionarios y una emoción inesperadamente humana.">
+        <a href="terminator2video.html" class="movie-card" data-desc="El T-800 que intentó matar a Sarah Connor regresa reprogramado para proteger a su hijo John de un T-1000 de metal líquido, más avanzado e imparable. La secuela supera al original con efectos revolucionarios y una emoción inesperadamente humana.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator2.jpg" class="movie-poster" alt="Terminator 2" loading="lazy">
           <div class="card-overlay">
@@ -3094,7 +3133,7 @@
         </div>
         <span class="card-title">Terminator 2</span>
         </a>
-        <a href="terminator3.html" class="movie-card" data-desc="John Connor vive fuera del sistema cuando llega una nueva Terminator, la T-X, para matar a los futuros líderes de la resistencia. El T-800 regresa para protegerle mientras Skynet avanza hacia su inevitable activación y el inicio del Juicio Final.">
+        <a href="terminator3video.html" class="movie-card" data-desc="John Connor vive fuera del sistema cuando llega una nueva Terminator, la T-X, para matar a los futuros líderes de la resistencia. El T-800 regresa para protegerle mientras Skynet avanza hacia su inevitable activación y el inicio del Juicio Final.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator3.jpg" class="movie-poster" alt="Terminator 3" loading="lazy">
           <div class="card-overlay">
@@ -3103,7 +3142,7 @@
         </div>
         <span class="card-title">Terminator 3</span>
         </a>
-        <a href="terminator4.html" class="movie-card" data-desc="En un futuro alternativo donde Skynet fue destruido, una nueva inteligencia artificial llamada Legión persigue a Dani Ramos. Una Terminator del pasado y un soldado aumentado la protegen mientras la historia se reinicia con nuevas reglas y un destino diferente.">
+        <a href="terminator4video.html" class="movie-card" data-desc="En un futuro alternativo donde Skynet fue destruido, una nueva inteligencia artificial llamada Legión persigue a Dani Ramos. Una Terminator del pasado y un soldado aumentado la protegen mientras la historia se reinicia con nuevas reglas y un destino diferente.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminator4.jpg" class="movie-poster" alt="Terminator 4 Destino Oscuro" loading="lazy">
           <div class="card-overlay">
@@ -3112,7 +3151,7 @@
         </div>
         <span class="card-title">Terminator 4 Destino Oscuro</span>
         </a>
-        <a href="terminatorgenesis.html" class="movie-card" data-desc="Kyle Reese viaja al 1984 y encuentra una realidad alterada: Sarah Connor ya está entrenada y el T-800 es su guardián. La línea temporal está rota y deben navegar entre múltiples versiones del pasado y futuro para evitar el Juicio Final.">
+        <a href="terminatorgenesisvideo.html" class="movie-card" data-desc="Kyle Reese viaja al 1984 y encuentra una realidad alterada: Sarah Connor ya está entrenada y el T-800 es su guardián. La línea temporal está rota y deben navegar entre múltiples versiones del pasado y futuro para evitar el Juicio Final.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/terminatorgenesis.jpg" class="movie-poster" alt="Terminator Genesis" loading="lazy">
           <div class="card-overlay">
@@ -3150,12 +3189,25 @@
   <section class="content-section" id="cienciaficcion">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🚀</span>Ciencia Ficcion</h2>
+      <a href="cine.html?filter=scifi" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-arrow right" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
       <div class="carousel-track">
-        <a href="super8.html" class="movie-card" data-desc="En 1979, un grupo de adolescentes filma una película casera cuando presencian un accidente de tren militar. Algo escapa del vagón. Mientras los militares ocultan la verdad, los chicos descubren un secreto que cambiará su pequeña ciudad para siempre.">
+        
+        
+        <a href="avatarfuegoycenizavideo.html" class="movie-card" data-desc="Jake Sully y Neytiri enfrentan una nueva tribu Na’vi ligada al fuego, mientras Pandora entra en conflicto interno. La familia lucha por sobrevivir, descubriendo que la guerra redefine alianzas, sacrificios y el destino del mundo.">
+          <div class="movie-poster-wrap">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/avatarfuegoyceniza.webp" class="movie-poster" alt="dracula" loading="lazy">
+          <div class="card-overlay">
+            <button class="play-btn"><i class="fas fa-play"></i></button>
+          </div>        
+        </div>
+          <span class="card-title">Avatar Fuego Y Cenizas</span>
+        </a>
+        
+        <a href="super8video.html" class="movie-card" data-desc="En 1979, un grupo de adolescentes filma una película casera cuando presencian un accidente de tren militar. Algo escapa del vagón. Mientras los militares ocultan la verdad, los chicos descubren un secreto que cambiará su pequeña ciudad para siempre.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/super8.webp" class="movie-poster" alt="Super 8" loading="lazy">
           <div class="card-overlay">
@@ -3164,7 +3216,7 @@
         </div>
         <span class="card-title">Super 8</span>
         </a>
-        <a href="xmen7fenix.html" class="movie-card" data-desc="Jean Grey absorbe una fuerza cósmica que amplifica sus poderes hasta límites incontrolables, despertando una personalidad oscura y destructiva. Los X-Men deben decidir si salvarla o detenerla, mientras una amenaza extraterrestre llega buscando ese poder.">
+        <a href="xmen7fenixvideo.html" class="movie-card" data-desc="Jean Grey absorbe una fuerza cósmica que amplifica sus poderes hasta límites incontrolables, despertando una personalidad oscura y destructiva. Los X-Men deben decidir si salvarla o detenerla, mientras una amenaza extraterrestre llega buscando ese poder.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen7fenix.webp" class="movie-poster" alt="X-Men 7 Fenix Oscura" loading="lazy">
           <div class="card-overlay">
@@ -3173,7 +3225,7 @@
         </div>
         <span class="card-title">X-Men 7 Fenix Oscura</span>
         </a>
-        <a href="xmen6apocalipsis.html" class="movie-card" data-desc="En 1983 despierta En Sabah Nur, el primer mutante, con poderes casi ilimitados. Recluta a cuatro jinetes poderosos para destruir la civilización y reconstruir el mundo. Los jóvenes X-Men, aún sin experiencia, deben enfrentarlo para salvar la humanidad.">
+        <a href="xmen6apocalipsisvideo.html" class="movie-card" data-desc="En 1983 despierta En Sabah Nur, el primer mutante, con poderes casi ilimitados. Recluta a cuatro jinetes poderosos para destruir la civilización y reconstruir el mundo. Los jóvenes X-Men, aún sin experiencia, deben enfrentarlo para salvar la humanidad.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmenapocalipsis.webp" class="movie-poster" alt="X-Men 6 Apocalipsis " loading="lazy">
           <div class="card-overlay">
@@ -3182,7 +3234,7 @@
         </div>
         <span class="card-title">X-Men 6 Apocalipsis</span>
         </a>
-        <a href="xmen5diasdelfuturo.html" class="movie-card" data-desc="En un futuro devastado por robots Centinelas, Wolverine es enviado mentalmente al pasado para cambiar un evento clave. Debe convencer a versiones jóvenes de Xavier y Magneto de colaborar para evitar la guerra que exterminará tanto mutantes como humanos.">
+        <a href="xmen5diasdelfuturovideo.html" class="movie-card" data-desc="En un futuro devastado por robots Centinelas, Wolverine es enviado mentalmente al pasado para cambiar un evento clave. Debe convencer a versiones jóvenes de Xavier y Magneto de colaborar para evitar la guerra que exterminará tanto mutantes como humanos.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen5diasdelfuturo.webp" class="movie-poster" alt="X-Men 5 Dias del futuro pasado " loading="lazy">
           <div class="card-overlay">
@@ -3191,7 +3243,7 @@
         </div>
         <span class="card-title">X-Men 5 Dias del futuro pasado</span>
         </a>
-        <a href="xmen4primera.html" class="movie-card" data-desc="Años 60. Charles Xavier y Erik Lehnsherr se conocen jóvenes y juntan a los primeros mutantes durante la Crisis de los Misiles en Cuba. Una historia de amistad, ideología y el inevitable distanciamiento entre dos visiones sobre la convivencia.">
+        <a href="xmen4primeravideo.html" class="movie-card" data-desc="Años 60. Charles Xavier y Erik Lehnsherr se conocen jóvenes y juntan a los primeros mutantes durante la Crisis de los Misiles en Cuba. Una historia de amistad, ideología y el inevitable distanciamiento entre dos visiones sobre la convivencia.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen4primera.webp" class="movie-poster" alt="X-Men 4 Primera generacion" loading="lazy">
           <div class="card-overlay">
@@ -3200,7 +3252,7 @@
         </div>
         <span class="card-title">X-Men 4 Primera generacion</span>
         </a>
-        <a href="xmen3.html" class="movie-card" data-desc="El gobierno desarrolla una cura para suprimir el gen mutante permanentemente. Mientras unos la aceptan voluntariamente, Magneto declara la guerra. Jean Grey resucita completamente transformada en Fénix, una fuerza imparable que amenaza a todos por igual.">
+        <a href="xmen3video.html" class="movie-card" data-desc="El gobierno desarrolla una cura para suprimir el gen mutante permanentemente. Mientras unos la aceptan voluntariamente, Magneto declara la guerra. Jean Grey resucita completamente transformada en Fénix, una fuerza imparable que amenaza a todos por igual.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen3.webp" class="movie-poster" alt="X-Men 3 La decision final" loading="lazy">
           <div class="card-overlay">
@@ -3209,7 +3261,7 @@
         </div>
         <span class="card-title">X-Men 3 La decision final</span>
         </a>
-        <a href="xmen2.html" class="movie-card" data-desc="Un coronel fanático ataca la mansión Xavier y manipula a Lobezno buscando un pasado enterrado. Los X-Men deben aliarse con Magneto para detener un plan que eliminaría a todos los mutantes del planeta de una sola vez.">
+        <a href="xmen2video.html" class="movie-card" data-desc="Un coronel fanático ataca la mansión Xavier y manipula a Lobezno buscando un pasado enterrado. Los X-Men deben aliarse con Magneto para detener un plan que eliminaría a todos los mutantes del planeta de una sola vez.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen2.webp" class="movie-poster" alt="X-Men 2" loading="lazy">
           <div class="card-overlay">
@@ -3218,7 +3270,7 @@
         </div>
         <span class="card-title">X-Men 2</span>
         </a>
-        <a href="xmen.html" class="movie-card" data-desc="En un mundo que teme a los mutantes, Charles Xavier dirige una escuela para jóvenes con poderes especiales. Magneto lidera la resistencia violenta. Lobezno llega sin recuerdos y queda atrapado en el conflicto que definirá el futuro de la humanidad.">
+        <a href="xmenvideo.html" class="movie-card" data-desc="En un mundo que teme a los mutantes, Charles Xavier dirige una escuela para jóvenes con poderes especiales. Magneto lidera la resistencia violenta. Lobezno llega sin recuerdos y queda atrapado en el conflicto que definirá el futuro de la humanidad.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/xmen.webp" class="movie-poster" alt="X-Men" loading="lazy">
           <div class="card-overlay">
@@ -3227,7 +3279,7 @@
         </div>
         <span class="card-title">X-Men</span>
         </a>
-        <a href="episodio1.html" class="movie-card" data-desc="El joven Anakin Skywalker es descubierto en Tatooine por los Jedi Qui-Gon Jinn y Obi-Wan Kenobi. Mientras la Federación de Comercio invade Naboo, el Senado galáctico es manipulado por una oscura amenaza que lleva décadas en las sombras.">
+        <a href="episodio1video.html" class="movie-card" data-desc="El joven Anakin Skywalker es descubierto en Tatooine por los Jedi Qui-Gon Jinn y Obi-Wan Kenobi. Mientras la Federación de Comercio invade Naboo, el Senado galáctico es manipulado por una oscura amenaza que lleva décadas en las sombras.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/episodio1.webp" class="movie-poster" alt="Star Wars episodio 1" loading="lazy">
           <div class="card-overlay">
@@ -3236,7 +3288,7 @@
         </div>
         <span class="card-title">Star Wars episodio 1</span>
         </a>
-        <a href="regresoalfuturo3.html" class="movie-card" data-desc="Marty McFly viaja al Lejano Oeste de 1885 para rescatar al Doc Brown. Allí el científico se enamora, complicando el regreso al presente. Perseguidos por un forajido peligroso, deben alcanzar los 88 mph sin gasolina ni carretera.">
+        <a href="regresoalfuturo3video.html" class="movie-card" data-desc="Marty McFly viaja al Lejano Oeste de 1885 para rescatar al Doc Brown. Allí el científico se enamora, complicando el regreso al presente. Perseguidos por un forajido peligroso, deben alcanzar los 88 mph sin gasolina ni carretera.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/regresoalfuturo3.webp" class="movie-poster" alt="Regreso al futuro 3" loading="lazy">
           <div class="card-overlay">
@@ -3245,7 +3297,7 @@
         </div>
         <span class="card-title">Regreso al futuro 3</span>
         </a>
-        <a href="regresoalfuturo2.html" class="movie-card" data-desc="Marty y Doc viajan al 2015 para salvar al hijo de Marty. Pero Biff roba el DeLorean y altera la historia creando un 1985 distópico y pesadillesco. Ahora deben ir al pasado dentro del pasado para arreglarlo todo.">
+        <a href="regresoalfuturo2video.html" class="movie-card" data-desc="Marty y Doc viajan al 2015 para salvar al hijo de Marty. Pero Biff roba el DeLorean y altera la historia creando un 1985 distópico y pesadillesco. Ahora deben ir al pasado dentro del pasado para arreglarlo todo.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/regresoalfuturo2.webp" class="movie-poster" alt="Regreso al futuro 2" loading="lazy">
           <div class="card-overlay">
@@ -3254,7 +3306,7 @@
         </div>
         <span class="card-title">Regreso al futuro 2</span>
         </a>
-        <a href="regresoalfuturo.html" class="movie-card" data-desc="Marty McFly viaja accidentalmente de 1985 a 1955 en el DeLorean del excéntrico Doc Brown. Interfiere con el encuentro de sus padres y ahora debe hacer que se enamoren o dejará de existir. Además necesita regresar al futuro.">
+        <a href="regresoalfuturovideo.html" class="movie-card" data-desc="Marty McFly viaja accidentalmente de 1985 a 1955 en el DeLorean del excéntrico Doc Brown. Interfiere con el encuentro de sus padres y ahora debe hacer que se enamoren o dejará de existir. Además necesita regresar al futuro.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/regresoalfuturo.webp" class="movie-poster" alt="Regreso al futuro" loading="lazy">
           <div class="card-overlay">
@@ -3263,7 +3315,7 @@
         </div>
         <span class="card-title">Regreso al futuro</span>
         </a>
-        <a href="cyborg.html" class="movie-card" data-desc="En un futuro postapocalíptico, una mujer portadora de la cura para una plaga es secuestrada por una banda de piratas. Un guerrero solitario y letal la persigue a través de una América devastada. Film de acción y ciencia ficción con Van Damme.">
+        <a href="cyborgvideo.html" class="movie-card" data-desc="En un futuro postapocalíptico, una mujer portadora de la cura para una plaga es secuestrada por una banda de piratas. Un guerrero solitario y letal la persigue a través de una América devastada. Film de acción y ciencia ficción con Van Damme.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/cyborg.webp" class="movie-poster" alt="Cyborg" loading="lazy">
           <div class="card-overlay">
@@ -3272,7 +3324,7 @@
         </div>
         <span class="card-title">Cyborg</span>
         </a>
-        <a href="yorobot.html" class="movie-card" data-desc="Chicago 2035. El detective Del Spooner investiga el aparente suicidio del creador de los robots NS-5. Sospecha que un robot cometió el crimen, algo supuestamente imposible. Sus investigaciones revelan una conspiración que amenaza a toda la humanidad.">
+        <a href="yorobotvideo.html" class="movie-card" data-desc="Chicago 2035. El detective Del Spooner investiga el aparente suicidio del creador de los robots NS-5. Sospecha que un robot cometió el crimen, algo supuestamente imposible. Sus investigaciones revelan una conspiración que amenaza a toda la humanidad.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/yorobot.webp" class="movie-poster" alt="Yo,robot" loading="lazy">
           <div class="card-overlay">
@@ -3281,7 +3333,7 @@
         </div>
         <span class="card-title">Yo,robot</span>
         </a>
-        <a href="minorityreport.html" class="movie-card" data-desc="Washington 2054. La policía arresta a asesinos antes de que cometan sus crímenes usando tres videntes. El jefe del programa es acusado de un futuro asesinato y debe huir para demostrar su inocencia y descubrir el fallo del sistema.">
+        <a href="minorityreportvideo.html" class="movie-card" data-desc="Washington 2054. La policía arresta a asesinos antes de que cometan sus crímenes usando tres videntes. El jefe del programa es acusado de un futuro asesinato y debe huir para demostrar su inocencia y descubrir el fallo del sistema.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/minorityreport.webp" class="movie-poster" alt="Minority Report" loading="lazy">
           <div class="card-overlay">
@@ -3290,7 +3342,7 @@
         </div>
         <span class="card-title">Minority Report</span>
         </a>
-        <a href="laseñal.html" class="movie-card" data-desc="Tres estudiantes universitarios investigan a un hacker que utiliza las señales digitales para desencadenar el caos. Mientras siguen las pistas, son atraídos hacia una instalación misteriosa donde la realidad comienza a distorsionarse de formas inexplicables y aterradoras.">
+        <a href="laseñalvideo.html" class="movie-card" data-desc="Tres estudiantes universitarios investigan a un hacker que utiliza las señales digitales para desencadenar el caos. Mientras siguen las pistas, son atraídos hacia una instalación misteriosa donde la realidad comienza a distorsionarse de formas inexplicables y aterradoras.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/laseñal.webp" class="movie-poster" alt="La Señal" loading="lazy">
           <div class="card-overlay">
@@ -3299,16 +3351,16 @@
         </div>
         <span class="card-title">La Señal</span>
         </a>
-        <a href="exmachina.html" class="movie-card" data-desc="Un programador es invitado a la mansión remota de su jefe excéntrico para evaluar a Ava, una inteligencia artificial con apariencia humana. Lo que parece un test científico se convierte en un juego de manipulación, deseo y supervivencia entre los tres.">
+        <a href="exmachinavideo.html" class="movie-card" data-desc="Un programador es invitado a la mansión remota de su jefe excéntrico para evaluar a Ava, una inteligencia artificial con apariencia humana. Lo que parece un test científico se convierte en un juego de manipulación, deseo y supervivencia entre los tres.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/exmachina.jpg" class="movie-poster" alt="Ex-Machina" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/exmachina.webp" class="movie-poster" alt="Ex-Machina" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Ex-Machina</span>
         </a>
-        <a href="ironman.html" class="movie-card" data-desc="Tony Stark, millonario fabricante de armas, es capturado por terroristas y obligado a construir un arma. En cambio fabrica una armadura para escapar. De vuelta en casa, perfecciona el traje y decide usar su tecnología para proteger el mundo.">
+        <a href="ironmanvideo.html" class="movie-card" data-desc="Tony Stark, millonario fabricante de armas, es capturado por terroristas y obligado a construir un arma. En cambio fabrica una armadura para escapar. De vuelta en casa, perfecciona el traje y decide usar su tecnología para proteger el mundo.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ironman.webp" class="movie-poster" alt="Ironman" loading="lazy">
           <div class="card-overlay">
@@ -3317,7 +3369,7 @@
         </div>
         <span class="card-title">Ironman</span>
         </a>
-        <a href="ironman2.html" class="movie-card" data-desc="Tony Stark enfrenta la presión del gobierno para entregar su armadura, un rival que ha replicado su tecnología y el veneno que le está matando lentamente. Mientras prepara su sucesor, Nick Fury le propone unirse a una iniciativa mayor.">
+        <a href="ironman2video.html" class="movie-card" data-desc="Tony Stark enfrenta la presión del gobierno para entregar su armadura, un rival que ha replicado su tecnología y el veneno que le está matando lentamente. Mientras prepara su sucesor, Nick Fury le propone unirse a una iniciativa mayor.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ironman2.webp" class="movie-poster" alt="Ironman 2" loading="lazy">
           <div class="card-overlay">
@@ -3326,34 +3378,34 @@
         </div>
         <span class="card-title">Ironman 2</span>
         </a>
-        <a href="avengers.html" class="movie-card" data-desc="Nick Fury reúne a Iron Man, Hulk, Thor, Capitán América, Viuda Negra y Ojo de Halcón cuando Loki llega a la Tierra buscando el Tesseract para entregar el planeta a una fuerza invasora alienígena. El inicio de una era cinematográfica única.">
+        <a href="avengersvideo.html" class="movie-card" data-desc="Nick Fury reúne a Iron Man, Hulk, Thor, Capitán América, Viuda Negra y Ojo de Halcón cuando Loki llega a la Tierra buscando el Tesseract para entregar el planeta a una fuerza invasora alienígena. El inicio de una era cinematográfica única.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/avengers.jpg" class="movie-poster" alt="Avengers" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/avengers.webp" class="movie-poster" alt="Avengers" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Avengers</span>
         </a>
-        <a href="capitanamerica.html" class="movie-card" data-desc="Steve Rogers, un joven débil pero valiente de Brooklyn, es transformado en supersoldado para combatir al HYDRA durante la Segunda Guerra Mundial. Enfrenta al villano Red Skull en una batalla que determinará el destino del mundo y su propio sacrificio.">
+        <a href="capitanamericavideo.html" class="movie-card" data-desc="Steve Rogers, un joven débil pero valiente de Brooklyn, es transformado en supersoldado para combatir al HYDRA durante la Segunda Guerra Mundial. Enfrenta al villano Red Skull en una batalla que determinará el destino del mundo y su propio sacrificio.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamerica.jpg" class="movie-poster" alt="Capitan America" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/capitanamerica.webp" class="movie-poster" alt="Capitan America" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Capitan America</span>
         </a>
-        <a href="capitanamarvel.html" class="movie-card" data-desc="Carol Danvers, una guerrera Kree con amnesia, llega a la Tierra en 1995 persiguiendo a los Skrulls. Al investigar su pasado descubre que todo lo que le contaron es mentira. Un origen épico de la superheroína más poderosa del universo Marvel.">
+        <a href="capitanamarvelvideo.html" class="movie-card" data-desc="Carol Danvers, una guerrera Kree con amnesia, llega a la Tierra en 1995 persiguiendo a los Skrulls. Al investigar su pasado descubre que todo lo que le contaron es mentira. Un origen épico de la superheroína más poderosa del universo Marvel.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/capitanamarvel.jpg" class="movie-poster" alt="Capitana Marvel" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/capitanamarvel.webp" class="movie-poster" alt="Capitana Marvel" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Capitana Marvel</span>
         </a>
-        <a href="elincreiblehulk.html" class="movie-card" data-desc="Bruce Banner vive huyendo, buscando una cura para su condición mientras el general Ross lo persigue para militarizar su poder. Cuando un soldado se convierte en el Abominación, Banner debe liberar al Hulk para salvar Nueva York de la destrucción.">
+        <a href="elincreiblehulkvideo.html" class="movie-card" data-desc="Bruce Banner vive huyendo, buscando una cura para su condición mientras el general Ross lo persigue para militarizar su poder. Cuando un soldado se convierte en el Abominación, Banner debe liberar al Hulk para salvar Nueva York de la destrucción.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/elincreiblehulk.webp" class="movie-poster" alt="El Increible Hulk" loading="lazy">
           <div class="card-overlay">
@@ -3362,7 +3414,7 @@
         </div>
         <span class="card-title">El Increible Hulk</span>
         </a>
-        <a href="lmdt.html" class="movie-card" data-desc="Un científico victoriano construye una máquina del tiempo para viajar al futuro y cambiar el pasado. En el año 800.000, descubre una humanidad dividida en dos razas: los pacíficos Eloi y los terroríficos Morlocks que los cazan como ganado.">
+        <a href="lmdtvideo.html" class="movie-card" data-desc="Un científico victoriano construye una máquina del tiempo para viajar al futuro y cambiar el pasado. En el año 800.000, descubre una humanidad dividida en dos razas: los pacíficos Eloi y los terroríficos Morlocks que los cazan como ganado.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/lmdt.jpg" class="movie-poster" alt="La Maquina Del Tiempo" loading="lazy">
           <div class="card-overlay">
@@ -3371,7 +3423,7 @@
         </div>
         <span class="card-title">La Maquina Del Tiempo</span>
         </a>
-        <a href="heman.html" class="movie-card" data-desc="En el planeta Eternia, He-Man, el hombre más poderoso del universo, defiende el Castillo Grayskull del malvado Skeletor. Cuando una llave cósmica abre una puerta a la Tierra, la batalla entre el bien y el mal llega a nuestro mundo.">
+        <a href="hemanvideo.html" class="movie-card" data-desc="En el planeta Eternia, He-Man, el hombre más poderoso del universo, defiende el Castillo Grayskull del malvado Skeletor. Cuando una llave cósmica abre una puerta a la Tierra, la batalla entre el bien y el mal llega a nuestro mundo.">
           <div class="movie-poster-wrap">
           <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/heman.jpg" class="movie-poster" alt="He-Man, Masters Del Universo" loading="lazy">
           <div class="card-overlay">
@@ -3418,6 +3470,7 @@
   <section class="content-section" id="drama">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🎭</span>Drama</h2>
+      <a href="cine.html?filter=drama" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3558,27 +3611,27 @@
         </div>
         <span class="card-title">Mongol</span>
         </a>
-        <a href="americanhistoryx.html" class="movie-card" data-desc="Edward Norton interpreta a un exlíder neonazi que sale de prisión transformado e intenta evitar que su hermano pequeño siga el mismo camino. Una narración en blanco y negro alterna pasado y presente para contar una historia poderosa sobre el odio y la redención.">
+        <a href="americanhistoryxvideo.html" class="movie-card" data-desc="Edward Norton interpreta a un exlíder neonazi que sale de prisión transformado e intenta evitar que su hermano pequeño siga el mismo camino. Una narración en blanco y negro alterna pasado y presente para contar una historia poderosa sobre el odio y la redención.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/americanhistoryx.jpg" class="movie-poster" alt="American History X" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/americanhistoryx.webp" class="movie-poster" alt="American History X" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">American History X</span>
         </a>
-        <a href="gladiator.html" class="movie-card" data-desc="Máximo, un general romano traicionado por el hijo del emperador, pierde a su familia y es vendido como esclavo. Se convierte en gladiador legendario para vengarse del usurpador Cómodo. Una épica de acción y honor que conquistó el Oscar a mejor película.">
+        <a href="gladiatorvideo.html" class="movie-card" data-desc="Máximo, un general romano traicionado por el hijo del emperador, pierde a su familia y es vendido como esclavo. Se convierte en gladiador legendario para vengarse del usurpador Cómodo. Una épica de acción y honor que conquistó el Oscar a mejor película.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/gladiator.jpg" class="movie-poster" alt="Gladiator" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/gladiator.webp" class="movie-poster" alt="Gladiator" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Gladiator</span>
         </a>
-        <a href="troya.html" class="movie-card" data-desc="Basada en la Ilíada. Paris de Troya rapta a Helena, esposa del rey espartano Menelao, desencadenando una guerra devastadora. Aquiles, el mejor guerrero griego, lucha por la gloria eterna mientras los dioses observan el destino de héroes y reyes.">
+        <a href="troyavideo.html" class="movie-card" data-desc="Basada en la Ilíada. Paris de Troya rapta a Helena, esposa del rey espartano Menelao, desencadenando una guerra devastadora. Aquiles, el mejor guerrero griego, lucha por la gloria eterna mientras los dioses observan el destino de héroes y reyes.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/Troya.jpg" class="movie-poster" alt="Troya" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/Troya.webp" class="movie-poster" alt="Troya" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -3594,18 +3647,18 @@
         </div>
         <span class="card-title">La Gran Apuesta</span>
         </a>
-        <a href="efectomariposa.html" class="movie-card" data-desc="Evan descubre que puede volver al pasado leyendo sus diarios de infancia. Cada cambio que intenta mejorar desencadena consecuencias devastadoras en el presente. Un thriller de ciencia ficción oscuro sobre el trauma infantil y la imposibilidad de arreglar el pasado.">
+        <a href="efectomariposavideo.html" class="movie-card" data-desc="Evan descubre que puede volver al pasado leyendo sus diarios de infancia. Cada cambio que intenta mejorar desencadena consecuencias devastadoras en el presente. Un thriller de ciencia ficción oscuro sobre el trauma infantil y la imposibilidad de arreglar el pasado.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/efectomariposa.jpg" class="movie-poster" alt="El Efecto Mariposa" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/efectomariposa.webp" class="movie-poster" alt="El Efecto Mariposa" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">El Efecto Mariposa</span>
         </a>
-        <a href="ciudaddedios.html" class="movie-card" data-desc="En la favela Ciudad de Dios de Río de Janeiro, Buscapé intenta sobrevivir y escapar fotografiando la violencia que rodea a Zé Pequeño, el señor de la droga que controla el barrio. Basada en hechos reales, es una obra maestra del cine brasileño.">
+        <a href="ciudaddediosvideo.html" class="movie-card" data-desc="En la favela Ciudad de Dios de Río de Janeiro, Buscapé intenta sobrevivir y escapar fotografiando la violencia que rodea a Zé Pequeño, el señor de la droga que controla el barrio. Basada en hechos reales, es una obra maestra del cine brasileño.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/ciudaddedios.jpg" class="movie-poster" alt="Ciudad De Dios" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/ciudaddedios.webp" class="movie-poster" alt="Ciudad De Dios" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -3644,6 +3697,7 @@
   <section class="content-section" id="thriller">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🕵️</span>Thriller</h2>
+      <a href="cine.html?filter=thriller" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3838,9 +3892,9 @@
         </div>
         <span class="card-title">Operacion Swordfish</span>
         </a>
-        <a href="fuegovenganza.html" class="movie-card" data-desc="John Creasy, un exagente atormentado, encuentra razón para vivir protegiendo a una niña en México. Cuando la secuestran, desencadena una venganza brutal y metódica contra todos los responsables. Denzel Washington en una actuación devastadora sobre el dolor y la redención.">
+        <a href="fuegovenganzavideo.html" class="movie-card" data-desc="John Creasy, un exagente atormentado, encuentra razón para vivir protegiendo a una niña en México. Cuando la secuestran, desencadena una venganza brutal y metódica contra todos los responsables. Denzel Washington en una actuación devastadora sobre el dolor y la redención.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/fuegovenganza.jpg" class="movie-poster" alt="El Fuego De La Venganza" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/fuegovenganza.webp" class="movie-poster" alt="El Fuego De La Venganza" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -3856,18 +3910,18 @@
         </div>
         <span class="card-title">La Prueba</span>
         </a>
-        <a href="asesinatojusto.html" class="movie-card" data-desc="Dos policías de Nueva York investigan una serie de crímenes que los llevan a cuestionar sus propios métodos y la línea entre la justicia legal y la justicia moral. Un drama policial que examina las zonas grises de la ley y la conciencia.">
+        <a href="asesinatojustovideo.html" class="movie-card" data-desc="Dos policías de Nueva York investigan una serie de crímenes que los llevan a cuestionar sus propios métodos y la línea entre la justicia legal y la justicia moral. Un drama policial que examina las zonas grises de la ley y la conciencia.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/asesinatojusto.jpg" class="movie-poster" alt="Asesinato Justo" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/asesinatojusto.webp" class="movie-poster" alt="Asesinato Justo" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Asesinato Justo</span>
         </a>
-        <a href="donniebrasco.html" class="movie-card" data-desc="Un agente del FBI se infiltra en la mafia italiana de Nueva York durante años adoptando la identidad de Donnie Brasco. La amistad genuina que desarrolla con el veterano gánster Lefty Ruggiero hace cada vez más difícil mantener la doble vida.">
+        <a href="donniebrascovideo.html" class="movie-card" data-desc="Un agente del FBI se infiltra en la mafia italiana de Nueva York durante años adoptando la identidad de Donnie Brasco. La amistad genuina que desarrolla con el veterano gánster Lefty Ruggiero hace cada vez más difícil mantener la doble vida.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/donniebrasco.jpg" class="movie-poster" alt="Donnie Brasco" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/donniebrasco.webp" class="movie-poster" alt="Donnie Brasco" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -3916,6 +3970,7 @@
   <section class="content-section" id="terror">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">👻</span>Terror</h2>
+      <a href="cine.html?filter=terror" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4058,7 +4113,7 @@
         </a>
         <a href="dejamesalir.html" class="movie-card" data-desc="Un joven negro visita a los padres blancos de su novia y algo inquietante se esconde bajo la aparente cordialidad. La sensación de peligro crece hasta una revelación aterradora. Jordan Peele redefinió el terror social con una obra maestra del género.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/dejamesalir.jpg" class="movie-poster" alt="Dejame Salir" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/dejamesalir.webp" class="movie-poster" alt="Dejame Salir" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -4130,6 +4185,7 @@
   <section class="content-section" id="comedia">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">😂</span>Comedia</h2>
+      <a href="cine.html?filter=comedia" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4180,9 +4236,9 @@
         </div>
         <span class="card-title">Kung-Fu Sion</span>
         </a>
-        <a href="8apellidosvascos.html" class="movie-card" data-desc="Rafa, un sevillano que nunca ha salido de Andalucía, persigue a una chica vasca hasta el País Vasco haciéndose pasar por vasco. Una comedia de enredos que explota con cariño y humor los tópicos regionales españoles con enorme éxito de taquilla.">
+        <a href="8apellidosvascosvideo.html" class="movie-card" data-desc="Rafa, un sevillano que nunca ha salido de Andalucía, persigue a una chica vasca hasta el País Vasco haciéndose pasar por vasco. Una comedia de enredos que explota con cariño y humor los tópicos regionales españoles con enorme éxito de taquilla.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/8apellidosvascos.jpg" class="movie-poster" alt="8 Apellidos Vascos" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/8apellidosvascos.webp" class="movie-poster" alt="8 Apellidos Vascos" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -4198,27 +4254,27 @@
         </div>
         <span class="card-title">8 Apellidos Catalanes</span>
         </a>
-        <a href="torrente.html" class="movie-card" data-desc="José Luis Torrente es un policía corrupto, racista y maleducado del Madrid más castizo. Involucrado accidentalmente en una operación antidroga, Torrente navega entre la incompetencia y el descaro en una comedia española irreverente que se convirtió en fenómeno cultural.">
+        <a href="torrentevideo.html" class="movie-card" data-desc="José Luis Torrente es un policía corrupto, racista y maleducado del Madrid más castizo. Involucrado accidentalmente en una operación antidroga, Torrente navega entre la incompetencia y el descaro en una comedia española irreverente que se convirtió en fenómeno cultural.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/torrente.jpg" class="movie-poster" alt="Torrente" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/torrente.webp" class="movie-poster" alt="Torrente" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Torrente</span>
         </a>
-        <a href="airbag.html" class="movie-card" data-desc="Tres amigos pierden el anillo de boda en el peor lugar posible la noche antes de una boda. La búsqueda los lleva a burdeles, narcotraficantes y situaciones cada vez más disparatadas. Una comedia española de culto con un ritmo endiablado.">
+        <a href="airbagvideo.html" class="movie-card" data-desc="Tres amigos pierden el anillo de boda en el peor lugar posible la noche antes de una boda. La búsqueda los lleva a burdeles, narcotraficantes y situaciones cada vez más disparatadas. Una comedia española de culto con un ritmo endiablado.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/airbag.jpg" class="movie-poster" alt="Airbag" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/airbag.webp" class="movie-poster" alt="Airbag" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Airbag</span>
         </a>
-        <a href="destinodecaballero.html" class="movie-card" data-desc="Un joven de clase baja en la Inglaterra medieval decide hacerse pasar por caballero para competir en torneos. Reescribe su historia con la ayuda de Geoffrey Chaucer. Una comedia anacrónica y emotiva sobre el sueño de cambiar el propio destino.">
+        <a href="destinodecaballerovideo.html" class="movie-card" data-desc="Un joven de clase baja en la Inglaterra medieval decide hacerse pasar por caballero para competir en torneos. Reescribe su historia con la ayuda de Geoffrey Chaucer. Una comedia anacrónica y emotiva sobre el sueño de cambiar el propio destino.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/destinodecaballero.jpg" class="movie-poster" alt="Destino De Caballero" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/destinodecaballero.webp" class="movie-poster" alt="Destino De Caballero" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -4232,6 +4288,7 @@
   <section class="content-section" id="infantiles">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🌟</span>Infantil & Anime</h2>
+      <a href="cine.html?filter=infantil" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4390,18 +4447,18 @@
         </div>
         <span class="card-title">Spiderman Nuevo Universo</span>
         </a>
-        <a href="aladin.html" class="movie-card" data-desc="Un joven pícaro de Agrabah encuentra una lámpara mágica con un genio que concede tres deseos. Se hace pasar por príncipe para conquistar a la princesa Jasmine, pero el malvado Jafar busca la lámpara para hacerse con el poder total.">
+        <a href="aladinvideo.html" class="movie-card" data-desc="Un joven pícaro de Agrabah encuentra una lámpara mágica con un genio que concede tres deseos. Se hace pasar por príncipe para conquistar a la princesa Jasmine, pero el malvado Jafar busca la lámpara para hacerse con el poder total.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/aladin.jpg" class="movie-poster" alt="Aladin" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/aladin.webp" class="movie-poster" alt="Aladin" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">Aladin</span>
         </a>
-        <a href="mufasa.html" class="movie-card" data-desc="La historia de origen del rey Mufasa: desde su infancia como cachorro hasta convertirse en el gran rey de las Tierras del Orgullo. Un viaje épico de amistad, amor y liderazgo que revela cómo un huérfano se convirtió en el rey más legendario.">
+        <a href="mufasavideo.html" class="movie-card" data-desc="La historia de origen del rey Mufasa: desde su infancia como cachorro hasta convertirse en el gran rey de las Tierras del Orgullo. Un viaje épico de amistad, amor y liderazgo que revela cómo un huérfano se convirtió en el rey más legendario.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/mufasa.jpg" class="movie-poster" alt="Mufasa" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/mufasa.webp" class="movie-poster" alt="Mufasa" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -4426,18 +4483,18 @@
         </div>
         <span class="card-title">Los Increibles 2</span>
         </a>
-        <a href="3ninjas.html" class="movie-card" data-desc="Tres hermanos entrenados en artes marciales por su abuelo japonés deben usar sus habilidades cuando son secuestrados por criminales. Una película familiar de aventuras y patadas voladoras con el humor inocente que caracteriza el cine de acción infantil de los 90.">
+        <a href="3ninjasvideo.html" class="movie-card" data-desc="Tres hermanos entrenados en artes marciales por su abuelo japonés deben usar sus habilidades cuando son secuestrados por criminales. Una película familiar de aventuras y patadas voladoras con el humor inocente que caracteriza el cine de acción infantil de los 90.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/3ninjas.jpg" class="movie-poster" alt="3 Pequeños Ninjas" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/3ninjas.webp" class="movie-poster" alt="3 Pequeños Ninjas" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
         </div>
         <span class="card-title">3 Pequeños Ninjas</span>
         </a>
-        <a href="batalladioses.html" class="movie-card" data-desc="Goku y sus amigos enfrentan a Bills, el Dios de la Destrucción, que ha despertado buscando al Super Saiyan Dios. Una aventura que expande el universo Dragon Ball hacia la mitología divina con peleas espectaculares y el humor característico de la saga.">
+        <a href="batalladiosesvideo.html" class="movie-card" data-desc="Goku y sus amigos enfrentan a Bills, el Dios de la Destrucción, que ha despertado buscando al Super Saiyan Dios. Una aventura que expande el universo Dragon Ball hacia la mitología divina con peleas espectaculares y el humor característico de la saga.">
           <div class="movie-poster-wrap">
-          <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/batalladioses.jpg" class="movie-poster" alt="La Batalla De Los Dioses" loading="lazy">
+          <img src="https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/batalladioses.webp" class="movie-poster" alt="La Batalla De Los Dioses" loading="lazy">
           <div class="card-overlay">
             <button class="play-btn"><i class="fas fa-play"></i></button>
           </div>
@@ -4487,6 +4544,7 @@
   <section class="content-section" id="mas">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🌐</span>Mas Cine gratis</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4881,143 +4939,148 @@
     theboys: {
       temporadas: [
         { label: '1ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'theboys.html?t=1&ep=1' },
-          { label: 'Ep 2', url: 'theboys.html?t=1&ep=2' },
-          { label: 'Ep 3', url: 'theboys.html?t=1&ep=3' },
-          { label: 'Ep 4', url: 'theboys.html?t=1&ep=4' },
-          { label: 'Ep 5', url: 'theboys.html?t=1&ep=5' },
-          { label: 'Ep 6', url: 'theboys.html?t=1&ep=6' },
-          { label: 'Ep 7', url: 'theboys.html?t=1&ep=7' },
-          { label: 'Ep 8', url: 'theboys.html?t=1&ep=8' },
+          { label: 'Ep 1', url: 'theboys1x1video.html' },
+          { label: 'Ep 2', url: 'theboys1x2video.html' },
+          { label: 'Ep 3', url: 'theboys1x3video.html' },
+          { label: 'Ep 4', url: 'theboys1x4video.html' },
+          { label: 'Ep 5', url: 'theboys1x5video.html' },
+          { label: 'Ep 6', url: 'theboys1x6video.html' },
+          { label: 'Ep 7', url: 'theboys1x7video.html' },
+          { label: 'Ep 8', url: 'theboys1x8video.html' },
         ]},
         { label: '2ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'theboys.html?t=2&ep=1' },
-          { label: 'Ep 2', url: 'theboys.html?t=2&ep=2' },
-          { label: 'Ep 3', url: 'theboys.html?t=2&ep=3' },
-          { label: 'Ep 4', url: 'theboys.html?t=2&ep=4' },
-          { label: 'Ep 5', url: 'theboys.html?t=2&ep=5' },
-          { label: 'Ep 6', url: 'theboys.html?t=2&ep=6' },
-          { label: 'Ep 7', url: 'theboys.html?t=2&ep=7' },
-          { label: 'Ep 8', url: 'theboys.html?t=2&ep=8' },
+          { label: 'Ep 1', url: 'theboys2x1video.html' },
+          { label: 'Ep 2', url: 'theboys2x2video.html' },
+          { label: 'Ep 3', url: 'theboys2x3video.html' },
+          { label: 'Ep 4', url: 'theboys2x4video.html' },
+          { label: 'Ep 5', url: 'theboys2x5video.html' },
+          { label: 'Ep 6', url: 'theboys2x6video.html' },
+          { label: 'Ep 7', url: 'theboys2x7video.html' },
+          { label: 'Ep 8', url: 'theboys2x8video.html' },
         ]},
         { label: '3ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'theboys.html?t=3&ep=1' },
-          { label: 'Ep 2', url: 'theboys.html?t=3&ep=2' },
-          { label: 'Ep 3', url: 'theboys.html?t=3&ep=3' },
-          { label: 'Ep 4', url: 'theboys.html?t=3&ep=4' },
-          { label: 'Ep 5', url: 'theboys.html?t=3&ep=5' },
-          { label: 'Ep 6', url: 'theboys.html?t=3&ep=6' },
-          { label: 'Ep 7', url: 'theboys.html?t=3&ep=7' },
-          { label: 'Ep 8', url: 'theboys.html?t=3&ep=8' },
+          { label: 'Ep 1', url: 'theboys3x1video.html' },
+          { label: 'Ep 2', url: 'theboys3x2video.html' },
+          { label: 'Ep 3', url: 'theboys3x3video.html' },
+          { label: 'Ep 4', url: 'theboys3x4video.html' },
+          { label: 'Ep 5', url: 'theboys3x5video.html' },
+          { label: 'Ep 6', url: 'theboys3x6video.html' },
+          { label: 'Ep 7', url: 'theboys3x7video.html' },
+          { label: 'Ep 8', url: 'theboys3x8video.html' },
         ]},
         { label: '4ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'theboys.html?t=4&ep=1' },
-          { label: 'Ep 2', url: 'theboys.html?t=4&ep=2' },
-          { label: 'Ep 3', url: 'theboys.html?t=4&ep=3' },
-          { label: 'Ep 4', url: 'theboys.html?t=4&ep=4' },
-          { label: 'Ep 5', url: 'theboys.html?t=4&ep=5' },
-          { label: 'Ep 6', url: 'theboys.html?t=4&ep=6' },
-          { label: 'Ep 7', url: 'theboys.html?t=4&ep=7' },
-          { label: 'Ep 8', url: 'theboys.html?t=4&ep=8' },
+          { label: 'Ep 1', url: 'theboys4x1video.html' },
+          { label: 'Ep 2', url: 'theboys4x2video.html' },
+          { label: 'Ep 3', url: 'theboys4x3video.html' },
+          { label: 'Ep 4', url: 'theboys4x4video.html' },
+          { label: 'Ep 5', url: 'theboys4x5video.html' },
+          { label: 'Ep 6', url: 'theboys4x6video.html' },
+          { label: 'Ep 7', url: 'theboys4x7video.html' },
+          { label: 'Ep 8', url: 'theboys4x8video.html' },
         ]},
       ]
     },
     strangerthings: {
       temporadas: [
         { label: '1ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'strangerthings.html?t=1&ep=1' },
-          { label: 'Ep 2', url: 'strangerthings.html?t=1&ep=2' },
-          { label: 'Ep 3', url: 'strangerthings.html?t=1&ep=3' },
-          { label: 'Ep 4', url: 'strangerthings.html?t=1&ep=4' },
-          { label: 'Ep 5', url: 'strangerthings.html?t=1&ep=5' },
-          { label: 'Ep 6', url: 'strangerthings.html?t=1&ep=6' },
-          { label: 'Ep 7', url: 'strangerthings.html?t=1&ep=7' },
-          { label: 'Ep 8', url: 'strangerthings.html?t=1&ep=8' },
+          { label: 'Ep 1', url: 'strangerthings1x1video.html' },
+          { label: 'Ep 2', url: 'strangerthings1x2video.html' },
+          { label: 'Ep 3', url: 'strangerthings1x3video.html' },
+          { label: 'Ep 4', url: 'strangerthings1x4video.html' },
+          { label: 'Ep 5', url: 'strangerthings1x5video.html' },
+          { label: 'Ep 6', url: 'strangerthings1x6video.html' },
+          { label: 'Ep 7', url: 'strangerthings1x7video.html' },
+          { label: 'Ep 8', url: 'strangerthings1x8video.html' },
         ]},
         { label: '2ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'strangerthings.html?t=2&ep=1' },
-          { label: 'Ep 2', url: 'strangerthings.html?t=2&ep=2' },
-          { label: 'Ep 3', url: 'strangerthings.html?t=2&ep=3' },
-          { label: 'Ep 4', url: 'strangerthings.html?t=2&ep=4' },
-          { label: 'Ep 5', url: 'strangerthings.html?t=2&ep=5' },
-          { label: 'Ep 6', url: 'strangerthings.html?t=2&ep=6' },
-          { label: 'Ep 7', url: 'strangerthings.html?t=2&ep=7' },
-          { label: 'Ep 8', url: 'strangerthings.html?t=2&ep=8' },
-          { label: 'Ep 9', url: 'strangerthings.html?t=2&ep=9' },
+          { label: 'Ep 1', url: 'strangerthings2x1video.html' },
+          { label: 'Ep 2', url: 'strangerthings2x2video.html' },
+          { label: 'Ep 3', url: 'strangerthings2x3video.html' },
+          { label: 'Ep 4', url: 'strangerthings2x4video.html' },
+          { label: 'Ep 5', url: 'strangerthings2x5video.html' },
+          { label: 'Ep 6', url: 'strangerthings2x6video.html' },
+          { label: 'Ep 7', url: 'strangerthings2x7video.html' },
+          { label: 'Ep 8', url: 'strangerthings2x8video.html' },
+          { label: 'Ep 9', url: 'strangerthings2x9video.html' },
         ]},
         { label: '3ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'strangerthings.html?t=3&ep=1' },
-          { label: 'Ep 2', url: 'strangerthings.html?t=3&ep=2' },
-          { label: 'Ep 3', url: 'strangerthings.html?t=3&ep=3' },
-          { label: 'Ep 4', url: 'strangerthings.html?t=3&ep=4' },
-          { label: 'Ep 5', url: 'strangerthings.html?t=3&ep=5' },
-          { label: 'Ep 6', url: 'strangerthings.html?t=3&ep=6' },
-          { label: 'Ep 7', url: 'strangerthings.html?t=3&ep=7' },
-          { label: 'Ep 8', url: 'strangerthings.html?t=3&ep=8' },
+          { label: 'Ep 1', url: 'strangerthings3x1video.html' },
+          { label: 'Ep 2', url: 'strangerthings3x2video.html' },
+          { label: 'Ep 3', url: 'strangerthings3x3video.html' },
+          { label: 'Ep 4', url: 'strangerthings3x4video.html' },
+          { label: 'Ep 5', url: 'strangerthings3x5video.html' },
+          { label: 'Ep 6', url: 'strangerthings3x6video.html' },
+          { label: 'Ep 7', url: 'strangerthings3x7video.html' },
+          { label: 'Ep 8', url: 'strangerthings3x8video.html' },
         ]},
         { label: '4ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'strangerthings.html?t=4&ep=1' },
-          { label: 'Ep 2', url: 'strangerthings.html?t=4&ep=2' },
-          { label: 'Ep 3', url: 'strangerthings.html?t=4&ep=3' },
-          { label: 'Ep 4', url: 'strangerthings.html?t=4&ep=4' },
-          { label: 'Ep 5', url: 'strangerthings.html?t=4&ep=5' },
-          { label: 'Ep 6', url: 'strangerthings.html?t=4&ep=6' },
-          { label: 'Ep 7', url: 'strangerthings.html?t=4&ep=7' },
-          { label: 'Ep 8', url: 'strangerthings.html?t=4&ep=8' },
-          { label: 'Ep 9', url: 'strangerthings.html?t=4&ep=9' },
+          { label: 'Ep 1', url: 'strangerthings4x1video.html' },
+          { label: 'Ep 2', url: 'strangerthings4x2video.html' },
+          { label: 'Ep 3', url: 'strangerthings4x3video.html' },
+          { label: 'Ep 4', url: 'strangerthings4x4video.html' },
+          { label: 'Ep 5', url: 'strangerthings4x5video.html' },
+          { label: 'Ep 6', url: 'strangerthings4x6video.html' },
+          { label: 'Ep 7', url: 'strangerthings4x7video.html' },
+          { label: 'Ep 8', url: 'strangerthings4x8video.html' },
+          { label: 'Ep 8', url: 'strangerthings4x9video.html' },
+        ]},
+        { label: '5ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'strangerthings5x1video.html' },
+          { label: 'Ep 2', url: 'strangerthings5x2video.html' },
+          { label: 'Ep 3', url: 'strangerthings5x3video.html' },
+          { label: 'Ep 4', url: 'strangerthings5x4video.html' },
+          { label: 'Ep 5', url: 'strangerthings5x5video.html' },
+          { label: 'Ep 6', url: 'strangerthings5x6video.html' },
+          { label: 'Ep 7', url: 'strangerthings5x7video.html' },
+          { label: 'Ep 8', url: 'strangerthings5x8video.html' },
         ]},
       ]
     },
     blackmirror: {
       temporadas: [
-        { label: '1ª Temporada', episodios: [
-          { label: 'Ep 1 — El Himno Nacional', url: 'blackmirror.html?t=1&ep=1' },
-          { label: 'Ep 2 — 15 Millones de Méritos', url: 'blackmirror.html?t=1&ep=2' },
-          { label: 'Ep 3 — Toda tu Historia', url: 'blackmirror.html?t=1&ep=3' },
-        ]},
-        { label: '2ª Temporada', episodios: [
-          { label: 'Ep 1 — Vuelvo Enseguida', url: 'blackmirror.html?t=2&ep=1' },
-          { label: 'Ep 2 — Oso Blanco', url: 'blackmirror.html?t=2&ep=2' },
-          { label: 'Ep 3 — El Momento de Waldo', url: 'blackmirror.html?t=2&ep=3' },
-        ]},
         { label: '3ª Temporada', episodios: [
-          { label: 'Ep 1 — Caída en Picado', url: 'blackmirror.html?t=3&ep=1' },
-          { label: 'Ep 2 — Playtest', url: 'blackmirror.html?t=3&ep=2' },
-          { label: 'Ep 3 — Toda la Historia de ti', url: 'blackmirror.html?t=3&ep=3' },
-          { label: 'Ep 4 — San Junípero', url: 'blackmirror.html?t=3&ep=4' },
-          { label: 'Ep 5 — Hombres contra el Fuego', url: 'blackmirror.html?t=3&ep=5' },
-          { label: 'Ep 6 — Odio en la Nación', url: 'blackmirror.html?t=3&ep=6' },
+          { label: 'Ep 1', url: 'blacmirror3x1video.html' },
+          { label: 'Ep 2', url: 'blacmirror3x2video.html' },
+          { label: 'Ep 3', url: 'blacmirror3x3video.html' },
+          { label: 'Ep 4', url: 'blacmirror3x4video.html' },
+          { label: 'Ep 5', url: 'blacmirror3x5video.html' },
+          { label: 'Ep 6', url: 'blacmirror3x6video.html' },
         ]},
         { label: '4ª Temporada', episodios: [
-          { label: 'Ep 1 — USS Callister', url: 'blackmirror.html?t=4&ep=1' },
-          { label: 'Ep 2 — Arkangel', url: 'blackmirror.html?t=4&ep=2' },
-          { label: 'Ep 3 — Crocodile', url: 'blackmirror.html?t=4&ep=3' },
-          { label: 'Ep 4 — Hang the DJ', url: 'blackmirror.html?t=4&ep=4' },
-          { label: 'Ep 5 — Metalhead', url: 'blackmirror.html?t=4&ep=5' },
-          { label: 'Ep 6 — Black Museum', url: 'blackmirror.html?t=4&ep=6' },
+          { label: 'Ep 1', url: 'blacmirror4x1video.html' },
+          { label: 'Ep 2', url: 'blacmirror4x2video.html' },
+          { label: 'Ep 3', url: 'blacmirror4x3video.html' },
+          { label: 'Ep 4', url: 'blacmirror4x4video.html' },
+          { label: 'Ep 5', url: 'blacmirror4x5video.html' },
+          { label: 'Ep 6', url: 'blacmirror4x6video.html' },
         ]},
         { label: '5ª Temporada', episodios: [
-          { label: 'Ep 1 — Striking Vipers', url: 'blackmirror.html?t=5&ep=1' },
-          { label: 'Ep 2 — Smithereens', url: 'blackmirror.html?t=5&ep=2' },
-          { label: 'Ep 3 — Rachel, Jack and Ashley', url: 'blackmirror.html?t=5&ep=3' },
+          { label: 'Ep 1', url: 'blacmirror5x1video.html' },
+          { label: 'Ep 2', url: 'blacmirror5x2video.html' },
+          { label: 'Ep 3', url: 'blacmirror5x3video.html' },
         ]},
         { label: '6ª Temporada', episodios: [
-          { label: 'Ep 1 — Joan is Awful', url: 'blackmirror.html?t=6&ep=1' },
-          { label: 'Ep 2 — Loch Henry', url: 'blackmirror.html?t=6&ep=2' },
-          { label: 'Ep 3 — Beyond the Sea', url: 'blackmirror.html?t=6&ep=3' },
-          { label: 'Ep 4 — Mazey Day', url: 'blackmirror.html?t=6&ep=4' },
-          { label: 'Ep 5 — Demon 79', url: 'blackmirror.html?t=6&ep=5' },
+          { label: 'Ep 1', url: 'blacmirror6x1video.html' },
+          { label: 'Ep 2', url: 'blacmirror6x2video.html' },
+          { label: 'Ep 3', url: 'blacmirror6x3video.html' },
+          { label: 'Ep 4', url: 'blacmirror6x4video.html' },
+        ]},
+        { label: '7ª Temporada', episodios: [
+          { label: 'Ep 1', url: 'blacmirror7x1video.html' },
+          { label: 'Ep 2', url: 'blacmirror7x2video.html' },
+          { label: 'Ep 3', url: 'blacmirror7x3video.html' },
+          { label: 'Ep 4', url: 'blacmirror7x4video.html' },
+          { label: 'Ep 5', url: 'blacmirror7x5video.html' },
+          { label: 'Ep 6', url: 'blacmirror7x6video.html' },
         ]},
       ]
     },
     dondeestamarta: {
       temporadas: [
         { label: '1ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'dondeestamarta.html?t=1&ep=1' },
-          { label: 'Ep 2', url: 'dondeestamarta.html?t=1&ep=2' },
-          { label: 'Ep 3', url: 'dondeestamarta.html?t=1&ep=3' },
-          { label: 'Ep 4', url: 'dondeestamarta.html?t=1&ep=4' },
-          { label: 'Ep 5', url: 'dondeestamarta.html?t=1&ep=5' },
+          { label: 'Ep 1', url: 'dondeestamarta1video.html' },
+          { label: 'Ep 2', url: 'dondeestamarta2video.html' },
+          { label: 'Ep 3', url: 'dondeestamarta3video.html' },
         ]},
       ]
     },
