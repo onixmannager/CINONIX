@@ -1207,8 +1207,8 @@
     const drawerOverlay = document.getElementById('drawerOverlay');
     const drawerClose   = document.getElementById('drawerClose');
 
-    function openDrawer()  { mobileDrawer.classList.add('open');  drawerOverlay.classList.add('open'); }
-    function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); }
+    function openDrawer()  { mobileDrawer.classList.add('open');  drawerOverlay.classList.add('open');  document.body.style.overflow = 'hidden'; }
+    function closeDrawer() { mobileDrawer.classList.remove('open'); drawerOverlay.classList.remove('open'); document.body.style.overflow = ''; }
 
     menuToggle.addEventListener('click', openDrawer);
     drawerClose.addEventListener('click', closeDrawer);
