@@ -457,16 +457,9 @@
     <span class="logo-text">CINONIX</span>
   </a>
   <div class="navbar-nav">
-    <a href="cinonix.html#cartelera">Cine</a>
-    <a href="cinonix.html#series">Series</a>
-    <a href="cinonix.html#accion">Acción</a>
-    <a href="cinonix.html#cienciaficcion">Sci-Fi</a>
-    <a href="cinonix.html#drama">Drama</a>
-    <a href="cinonix.html#terror">Terror</a>
-    <a href="cinonix.html#comedia">Comedia</a>
-    <a href="cinonix.html#infantiles">Infantil</a>
+    <a href="cine.html">Cine</a>
+    <a href="series.html">Series</a>
     <a href="afiliados.html">Afiliados</a>
-    <a href="cartelera.html" class="active-nav">Cartelera Completa</a>
   </div>
   <div class="navbar-right">
     <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" class="download-btn-nav" target="_blank">
@@ -480,8 +473,8 @@
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <div class="mobile-drawer" id="mobileDrawer">
   <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-  <a href="cinonix.html#cartelera"><i class="fas fa-film"></i> Cine</a>
-  <a href="cinonix.html#series"><i class="fas fa-tv"></i> Series</a>
+  <a href="cine.html"><i class="fas fa-film"></i> Cine</a>
+  <a href="series.html"><i class="fas fa-tv"></i> Series</a>
   <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
   <hr style="margin:15px 0;border:0;border-top:1px solid rgba(255,255,255,0.08);">
   <a href="javascript:void(0);" onclick="window.cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
@@ -493,7 +486,7 @@
   <div class="page-header-inner">
     <div class="page-title-group">
       <div class="page-badge"><i class="fas fa-film"></i> Catálogo completo</div>
-      <h1 class="page-title">Cartelera<br>Completa</h1>
+      <h1 class="page-title">Cine</h1>
       <p class="page-count">Mostrando <span id="visibleCount">0</span> películas</p>
     </div>
     <div class="search-wrap">
@@ -505,15 +498,15 @@
 
 <!-- FILTER TABS -->
 <div class="filter-bar" id="filterBar">
-  <button class="filter-btn active" data-filter="all">🎬 Todas</button>
-  <button class="filter-btn" data-filter="nuevas">🔥 Nuevas</button>
-  <button class="filter-btn" data-filter="accion">💥 Acción</button>
-  <button class="filter-btn" data-filter="scifi">🚀 Sci-Fi</button>
-  <button class="filter-btn" data-filter="drama">🎭 Drama</button>
-  <button class="filter-btn" data-filter="thriller">🔍 Thriller</button>
-  <button class="filter-btn" data-filter="terror">👻 Terror</button>
-  <button class="filter-btn" data-filter="comedia">😂 Comedia</button>
-  <button class="filter-btn" data-filter="infantil">🧒 Infantil</button>
+  <button class="filter-btn active" data-filter="all">Todas</button>
+  <button class="filter-btn" data-filter="nuevas">Nuevas</button>
+  <button class="filter-btn" data-filter="accion">Acción</button>
+  <button class="filter-btn" data-filter="scifi">Sci-Fi</button>
+  <button class="filter-btn" data-filter="drama">Drama</button>
+  <button class="filter-btn" data-filter="thriller">Thriller</button>
+  <button class="filter-btn" data-filter="terror">Terror</button>
+  <button class="filter-btn" data-filter="comedia">Comedia</button>
+  <button class="filter-btn" data-filter="infantil">Infantil</button>
 </div>
 
 <!-- GRID -->
@@ -571,7 +564,7 @@
       <h3>Síguenos</h3>
       <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
       <a href="https://m.youtube.com/@cinonix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
-      <a href="https://t.me/+-iB7HLHNibY2MDA8" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      <a href="https://www.instagram.com/cinonix_/="_blank"><i class="fab fa-instagram"></i> Instagram</a>
     </div>
   </div>
   <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
@@ -584,13 +577,25 @@ const I1 = BASE + 'images-cinonix/refs/heads/main/';
 const I2 = BASE + 'Pruebas/refs/heads/main/';
 const I3 = BASE + 'images-cinonix2/refs/heads/main/';
 
+  
+
 const MOVIES = [
   // ── NUEVAS ──
   { title:'Mike & Nick & Alice', url:'mikenickalice.html', img:I1+'mikenickalice.webp', genre:'nuevas', desc:'Dos gánsteres y la mujer que aman viven una noche caótica llena de violencia, errores y viajes en el tiempo, intentando sobrevivir mientras todo se complica cada vez más.' },
   { title:'Avatar: Fuego y Cenizas', url:'avatarfuegoycenizavideo.html', img:I1+'avatarfuegoyceniza.webp', genre:'nuevas', desc:'Jake Sully y Neytiri enfrentan una nueva tribu Na\'vi ligada al fuego. La familia lucha por sobrevivir, descubriendo que la guerra redefine alianzas, sacrificios y el destino del mundo.' },
   { title:'Drácula', url:'dracula.html', img:I1+'dracula.webp', genre:'nuevas', desc:'Tras perder a su esposa, el príncipe Vlad renuncia a Dios y es maldecido con la inmortalidad. Convertido en vampiro, vaga siglos hasta hallar en Londres a una mujer idéntica a su amor perdido.' },
+  { title:'Diamantes de sangre', url:'diamantesdesangre.html', img:'https://raw.githubusercontent.com/onixmannager/images-cinonix/refs/heads/main/diamantesdesangre.webp', genre:'nuevas', desc:'Sierra Leone, años 90. Un pescador encuentra un diamante rosa excepcional en plena guerra civil. Un mercenario y una periodista se cruzan en su camino. Entre codicia, violencia y redención, todos persiguen la misma piedra en un país devastado.' },
+  
+  
   { title:'28 Años Después', url:'28añosdespuesvideo.html', img:I2+'28añosdespues.webp', genre:'nuevas', desc:'Décadas después del brote del virus de la rabia que devastó Gran Bretaña, los supervivientes intentan reconstruir la civilización. Un joven viaja hacia la zona infectada descubriendo que el virus ha seguido evolucionando.' },
   { title:'Jurassic World: El Renacer', url:'jurassicworldelrenacervideo.html', img:I2+'jurassicworldelrenacer.webp', genre:'nuevas', desc:'Cinco años después del colapso de Jurassic World, los dinosaurios se han extendido por todo el planeta. Un equipo debe infiltrarse en una isla remota para recuperar material genético crucial.' },
+  { title:'Mike & Nick & Alice', url:'mikenickalice.html', img:I1+'mikenickalice.webp', genre:'nuevas', desc:'Dos gánsteres y la mujer que aman viven una noche caótica llena de violencia, errores y viajes en el tiempo, intentando sobrevivir mientras todo se complica cada vez más.' },
+  { title:'Avatar: Fuego y Cenizas', url:'avatarfuegoycenizavideo.html', img:I1+'avatarfuegoyceniza.webp', genre:'nuevas', desc:'Jake Sully y Neytiri enfrentan una nueva tribu Na\'vi ligada al fuego. La familia lucha por sobrevivir, descubriendo que la guerra redefine alianzas, sacrificios y el destino del mundo.' },
+  { title:'Drácula', url:'dracula.html', img:I1+'dracula.webp', genre:'nuevas', desc:'Tras perder a su esposa, el príncipe Vlad renuncia a Dios y es maldecido con la inmortalidad. Convertido en vampiro, vaga siglos hasta hallar en Londres a una mujer idéntica a su amor perdido.' },
+  { title:'28 Años Después', url:'28añosdespuesvideo.html', img:I2+'28añosdespues.webp', genre:'nuevas', desc:'Décadas después del brote del virus de la rabia que devastó Gran Bretaña, los supervivientes intentan reconstruir la civilización. Un joven viaja hacia la zona infectada descubriendo que el virus ha seguido evolucionando.' },
+  { title:'Jurassic World: El Renacer', url:'jurassicworldelrenacervideo.html', img:I2+'jurassicworldelrenacer.webp', genre:'nuevas', desc:'Cinco años después del colapso de Jurassic World, los dinosaurios se han extendido por todo el planeta. Un equipo debe infiltrarse en una isla remota para recuperar material genético crucial.' },
+
+  
 
   // ── ACCIÓN ──
   { title:'Django', url:'djangovideo.html', img:I1+'django.webp', genre:'accion', desc:'Django, un esclavo liberado, se asocia con un cazarrecompensas alemán para rescatar a su esposa. Un western violento y apasionante sobre libertad, amor y venganza en el sur americano.' },
