@@ -1044,7 +1044,8 @@
           where("referredBy", "==", data.codigoAfiliado)
         ));
 
-        const total   = snap.size;
+        // ✅ Solo cuenta los referidos que hayan confirmado el pago
+        const total   = snap.docs.filter(d => d.data().referidoConfirmado === true).length;
         const dinero  = total * 9.99;
 
         // Calcular total retirado
