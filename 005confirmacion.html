@@ -35,17 +35,56 @@
 
     html { scroll-behavior:smooth; }
 
-    /* Oculto hasta que JS confirme que el usuario puede acceder */
-    body { display: none; }
-
-    body.autorizado {
+    body {
       background-color: var(--bg);
       background-image:
         radial-gradient(ellipse 70% 55% at 50% 0%,  rgba(0,200,83,0.055) 0%, transparent 60%),
         radial-gradient(ellipse 50% 50% at 80% 90%, rgba(229,9,20,0.04)  0%, transparent 60%);
-      color:var(--text); font-family:var(--font-body);
-      overflow-x:hidden; min-height:100vh;
-      display:flex; flex-direction:column;
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── OVERLAY DE CARGA ── */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #loading-overlay .logo-loader {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+    }
+
+    #loading-overlay .logo-loader em {
+      color: var(--red);
+      font-style: normal;
+      text-shadow: 0 0 14px var(--red-glow);
+    }
+
+    #loading-overlay .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255,255,255,0.08);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* grain */
@@ -241,6 +280,12 @@
 </head>
 <body>
 
+  <!-- Overlay visible desde el primer ms, cubre el contenido hasta que Firebase verifica -->
+  <div id="loading-overlay">
+    <div class="logo-loader">CIN<em>O</em>NIX</div>
+    <div class="spinner"></div>
+  </div>
+
   <header class="header">
     <a href="index.html" class="logo">CIN<em>O</em>NIX</a>
   </header>
@@ -324,7 +369,9 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ── PROTECCIÓN: el body está oculto hasta pasar estos 3 controles ──
+    const overlay = document.getElementById("loading-overlay");
+
+    // ── PROTECCIÓN: el overlay cubre todo hasta pasar estos 3 controles ──
     onAuthStateChanged(auth, async (user) => {
       // 1) Sin sesión → login
       if (!user) {
@@ -346,8 +393,8 @@
         window.location.href = "004pago.html";
         return;
       }
-      // ✅ Pasó todo → mostrar la página
-      document.body.classList.add("autorizado");
+      // ✅ Pasó todo → retirar overlay y mostrar la página
+      overlay.style.display = "none";
     });
 
     // ── CONFIRMAR PAGO ──
