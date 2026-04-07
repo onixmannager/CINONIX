@@ -375,12 +375,12 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      transition: var(--transition);
-      opacity: 0;
-      transition: opacity 0.3s;
+      transition: color 0.3s;
+      opacity: 1;
+      white-space: nowrap;
     }
     .content-section:hover .see-all { opacity: 1; }
-    .see-all:hover { color: var(--text); }
+    .see-all:hover { color: var(--accent); }
 
     /* ===== CAROUSEL ===== */
     .movies-container {
@@ -1087,7 +1087,7 @@
   </a>
 
   <div class="navbar-nav">
-    <a href="#Nuevas">Nuevas</a>
+    <a href="#Novedades">Novedades</a>
     <a href="#series">Series</a>
     <a href="#accion">Acción</a>
     <a href="#cienciaficcion">Sci-Fi</a>
@@ -1115,7 +1115,7 @@
 <!-- Mobile Drawer -->
 <div class="mobile-drawer" id="mobileDrawer">
   <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-  <a href="#Nuevas"><i class="fas fa-film"></i> Cine</a>
+  <a href="#Novedades"><i class="fas fa-film"></i> Cine</a>
   <a href="#series"><i class="fas fa-tv"></i> Series</a>
   
   <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
@@ -1149,11 +1149,11 @@
   </div>
   <div class="hero-gradient"></div>
   <div class="hero-content">
-    <div class="hero-badge"><i class="fas fa-fire"></i> En Nuevas ahora</div>
+    <div class="hero-badge"><i class="fas fa-fire"></i> En Novedades ahora</div>
     <h1 class="hero-title">Cine Sin<br>Límites</h1>
     <p class="hero-desc">Películas, series y documentales de todos los géneros. Disfruta del mejor cine directamente en tu pantalla.</p>
     <div class="hero-actions">
-      <a href="#Nuevas" class="btn-primary"><i class="fas fa-play"></i> Ver ahora</a>
+      <a href="#Novedades" class="btn-primary"><i class="fas fa-play"></i> Ver ahora</a>
       <a href="#series" class="btn-secondary"><i class="fas fa-tv"></i> Ver series</a>
     </div>
   </div>
@@ -1161,10 +1161,11 @@
 
 <!-- Main Content -->
 <main class="main-content">
-  <!-- Section: Cartelera Completa -->
-  <section class="content-section" id="Nuevas">
+  <!-- Section: Novedades Completa -->
+  <section class="content-section" id="Novedades">
     <div class="section-header">
-      <h2 class="section-title"><span class="section-icon">🎬</span>Nuevas</h2>
+      <h2 class="section-title"><span class="section-icon">🎬</span>Novedades</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -2653,6 +2654,7 @@
   <section class="content-section" id="series">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">📺</span>Series</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -2840,6 +2842,7 @@
   <section class="content-section" id="sagas">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🏆</span>Sagas</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -2950,6 +2953,7 @@
   <section class="content-section" id="accion">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">💥</span>Acción</h2>
+      <a href="cine.html?filter=accion" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3185,6 +3189,7 @@
   <section class="content-section" id="cienciaficcion">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🚀</span>Ciencia Ficcion</h2>
+      <a href="cine.html?filter=scifi" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3465,6 +3470,7 @@
   <section class="content-section" id="drama">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🎭</span>Drama</h2>
+      <a href="cine.html?filter=drama" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3691,6 +3697,7 @@
   <section class="content-section" id="thriller">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🕵️</span>Thriller</h2>
+      <a href="cine.html?filter=thriller" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -3963,6 +3970,7 @@
   <section class="content-section" id="terror">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">👻</span>Terror</h2>
+      <a href="cine.html?filter=terror" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4177,6 +4185,7 @@
   <section class="content-section" id="comedia">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">😂</span>Comedia</h2>
+      <a href="cine.html?filter=comedia" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4279,6 +4288,7 @@
   <section class="content-section" id="infantiles">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🌟</span>Infantil & Anime</h2>
+      <a href="cine.html?filter=infantil" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
@@ -4534,6 +4544,7 @@
   <section class="content-section" id="mas">
     <div class="section-header">
       <h2 class="section-title"><span class="section-icon">🌐</span>Mas Cine gratis</h2>
+      <a href="cine.html" class="see-all">Ver todo <i class="fas fa-chevron-right"></i></a>
     </div>
     <div class="movies-container">
       <button class="carousel-arrow left" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
