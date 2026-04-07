@@ -306,7 +306,7 @@
   <script type="module">
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
@@ -334,6 +334,7 @@
             afiliado: true,
             referidoConfirmado: true
           });
+          localStorage.removeItem("pagoIniciado"); // limpiar flag tras confirmar
           alert("Pago confirmado. Tu suscripción ha sido activada.");
           window.location.href = "cinonix.html";
         } catch (error) {
@@ -342,6 +343,30 @@
         }
       });
     };
+
+    // ── PROTECCIÓN DE ACCESO ──
+    // Solo pueden estar aquí usuarios que vinieron desde el botón de pago
+    // y que aún no han confirmado su suscripción
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "001login.html";
+        return;
+      }
+      try {
+        const userSnap = await getDoc(doc(db, "usuarios", user.uid));
+        if (userSnap.exists() && userSnap.data().subscriptionActive === true) {
+          // Ya pagó → no necesita estar aquí
+          window.location.href = "cinonix.html";
+          return;
+        }
+      } catch (e) {
+        console.error("Error verificando suscripción:", e);
+      }
+      // Si no viene del botón de pago → fuera
+      if (localStorage.getItem("pagoIniciado") !== "true") {
+        window.location.href = "004pago.html";
+      }
+    });
   </script>
 
 </body>
