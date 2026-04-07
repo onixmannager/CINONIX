@@ -4,7 +4,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
-// ✅ FIX 4: API key real en lugar del placeholder "TU_API_KEY"
 const firebaseConfig = {
   apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
   authDomain: "cinonix-3a65d.firebaseapp.com",
@@ -41,12 +40,12 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-    // El link usa ?ref= que es lo que ahora lee obtenerCodigoReferido() en app.js
+    // Link de afiliado
     const linkAfiliado = `https://cinonix.vercel.app/?ref=${data.codigoAfiliado}`;
     document.getElementById("linkAfiliado").textContent = linkAfiliado;
     document.getElementById("linkAfiliado").href = linkAfiliado;
 
-    // La query usa "referredBy" que es lo que ahora guarda registrarUsuario() en app.js
+    // Query: todos los usuarios que usaron este código de referido
     const afiliadosQuery = query(
       collection(db, "usuarios"),
       where("referredBy", "==", data.codigoAfiliado)
@@ -54,7 +53,11 @@ onAuthStateChanged(auth, async (user) => {
 
     const afiliadosSnap = await getDocs(afiliadosQuery);
 
-    const totalReferidos = afiliadosSnap.size;
+    // ✅ FIX: Solo cuenta los referidos que hayan confirmado el pago
+    const totalReferidos = afiliadosSnap.docs.filter(
+      (docSnap) => docSnap.data().referidoConfirmado === true
+    ).length;
+
     const dinero = totalReferidos * 9.99;
 
     document.getElementById("numeroAfiliados").textContent = totalReferidos;
