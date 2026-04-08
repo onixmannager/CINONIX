@@ -656,7 +656,7 @@ const SERIES = [
 
    {
     key: 'Lupin', title: 'Lupin', img:'https://raw.githubusercontent.com/onixmannager/images-cinonix2/refs/heads/main/lupin.jpg',
-    genre: 'thriller', badge: 'NUEVO',
+    genre: 'nuevo', badge: 'NUEVO',
     desc: 'Un ladrón brillante inspirado en Arsène Lupin busca vengar la injusticia contra su padre, enfrentando poderosos enemigos mediante ingenio, disfraces y audaces robos que ponen en jaque a toda Francia.',
     temporadas: [
       { label: '1ª Temporada', episodios: [
@@ -920,7 +920,7 @@ SERIES.forEach((s, i) => {
   item.dataset.title = s.title.toLowerCase();
   item.dataset.index = i;
   const badgeLabel = s.badge || BADGE_LABELS[s.genre] || 'SERIE';
-  const badgeClass = s.genre === 'nuevo' ? 'poster-badge nuevo' : 'poster-badge';
+  const badgeClass = (s.genre === 'nuevo' || s.badge === 'NUEVO') ? 'poster-badge nuevo' : 'poster-badge';
   item.innerHTML = `
     <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png'">
     <div class="${badgeClass}">${badgeLabel}</div>
