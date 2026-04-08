@@ -9,7 +9,8 @@ import {
   signInWithEmailAndPassword, 
   sendPasswordResetEmail, 
   onAuthStateChanged, 
-  signOut 
+  signOut,
+  sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { 
   getFirestore, 
@@ -57,6 +58,7 @@ window.registrarUsuario = async function(email, password, refParam) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+    await sendEmailVerification(user);
 
     // Prioridad: 1) param del formulario, 2) URL, 3) localStorage
     const codigoReferido = refParam || obtenerCodigoReferido() || null;
