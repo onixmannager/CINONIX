@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22display%22%3A%22fullscreen%22%2C%22start_url%22%3A%22.%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%7D">
+  <meta name="theme-color" content="#000000">
+
+  <meta property="og:title" content="Cinonix - Cine - Aladin">
+  <meta property="og:description" content=" Aladin">
+  <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.jpg">
+  <meta property="og:type" content="website">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cinonix">
+  <meta name="theme-color" content="#999999">
+
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+
+  <title>Pelicula De Cinonix</title>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .video-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      border: none;
+    }
+
+    @media (orientation: portrait) {
+      iframe {
+        width: 100%;
+        height: 56.25vw;
+      }
+    }
+
+    @media (orientation: landscape) {
+      iframe {
+        width: 177.78vh;
+        height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-container">
+    <!-- CAMBIO 1: añadido id="miVideo" y ?rm=minimal -->
+    <iframe id="miVideo"
+      src="                       /preview?rm=minimal&vq=hd1080"
+      style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+      allowfullscreen allow="fullscreen">
+    </iframe>
+  </div>
+
+  <script>
+    function reloadIframeIfError() {
+      var iframe = document.getElementById("miVideo");
+      var startTime = Date.now();
+      var reloaded = false;
+
+      var checkLoad = setInterval(function() {
+        var currentTime = Date.now();
+        try {
+          var iframeDoc = iframe.contentWindow.document;
+          var iframeContent = iframeDoc.body.innerHTML || "";
+          if ((currentTime - startTime > 10000) && !reloaded && (iframeContent.length < 1000 || iframeContent.includes("error"))) {
+            clearInterval(checkLoad);
+            console.log("El video no cargó, recargando sin caché...");
+            var src = iframe.src.split("?")[0];
+            iframe.src = src + "?nocache=" + new Date().getTime();
+            reloaded = true;
+          }
+        } catch (e) {
+          console.warn("No se puede acceder al contenido del iframe (posible política de CORS)");
+        }
+      }, 2000);
+    }
+
+    window.onload = reloadIframeIfError;
+  </script>
+
+  <script>
+    function requestFullscreen() {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    }
+
+    <!-- CAMBIO 2: eliminado el listener de 'click', solo queda touchstart -->
+    document.addEventListener('touchstart', function() {
+      requestFullscreen();
+    }, { once: true });
+  </script>
+
+  <script type="module" src="app.js"></script>
+
+  <script type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+      window.restringirContenido();
+    });
+  </script>
+</body>
+</html>
