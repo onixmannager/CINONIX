@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso Legal · Cinonix</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red:         #E50914;
+      --red-dark:    #b5050e;
+      --red-glow:    rgba(229, 9, 20, 0.35);
+      --gold:        #c8a55e;
+      --bg:          #07080f;
+      --bg-2:        #0c0d18;
+      --card-bg:     #10111c;
+      --text:        #eeeef5;
+      --text-muted:  #7a7a90;
+      --border:      rgba(255,255,255,0.06);
+      --font-display:'Bebas Neue', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 52px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+
+    .header.scrolled {
+      background: rgba(7, 8, 15, 0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .logo img {
+      height: 42px;
+      filter: drop-shadow(0 0 10px var(--red-glow));
+      transition: filter 0.3s;
+    }
+    .logo img:hover { filter: drop-shadow(0 0 18px var(--red-glow)) brightness(1.15); }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back i { font-size: 0.8rem; }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding: 160px 52px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(229,9,20,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .page-hero-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--red);
+      opacity: 0.6;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .page-hero-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .page-hero-meta span { display: flex; align-items: center; gap: 6px; }
+    .page-hero-meta i { color: var(--red); font-size: 0.75rem; }
+
+    /* ── CONTENT ── */
+    .legal-content {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 52px 100px;
+    }
+
+    .toc {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 60px;
+    }
+
+    .toc-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 8px 24px;
+    }
+
+    .toc ol li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .toc ol li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: var(--red);
+      min-width: 24px;
+    }
+
+    .toc ol li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .toc ol li a:hover { color: var(--text); }
+
+    .legal-section {
+      margin-bottom: 56px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .legal-section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-number {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .legal-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legal-section p {
+      color: rgba(238,238,245,0.78);
+      font-size: 0.975rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .legal-section ul {
+      list-style: none;
+      margin: 16px 0 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .legal-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(238,238,245,0.78);
+      font-size: 0.975rem;
+      line-height: 1.7;
+    }
+
+    .legal-section ul li::before {
+      content: '✦';
+      color: var(--red);
+      font-size: 0.6rem;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .legal-section strong { color: var(--text); font-weight: 600; }
+
+    .info-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .info-box-icon { color: var(--red); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+    .info-box p { margin: 0 !important; font-size: 0.9rem !important; }
+
+    .warning-box {
+      background: rgba(229,9,20,0.05);
+      border: 1px solid rgba(229,9,20,0.25);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .warning-box-icon { color: var(--red); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+    .warning-box p { margin: 0 !important; font-size: 0.9rem !important; }
+
+    .contact-card {
+      background: linear-gradient(135deg, var(--card-bg), rgba(229,9,20,0.04));
+      border: 1px solid rgba(229,9,20,0.2);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-top: 16px;
+    }
+    .contact-card p {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px !important;
+    }
+    .contact-card p:last-child { margin-bottom: 0 !important; }
+    .contact-card i { color: var(--red); width: 16px; text-align: center; }
+    .contact-card a { color: var(--red); text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 60px 52px 30px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .footer-column a:hover { color: var(--text); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-legal-links { display: flex; gap: 20px; }
+    .footer-legal-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    .footer-legal-links a:hover { color: var(--red); }
+    .footer-legal-links .active { color: var(--red); }
+
+    @media (max-width: 640px) {
+      .header { padding: 16px 20px; }
+      .page-hero { padding: 130px 20px 60px; }
+      .legal-content { padding: 0 20px 80px; }
+      .footer { padding: 40px 20px 24px; }
+      .toc ol { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="mainHeader">
+  <a href="index.html" class="logo">
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png" alt="Cinonix">
+  </a>
+  <a href="index.html" class="nav-back">
+    <i class="fas fa-arrow-left"></i> Volver al inicio
+  </a>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-label">Cinonix · Legal</div>
+  <h1>Aviso<br>Legal</h1>
+  <div class="page-hero-meta">
+    <span><i class="fas fa-circle"></i> Última actualización: abril 2025</span>
+    <span><i class="fas fa-circle"></i> Versión 1.0</span>
+    <span><i class="fas fa-circle"></i> Aplicable en España y la UE</span>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="legal-content">
+
+  <nav class="toc">
+    <div class="toc-title">Contenido</div>
+    <ol>
+      <li><a href="#titular">Datos identificativos</a></li>
+      <li><a href="#objeto">Objeto y ámbito</a></li>
+      <li><a href="#acceso">Condiciones de acceso</a></li>
+      <li><a href="#servicio">Descripción del servicio</a></li>
+      <li><a href="#pago">Pago único y acceso</a></li>
+      <li><a href="#propiedad-intelectual">Propiedad intelectual</a></li>
+      <li><a href="#conducta">Conducta del usuario</a></li>
+      <li><a href="#responsabilidad">Limitación de responsabilidad</a></li>
+      <li><a href="#enlaces">Enlaces de terceros</a></li>
+      <li><a href="#modificaciones">Modificaciones</a></li>
+      <li><a href="#legislacion">Legislación aplicable</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ol>
+  </nav>
+
+  <div class="info-box">
+    <i class="fas fa-balance-scale info-box-icon"></i>
+    <p>El presente Aviso Legal regula el uso del sitio web y la plataforma de streaming <strong>Cinonix</strong> (en adelante, «el Servicio»). El acceso y uso implican la aceptación plena y sin reservas de todas las condiciones aquí recogidas. Si no estás de acuerdo, debes abstenerte de utilizar el Servicio.</p>
+  </div>
+
+  <!-- 1 -->
+  <section class="legal-section" id="titular">
+    <div class="section-number">01</div>
+    <h2>Datos Identificativos del Titular</h2>
+    <p>En cumplimiento de lo dispuesto en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa:</p>
+    <div class="contact-card">
+      <p><i class="fas fa-tag"></i> <strong>Denominación:</strong> Cinonix</p>
+      <p><i class="fas fa-globe"></i> <strong>Sitio web:</strong> <a href="https://www.cinonix.com">www.cinonix.com</a></p>
+      <p><i class="fas fa-envelope"></i> <strong>Contacto:</strong> <a href="mailto:legal@cinonix.com">legal@cinonix.com</a></p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="legal-section" id="objeto">
+    <div class="section-number">02</div>
+    <h2>Objeto y Ámbito de Aplicación</h2>
+    <p>El presente Aviso Legal tiene por objeto establecer las condiciones generales de uso del sitio web <strong>www.cinonix.com</strong> y de todos los subdominios y páginas asociadas, así como de la aplicación móvil Cinonix disponible para Android.</p>
+    <p>Este documento es aplicable a cualquier persona que acceda o utilice el Servicio, con independencia de su condición de usuario registrado o visitante.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="legal-section" id="acceso">
+    <div class="section-number">03</div>
+    <h2>Condiciones de Acceso</h2>
+    <p>El acceso al Servicio está condicionado a:</p>
+    <ul>
+      <li>Tener <strong>16 años o más</strong>. Los menores de 16 años necesitan el consentimiento de su padre, madre o tutor legal.</li>
+      <li>Aceptar íntegramente el presente Aviso Legal, la Política de Privacidad y cualquier otra condición específica que pudiera aplicarse.</li>
+      <li>Disponer de una cuenta de usuario creada mediante el proceso de registro habilitado en la plataforma.</li>
+      <li>Haber realizado el pago único correspondiente para acceder al contenido premium.</li>
+    </ul>
+    <p>El acceso a determinadas áreas del sitio web (como la página de inicio y las páginas legales) es libre y gratuito. El acceso al catálogo de contenidos requiere cuenta activa.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="legal-section" id="servicio">
+    <div class="section-number">04</div>
+    <h2>Descripción del Servicio</h2>
+    <p>Cinonix es una plataforma de entretenimiento en streaming que permite a sus usuarios acceder a un catálogo de películas, series y documentales a través de internet, desde cualquier dispositivo compatible (navegador web, aplicación Android).</p>
+    <p>Cinonix se reserva el derecho de:</p>
+    <ul>
+      <li>Modificar, ampliar o reducir el catálogo de contenidos disponibles en cualquier momento, sin que ello genere derecho a compensación.</li>
+      <li>Realizar tareas de mantenimiento que puedan interrumpir temporalmente el servicio, comunicando estas incidencias con la mayor antelación posible.</li>
+      <li>Actualizar, mejorar o modificar las funcionalidades de la plataforma y la aplicación.</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="legal-section" id="pago">
+    <div class="section-number">05</div>
+    <h2>Pago Único y Acceso de por Vida</h2>
+    <p>El modelo de acceso de Cinonix se basa en un <strong>pago único</strong> que otorga acceso indefinido al catálogo disponible en el momento de la compra y a las actualizaciones futuras del mismo.</p>
+
+    <div class="warning-box">
+      <i class="fas fa-exclamation-triangle warning-box-icon"></i>
+      <p><strong>Importante:</strong> «Acceso de por vida» se refiere a la vida operativa de la plataforma. Cinonix no puede garantizar la disponibilidad indefinida del servicio ante circunstancias extraordinarias, cambios regulatorios, o causas de fuerza mayor.</p>
+    </div>
+
+    <p>Condiciones del pago:</p>
+    <ul>
+      <li>El precio está claramente indicado en el proceso de compra antes de su confirmación.</li>
+      <li>El pago se realiza a través de pasarelas de pago seguras de terceros. Cinonix no almacena datos de tarjeta bancaria.</li>
+      <li>Una vez confirmado el pago y activada la cuenta, <strong>no se admiten devoluciones</strong> dado el carácter digital e inmediato del acceso al contenido, de conformidad con el artículo 103.a) del Real Decreto Legislativo 1/2007 (TRLGDCU).</li>
+      <li>La licencia de acceso es <strong>personal e intransferible</strong>. No está permitida la cesión, reventa o compartición de credenciales con terceros.</li>
+    </ul>
+  </section>
+
+  <!-- 6 -->
+  <section class="legal-section" id="propiedad-intelectual">
+    <div class="section-number">06</div>
+    <h2>Propiedad Intelectual e Industrial</h2>
+    <p>Todos los contenidos del sitio web y de la plataforma Cinonix —incluyendo, pero sin limitarse a, el diseño, logotipos, textos, código fuente, imágenes y la aplicación Android— están protegidos por las leyes de propiedad intelectual e industrial.</p>
+    <p>Respecto al <strong>contenido audiovisual</strong>:</p>
+    <ul>
+      <li>Las películas, series y documentales disponibles en Cinonix son propiedad de sus respectivos titulares de derechos.</li>
+      <li>Cinonix actúa como plataforma distribuidora bajo los acuerdos de licencia correspondientes.</li>
+      <li>Queda <strong>expresamente prohibida</strong> la descarga, reproducción, distribución, comunicación pública o transformación de cualquier contenido sin autorización expresa.</li>
+    </ul>
+    <p>La función de descarga en la aplicación, cuando esté disponible, es únicamente para <strong>visualización offline personal</strong>. Los archivos descargados no pueden compartirse, redistribuirse ni utilizarse fuera de la aplicación Cinonix.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="legal-section" id="conducta">
+    <div class="section-number">07</div>
+    <h2>Conducta del Usuario</h2>
+    <p>El usuario se compromete a hacer un uso lícito del Servicio. Queda expresamente prohibido:</p>
+    <ul>
+      <li>Compartir las credenciales de acceso con terceros o permitir el uso simultáneo de la cuenta desde múltiples ubicaciones de forma abusiva.</li>
+      <li>Intentar eludir, desactivar o manipular los sistemas de protección técnica, DRM o cualquier otra medida de seguridad.</li>
+      <li>Utilizar sistemas automatizados (bots, scrapers, crawlers) para acceder, extraer o indexar contenidos de la plataforma.</li>
+      <li>Realizar ingeniería inversa, descompilar o desensamblar la aplicación o cualquier parte del software de Cinonix.</li>
+      <li>Distribuir, sublicenciar, vender, revender o explotar comercialmente el acceso al Servicio.</li>
+      <li>Utilizar el Servicio para cualquier fin ilegal o que infrinja derechos de terceros.</li>
+    </ul>
+    <p>El incumplimiento de estas condiciones podrá dar lugar a la <strong>cancelación inmediata del acceso</strong> sin derecho a reembolso, así como a las acciones legales que correspondan.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="legal-section" id="responsabilidad">
+    <div class="section-number">08</div>
+    <h2>Limitación de Responsabilidad</h2>
+    <p>Cinonix no será responsable de:</p>
+    <ul>
+      <li>Interrupciones o fallos del servicio derivados de causas ajenas a su control (cortes de internet, fallos de infraestructura de terceros, fuerza mayor).</li>
+      <li>Daños derivados del uso inadecuado o ilícito de la plataforma por parte del usuario.</li>
+      <li>El contenido de páginas web externas enlazadas desde la plataforma.</li>
+      <li>Problemas de compatibilidad con dispositivos o sistemas operativos no soportados oficialmente.</li>
+      <li>La pérdida de datos del usuario debida a factores externos o a acciones del propio usuario.</li>
+    </ul>
+    <p>Cinonix adopta las medidas técnicas y organizativas razonables para garantizar la seguridad y disponibilidad del Servicio, pero no puede garantizar un funcionamiento ininterrumpido al 100%.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="legal-section" id="enlaces">
+    <div class="section-number">09</div>
+    <h2>Enlaces a Sitios de Terceros</h2>
+    <p>La plataforma puede incluir enlaces a sitios web de terceros (redes sociales, tiendas de aplicaciones, pasarelas de pago, etc.). Cinonix no tiene control sobre dichos sitios y no es responsable de su contenido, políticas de privacidad o prácticas.</p>
+    <p>La inclusión de cualquier enlace no implica recomendación, aprobación ni asociación por parte de Cinonix con el sitio enlazado. El usuario accede a sitios de terceros bajo su exclusiva responsabilidad.</p>
+  </section>
+
+  <!-- 10 -->
+  <section class="legal-section" id="modificaciones">
+    <div class="section-number">10</div>
+    <h2>Modificaciones del Aviso Legal</h2>
+    <p>Cinonix se reserva el derecho de modificar el presente Aviso Legal en cualquier momento. Las modificaciones entrarán en vigor desde su publicación en la plataforma.</p>
+    <p>El uso continuado del Servicio tras la publicación de cambios significativos implica la aceptación de los mismos. Para cambios materiales que afecten a los derechos de los usuarios, se notificará con antelación suficiente por correo electrónico.</p>
+  </section>
+
+  <!-- 11 -->
+  <section class="legal-section" id="legislacion">
+    <div class="section-number">11</div>
+    <h2>Legislación Aplicable y Jurisdicción</h2>
+    <p>El presente Aviso Legal se rige por la legislación española, en particular:</p>
+    <ul>
+      <li><strong>Ley 34/2002 (LSSI-CE):</strong> Servicios de la Sociedad de la Información y Comercio Electrónico.</li>
+      <li><strong>Real Decreto Legislativo 1/2007 (TRLGDCU):</strong> Texto Refundido de la Ley General para la Defensa de los Consumidores y Usuarios.</li>
+      <li><strong>Ley Orgánica 3/2018 (LOPDGDD)</strong> y <strong>Reglamento (UE) 2016/679 (RGPD)</strong>: protección de datos personales.</li>
+      <li><strong>Real Decreto Legislativo 1/1996 (LPI):</strong> Ley de Propiedad Intelectual.</li>
+    </ul>
+    <p>Para la resolución de conflictos, las partes se someten a los <strong>Juzgados y Tribunales españoles competentes</strong>, sin perjuicio del fuero que corresponda a los usuarios consumidores conforme a la normativa de consumo aplicable.</p>
+    <p>La Comisión Europea pone a disposición una plataforma de resolución de litigios en línea accesible en <a href="https://ec.europa.eu/consumers/odr" target="_blank" style="color:var(--red)">ec.europa.eu/consumers/odr</a>.</p>
+  </section>
+
+  <!-- 12 -->
+  <section class="legal-section" id="contacto">
+    <div class="section-number">12</div>
+    <h2>Contacto</h2>
+    <p>Para cualquier consulta relacionada con este Aviso Legal o con el Servicio en general:</p>
+    <div class="contact-card">
+      <p><i class="fas fa-envelope"></i> <strong>Email legal:</strong> <a href="mailto:legal@cinonix.com">legal@cinonix.com</a></p>
+      <p><i class="fas fa-shield-alt"></i> <strong>Privacidad:</strong> <a href="mailto:privacidad@cinonix.com">privacidad@cinonix.com</a></p>
+      <p><i class="fas fa-headset"></i> <strong>Soporte:</strong> <a href="soporte.html">soporte.html</a></p>
+      <p><i class="fas fa-globe"></i> <strong>Web:</strong> <a href="https://www.cinonix.com">www.cinonix.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contenido</h3>
+      <a href="index.html#peliculas">Películas</a>
+      <a href="index.html#series">Series</a>
+      <a href="index.html#documentales">Documentales</a>
+    </div>
+    <div class="footer-column">
+      <h3>App</h3>
+      <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
+    </div>
+    <div class="footer-column">
+      <h3>Nosotros</h3>
+      <a href="index.html#sobrecinonix">Sobre Cinonix</a>
+    </div>
+    <div class="footer-column">
+      <h3>Soporte</h3>
+      <a href="soporte.html">Centro de ayuda</a>
+    </div>
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://www.tiktok.com/@cinonix4" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+      <a href="https://www.instagram.com/cinonix_/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://youtube.com/@cinoniix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Cinonix · Todos los derechos reservados</span>
+    <div class="footer-legal-links">
+      <a href="politica-privacidad.html">Privacidad</a>
+      <a href="aviso-legal.html" class="active">Aviso Legal</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('mainHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.legal-section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
