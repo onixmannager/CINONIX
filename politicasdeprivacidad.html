@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad · Cinonix</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red:         #E50914;
+      --red-dark:    #b5050e;
+      --red-glow:    rgba(229, 9, 20, 0.35);
+      --gold:        #c8a55e;
+      --bg:          #07080f;
+      --bg-2:        #0c0d18;
+      --card-bg:     #10111c;
+      --text:        #eeeef5;
+      --text-muted:  #7a7a90;
+      --border:      rgba(255,255,255,0.06);
+      --font-display:'Bebas Neue', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 52px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+
+    .header.scrolled {
+      background: rgba(7, 8, 15, 0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .logo img {
+      height: 42px;
+      filter: drop-shadow(0 0 10px var(--red-glow));
+      transition: filter 0.3s;
+    }
+    .logo img:hover { filter: drop-shadow(0 0 18px var(--red-glow)) brightness(1.15); }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back i { font-size: 0.8rem; }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding: 160px 52px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(229,9,20,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .page-hero-label::after {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--red);
+      opacity: 0.6;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .page-hero-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .page-hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-hero-meta i { color: var(--red); font-size: 0.75rem; }
+
+    /* ── CONTENT ── */
+    .legal-content {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 52px 100px;
+    }
+
+    .toc {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 60px;
+    }
+
+    .toc-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 8px 24px;
+    }
+
+    .toc ol li {
+      counter-increment: toc;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .toc ol li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      color: var(--red);
+      min-width: 24px;
+    }
+
+    .toc ol li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .toc ol li a:hover { color: var(--text); }
+
+    .legal-section {
+      margin-bottom: 56px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .legal-section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-number {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .legal-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legal-section p {
+      color: rgba(238,238,245,0.78);
+      font-size: 0.975rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .legal-section ul {
+      list-style: none;
+      margin: 16px 0 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .legal-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(238,238,245,0.78);
+      font-size: 0.975rem;
+      line-height: 1.7;
+    }
+
+    .legal-section ul li::before {
+      content: '✦';
+      color: var(--red);
+      font-size: 0.6rem;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .legal-section strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .info-box-icon {
+      color: var(--red);
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .info-box p {
+      margin: 0 !important;
+      font-size: 0.9rem !important;
+    }
+
+    .contact-card {
+      background: linear-gradient(135deg, var(--card-bg), rgba(229,9,20,0.04));
+      border: 1px solid rgba(229,9,20,0.2);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-top: 16px;
+    }
+    .contact-card p {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px !important;
+    }
+    .contact-card p:last-child { margin-bottom: 0 !important; }
+    .contact-card i { color: var(--red); width: 16px; text-align: center; }
+    .contact-card a {
+      color: var(--red);
+      text-decoration: none;
+    }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 60px 52px 30px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .footer-column a:hover { color: var(--text); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-legal-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    .footer-legal-links a:hover { color: var(--red); }
+    .footer-legal-links .active { color: var(--red); }
+
+    @media (max-width: 640px) {
+      .header { padding: 16px 20px; }
+      .page-hero { padding: 130px 20px 60px; }
+      .legal-content { padding: 0 20px 80px; }
+      .footer { padding: 40px 20px 24px; }
+      .toc ol { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="mainHeader">
+  <a href="index.html" class="logo">
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/refs/heads/main/logoappcinonix.png" alt="Cinonix">
+  </a>
+  <a href="index.html" class="nav-back">
+    <i class="fas fa-arrow-left"></i> Volver al inicio
+  </a>
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-label">Cinonix · Legal</div>
+  <h1>Política de<br>Privacidad</h1>
+  <div class="page-hero-meta">
+    <span><i class="fas fa-circle"></i> Última actualización: abril 2025</span>
+    <span><i class="fas fa-circle"></i> Versión 1.0</span>
+    <span><i class="fas fa-circle"></i> Aplicable en España y la UE</span>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<main class="legal-content">
+
+  <!-- Tabla de contenidos -->
+  <nav class="toc">
+    <div class="toc-title">Contenido</div>
+    <ol>
+      <li><a href="#responsable">Responsable del tratamiento</a></li>
+      <li><a href="#datos-recogidos">Datos que recogemos</a></li>
+      <li><a href="#finalidades">Finalidades del tratamiento</a></li>
+      <li><a href="#base-legal">Base legal</a></li>
+      <li><a href="#conservacion">Conservación de datos</a></li>
+      <li><a href="#destinatarios">Destinatarios</a></li>
+      <li><a href="#derechos">Tus derechos</a></li>
+      <li><a href="#cookies">Cookies</a></li>
+      <li><a href="#menores">Menores de edad</a></li>
+      <li><a href="#cambios">Cambios en la política</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ol>
+  </nav>
+
+  <div class="info-box">
+    <i class="fas fa-shield-alt info-box-icon"></i>
+    <p>En Cinonix nos tomamos muy en serio la privacidad de nuestros usuarios. Esta política explica de forma clara y transparente cómo tratamos tus datos personales conforme al <strong>Reglamento (UE) 2016/679 (RGPD)</strong> y a la <strong>Ley Orgánica 3/2018 (LOPDGDD)</strong>.</p>
+  </div>
+
+  <!-- 1 -->
+  <section class="legal-section" id="responsable">
+    <div class="section-number">01</div>
+    <h2>Responsable del Tratamiento</h2>
+    <p>El responsable del tratamiento de tus datos personales es <strong>Cinonix</strong>, titular de la plataforma de streaming accesible en <strong>www.cinonix.com</strong>.</p>
+    <div class="contact-card">
+      <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:privacidad@cinonix.com">privacidad@cinonix.com</a></p>
+      <p><i class="fas fa-globe"></i> <strong>Web:</strong> <a href="https://www.cinonix.com">www.cinonix.com</a></p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="legal-section" id="datos-recogidos">
+    <div class="section-number">02</div>
+    <h2>Datos que Recogemos</h2>
+    <p>En función de tu interacción con Cinonix, podemos tratar las siguientes categorías de datos:</p>
+    <ul>
+      <li><strong>Datos de registro:</strong> nombre, dirección de correo electrónico y contraseña (cifrada) cuando creas una cuenta.</li>
+      <li><strong>Datos de pago:</strong> los datos de la transacción son procesados directamente por pasarelas de pago de terceros. Cinonix no almacena datos de tarjeta de crédito.</li>
+      <li><strong>Datos de uso:</strong> historial de reproducción, preferencias de contenido, dispositivos y sistema operativo utilizados, dirección IP y logs de acceso.</li>
+      <li><strong>Datos de comunicaciones:</strong> mensajes que nos envíes a través de los canales de soporte.</li>
+      <li><strong>Datos del programa de referidos:</strong> código de referido asociado a tu cuenta.</li>
+      <li><strong>Datos técnicos de Firebase:</strong> identificadores de dispositivo y tokens de sesión generados por nuestra infraestructura Firebase (Google LLC).</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section class="legal-section" id="finalidades">
+    <div class="section-number">03</div>
+    <h2>Finalidades del Tratamiento</h2>
+    <p>Tratamos tus datos con las siguientes finalidades:</p>
+    <ul>
+      <li><strong>Prestación del servicio:</strong> gestionar tu cuenta, autenticar tu acceso y darte acceso al contenido contratado.</li>
+      <li><strong>Gestión de pagos:</strong> verificar el estado de tu suscripción de pago único y emitir justificantes.</li>
+      <li><strong>Soporte técnico:</strong> responder a tus consultas e incidencias.</li>
+      <li><strong>Comunicaciones del servicio:</strong> enviarte notificaciones esenciales sobre tu cuenta o cambios en los términos.</li>
+      <li><strong>Mejora de la plataforma:</strong> analizar el uso agregado del servicio para mejorar la experiencia.</li>
+      <li><strong>Prevención del fraude:</strong> detectar y prevenir accesos no autorizados o uso indebido del servicio.</li>
+      <li><strong>Programa de referidos:</strong> gestionar y acreditar las recomendaciones realizadas por usuarios.</li>
+    </ul>
+    <p>No realizamos decisiones automatizadas que produzcan efectos jurídicos significativos sobre ti, ni elaboramos perfiles en el sentido del artículo 22 RGPD.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="legal-section" id="base-legal">
+    <div class="section-number">04</div>
+    <h2>Base Legal</h2>
+    <p>El tratamiento de tus datos se fundamenta en las siguientes bases legales del artículo 6 RGPD:</p>
+    <ul>
+      <li><strong>Ejecución de un contrato (art. 6.1.b):</strong> datos necesarios para proporcionarte el servicio.</li>
+      <li><strong>Interés legítimo (art. 6.1.f):</strong> seguridad, prevención del fraude y mejora del servicio.</li>
+      <li><strong>Consentimiento (art. 6.1.a):</strong> cuando solicites comunicaciones comerciales opcionales.</li>
+      <li><strong>Cumplimiento de obligación legal (art. 6.1.c):</strong> conservación de facturas y obligaciones fiscales.</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="legal-section" id="conservacion">
+    <div class="section-number">05</div>
+    <h2>Conservación de Datos</h2>
+    <p>Los datos se conservan durante los siguientes plazos:</p>
+    <ul>
+      <li><strong>Datos de cuenta:</strong> mientras mantengas tu cuenta activa y, una vez solicitada la cancelación, durante 30 días adicionales como periodo de cortesía.</li>
+      <li><strong>Datos de pago y facturación:</strong> 6 años por obligaciones fiscales (Ley 58/2003 General Tributaria).</li>
+      <li><strong>Logs de acceso:</strong> máximo 12 meses.</li>
+      <li><strong>Comunicaciones de soporte:</strong> 2 años desde la última interacción.</li>
+    </ul>
+    <p>Transcurridos estos plazos, los datos serán eliminados o anonimizados de forma segura.</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="legal-section" id="destinatarios">
+    <div class="section-number">06</div>
+    <h2>Destinatarios y Transferencias</h2>
+    <p>Cinonix puede compartir tus datos con los siguientes prestadores de servicio, siempre bajo contrato de encargado del tratamiento o mecanismos equivalentes:</p>
+    <ul>
+      <li><strong>Google LLC (Firebase):</strong> infraestructura de autenticación y base de datos en tiempo real. Servidores en la UE (europe-west1). Transferencia amparada por cláusulas contractuales tipo.</li>
+      <li><strong>Procesador de pagos:</strong> la pasarela de pago utilizada para gestionar las transacciones.</li>
+      <li><strong>Proveedores de CDN y hosting:</strong> para la distribución del contenido.</li>
+    </ul>
+    <p>No vendemos, alquilamos ni cedemos tus datos a terceros con fines publicitarios o comerciales.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="legal-section" id="derechos">
+    <div class="section-number">07</div>
+    <h2>Tus Derechos</h2>
+    <p>Como interesado, tienes reconocidos los siguientes derechos bajo el RGPD:</p>
+    <ul>
+      <li><strong>Acceso:</strong> solicitar confirmación de si tratamos tus datos y obtener una copia.</li>
+      <li><strong>Rectificación:</strong> corregir datos inexactos o incompletos.</li>
+      <li><strong>Supresión («derecho al olvido»):</strong> solicitar la eliminación de tus datos cuando ya no sean necesarios.</li>
+      <li><strong>Limitación:</strong> solicitar que suspendamos el tratamiento en determinadas circunstancias.</li>
+      <li><strong>Portabilidad:</strong> recibir tus datos en formato estructurado y legible por máquina.</li>
+      <li><strong>Oposición:</strong> oponerte al tratamiento basado en interés legítimo.</li>
+      <li><strong>Retirada del consentimiento:</strong> en cualquier momento, sin que afecte a la licitud del tratamiento previo.</li>
+    </ul>
+    <p>Para ejercer cualquiera de estos derechos, contáctanos en <a href="mailto:privacidad@cinonix.com" style="color:var(--red)">privacidad@cinonix.com</a>. Responderemos en el plazo máximo de <strong>30 días</strong>. Si no quedas satisfecho con nuestra respuesta, tienes derecho a presentar una reclamación ante la <strong>Agencia Española de Protección de Datos (AEPD)</strong> en <a href="https://www.aepd.es" target="_blank" style="color:var(--red)">www.aepd.es</a>.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="legal-section" id="cookies">
+    <div class="section-number">08</div>
+    <h2>Cookies y Tecnologías Similares</h2>
+    <p>Cinonix utiliza cookies y tecnologías similares (como el almacenamiento local del navegador) para:</p>
+    <ul>
+      <li>Mantener tu sesión activa y recordar tus preferencias.</li>
+      <li>Gestionar los códigos de referido para el programa de invitaciones.</li>
+      <li>Mejorar el rendimiento y la seguridad del servicio.</li>
+    </ul>
+    <p>Puedes configurar tu navegador para rechazar o eliminar las cookies, aunque esto puede afectar al funcionamiento de determinadas funcionalidades. No utilizamos cookies publicitarias de terceros.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="legal-section" id="menores">
+    <div class="section-number">09</div>
+    <h2>Menores de Edad</h2>
+    <p>El servicio de Cinonix está dirigido a personas mayores de <strong>16 años</strong>. No recopilamos conscientemente datos personales de menores de esa edad. Si eres menor de 16 años, no debes registrarte ni usar el servicio sin el consentimiento verificable de tu padre, madre o tutor legal.</p>
+    <p>Si detectamos que hemos recogido datos de un menor sin consentimiento parental, eliminaremos dicha información de inmediato. Contacta con nosotros en <a href="mailto:privacidad@cinonix.com" style="color:var(--red)">privacidad@cinonix.com</a> si tienes conocimiento de tal situación.</p>
+  </section>
+
+  <!-- 10 -->
+  <section class="legal-section" id="cambios">
+    <div class="section-number">10</div>
+    <h2>Cambios en esta Política</h2>
+    <p>Nos reservamos el derecho de actualizar esta Política de Privacidad para reflejar cambios legales, técnicos o del servicio. Cuando lo hagamos, actualizaremos la fecha de «última actualización» en la parte superior de esta página.</p>
+    <p>Para cambios significativos que afecten a tus derechos, te notificaremos por correo electrónico o mediante un aviso destacado en la plataforma con antelación suficiente.</p>
+  </section>
+
+  <!-- 11 -->
+  <section class="legal-section" id="contacto">
+    <div class="section-number">11</div>
+    <h2>Contacto</h2>
+    <p>Para cualquier consulta relacionada con esta Política de Privacidad o el tratamiento de tus datos personales:</p>
+    <div class="contact-card">
+      <p><i class="fas fa-envelope"></i> <strong>Email de privacidad:</strong> <a href="mailto:privacidad@cinonix.com">privacidad@cinonix.com</a></p>
+      <p><i class="fas fa-headset"></i> <strong>Soporte general:</strong> <a href="soporte.html">soporte.html</a></p>
+      <p><i class="fas fa-globe"></i> <strong>Web:</strong> <a href="https://www.cinonix.com">www.cinonix.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Contenido</h3>
+      <a href="index.html#peliculas">Películas</a>
+      <a href="index.html#series">Series</a>
+      <a href="index.html#documentales">Documentales</a>
+    </div>
+    <div class="footer-column">
+      <h3>App</h3>
+      <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk">Descargar App Android</a>
+    </div>
+    <div class="footer-column">
+      <h3>Nosotros</h3>
+      <a href="index.html#sobrecinonix">Sobre Cinonix</a>
+    </div>
+    <div class="footer-column">
+      <h3>Soporte</h3>
+      <a href="soporte.html">Centro de ayuda</a>
+    </div>
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <a href="https://www.facebook.com/share/16HrMcvuQ4/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://www.tiktok.com/@cinonix4" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+      <a href="https://www.instagram.com/cinonix_/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://youtube.com/@cinoniix" target="_blank"><i class="fab fa-youtube"></i> Youtube</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Cinonix · Todos los derechos reservados</span>
+    <div class="footer-legal-links">
+      <a href="politica-privacidad.html" class="active">Privacidad</a>
+      <a href="aviso-legal.html">Aviso Legal</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('mainHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.legal-section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
