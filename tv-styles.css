@@ -1,16 +1,3 @@
-html.tv-mode * {
-  cursor: none !important;
-  pointer-events: none !important;
-}
-
-html.tv-mode a,
-html.tv-mode button,
-html.tv-mode .movie-card,
-html.tv-mode .poster-item,
-html.tv-mode .filter-btn,
-html.tv-mode .episode-btn {
-  pointer-events: auto !important;
-}
 
 
 /**
