@@ -1354,7 +1354,17 @@
       <div class="carousel-track">
 
         
-         <div class="movie-card serie-card" data-serie="salvador" data-desc="Un ladrón brillante inspirado en Arsène Lupin busca vengar la injusticia contra su padre, enfrentando poderosos enemigos mediante ingenio, disfraces y audaces robos que ponen en jaque a toda Francia.">
+        <div class="movie-card serie-card" data-serie="salvador" data-desc="Mr. Robot narra la vida de Elliot, hacker brillante y atormentado que se une a **fsociety** para derribar a una corporación corrupta, mientras lucha contra su mente, identidades fragmentadas y conspiraciones globales.">
+          <div class="movie-poster-wrap">
+            <img src="https://cdn.jsdelivr.net/gh/onixmannager/images-cinonix2@main/mrrobot.webp" class="movie-poster" alt="" loading="lazy">
+            <div class="card-overlay">
+              <button class="play-btn"><i class="fas fa-play"></i></button>
+            </div>
+          </div>
+          <span class="card-title">Mr.Robot</span>
+        </div> 
+        
+        <div class="movie-card serie-card" data-serie="mrrobot" data-desc="Un ladrón brillante inspirado en Arsène Lupin busca vengar la injusticia contra su padre, enfrentando poderosos enemigos mediante ingenio, disfraces y audaces robos que ponen en jaque a toda Francia.">
           <div class="movie-poster-wrap">
             <img src="https://cdn.jsdelivr.net/gh/onixmannager/images-cinonix2@main/salvador.webp" class="movie-poster" alt="" loading="lazy">
             <div class="card-overlay">
@@ -2789,22 +2799,42 @@
   });
 
  // ===== SERIES & SAGAS DATA =====
-  const SERIES_DATA = {
+ const SERIES_DATA = {
 
-    salvador: {
-      temporadas: [
-        { label: '1ª Temporada', episodios: [
-          { label: 'Ep 1', url: 'salvador101.html' },
-          { label: 'Ep 2', url: 'salvador102.html' },
-          { label: 'Ep 3', url: 'salvador103.html' },
-          { label: 'Ep 4', url: 'salvador104.html' },
-          { label: 'Ep 5', url: 'salvador105.html' },
-          { label: 'Ep 6', url: 'salvador106.html' },
-          { label: 'Ep 7', url: 'salvador107.html' },
-          { label: 'Ep 8', url: 'salvador108.html' },
-        ]},
-      ]
-    },
+   mrrobot: {
+     temporadas: [
+       { 
+         label: '1ª Temporada',
+         episodios: [
+           { label: 'Ep 1', url: 'mrrobotvideo101.html' },
+           { label: 'Ep 2', url: 'mrrobotvideo102.html' },
+           { label: 'Ep 3', url: 'mrrobotvideo103.html' },
+         
+          
+         ]
+       }
+    ]
+  },
+
+
+   salvador: {
+     temporadas: [
+       { 
+         label: '1ª Temporada',
+         episodios: [
+           { label: 'Ep 1', url: 'salvador101.html' },
+           { label: 'Ep 2', url: 'salvador102.html' },
+           { label: 'Ep 3', url: 'salvador103.html' },
+           { label: 'Ep 4', url: 'salvador104.html' },
+           { label: 'Ep 5', url: 'salvador105.html' },
+           { label: 'Ep 6', url: 'salvador106.html' },
+           { label: 'Ep 7', url: 'salvador107.html' },
+           { label: 'Ep 8', url: 'salvador108.html' },
+         ]
+       }
+     ]
+   },
+
     
     lupin: {
       temporadas: [
