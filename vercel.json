@@ -1,3 +1,10 @@
 {
   "cleanUrls": true
 }
+{
+  "functions": {
+    "api/gemini-proxy.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
+}
