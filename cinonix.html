@@ -1082,8 +1082,8 @@
     .movie-card, .serie-card, .saga-card, button, a, .filter-btn, .episode-btn {
       touch-action: manipulation;
     }
-    /* Carousel swipe: only prevent horizontal default */
-    .carousel-track { touch-action: pan-x; }
+    /* Carousel swipe: allow horizontal swipe + vertical page scroll */
+    .carousel-track { touch-action: pan-x pan-y; }
     /* iOS momentum scroll for carousels */
     .carousel-track { -webkit-overflow-scrolling: touch; }
     /* Smoother modal on iOS */
