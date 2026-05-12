@@ -1,6 +1,6 @@
 // dashboard.js
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -14,7 +14,7 @@ const firebaseConfig = {
   measurementId: "G-9L2E23K72W"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 

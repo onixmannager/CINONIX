@@ -2,7 +2,7 @@
 // Usa <script type="module" src="app.js"></script> en tus páginas
 
 // 1. Importa las funciones de Firebase desde el CDN (versión 11.3.0)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
 import { 
   getAuth, 
   createUserWithEmailAndPassword, 
@@ -30,15 +30,15 @@ const firebaseConfig = {
   measurementId: "G-9L2E23K72W"
 };
 
-// 3. Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+// 3. Inicializar Firebase (getApps() guard evita doble inicialización)
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 // 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
   // Genera un código alfanumérico de 8 caracteres en mayúsculas
-  return Math.random().toString(36).substr(2, 8).toUpperCase();
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
 }
 
 // 5. Función para extraer el código de referido de la URL o localStorage
@@ -120,24 +120,23 @@ window.restablecerContrasena = async function(email) {
 };
 
 /** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
- * Al confirmar el pago, se activa la suscripción, se marca al usuario como afiliado, 
- * se genera un nuevo código de afiliado (si se desea) y se actualiza 'referidoConfirmado'.
+ * Usa onAuthStateChanged para evitar la condición de carrera con auth.currentUser.
  */
-window.validarPagoEnConfirmacion = async function() {
-  const user = auth.currentUser;
-  if (user) {
+window.validarPagoEnConfirmacion = function() {
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      alert("No hay sesión activa. Inicia sesión primero.");
+      window.location.href = "001login.html";
+      return;
+    }
     try {
       const userDocRef = doc(db, "usuarios", user.uid);
-
-      // Prepara el objeto de actualización
-      const updateData = {
+      await updateDoc(userDocRef, {
         subscriptionActive: true,
         afiliado: true,
         referidoConfirmado: true
-      };
-
-      await updateDoc(userDocRef, updateData);
-
+      });
+      localStorage.removeItem("pagoIniciado");
       console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
       window.location.href = "cinonix.html";
@@ -145,9 +144,7 @@ window.validarPagoEnConfirmacion = async function() {
       console.error("Error al confirmar el pago:", error.message);
       alert("Error al confirmar el pago: " + error.message);
     }
-  } else {
-    window.location.href = "index.html";
-  }
+  });
 };
 
 /** 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES */
