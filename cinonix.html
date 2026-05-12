@@ -2699,21 +2699,33 @@
   });
 
   // ===== PREVENT ACCIDENTAL LINK CLICK ON SWIPE =====
+  // Trackea X e Y: solo cancela el click si el movimiento fue predominantemente horizontal
+  // (swipe del carrusel). El scroll vertical normal NO cancela el siguiente tap.
   document.querySelectorAll('.carousel-track').forEach(track => {
     let startX = 0;
-    let moved = false;
+    let startY = 0;
+    let swipedH = false; // swipe horizontal real
 
     track.addEventListener('touchstart', e => {
       startX = e.touches[0].clientX;
-      moved = false;
+      startY = e.touches[0].clientY;
+      swipedH = false;
     }, { passive: true });
 
     track.addEventListener('touchmove', e => {
-      if (Math.abs(e.touches[0].clientX - startX) > 8) moved = true;
+      const dx = Math.abs(e.touches[0].clientX - startX);
+      const dy = Math.abs(e.touches[0].clientY - startY);
+      // Solo marcamos swipe horizontal si X > 10px Y el movimiento es más horizontal que vertical
+      if (dx > 10 && dx > dy) swipedH = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+      // Resetear tras un pequeño delay para que el click que sigue al touchend pueda leerlo
+      setTimeout(() => { swipedH = false; }, 300);
     }, { passive: true });
 
     track.addEventListener('click', e => {
-      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+      if (swipedH) { e.preventDefault(); e.stopPropagation(); swipedH = false; }
     }, true);
   });
 
