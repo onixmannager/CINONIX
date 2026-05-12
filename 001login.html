@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <meta property="og:title" content="Cinonix - Peliculas y Series Online -">
   <meta property="og:description" content="Disfruta del buen cine">
   <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#07080f">
   <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <title>Cinonix - Cine - Series - Documentales</title>
@@ -239,6 +240,26 @@
     @media(max-width:480px){
       .footer-content { grid-template-columns:1fr 1fr; }
     }
+  
+    /* ── Mobile touch optimizations ── */
+    -webkit-tap-highlight-color: transparent;
+    /* (applied via * below) */
+    
+    /* prevent double-tap zoom on buttons/inputs */
+    .auth-button, .cta-button, .form-input, button {
+      touch-action: manipulation;
+    }
+    /* iOS input zoom prevention - keep font-size >= 16px */
+    .form-input {
+      font-size: max(16px, 0.95rem);
+    }
+    /* safe area bottom padding for notch phones */
+    .auth-container {
+      padding-bottom: calc(48px + env(safe-area-inset-bottom));
+    }
+    /* Remove tap highlight globally */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+
   </style>
 </head>
 <body>
@@ -254,11 +275,11 @@
 
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input type="email" id="email" class="form-input" placeholder="tucorreo@ejemplo.com" required>
+        <input type="email" id="email" class="form-input" placeholder="tucorreo@ejemplo.com" required autocomplete="email" inputmode="email" autocorrect="off" autocapitalize="off">
       </div>
       <div class="form-group">
         <label class="form-label">Contraseña</label>
-        <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+        <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
       </div>
 
       <button type="submit" class="auth-button">Iniciar Sesión</button>
@@ -308,8 +329,14 @@
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const btn = loginForm.querySelector('.auth-button');
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Entrando…';
+      // Restore if something goes wrong after 8s
+      const restore = setTimeout(() => { btn.disabled = false; btn.textContent = original; }, 8000);
       window.iniciarSesion(email, password);
     });
   </script>

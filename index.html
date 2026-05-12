@@ -10,7 +10,7 @@
     </script>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <!-- Metadatos Open Graph -->
 <meta property="og:title" content="Cinonix - Cine - Series - Documentales">
@@ -686,6 +686,12 @@ body::after {
     .footer-content { grid-template-columns: 1fr 1fr; }
     .carousel-title { font-size: 1.2rem; }
 }
+
+    /* ── Mobile / notch optimizations ── */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    button, a, .cta-button, .movie-card { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+
 </style>
 
 </head>

@@ -35,9 +35,32 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ── CACHÉ de sesión (sessionStorage) ──────────────────────────────────────
+// Evita un roundtrip a Firestore en cada carga de página.
+// Se invalida automáticamente al cerrar el tab/navegador.
+const CACHE_KEY = 'cnx_sub';
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+
+function getCachedSub() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { value, ts } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) { sessionStorage.removeItem(CACHE_KEY); return null; }
+    return value; // true | false
+  } catch { return null; }
+}
+
+function setCachedSub(value) {
+  try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ value, ts: Date.now() })); } catch {}
+}
+
+function clearCachedSub() {
+  try { sessionStorage.removeItem(CACHE_KEY); } catch {}
+}
+
 // 4. Función para generar un código único de afiliado
 function generateAffiliateCode() {
-  // Genera un código alfanumérico de 8 caracteres en mayúsculas
   return Math.random().toString(36).substring(2, 10).toUpperCase();
 }
 
@@ -58,14 +81,9 @@ window.registrarUsuario = async function(email, password, refParam) {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Prioridad: 1) param del formulario, 2) URL, 3) localStorage
     const codigoReferido = refParam || obtenerCodigoReferido() || null;
+    if (codigoReferido) localStorage.setItem("referral", codigoReferido);
 
-    if (codigoReferido) {
-      localStorage.setItem("referral", codigoReferido);
-    }
-
-    // Guarda datos iniciales en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
       email: email,
       subscriptionActive: false,
@@ -78,6 +96,7 @@ window.registrarUsuario = async function(email, password, refParam) {
       referidosContados: []
     });
 
+    clearCachedSub();
     alert("Usuario registrado correctamente.");
     window.location.href = "001login.html";
   } catch (error) {
@@ -97,8 +116,9 @@ window.iniciarSesion = async function(email, password) {
 
     if (userDocSnap.exists()) {
       const data = userDocSnap.data();
-      // Redirige a la plataforma si la suscripción está activa, de lo contrario a la página de pago.
-      window.location.href = data.subscriptionActive ? "cinonix.html" : "004pago.html";
+      const isActive = !!data.subscriptionActive;
+      setCachedSub(isActive);
+      window.location.href = isActive ? "cinonix.html" : "004pago.html";
     } else {
       alert("No se encontró el registro del usuario.");
     }
@@ -119,9 +139,7 @@ window.restablecerContrasena = async function(email) {
   }
 };
 
-/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO
- * Usa onAuthStateChanged para evitar la condición de carrera con auth.currentUser.
- */
+/** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO */
 window.validarPagoEnConfirmacion = function() {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -137,6 +155,7 @@ window.validarPagoEnConfirmacion = function() {
         referidoConfirmado: true
       });
       localStorage.removeItem("pagoIniciado");
+      setCachedSub(true);
       console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
       alert("Pago confirmado. Tu suscripción ha sido activada.");
       window.location.href = "cinonix.html";
@@ -147,23 +166,43 @@ window.validarPagoEnConfirmacion = function() {
   });
 };
 
-/** 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES */
+/** 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES
+ *  Usa caché de sesión: evita un getDoc() en cada carga de página protegida.
+ *  Si el caché dice "activo" redirige/accede sin llamar a Firestore.
+ *  Si no hay caché, hace la comprobación normal y luego guarda el resultado.
+ */
 window.restringirContenido = function() {
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDocRef = doc(db, "usuarios", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        
-        if (userDocSnap.exists() && !userDocSnap.data().subscriptionActive) {
+    if (!user) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    // Intento rápido desde caché
+    const cached = getCachedSub();
+    if (cached === true) return;   // acceso OK, sin llamada a Firestore
+    if (cached === false) {
+      alert("Debes activar tu suscripción.");
+      window.location.href = "004pago.html";
+      return;
+    }
+
+    // Sin caché → consulta Firestore y almacena resultado
+    try {
+      const userDocRef = doc(db, "usuarios", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const isActive = !!userDocSnap.data().subscriptionActive;
+        setCachedSub(isActive);
+        if (!isActive) {
           alert("Debes activar tu suscripción.");
           window.location.href = "004pago.html";
         }
-      } catch (error) {
-        console.error("Error al verificar suscripción:", error.message);
+      } else {
+        window.location.href = "004pago.html";
       }
-    } else {
-      window.location.href = "index.html";
+    } catch (error) {
+      console.error("Error al verificar suscripción:", error.message);
     }
   });
 };
@@ -171,23 +210,24 @@ window.restringirContenido = function() {
 /** 🔹 REDIRIGIR DESDE INDEX SI YA PAGÓ */
 export const redirigirSiPagado = function() {
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDocRef = doc(db, "usuarios", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        
-        if (userDocSnap.exists() && userDocSnap.data().subscriptionActive) {
-          console.log("Redirigiendo a cinonix.html");
-          window.location.href = "cinonix.html";
-        } else {
-          console.log("Usuario no tiene suscripción activa");
-        }
-      } catch (error) {
-        console.error("Error al verificar estado de pago:", error.message);
-        console.error("Código de error:", error.code);
+    if (!user) return;
+
+    const cached = getCachedSub();
+    if (cached === true) {
+      window.location.href = "cinonix.html";
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "usuarios", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        const isActive = !!userDocSnap.data().subscriptionActive;
+        setCachedSub(isActive);
+        if (isActive) window.location.href = "cinonix.html";
       }
-    } else {
-      console.log("Usuario no autenticado");
+    } catch (error) {
+      console.error("Error al verificar estado de pago:", error.message);
     }
   });
 };
@@ -196,6 +236,7 @@ export const redirigirSiPagado = function() {
 window.cerrarSesion = async function() {
   try {
     await signOut(auth);
+    clearCachedSub();
     alert("Has cerrado sesión correctamente.");
     window.location.href = "001login.html";
   } catch (error) {

@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <meta property="og:title" content="Cinonix - Peliculas y Series Online -">
   <meta property="og:description" content="Disfruta del buen cine">
   <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#07080f">
   <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <title>Cinonix - Cine - Series - Documentales</title>
@@ -276,6 +277,11 @@
       .footer-content { grid-template-columns:1fr 1fr; }
       .payment-title { font-size:2rem; }
     }
+  
+    /* ── Mobile touch optimizations ── */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    button, .verify-button { touch-action: manipulation; }
+
   </style>
 </head>
 <body>

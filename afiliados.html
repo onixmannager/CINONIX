@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta property="og:title" content="Cinonix - Programa de Afiliados">
   <meta property="og:description" content="Gana dinero compartiendo Cinonix">
   <meta property="og:image" content="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
@@ -697,6 +697,12 @@
       background: linear-gradient(135deg, var(--gold), #a07c3a);
     }
     .cx-modal.warning .cx-modal-btn:hover { box-shadow: 0 8px 24px var(--gold-glow); }
+  
+    /* ── Mobile optimizations ── */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    button, a, .copy-btn { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+
   </style>
 </head>
 <body>

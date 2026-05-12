@@ -453,7 +453,15 @@ body{
   .msg{max-width:94%;}
   .brand-sub{display:none;}
 }
-</style>
+
+    /* ── Mobile optimizations ── */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    button, textarea, input { touch-action: manipulation; }
+    /* iOS textarea zoom prevention */
+    textarea, input { font-size: max(16px, 1rem) !important; }
+    body { padding-bottom: env(safe-area-inset-bottom); }
+
+  </style>
 </head>
 <body>
 

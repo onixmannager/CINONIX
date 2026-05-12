@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta property="og:title" content="Cinonix - Películas y Series Online">
   <meta property="og:description" content="Disfruta del buen cine">
   <meta property="og:image" content="https://cdn.jsdelivr.net/gh/onixmannager/Pruebas@main/logoappcinonix.png">
@@ -1069,6 +1069,26 @@
       .episode-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); max-height: 170px; }
       .saga-list { max-height: 220px; }
     }
+  
+    /* ── Mobile / notch optimizations ── */
+    * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    .navbar {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    /* Prevent bottom nav overlap on iPhone with home indicator */
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    /* Touch: no delay on interactive elements */
+    .movie-card, .serie-card, .saga-card, button, a, .filter-btn, .episode-btn {
+      touch-action: manipulation;
+    }
+    /* Carousel swipe: only prevent horizontal default */
+    .carousel-track { touch-action: pan-x; }
+    /* iOS momentum scroll for carousels */
+    .carousel-track { -webkit-overflow-scrolling: touch; }
+    /* Smoother modal on iOS */
+    .modal-overlay, .mobile-drawer { -webkit-overflow-scrolling: touch; }
+
   </style>
 </head>
 <body>
@@ -2732,14 +2752,28 @@
     document.body.classList.add('loaded');
   }
 
-  const heroVideo = document.getElementById('heroVideo');
-  if (heroVideo) {
-    heroVideo.addEventListener('canplaythrough', hideLoader, { once: true });
-    // Fallback: hide after 2.5s no matter what
-    setTimeout(hideLoader, 2500);
-  } else {
-    setTimeout(hideLoader, 800);
-  }
+  // Fast session-cache auth gate (no Firestore call needed for repeat visits)
+  // app.js handles full auth, this just prevents flash of content for non-authed users
+  (function fastAuthGate() {
+    try {
+      const raw = sessionStorage.getItem('cnx_sub');
+      if (raw) {
+        const { value } = JSON.parse(raw);
+        if (value === false) { window.location.replace('004pago.html'); return; }
+        // value === true → show page immediately (no wait)
+        setTimeout(hideLoader, 0);
+        return;
+      }
+    } catch {}
+    // No cache → wait for Firebase (app.js will redirect if needed)
+    const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+      heroVideo.addEventListener('canplaythrough', hideLoader, { once: true });
+      setTimeout(hideLoader, 1800);
+    } else {
+      setTimeout(hideLoader, 400);
+    }
+  })();
 
   // ===== HERO CAROUSEL AUTO =====
   (function() {
