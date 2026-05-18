@@ -425,6 +425,7 @@
           referidoConfirmado: true
         });
         localStorage.removeItem("pagoIniciado");
+        sessionStorage.setItem('cnx_sub', JSON.stringify({ value: true, ts: Date.now() }));
         alert("Pago confirmado. Tu suscripción ha sido activada.");
         window.location.href = "cinonix.html";
       } catch (error) {
