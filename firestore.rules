@@ -1,0 +1,45 @@
+rules_version = '2';
+
+// ──────────────────────────────────────────────────────────────────────────
+// IMPORTANTE: copia esto en Firebase Console → Firestore Database → Reglas
+// (o en tu firestore.rules si usas Firebase CLI / despliegue por GitHub Actions)
+//
+// Objetivo: el cliente puede LEER y crear/editar su propio documento de
+// usuario, pero NUNCA puede escribir él mismo los campos que otorgan acceso
+// de pago (subscriptionActive, afiliado, referidoConfirmado, paymentX...).
+// Esos campos solo los escribe el backend (api/verificar-pago.js) usando
+// Firebase Admin SDK, que se salta las reglas de seguridad por diseño.
+// ──────────────────────────────────────────────────────────────────────────
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /usuarios/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // Permite crear el doc propio al registrarse (sin poder auto-activarse)
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.subscriptionActive == false;
+
+      // Permite actualizar SU PROPIO doc, pero bloquea los campos de pago:
+      // si esos campos cambian respecto al valor ya guardado, se rechaza.
+      allow update: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.subscriptionActive == resource.data.subscriptionActive
+                    && request.resource.data.paymentTxid == resource.data.get('paymentTxid', null)
+                    && request.resource.data.paymentAmount == resource.data.get('paymentAmount', null)
+                    && request.resource.data.paymentNetwork == resource.data.get('paymentNetwork', null);
+
+      allow delete: if false;
+    }
+
+    // Colección que registra los TXID ya usados (anti-reuso).
+    // Solo el backend (Admin SDK) escribe aquí; el cliente solo puede
+    // comprobar si un TXID concreto ya existe (lectura), nunca escribir.
+    match /transacciones/{txDoc} {
+      allow read: if request.auth != null;
+      allow write: if false; // bloqueado para el cliente; el backend usa Admin SDK
+    }
+  }
+}

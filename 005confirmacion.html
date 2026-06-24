@@ -305,22 +305,37 @@
         </div>
       </div>
 
-      <h1 class="payment-title">Pago Confirmado</h1>
+      <h1 class="payment-title">Confirmar Pago</h1>
 
       <p class="payment-text">
-        ¡Gracias por tu compra! Para activar tu acceso vitalicio,
-        es <strong>imprescindible</strong> que pulses el siguiente botón
-        para completar la verificación final de tu suscripción.
+        Pega aquí el <strong>TXID (hash)</strong> de tu transacción de USDC.
+        Lo verificaremos automáticamente en la blockchain y activaremos
+        tu acceso vitalicio en segundos.
       </p>
 
-      <button class="verify-button" onclick="validarPagoEnConfirmacion()">
+      <div style="display:flex; gap:8px; margin-bottom:16px;">
+        <button class="net-btn active" data-net="ETH" onclick="seleccionarRedConfirm('ETH')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid rgba(229,9,20,0.4); background:rgba(229,9,20,0.18); color:var(--text); font-weight:700; font-size:0.82rem; cursor:pointer;">ETH</button>
+        <button class="net-btn" data-net="BNB" onclick="seleccionarRedConfirm('BNB')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-weight:700; font-size:0.82rem; cursor:pointer;">BNB</button>
+        <button class="net-btn" data-net="SOL" onclick="seleccionarRedConfirm('SOL')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-weight:700; font-size:0.82rem; cursor:pointer;">SOL</button>
+      </div>
+
+      <input
+        id="txid-input"
+        type="text"
+        placeholder="Pega aquí el TXID / hash de la transacción"
+        style="width:100%; padding:14px; margin-bottom:20px; border-radius:10px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-size:0.9rem;"
+      >
+
+      <button class="verify-button" id="verify-btn" onclick="validarPagoEnConfirmacion()">
         <i class="fas fa-shield-alt" style="margin-right:8px;font-size:0.9em;"></i>
-        Confirmar Pago
+        Verificar y Activar
       </button>
+
+      <p id="verify-error" style="color:#ff5a5a; font-size:0.82rem; margin-top:14px; min-height:16px;"></p>
 
       <p class="verify-note">
         <i class="fas fa-lock"></i>
-        Verificación segura · Paso obligatorio
+        Verificación segura en blockchain · Paso obligatorio
       </p>
 
     </div>
@@ -363,11 +378,10 @@
     <div class="footer-bottom">© 2025 Cinonix · Todos los derechos reservados</div>
   </footer>
 
-  <script type="module" src="app.js"></script>
   <script type="module">
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDngD8Yc5tuKeLar8-AxlCSGQXZdYNBEW0",
@@ -410,27 +424,70 @@
       overlay.style.display = "none";
     });
 
-    // ── CONFIRMAR PAGO ──
+    // ── Selector de red (recuerda la red elegida en 004pago.html si existe) ──
+    let redSeleccionada = localStorage.getItem("redSeleccionada") || "ETH";
+    window.seleccionarRedConfirm = function(net) {
+      redSeleccionada = net;
+      document.querySelectorAll('.net-btn').forEach(btn => {
+        const active = btn.dataset.net === net;
+        btn.style.background = active ? 'rgba(229,9,20,0.18)' : 'rgba(255,255,255,0.04)';
+        btn.style.borderColor = active ? 'rgba(229,9,20,0.4)' : 'var(--border)';
+      });
+    };
+    // Reflejar selección inicial en los botones
+    window.seleccionarRedConfirm(redSeleccionada);
+
+    // ── CONFIRMAR PAGO: llama al backend, que verifica el TXID en la blockchain ──
+    // y activa la suscripción en Firestore usando Firebase Admin (nunca el cliente).
     window.validarPagoEnConfirmacion = async function() {
       const user = auth.currentUser;
+      const errorEl = document.getElementById("verify-error");
+      const btn = document.getElementById("verify-btn");
+      const txid = document.getElementById("txid-input").value.trim();
+
+      errorEl.textContent = "";
+
       if (!user) {
-        alert("No hay sesión activa. Inicia sesión primero.");
+        errorEl.textContent = "No hay sesión activa. Inicia sesión primero.";
         window.location.href = "001login.html";
         return;
       }
+      if (!txid) {
+        errorEl.textContent = "Pega el TXID de tu transacción antes de continuar.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> Verificando en blockchain...';
+
       try {
-        await updateDoc(doc(db, "usuarios", user.uid), {
-          subscriptionActive: true,
-          afiliado: true,
-          referidoConfirmado: true
+        const idToken = await user.getIdToken();
+
+        const resp = await fetch("/api/verificar-pago", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ txid, network: redSeleccionada, idToken })
         });
+
+        const data = await resp.json();
+
+        if (!resp.ok || data.error) {
+          throw new Error(data.error || "No se pudo verificar el pago.");
+        }
+
         localStorage.removeItem("pagoIniciado");
+        localStorage.removeItem("redSeleccionada");
         sessionStorage.setItem('cnx_sub', JSON.stringify({ value: true, ts: Date.now() }));
         alert("Pago confirmado. Tu suscripción ha sido activada.");
         window.location.href = "cinonix.html";
+
       } catch (error) {
         console.error("Error al confirmar el pago:", error);
-        alert("Error al confirmar el pago: " + error.message);
+        errorEl.textContent = error.message;
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.innerHTML = '<i class="fas fa-shield-alt" style="margin-right:8px;font-size:0.9em;"></i> Verificar y Activar';
       }
     };
   </script>

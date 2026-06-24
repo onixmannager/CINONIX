@@ -140,31 +140,12 @@ window.restablecerContrasena = async function(email) {
 };
 
 /** 🔹 CONFIRMAR PAGO, ACTIVAR CUENTA Y ASIGNAR AFILIADO */
-window.validarPagoEnConfirmacion = function() {
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      alert("No hay sesión activa. Inicia sesión primero.");
-      window.location.href = "001login.html";
-      return;
-    }
-    try {
-      const userDocRef = doc(db, "usuarios", user.uid);
-      await updateDoc(userDocRef, {
-        subscriptionActive: true,
-        afiliado: true,
-        referidoConfirmado: true
-      });
-      localStorage.removeItem("pagoIniciado");
-      setCachedSub(true);
-      console.log("Pago confirmado. Suscripción activada y usuario marcado como afiliado.");
-      alert("Pago confirmado. Tu suscripción ha sido activada.");
-      window.location.href = "cinonix.html";
-    } catch (error) {
-      console.error("Error al confirmar el pago:", error.message);
-      alert("Error al confirmar el pago: " + error.message);
-    }
-  });
-};
+// ⚠️ Esta función fue eliminada intencionalmente.
+// La activación de la suscripción NUNCA debe hacerse desde el cliente
+// (cualquiera con la consola del navegador podría activarse gratis).
+// Ahora se hace exclusivamente en el backend: api/verificar-pago.js,
+// que verifica el TXID en la blockchain antes de tocar Firestore.
+// Ver 005confirmacion.html para el flujo actual.
 
 /** 🔹 RESTRINGIR CONTENIDO SOLO PARA SUSCRIPTORES
  *  Usa caché de sesión: evita un getDoc() en cada carga de página protegida.
