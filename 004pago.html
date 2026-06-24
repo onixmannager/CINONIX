@@ -321,7 +321,6 @@
 
         <div style="display:flex; gap:8px; margin-bottom:18px;">
           <button class="net-btn active" data-net="ETH" onclick="seleccionarRed('ETH')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-weight:700; font-size:0.82rem; letter-spacing:0.04em; cursor:pointer;">ETH</button>
-          <button class="net-btn" data-net="BNB" onclick="seleccionarRed('BNB')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-weight:700; font-size:0.82rem; letter-spacing:0.04em; cursor:pointer;">BNB</button>
           <button class="net-btn" data-net="SOL" onclick="seleccionarRed('SOL')" style="flex:1; padding:11px 6px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:var(--text); font-weight:700; font-size:0.82rem; letter-spacing:0.04em; cursor:pointer;">SOL</button>
         </div>
 
@@ -394,11 +393,10 @@
 
   <script>
     // ── Direcciones públicas de cobro (NO son secretas, se muestran al usuario) ──
-    // IMPORTANTE: estas deben coincidir EXACTAMENTE con WALLET_ETH_BNB y WALLET_SOL
+    // IMPORTANTE: estas deben coincidir EXACTAMENTE con WALLET_ETH y WALLET_SOL
     // configuradas como variables de entorno en Vercel para api/verificar-pago.js
     const WALLETS = {
-      ETH: { address: 'PON_AQUI_TU_WALLET_ETH_BNB', label: 'Ethereum (ERC-20)' },
-      BNB: { address: 'PON_AQUI_TU_WALLET_ETH_BNB', label: 'BNB Smart Chain (BEP-20)' },
+      ETH: { address: 'PON_AQUI_TU_WALLET_ETH', label: 'Ethereum (ERC-20)' },
       SOL: { address: 'PON_AQUI_TU_WALLET_SOLANA',  label: 'Solana (SPL)' }
     };
 

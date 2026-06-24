@@ -1,5 +1,5 @@
 // api/verificar-pago.js
-// Función serverless de Vercel: verifica TXID de USDC en ETH / BNB / SOL
+// Función serverless de Vercel: verifica TXID de USDC en ETH / SOL
 // y activa la suscripción en Firestore de forma segura (sin confiar en el cliente).
 
 const admin = require('firebase-admin');
@@ -17,14 +17,13 @@ const db = admin.firestore();
 // ── Constantes ────────────────────────────────────────────────────────────
 // Contratos USDC oficiales
 const USDC_ETH      = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'; // 6 decimales
-const USDC_BSC      = '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d'; // 18 decimales (Binance-pegged)
 const USDC_SOL_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
 
 // Firma del evento Transfer(address,address,uint256) en EVM
 const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
 
 // Wallets de destino (se leen de variables de entorno de Vercel)
-const WALLET_EVM = (process.env.WALLET_ETH_BNB || '').toLowerCase(); // misma address ETH + BNB
+const WALLET_EVM = (process.env.WALLET_ETH || '').toLowerCase(); // address ETH
 const WALLET_SOL = process.env.WALLET_SOL || '';
 
 // Monto mínimo aceptado (con margen de 0.5 por fees de red)
@@ -34,16 +33,15 @@ const MIN_USDC = parseFloat(process.env.MIN_USDC || '19.5');
 const TXID_EVM_RE = /^0x[a-fA-F0-9]{64}$/;
 const TXID_SOL_RE = /^[1-9A-HJ-NP-Za-km-z]{64,100}$/; // base58, longitud típica de firma Solana
 
-// ── Verificación EVM (ETH y BNB comparten la misma lógica) ───────────────
-async function verificarEVM(txid, chain) {
-  const isETH  = chain === 'ETH';
-  const key    = isETH ? (process.env.ETHERSCAN_API_KEY || '') : (process.env.BSCSCAN_API_KEY || '');
-  const base   = isETH ? 'https://api.etherscan.io/api' : 'https://api.bscscan.com/api';
-  const usdc   = isETH ? USDC_ETH : USDC_BSC;
-  const dec    = isETH ? 1e6 : 1e18; // USDC-ETH 6 dec / USDC-BSC 18 dec (Binance-pegged)
+// ── Verificación EVM (ETH) ────────────────────────────────────────────────
+async function verificarEVM(txid) {
+  const key    = process.env.ETHERSCAN_API_KEY || '';
+  const base   = 'https://api.etherscan.io/api';
+  const usdc   = USDC_ETH;
+  const dec    = 1e6; // USDC-ETH 6 decimales
 
   if (!WALLET_EVM)
-    return { ok: false, msg: 'Wallet EVM no configurada en el servidor.' };
+    return { ok: false, msg: 'Wallet ETH no configurada en el servidor.' };
 
   // 1. Recibo de la transacción (confirma que fue exitosa)
   const rcptUrl = `${base}?module=proxy&action=eth_getTransactionReceipt&txhash=${txid}&apikey=${key}`;
@@ -52,9 +50,9 @@ async function verificarEVM(txid, chain) {
   const receipt = rcptJson.result;
 
   if (!receipt)
-    return { ok: false, msg: `Transacción no encontrada en ${chain}. Espera la confirmación y vuelve a intentarlo.` };
+    return { ok: false, msg: `Transacción no encontrada en ETH. Espera la confirmación y vuelve a intentarlo.` };
   if (receipt.status !== '0x1')
-    return { ok: false, msg: `La transacción fue rechazada / falló en ${chain}.` };
+    return { ok: false, msg: `La transacción fue rechazada / falló en ETH.` };
 
   // 2. Buscar en los logs el evento Transfer hacia nuestra wallet
   for (const log of receipt.logs || []) {
@@ -69,18 +67,15 @@ async function verificarEVM(txid, chain) {
     // Decodificar monto desde los datos del log
     let amount = Number(BigInt(log.data)) / dec;
 
-    // Fallback: si el monto es ínfimo quizás es USDC nativo BSC con 6 dec
-    if (!isETH && amount < 0.01) amount = Number(BigInt(log.data)) / 1e6;
-
     if (amount < MIN_USDC)
       return { ok: false, msg: `Monto insuficiente: ${amount.toFixed(2)} USDC enviados. Mínimo requerido: ${MIN_USDC} USDC.` };
 
-    return { ok: true, amount, network: chain };
+    return { ok: true, amount, network: 'ETH' };
   }
 
   return {
     ok: false,
-    msg: `No se encontró ninguna transferencia de USDC ≥${MIN_USDC} a la wallet de Cinonix en ${chain}. Comprueba que la red y la dirección son correctas.`
+    msg: `No se encontró ninguna transferencia de USDC ≥${MIN_USDC} a la wallet de Cinonix en ETH. Comprueba que la red y la dirección son correctas.`
   };
 }
 
@@ -156,14 +151,14 @@ module.exports = async (req, res) => {
   const netClean  = String(network).trim().toUpperCase();
 
   // 0. Validar formato del TXID antes de tocar ninguna API externa
-  if (netClean === 'ETH' || netClean === 'BNB') {
+  if (netClean === 'ETH') {
     if (!TXID_EVM_RE.test(txidClean))
       return res.status(400).json({ error: 'Formato de TXID inválido para una red EVM (debe ser 0x + 64 caracteres hexadecimales).' });
   } else if (netClean === 'SOL') {
     if (!TXID_SOL_RE.test(txidClean))
       return res.status(400).json({ error: 'Formato de TXID inválido para Solana.' });
   } else {
-    return res.status(400).json({ error: `Red no soportada: ${netClean}. Usa ETH, BNB o SOL.` });
+    return res.status(400).json({ error: `Red no soportada: ${netClean}. Usa ETH o SOL.` });
   }
 
   // 1. Verificar identidad del usuario con Firebase Admin
@@ -189,8 +184,7 @@ module.exports = async (req, res) => {
   // 4. Verificar la transacción en la blockchain
   let resultado;
   try {
-    if      (netClean === 'ETH') resultado = await verificarEVM(txidClean, 'ETH');
-    else if (netClean === 'BNB') resultado = await verificarEVM(txidClean, 'BNB');
+    if      (netClean === 'ETH') resultado = await verificarEVM(txidClean);
     else if (netClean === 'SOL') resultado = await verificarSOL(txidClean);
   } catch (e) {
     console.error('[verificar-pago] Error blockchain:', e);
