@@ -16,8 +16,8 @@ const db = admin.firestore();
 
 // ── Constantes ────────────────────────────────────────────────────────────
 // Contratos USDC oficiales
-const USDC_ETH      = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'; // 6 decimales
-const USDC_SOL_MINT = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+const USDC_ETH      = '0x74c571BD55c89C221C8172248A8C1986f6d44132'; // 6 decimales
+const USDC_SOL_MINT = '3opWXJirY4VtqD5xRT6by7wcMh9ZjMJLkLg9LvfNhvit';
 
 // Firma del evento Transfer(address,address,uint256) en EVM
 const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
