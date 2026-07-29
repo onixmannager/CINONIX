@@ -557,6 +557,22 @@
       font-size: 0.78rem;
       margin-top: 0.5rem;
     }
+    .download-btn-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-top: 1rem;
+      transition: var(--transition);
+      letter-spacing: 0.5px;
+    }
+    .download-btn-footer:hover { background: #c40812; transform: translateY(-1px); }
 
     /* ===== LOADING SCREEN ===== */
     #loading-screen {
@@ -1116,7 +1132,7 @@
   </div>
 
   <div class="navbar-right">
-    <a href="https://github.com/onixmannager/Pruebas/raw/refs/heads/main/Cinonix.apk" class="download-btn-nav" target="_blank">
+    <a href="https://raw.githubusercontent.com/onixmannager/CINONIX/main/app/Cinonix.apk" class="download-btn-nav" target="_blank">
       <i class="fas fa-download"></i> App
     </a>
     <button class="logout-btn" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
@@ -1137,6 +1153,10 @@
   <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
   
   <a href="afiliados.html"><i class="fas fa-wallet"></i> Afiliados</a>
+  
+  <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
+  
+  <a href="https://raw.githubusercontent.com/onixmannager/CINONIX/main/app/Cinonix.apk" id="drawerDownloadBtn"><i class="fas fa-download"></i> Descargar App para Android</a>
   
   <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
   
@@ -2625,10 +2645,27 @@
 <footer>
   <div class="footer-logo">CINONIX</div>
   <p>Disfruta del buen cine &mdash; Películas · Series · Documentales</p>
+  <a href="https://raw.githubusercontent.com/onixmannager/CINONIX/main/app/Cinonix.apk" class="download-btn-footer" id="footerDownloadBtn">
+    <i class="fas fa-download"></i> Descargar App para Android
+  </a>
   <p style="margin-top:0.25rem; font-size:0.7rem; opacity:0.5;">© 2025 Cinonix. Todos los derechos reservados.</p>
 </footer>
 
 <script>
+  // ===== OCULTAR BOTONES "DESCARGAR APP" SI YA ESTÁ INSTALADA =====
+  (function () {
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true; // Safari / iOS
+
+    if (isStandalone) {
+      const drawerBtn = document.getElementById('drawerDownloadBtn');
+      const footerBtn = document.getElementById('footerDownloadBtn');
+      if (drawerBtn) drawerBtn.style.display = 'none';
+      if (footerBtn) footerBtn.style.display = 'none';
+    }
+  })();
+
   // ===== SERVICE WORKER (Cache imágenes) =====
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
@@ -3344,4 +3381,4 @@
 <script type="module" src="app.js" defer></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
-</html>
+  </html>
