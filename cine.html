@@ -869,8 +869,6 @@ MOVIES.forEach((m, i) => {
   grid.appendChild(item);
 });
 
-applyFilters();
-
 // ── FILTER + PAGINACIÓN ──────────────────────────────────────────────────────
 let activeFilter = 'all';
 let searchQuery = '';
@@ -995,6 +993,8 @@ window.setFilter = function(f) {
   applyFilters();
   document.querySelector('.filter-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 };
+
+applyFilters(); // primer render, ya con todo declarado e inicializado
 
 // ── MODAL ──────────────────────────────────────────────────────────────────
 const movieModal = document.getElementById('movieModal');
