@@ -9,6 +9,8 @@
   <meta property="og:type" content="website">
   <link rel="icon" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
   <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
   <title>Cinonix — Cine · Series · Documentales</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2629,40 +2631,7 @@
 <script>
   // ===== SERVICE WORKER (Cache imágenes) =====
   if ('serviceWorker' in navigator) {
-    const swCode = `
-      const CACHE = 'cinonix-v1';
-      self.addEventListener('install', e => {
-        self.skipWaiting();
-      });
-      self.addEventListener('activate', e => {
-        e.waitUntil(
-          caches.keys().then(keys =>
-            Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-          )
-        );
-        self.clients.claim();
-      });
-      self.addEventListener('fetch', e => {
-        const url = new URL(e.request.url);
-        const isImage = /\\.(webp|jpg|jpeg|png|gif|svg)$/i.test(url.pathname);
-        if (isImage) {
-          e.respondWith(
-            caches.open(CACHE).then(cache =>
-              cache.match(e.request).then(cached => {
-                if (cached) return cached;
-                return fetch(e.request).then(resp => {
-                  if (resp && resp.status === 200) cache.put(e.request, resp.clone());
-                  return resp;
-                }).catch(() => cached);
-              })
-            )
-          );
-        }
-      });
-    `;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(() => {});
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
 
   // ===== NAVBAR SCROLL =====
