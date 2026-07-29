@@ -296,6 +296,37 @@
     .empty-state i { font-size: 2.5rem; margin-bottom: 16px; opacity: 0.3; display: block; }
     .empty-state p { font-size: 0.95rem; }
 
+    /* ── PAGINATION ── */
+    .pagination {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 2rem 80px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; flex-wrap: wrap;
+    }
+    .page-btn {
+      min-width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600;
+      padding: 0 12px; border-radius: 8px; cursor: pointer;
+      transition: 0.25s var(--ease);
+    }
+    .page-btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.25); color: var(--text); }
+    .page-btn.active {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-dots {
+      color: var(--text-dim); padding: 0 4px; font-size: 0.85rem;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .pagination { padding: 0 1rem 60px; }
+    }
+
     /* ── MODAL ── */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85);
@@ -838,25 +869,41 @@ MOVIES.forEach((m, i) => {
   grid.appendChild(item);
 });
 
-updateCount();
+applyFilters();
 
-// ── FILTER ─────────────────────────────────────────────────────────────────
+// ── FILTER + PAGINACIÓN ──────────────────────────────────────────────────────
 let activeFilter = 'all';
 let searchQuery = '';
+let currentPage = 1;
+const PAGE_SIZE = 30;
 
 function applyFilters() {
   const items = grid.querySelectorAll('.poster-item');
+  const matches = [];
+
   items.forEach(item => {
     const matchFilter = activeFilter === 'all' || item.dataset.genre === activeFilter;
     const matchSearch = !searchQuery || item.dataset.title.includes(searchQuery);
-    item.classList.toggle('hidden', !(matchFilter && matchSearch));
+    const isMatch = matchFilter && matchSearch;
+    item.dataset.match = isMatch ? '1' : '0';
+    if (isMatch) matches.push(item);
   });
-  updateCount();
+
+  const totalPages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+
+  items.forEach(item => item.classList.add('hidden'));
+  matches.slice(start, end).forEach(item => item.classList.remove('hidden'));
+
+  updateCount(matches.length);
+  renderPagination(totalPages);
 
   // Empty state
   let empty = grid.querySelector('.empty-state');
-  const visible = grid.querySelectorAll('.poster-item:not(.hidden)').length;
-  if (visible === 0) {
+  if (matches.length === 0) {
     if (!empty) {
       empty = document.createElement('div');
       empty.className = 'empty-state';
@@ -868,10 +915,60 @@ function applyFilters() {
   }
 }
 
-function updateCount() {
-  const n = grid.querySelectorAll('.poster-item:not(.hidden)').length;
-  document.getElementById('visibleCount').textContent = n;
+function updateCount(total) {
+  document.getElementById('visibleCount').textContent = total;
 }
+
+function renderPagination(totalPages) {
+  let pager = document.getElementById('pagination');
+  if (!pager) {
+    pager = document.createElement('div');
+    pager.id = 'pagination';
+    pager.className = 'pagination';
+    grid.insertAdjacentElement('afterend', pager);
+  }
+
+  if (totalPages <= 1) {
+    pager.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+
+  html += `<button class="page-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+
+  const addPageBtn = (p) => {
+    html += `<button class="page-btn ${p === currentPage ? 'active' : ''}" data-page="${p}">${p}</button>`;
+  };
+  const addDots = () => { html += `<span class="page-dots">…</span>`; };
+
+  const windowSize = 1;
+  let lastPrinted = 0;
+  for (let p = 1; p <= totalPages; p++) {
+    const isEdge = p === 1 || p === totalPages;
+    const isNear = Math.abs(p - currentPage) <= windowSize;
+    if (isEdge || isNear) {
+      if (lastPrinted && p - lastPrinted > 1) addDots();
+      addPageBtn(p);
+      lastPrinted = p;
+    }
+  }
+
+  html += `<button class="page-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+
+  pager.innerHTML = html;
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.page-btn');
+  if (!btn || btn.disabled) return;
+  const p = btn.dataset.page;
+  if (p === 'prev') currentPage--;
+  else if (p === 'next') currentPage++;
+  else currentPage = parseInt(p, 10);
+  applyFilters();
+  document.querySelector('.filter-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
 
 document.getElementById('filterBar').addEventListener('click', e => {
   const btn = e.target.closest('.filter-btn');
@@ -879,11 +976,13 @@ document.getElementById('filterBar').addEventListener('click', e => {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   activeFilter = btn.dataset.filter;
+  currentPage = 1;
   applyFilters();
 });
 
 document.getElementById('searchInput').addEventListener('input', e => {
   searchQuery = e.target.value.toLowerCase().trim();
+  currentPage = 1;
   applyFilters();
 });
 
@@ -892,6 +991,7 @@ window.setFilter = function(f) {
     b.classList.toggle('active', b.dataset.filter === f);
   });
   activeFilter = f;
+  currentPage = 1;
   applyFilters();
   document.querySelector('.filter-bar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 };
