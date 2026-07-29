@@ -1,8 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "app.vercel.cinonix.twa",
-    "sha256_cert_fingerprints": ["B3:FA:A0:52:28:91:60:C6:A9:48:72:2B:AB:6C:06:69:38:E9:2D:40:0B:B1:07:82:65:70:DD:71:9F:B7:C3:E8"]
-  }
-}]
