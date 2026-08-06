@@ -230,13 +230,43 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      filter: brightness(0.55);
       opacity: 0;
       transition: opacity 1.2s ease-in-out;
       will-change: opacity;
     }
     .hero-slide.active { opacity: 1; }
+    /* Capa de fondo: la misma imagen, ampliada y muy difuminada, rellena todo el ancho */
+    .hero-slide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.4) blur(30px);
+      transform: scale(1.15); /* evita ver el borde nítido del blur */
+    }
+    /* Capa de póster: la imagen real, sin recortar, centrada y limitada en tamaño */
+    .hero-slide-poster {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 88%;
+      max-height: 640px;
+      width: auto;
+      max-width: 90%;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      filter: brightness(0.9);
+    }
+    @media (max-width: 768px) {
+      .hero-slide-poster {
+        height: 62%;
+        max-height: 420px;
+        border-radius: 8px;
+      }
+    }
 
     /* ===== HERO VIDEO ===== */
     .hero {
@@ -1170,10 +1200,22 @@
 <header class="hero">
   <div id="heroCarousel" style="position:absolute;inset:0;width:100%;height:100%;">
 
-    <img class="hero-slide active" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984247/elfantasmademimujer_ah36dn.webp" alt="">
-    <img class="hero-slide" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984248/5_elemento_agevcl.webp" alt="">
-    <img class="hero-slide" src="https://res.cloudinary.com/demeahktg/image/upload/v1783792285/torrentepresidente_bspqti.webp" alt="">
-    <img class="hero-slide" src="https://res.cloudinary.com/demeahktg/image/upload/v1783095918/Maykel_b9sjmv.webp" alt="">
+    <div class="hero-slide active">
+      <img class="hero-slide-bg" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984247/elfantasmademimujer_ah36dn.webp" alt="">
+      <img class="hero-slide-poster" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984247/elfantasmademimujer_ah36dn.webp" alt="">
+    </div>
+    <div class="hero-slide">
+      <img class="hero-slide-bg" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984248/5_elemento_agevcl.webp" alt="">
+      <img class="hero-slide-poster" src="https://res.cloudinary.com/demeahktg/image/upload/v1785984248/5_elemento_agevcl.webp" alt="">
+    </div>
+    <div class="hero-slide">
+      <img class="hero-slide-bg" src="https://res.cloudinary.com/demeahktg/image/upload/v1783792285/torrentepresidente_bspqti.webp" alt="">
+      <img class="hero-slide-poster" src="https://res.cloudinary.com/demeahktg/image/upload/v1783792285/torrentepresidente_bspqti.webp" alt="">
+    </div>
+    <div class="hero-slide">
+      <img class="hero-slide-bg" src="https://res.cloudinary.com/demeahktg/image/upload/v1783095918/Maykel_b9sjmv.webp" alt="">
+      <img class="hero-slide-poster" src="https://res.cloudinary.com/demeahktg/image/upload/v1783095918/Maykel_b9sjmv.webp" alt="">
+    </div>
     
       
     
