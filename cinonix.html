@@ -225,13 +225,21 @@
     }
 
     /* ===== HERO CAROUSEL ===== */
+    @keyframes kenburns {
+      0%   { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+    @keyframes bgKenburns {
+      0%   { transform: scale(1.15); }
+      100% { transform: scale(1.28); }
+    }
     .hero-slide {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out;
+      transition: opacity 1.4s ease-in-out;
       will-change: opacity;
     }
     .hero-slide.active { opacity: 1; }
@@ -243,8 +251,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.42) blur(35px) saturate(1.15);
+      filter: brightness(0.42) blur(35px) saturate(1.25);
       transform: scale(1.15);
+      animation: bgKenburns 12s ease-out forwards;
     }
     .hero-slide-poster {
       position: absolute;
@@ -253,8 +262,108 @@
       height: 100%;
       object-fit: contain;
       object-position: center 30%;
-      filter: brightness(0.75);
+      filter: brightness(0.8) drop-shadow(0 30px 60px rgba(0,0,0,0.7));
+      animation: kenburns 12s ease-out forwards;
     }
+    /* Resplandor dorado ambiental detrás del póster, pulsando suavemente */
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.6; }
+    }
+    .hero-slide::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      width: 60%;
+      height: 55%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center, rgba(245,197,24,0.22) 0%, transparent 70%);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    /* Barras de letterbox tipo pantalla de cine */
+    .hero-letterbox-top, .hero-letterbox-bottom {
+      position: absolute;
+      left: 0; right: 0;
+      height: clamp(10px, 2.2vw, 26px);
+      background: #000;
+      z-index: 6;
+      pointer-events: none;
+    }
+    .hero-letterbox-top { top: 0; }
+    .hero-letterbox-bottom { bottom: 0; }
+
+    /* Viñeta cinematográfica: bordes oscurecidos */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      box-shadow: inset 0 0 18vw 4vw rgba(0,0,0,0.55);
+    }
+
+    /* Grano de película sutil, solo dentro del hero */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.5;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    }
+
+    /* Puntos indicadores de slide */
+    .hero-dots {
+      position: absolute;
+      right: 4%;
+      bottom: 16%;
+      z-index: 7;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .hero-dot:hover { background: rgba(255,255,255,0.7); }
+    .hero-dot.active {
+      background: var(--gold);
+      height: 26px;
+      box-shadow: 0 0 12px rgba(245,197,24,0.7);
+    }
+    @media (max-width: 768px) {
+      .hero-dots { flex-direction: row; right: 50%; transform: translateX(50%); bottom: 4%; }
+      .hero-dot.active { height: 8px; width: 22px; }
+    }
+
+    /* Scroll indicator al pie del hero */
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 7;
+      color: rgba(255,255,255,0.55);
+      font-size: 1.1rem;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @media (max-width: 768px) { .hero-scroll-cue { display: none; } }
 
     /* ===== HERO VIDEO ===== */
     .hero {
@@ -263,6 +372,7 @@
       height: 100vh;
       min-height: 500px;
       overflow: hidden;
+      background: #000;
     }
     .hero-video {
       position: absolute;
@@ -275,21 +385,33 @@
     .hero-gradient {
       position: absolute;
       inset: 0;
+      z-index: 3;
       background: 
-        linear-gradient(to top, var(--bg) 0%, rgba(7,11,20,0.6) 35%, rgba(7,11,20,0.15) 65%, transparent 85%),
-        linear-gradient(to right, rgba(7,11,20,0.5) 0%, transparent 45%);
+        linear-gradient(to top, var(--bg) 0%, rgba(7,11,20,0.65) 32%, rgba(7,11,20,0.15) 62%, transparent 82%),
+        linear-gradient(to right, rgba(7,11,20,0.55) 0%, transparent 48%),
+        radial-gradient(ellipse at 20% 60%, rgba(229,9,20,0.12) 0%, transparent 55%);
+    }
+    @keyframes heroContentIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .hero-content {
       position: absolute;
       bottom: 12%;
       left: 4%;
       max-width: 520px;
+      z-index: 7;
     }
+    .hero-content > * { animation: heroContentIn 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+    .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.16s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.27s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.38s; }
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent) 0%, #b8070f 100%);
       color: #fff;
       font-size: 0.7rem;
       font-weight: 700;
@@ -298,14 +420,27 @@
       padding: 5px 12px;
       border-radius: 4px;
       margin-bottom: 1rem;
+      box-shadow: 0 4px 16px rgba(229,9,20,0.45);
     }
+    .hero-badge i { color: var(--gold); }
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2.5rem, 7vw, 5rem);
       line-height: 1;
       letter-spacing: 3px;
       margin-bottom: 0.75rem;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      background: linear-gradient(115deg, #fff 25%, var(--gold) 55%, #fff 75%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 220% 100%;
+      background-position: 100% 0;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+      animation: heroContentIn 0.9s cubic-bezier(0.16,1,0.3,1) both, titleShine 4s ease-in-out 1.2s infinite;
+    }
+    @keyframes titleShine {
+      0%, 100% { background-position: 100% 0; }
+      50% { background-position: 0% 0; }
     }
     .hero-desc {
       color: rgba(255,255,255,0.75);
@@ -334,26 +469,39 @@
       cursor: pointer;
       text-decoration: none;
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     }
-    .btn-primary:hover { background: rgba(255,255,255,0.85); transform: scale(1.03); }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -60%;
+      width: 40%; height: 100%;
+      background: linear-gradient(115deg, transparent, rgba(0,0,0,0.15), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+    .btn-primary:hover::before { left: 130%; }
+    .btn-primary:hover { background: #fff; transform: scale(1.05) translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.45); }
     .btn-secondary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
       color: #fff;
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       padding: 12px 28px;
       border-radius: 6px;
-      border: none;
+      border: 1px solid rgba(255,255,255,0.18);
       cursor: pointer;
       text-decoration: none;
       backdrop-filter: blur(10px);
       transition: var(--transition);
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.22); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.35); transform: translateY(-2px); }
 
     /* ===== MAIN CONTENT ===== */
     .main-content {
@@ -1209,6 +1357,10 @@
     
     
   </div>
+  <div class="hero-vignette"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-letterbox-top"></div>
+  <div class="hero-letterbox-bottom"></div>
   <div class="hero-gradient"></div>
   <div class="hero-content">
     <div class="hero-badge"><i class="fas fa-fire"></i> En Novedades ahora</div>
@@ -1219,6 +1371,8 @@
       <a href="#series" class="btn-secondary"><i class="fas fa-tv"></i> Ver series</a>
     </div>
   </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-scroll-cue"><i class="fas fa-chevron-down"></i></div>
 </header>
 
 <!-- Main Content -->
@@ -2829,12 +2983,50 @@
   (function() {
     const slides = document.querySelectorAll('.hero-slide');
     if (!slides.length) return;
+    const dotsWrap = document.getElementById('heroDots');
     let current = 0;
-    setInterval(() => {
+    const AUTO_MS = 5500;
+    let timer = null;
+
+    // Genera los puntos indicadores dinámicamente, uno por slide
+    if (dotsWrap) {
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Ir a la imagen ' + (i + 1));
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+    }
+    const dots = dotsWrap ? dotsWrap.querySelectorAll('.hero-dot') : [];
+
+    // Reinicia las animaciones ken-burns del slide (si no, solo se ven la primera vez)
+    function restartKenBurns(slide) {
+      const layers = slide.querySelectorAll('.hero-slide-bg, .hero-slide-poster');
+      layers.forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetWidth; // fuerza reflow
+        el.style.animation = '';
+      });
+    }
+
+    function goTo(index) {
       slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
+      if (dots[current]) dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
       slides[current].classList.add('active');
-    }, 5000);
+      if (dots[current]) dots[current].classList.add('active');
+      restartKenBurns(slides[current]);
+      resetTimer();
+    }
+
+    function resetTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), AUTO_MS);
+    }
+
+    restartKenBurns(slides[current]);
+    resetTimer();
   })();
 
 
