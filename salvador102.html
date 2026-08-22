@@ -70,9 +70,8 @@
 </head>
 <body>
   <div class="video-container">
-    <!-- CAMBIO 1: añadido id="miVideo" y ?rm=minimal -->
     <iframe id="miVideo"
-      src="https://drive.google.com/file/d/1xp6THQE_a0XUO7Hc5vW1RmjGgdkCU_oM/preview?rm=minimal&vq=hd1080"
+      src="https://drive.google.com/file/d/1xp6THQE_a0XUO7Hc5vW1RmjGgdkCU_oM/preview?vq=hd1080"
       style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"
       allowfullscreen allow="fullscreen">
     </iframe>
@@ -90,7 +89,6 @@
       }
     }
 
-    <!-- CAMBIO 2: eliminado el listener de 'click', solo queda touchstart -->
     document.addEventListener('touchstart', function() {
       requestFullscreen();
     }, { once: true });
