@@ -740,6 +740,122 @@
     }
     .download-btn-footer:hover { background: #c40812; transform: translateY(-1px); }
 
+    /* ===== BOTONES iOS (App para iPhone) ===== */
+    .download-btn-ios {
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+    }
+    .download-btn-ios:hover { background: #2c2c2e !important; border-color: rgba(255,255,255,0.3); }
+    #drawerIosBtn i { color: #a1a1a6 !important; }
+
+    /* ===== MODAL INSTALACIÓN iOS ===== */
+    .ios-install-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9500;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .ios-install-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+    .ios-install-modal {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px 20px 0 0;
+      padding: 28px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      text-align: center;
+      transform: translateY(40px);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    }
+    .ios-install-overlay.open .ios-install-modal { transform: translateY(0); }
+    @media (min-width: 480px) {
+      .ios-install-overlay { align-items: center; }
+      .ios-install-modal { border-radius: 16px; }
+    }
+    .ios-install-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 32px; height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ios-install-icon {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      margin: 0 auto 14px;
+      display: block;
+    }
+    .ios-install-modal h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .ios-install-modal h3 i { color: var(--text); margin-right: 4px; }
+    .ios-install-modal p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+    .ios-install-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .ios-install-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .ios-install-step-num {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ios-install-dismiss {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .ios-install-dismiss:hover { background: #c40812; }
+
     /* ===== LOADING SCREEN ===== */
     #loading-screen {
       position: fixed;
@@ -1301,6 +1417,9 @@
     <a href="https://github.com/onixmannager/CINONIX/releases/download/v1.0.0/Cinonix.apk" class="download-btn-nav" target="_blank">
       <i class="fas fa-download"></i> App
     </a>
+    <button class="download-btn-nav download-btn-ios" id="navIosBtn" onclick="mostrarModalInstalarIOS()" style="display:none;">
+      <i class="fab fa-apple"></i> App
+    </button>
     <button class="logout-btn" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
     <button class="menu-toggle" id="menuToggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
   </div>
@@ -1323,6 +1442,7 @@
   <hr style="margin:15px 0; border:0; border-top:1px solid #ccc;">
   
   <a href="https://github.com/onixmannager/CINONIX/releases/download/v1.0.0/Cinonix.apk" id="drawerDownloadBtn"><i class="fas fa-download"></i> Descargar App para Android</a>
+  <a href="javascript:void(0);" id="drawerIosBtn" onclick="mostrarModalInstalarIOS()" style="display:none;"><i class="fab fa-apple"></i> Instalar App para iPhone</a>
   
   
   
@@ -2855,6 +2975,31 @@
   </div>
 </div>
 
+<!-- Modal Instalación iOS -->
+<div class="ios-install-overlay" id="iosInstallOverlay">
+  <div class="ios-install-modal">
+    <button class="ios-install-close" onclick="cerrarModalInstalarIOS()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+    <img src="https://raw.githubusercontent.com/onixmannager/Pruebas/main/logoappcinonix.png" alt="Cinonix" class="ios-install-icon">
+    <h3><i class="fab fa-apple"></i> Instala Cinonix</h3>
+    <p>Añade Cinonix a tu pantalla de inicio y disfrútala como una app, sin pasar por Safari cada vez.</p>
+    <div class="ios-install-steps">
+      <div class="ios-install-step">
+        <span class="ios-install-step-num">1</span>
+        <span>Toca el botón <strong>Compartir</strong> <i class="fas fa-arrow-up-from-bracket"></i> en la barra de Safari</span>
+      </div>
+      <div class="ios-install-step">
+        <span class="ios-install-step-num">2</span>
+        <span>Desliza y elige <strong>"Añadir a pantalla de inicio"</strong></span>
+      </div>
+      <div class="ios-install-step">
+        <span class="ios-install-step-num">3</span>
+        <span>Toca <strong>"Añadir"</strong> y listo, ya tienes el icono en tu iPhone</span>
+      </div>
+    </div>
+    <button class="ios-install-dismiss" onclick="cerrarModalInstalarIOS()">Entendido</button>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer>
   <div class="footer-logo">CINONIX</div>
@@ -2862,23 +3007,68 @@
   <a href="https://github.com/onixmannager/CINONIX/releases/download/v1.0.0/Cinonix.apk" class="download-btn-footer" id="footerDownloadBtn">
     <i class="fas fa-download"></i> Descargar App para Android
   </a>
+  <button class="download-btn-footer download-btn-ios" id="footerIosBtn" onclick="mostrarModalInstalarIOS()" style="display:none;">
+    <i class="fab fa-apple"></i> Instalar App para iPhone
+  </button>
   <p style="margin-top:0.25rem; font-size:0.7rem; opacity:0.5;">© 2025 Cinonix. Todos los derechos reservados.</p>
 </footer>
 
 <script>
-  // ===== OCULTAR BOTONES "DESCARGAR APP" SI YA ESTÁ INSTALADA =====
+  // ===== DETECCIÓN DE PLATAFORMA Y BOTONES DE DESCARGA =====
   (function () {
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true; // Safari / iOS
 
     if (isStandalone) {
+      // Ya instalada (Android o iOS): ocultar todos los botones de descarga/instalación
       const drawerBtn = document.getElementById('drawerDownloadBtn');
       const footerBtn = document.getElementById('footerDownloadBtn');
       if (drawerBtn) drawerBtn.style.display = 'none';
       if (footerBtn) footerBtn.style.display = 'none';
+      return;
+    }
+
+    // No está instalada: comprobar si es iPhone/iPad en Safari para mostrar los botones de iOS
+    function esIOS() {
+      const ua = window.navigator.userAgent;
+      const esIOSClasico = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      // iPadOS 13+ se identifica como Mac, se distingue por tener soporte táctil
+      const esIPadOSModerno = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+      return esIOSClasico || esIPadOSModerno;
+    }
+    function esSafari() {
+      const ua = window.navigator.userAgent;
+      return /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
+    }
+
+    if (esIOS() && esSafari()) {
+      // Mostrar botones "App" de iOS y ocultar los de Android (el .apk no sirve en iPhone)
+      const navIos = document.getElementById('navIosBtn');
+      const drawerIos = document.getElementById('drawerIosBtn');
+      const footerIos = document.getElementById('footerIosBtn');
+      if (navIos) navIos.style.display = 'flex';
+      if (drawerIos) drawerIos.style.display = 'flex';
+      if (footerIos) footerIos.style.display = 'inline-flex';
+
+      const navAndroid = document.querySelector('.download-btn-nav:not(.download-btn-ios)');
+      const drawerAndroid = document.getElementById('drawerDownloadBtn');
+      const footerAndroid = document.getElementById('footerDownloadBtn');
+      if (navAndroid) navAndroid.style.display = 'none';
+      if (drawerAndroid) drawerAndroid.style.display = 'none';
+      if (footerAndroid) footerAndroid.style.display = 'none';
     }
   })();
+
+  // ===== MODAL INSTALACIÓN iOS =====
+  function mostrarModalInstalarIOS() {
+    const overlay = document.getElementById('iosInstallOverlay');
+    if (overlay) overlay.classList.add('open');
+  }
+  function cerrarModalInstalarIOS() {
+    const overlay = document.getElementById('iosInstallOverlay');
+    if (overlay) overlay.classList.remove('open');
+  }
 
   // ===== SERVICE WORKER (Cache imágenes) =====
   if ('serviceWorker' in navigator) {
