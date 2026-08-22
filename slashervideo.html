@@ -87,60 +87,60 @@
     
 <iframe id="miVideo" src="https://archive.org/embed/slr_20250218" width="560" height="384" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
   </div>
+  <div id="avisoArchiveOrg" style="
+      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+      z-index: 9999; max-width: 92%; width: 380px;
+      background: rgba(15,15,15,0.94); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px; padding: 14px 16px;
+      font-family: system-ui, -apple-system, sans-serif; color: #fff;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.45); backdrop-filter: blur(8px);
+    ">
+    <p style="margin: 0 0 12px; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,0.88);">
+      Este video usa un proveedor externo que a veces tarda o falla al iniciar.
+      Si no se ve en unos 20 segundos, pulsa <strong>Reintentar</strong>.
+    </p>
+    <div style="display: flex; gap: 10px;">
+      <button type="button" id="btnPeliculaLista" style="
+          flex: 1; padding: 10px 14px; border-radius: 10px; border: none;
+          background: #fff; color: #000; font-size: 14px; font-weight: 600;
+          cursor: pointer; font-family: inherit;
+        ">Película lista</button>
+      <button type="button" id="btnReintentarArchive" style="
+          flex: 1; padding: 10px 14px; border-radius: 10px;
+          border: 1px solid rgba(255,255,255,0.35); background: transparent;
+          color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
+          font-family: inherit; display: none;
+        ">Reintentar</button>
+    </div>
+  </div>
 
-      <script>
-    // Recuperación de reproducción para iframes de terceros (archive.org, Google Drive, etc.)
-    //
-    // Nota técnica: por la política de seguridad del navegador (Same-Origin Policy)
-    // no es posible leer el contenido de un iframe de otro dominio, y el evento
-    // "load" del iframe se dispara igual aunque el proveedor muestre un error
-    // dentro de él. Por eso, en vez de intentar detectar el fallo con certeza,
-    // damos un tiempo de gracia razonable, intentamos una recarga automática una
-    // sola vez, y si sigue sin verse ofrecemos un botón manual de respaldo.
+  <script>
+    // Aviso manual para iframes de archive.org: sin recargas automáticas.
+    // El usuario decide siempre: "Película lista" cierra el aviso,
+    // "Reintentar" (visible a partir de ~20s) recarga el iframe si hace falta.
     (function () {
       var iframe = document.getElementById('miVideo');
-      if (!iframe) return;
+      var aviso = document.getElementById('avisoArchiveOrg');
+      var btnLista = document.getElementById('btnPeliculaLista');
+      var btnReintentar = document.getElementById('btnReintentarArchive');
+      if (!iframe || !aviso || !btnLista || !btnReintentar) return;
 
-      var GRACIA_MS = 12000;        // espera antes del primer reintento automático
-      var ESPERA_BOTON_MS = 12000;  // espera tras el reintento antes de mostrar el botón
-      var timerGracia = setTimeout(function () {
-        recargarIframe();
-        setTimeout(mostrarBotonReintentar, ESPERA_BOTON_MS);
-      }, GRACIA_MS);
+      var ESPERA_BOTON_REINTENTAR_MS = 20000;
 
-      // Si el usuario cambia de pestaña/app, no seguimos contando ese tiempo en su contra.
-      document.addEventListener('visibilitychange', function () {
-        if (document.hidden) clearTimeout(timerGracia);
+      var timerMostrarReintentar = setTimeout(function () {
+        btnReintentar.style.display = 'block';
+      }, ESPERA_BOTON_REINTENTAR_MS);
+
+      btnLista.addEventListener('click', function () {
+        clearTimeout(timerMostrarReintentar);
+        aviso.style.display = 'none';
       });
 
-      function recargarIframe() {
+      btnReintentar.addEventListener('click', function () {
         var base = iframe.src.split('?')[0];
         var sep = base.indexOf('?') === -1 ? '?' : '&';
         iframe.src = base + sep + '_r=' + Date.now();
-      }
-
-      var boton = null;
-      function mostrarBotonReintentar() {
-        if (!boton) {
-          boton = document.createElement('button');
-          boton.type = 'button';
-          boton.textContent = 'Reintentar';
-          boton.setAttribute('aria-label', 'Reintentar reproducción del video');
-          boton.style.cssText =
-            'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);' +
-            'z-index:9999;padding:12px 30px;background:rgba(18,18,18,0.92);' +
-            'color:#fff;border:1px solid rgba(255,255,255,0.22);border-radius:24px;' +
-            'font-family:system-ui,-apple-system,sans-serif;font-size:15px;' +
-            'font-weight:500;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.4);';
-          boton.addEventListener('click', function () {
-            boton.style.display = 'none';
-            recargarIframe();
-            setTimeout(mostrarBotonReintentar, ESPERA_BOTON_MS);
-          });
-          document.body.appendChild(boton);
-        }
-        boton.style.display = 'block';
-      }
+      });
     })();
   </script>
 
