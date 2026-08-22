@@ -89,62 +89,6 @@
         allowfullscreen allow="fullscreen">
     </iframe>
   </div>
-  
-      <script>
-    // Recuperación de reproducción para iframes de terceros (archive.org, Google Drive, etc.)
-    //
-    // Nota técnica: por la política de seguridad del navegador (Same-Origin Policy)
-    // no es posible leer el contenido de un iframe de otro dominio, y el evento
-    // "load" del iframe se dispara igual aunque el proveedor muestre un error
-    // dentro de él. Por eso, en vez de intentar detectar el fallo con certeza,
-    // damos un tiempo de gracia razonable, intentamos una recarga automática una
-    // sola vez, y si sigue sin verse ofrecemos un botón manual de respaldo.
-    (function () {
-      var iframe = document.getElementById('miVideo');
-      if (!iframe) return;
-
-      var GRACIA_MS = 12000;        // espera antes del primer reintento automático
-      var ESPERA_BOTON_MS = 12000;  // espera tras el reintento antes de mostrar el botón
-      var timerGracia = setTimeout(function () {
-        recargarIframe();
-        setTimeout(mostrarBotonReintentar, ESPERA_BOTON_MS);
-      }, GRACIA_MS);
-
-      // Si el usuario cambia de pestaña/app, no seguimos contando ese tiempo en su contra.
-      document.addEventListener('visibilitychange', function () {
-        if (document.hidden) clearTimeout(timerGracia);
-      });
-
-      function recargarIframe() {
-        var base = iframe.src.split('?')[0];
-        var sep = base.indexOf('?') === -1 ? '?' : '&';
-        iframe.src = base + sep + '_r=' + Date.now();
-      }
-
-      var boton = null;
-      function mostrarBotonReintentar() {
-        if (!boton) {
-          boton = document.createElement('button');
-          boton.type = 'button';
-          boton.textContent = 'Reintentar';
-          boton.setAttribute('aria-label', 'Reintentar reproducción del video');
-          boton.style.cssText =
-            'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);' +
-            'z-index:9999;padding:12px 30px;background:rgba(18,18,18,0.92);' +
-            'color:#fff;border:1px solid rgba(255,255,255,0.22);border-radius:24px;' +
-            'font-family:system-ui,-apple-system,sans-serif;font-size:15px;' +
-            'font-weight:500;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.4);';
-          boton.addEventListener('click', function () {
-            boton.style.display = 'none';
-            recargarIframe();
-            setTimeout(mostrarBotonReintentar, ESPERA_BOTON_MS);
-          });
-          document.body.appendChild(boton);
-        }
-        boton.style.display = 'block';
-      }
-    })();
-  </script>
 
 
     
